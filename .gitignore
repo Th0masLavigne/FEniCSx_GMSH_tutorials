@@ -1,6 +1,8 @@
 *.msh
 *.xdmf
 *.h5
+*.pvd
+*.vtu
 *.pyc
 *.mp4
 *.mov
