@@ -2,12 +2,12 @@
 
 **$`\color{red} \text{Dans presentation mettre exemple jolis de Pi et Matthieu, ajouter les erreurs courantes avec le choix dx/dt \& attention en axisym à vérifier r diff 0 pour diviser dans grad et div}`$**
 
-**Pour le multimateriau donner avec dx et elastique + hyper-elastique / avec fonctions et même loi constitutive**
+**$`\color{red} \text{Pour le multimateriau donner avec dx et elastique + hyper-elastique / avec fonctions et même loi constitutive}`$**
 
-**Imposer u et évaluer RF comme**
+**$`\color{red} \text{Imposer u et évaluer RF comme}`$**
 
 
-**Reprendre dans ipad mon tuto docker et git**
+**$`\color{red} \text{Reprendre dans ipad mon tuto docker et git}`$**
 
 ```math
 \frac{1}{S}\int f \mathrm{d}S
@@ -16,7 +16,7 @@
 \frac{1}{V}\int f \mathrm{d}\Omega
 ```
 
-**1 mot sur bonne pratique de mettre des checks conditions try assert sur tag notamment s'assurer de ne pas avoir fait d'oublis**
+**$`\color{red} \text{1 mot sur bonne pratique de mettre des checks conditions try assert sur tag notamment s'assurer de ne pas avoir fait d'oublis}`$**
 
 This repository holds all the documents related to the workshop conducted at I2M Bordeaux in September 2024. The objective of the workshop is to introduce open-source softwares for finite element modelling. More specifically, it focuses on the use of FEniCSx (version 0.8.0) and GMSH (version 4.11). Their documentation as well as other softwares are available at the end of this document. 
 
@@ -30,21 +30,21 @@ The following elements are required to be able to run the examples:
 The workshop indrocudes the following items:
 - Brief reminder about the finite element method,
 - Creation of a mesh using GMSH:
-  * GEO VS OCC kernels, **A FAIRE**
+  * GEO VS OCC kernels, **$`\color{red} \text{A FAIRE}`$**
   * From a simple sketch,
   * From simple geometries,
   * Using symmetries,
   * Using boolean operations,
-  * From a STL file,**A faire**
-  * Local refinement,**Mettre exemple de l'article**
+  * From a STL file,**$`\color{red} \text{A faire}`$**
+  * Local refinement,**$`\color{red} \text{Mettre exemple de l'article}`$**
   * Boundary and domain tagging,
-  * Export compatibility: FEniCSx vs Fenics Legacy. **Faire un cas extrèmement simple d'une poutre**
+  * Export compatibility: FEniCSx vs Fenics Legacy. **$`\color{red} \text{Faire un cas extrèmement simple d'une poutre}`$**
 - Finite Element computation using FEniCSx:
   * [Stationary](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/thermique_diri-robin) and [transient](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/thermique_diri-robin-transitoire) thermal problems,
-  * Solid Continous Mechanics problem (elastic, hyper-elastic, penalty contact, updated lagrangian formulation and evaluation of a quantity), **Faire elastic poutre + hyper elastic poutre + Contact + multimateriau poutre et sein ici avec identification et generation en gmsh et en fenicsx + updated lagrangian**
+  * Solid Continous Mechanics problem (elastic, hyper-elastic, penalty contact, updated lagrangian formulation and evaluation of a quantity), **$`\color{red} \text{Faire elastic poutre + hyper elastic poutre + Contact + multimateriau poutre et sein ici avec identification et generation en gmsh et en fenicsx + updated lagrangian}`$**
   * Stokes Equation solving in [2D](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/Stokes_2D) and [3D](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/Stokes_3D_half),
-  * Darcy problem, **Je n'ai pas la ressource**
-  * Terzaghi poromechanical model. **A faire**
+  * Darcy problem, **$`\color{red} \text{Je n'ai pas la ressource}`$**
+  * Terzaghi poromechanical model. **$`\color{red} \text{A faire}`$**
 
 One can also refer to the tutorial from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)*. Please cite this work if you use codes from this workshop that can be related to this tutorial.
 
