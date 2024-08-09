@@ -3,7 +3,7 @@ This repository holds all the documents related to the workshop conducted at I2M
 
 1 mot sur *[créer un alias sur linux](https://www.malekal.com/comment-creer-un-alias-linux/)*
 
-
+Reprendre les commandes tuto docker et git sur 
 
 
 Cette formation a comme objectif d’introduire des outils « open-source » pour la modélisation élément finis. L’ensemble des codes et supports seront laissés en libre accès.
@@ -11,7 +11,7 @@ Cette formation a comme objectif d’introduire des outils « open-source » pou
 
 Essayer docker en windows pour équivalent.
 
-
+**Reprendre dans ipad mon tuto docker et git**
 
 
 Penser à montrer comment trouver les fonctions d’une classe avec ipython3 quand on a du mal à trouver la documentation (exemple booléen GMSH).
@@ -19,7 +19,11 @@ Penser à montrer comment trouver les fonctions d’une classe avec ipython3 qua
 # Ressources
 
 ## Docker (alternatively singularity)
-- *[Docker website](https://www.docker.com/products/docker-desktop/)*
+- *[Docker website](https://www.docker.com/products/docker-desktop/)**
+- *[Docker hub](https://hub.docker.com/)*
+- *[Docker cheat sheet](https://docs.docker.com/get-started/docker_cheatsheet.pdf)
+- *[Docker cheat sheet 2](https://dockerlabs.collabnix.com/docker/cheatsheet/)*
+- *[Windows docker cheat sheet](https://gist.github.com/danijeljw/a7a2553bd06742648172363ce3983a9a)*
 
 ## Paraview
 - *[Paraview Download](https://www.paraview.org/download/)*
@@ -46,11 +50,9 @@ Penser à montrer comment trouver les fonctions d’une classe avec ipython3 qua
 - *[FEniCS Legacy Documentation](https://fenicsproject.org/olddocs/)*
 
 **Remark:** On ubuntu jammy, the FEniCSx version 0.8.0 had a conflict requiring to remove python3-numba:
-
 ```cmd
 sudo apt remove python3-numba
 ```
-
 ## GIT
 - *[GIT Reference](https://git-scm.com/docs)*
 - *[GIT interactive tutorial](https://learngitbranching.js.org/?locale=fr_FR)*
@@ -73,45 +75,6 @@ sudo apt remove python3-numba
 - *[Meshio](https://pypi.org/project/meshio/)*
 - *[Meshio github](https://github.com/nschloe/meshio)*
 
-
-
 ### Pymesh
 - *[Pymesh](https://pymesh.readthedocs.io/en/latest/)*
 - *[Pymesh githbu](https://github.com/PyMesh/PyMesh)*
-
-
-
-# Mail envoyé :
-Prérequis :
-
-    Ordinateur (Windows, Linux, Mac) avec Docker installé (si Linux, vérifier les droits super utilisateur) (Docker Desktop: The #1 Containerization Tool for Developers | Docker)
-    Installer le logiciel ParaView (Download ParaView)
-    Installer le logiciel GMSH (Gmsh: a three-dimensional finite element mesh generator with built-in pre- and post-processing facilities)
-
-Cette formation a pour objectif d’introduire des outils « open-source » pour la modélisation par éléments finis. L’ensemble des codes et supports seront laissés en libre accès.
-
-
-
-09/09/2024 matin – Séminaire d’introduction (ouvert à tous)
-
-    Rappel rapide sur les éléments finis.
-    Introduction à GMSH/FenicsX pour la modélisation par éléments finis.
-    Cas d’application en thermique.
-    Cas d’application en mécanique des fluides.
-    Cas d’application en mécanique du solide (élasticité, hyperélasticité et poroélasticité).
-
-9 après-midi - 11 septembre – Sessions de formation (inscription nécessaire)
-
-    Génération d’un maillage dans GMSH (à partir d’un schéma, par symétrie de révolution, par opérations booléennes, par importation d’un fichier .stl) et identification des frontières.
-    Génération d’un maillage multi-matériaux (tags des volumes).
-    Génération d’un maillage à partir d’un fichier .geo.
-    Importation de maillage et des tags des frontières dans Fenics.
-    Modélisation d’un problème thermique multi-matériaux.
-
-        Thermique stationnaire.
-        Thermique transitoire.
-
-    Équation de Stokes.
-    Modélisation d’un problème mécanique (élastique (poutre) et hyper-élastique (sein)).
-    Modélisation d’un problème de filtration (Darcy).
-    Poro-mécanique (Terzaghi axi-symétrique).
