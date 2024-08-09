@@ -8,7 +8,8 @@
 
 ```math
 \frac{1}{S}\int f \mathrm{d}S
-
+```
+```math
 \frac{1}{V}\int f \mathrm{d}\Omega
 ```
 
