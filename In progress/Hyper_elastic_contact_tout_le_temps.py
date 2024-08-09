@@ -93,7 +93,7 @@ dx = ufl.Measure("dx", domain=domain, metadata=metadata)
 # Define form F (we want to find u such that F(u) = 0)
 F = ufl.inner(ufl.grad(v), P) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
 # Contact
-# F += Penalty*ufl.dot(v[2],(u[2]-(-4))) * ds(3)
+F += Penalty*ufl.dot(v[2],(u[2]-(-4))) * ds(3)
 # F += ufl.conditional((u[2]<-4),Penalty,0)*ufl.dot(v[2],(u[2]-(-4))) * ds(3)
 J = ufl.derivative(F, u, du)
 

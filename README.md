@@ -2,9 +2,7 @@
 
 **$`\color{red} \text{Dans presentation mettre exemple jolis de Pi et Matthieu, ajouter les erreurs courantes avec le choix dx/dt \& attention en axisym à vérifier r diff 0 pour diviser dans grad et div}`$**
 
-**$`\color{red} \text{Pour le multimateriau donner avec dx et elastique + hyper-elastique / avec fonctions et même loi constitutive}`$**
-
-**Conditionnal** <https://github.com/Th0masLavigne/Double_Compartment_tangent/blob/main/Cassiopee/Singularity/FEniCSx_0_8_0/Theoretical_cube/main_theoretical_cube.py>
+**$`\color{red} \text{Pour le multimateriau donner avec dx et elastique + hyper-elastique / avec fonctions et même loi constitutive + Pour poutre hyper el faire avec et sans contact. Comprendre difference entre deux formes proposées de contact}`$**
 
 **$`\color{red} \text{Imposer u et évaluer RF comme}`$**
 
@@ -18,6 +16,8 @@
 **$`\color{red} \text{Reprendre dans ipad mon tuto docker et git}`$**
 
 **$`\color{red} \text{1 mot sur bonne pratique de mettre des checks conditions try assert sur tag notamment s'assurer de ne pas avoir fait d'oublis}`$**
+
+**Faire 1 cas body forces pour le cas elastique**
 
 This repository holds all the documents related to the workshop conducted at I2M Bordeaux in September 2024. The objective of the workshop is to introduce open-source softwares for finite element modelling. More specifically, it focuses on the use of FEniCSx (version 0.8.0) and GMSH (version 4.11). Their documentation as well as other softwares are available at the end of this document. 
 
