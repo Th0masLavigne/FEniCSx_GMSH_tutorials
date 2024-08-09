@@ -1,7 +1,48 @@
 # FEniCSx_GMSH_tutorials
-This repository holds all the documents related to the workshop conducted at I2M Bordeaux in September 2024.
+This repository holds all the documents related to the workshop conducted at I2M Bordeaux in September 2024. The objective of the workshop is to introduce open-source softwares for finite element modelling. More specifically, it focuses on the use of FEniCSx and GMSH. Their documentation as well as other softwares are available at the end of this document. 
 
-1 mot sur *[créer un alias sur linux](https://www.malekal.com/comment-creer-un-alias-linux/)*
+The following elements are required to be able to run the examples:
+- Docker or Singularity with super-user rights (or a local installation of the softwares),
+- GMSH software,
+- Paraview software.
+
+To set an interactive working directory, respectively using Docker and FEniCSx, the following commands can be used:
+```cmd
+docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.8.0
+```
+
+```cmd
+singularity exec /modules/containers/images/dolfinx/dolfinx-0.8.0.sif python3 file.py
+```
+
+The repeated use of a command can be reduced by the use of aliases (see *[create an alias fot linux](https://www.malekal.com/comment-creer-un-alias-linux/)*). Several containers can be considered based on the version you need:
+
+```cmd
+alias fenicsx_v0_5_2='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared th0maslavigne/dolfinx:v0.5.2'
+alias fenicsx_v0_6_0='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.6.0'
+alias fenicsx_v0_7_3='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.7.3'
+alias fenicsx_v0_8_0='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.8.0'
+alias fenics2019='docker run -ti -v $(pwd):/home/fenics/shared -w /home/fenics/shared pymor/fenics_py3.9 bash'
+alias pymesh='docker run -ti -v $(pwd):/home/pymesh/shared -w /home/pymesh/shared pymesh/pymesh bash'
+```
+**Remark:** Including the bash term at the end allows to exit the python environnment to the linux command.
+**Remark:** Docker can store the images and therefore fill a huge amount of space which you can purge with:
+```cmd
+alias dockerRemoveAll="docker stop `docker ps -qa` > /dev/null 2>&1; docker system prune --volumes --all;"
+```
+
+Sametimes a docker image is missing some python library you'd need. You can create a new image (with a dockerfile that you will build) based on an existing image. For instance, you want the dolfinx image with pandas library. Your dockerfile will contain:
+```cmd
+FROM dolfinx/dolfinx:v0.5.2
+RUN pip3 install pandas
+```
+
+
+** hyper el poutre dans local finger tutorial. Ajout avec conditionnel contact**
+
+
+
+1 mot sur 
 
 Reprendre les commandes tuto docker et git sur 
 
