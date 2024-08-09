@@ -1,6 +1,6 @@
 # FEniCSx_GMSH_tutorials
 
-**$`\color{red} \text{Dans presentation mettre exemple jolis de Pi et Matthieu, ajouter les erreurs courantes avec le choix dx/dt & attention en axisym à vérifier r diff 0 pour diviser dans grad et div}`$**
+**$`\color{red} \text{Dans presentation mettre exemple jolis de Pi et Matthieu, ajouter les erreurs courantes avec le choix dx/dt \& attention en axisym à vérifier r diff 0 pour diviser dans grad et div}`$**
 
 **Pour le multimateriau donner avec dx et elastique + hyper-elastique / avec fonctions et même loi constitutive**
 
