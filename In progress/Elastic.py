@@ -91,14 +91,17 @@ metadata = {"quadrature_degree": 4}
 ds = ufl.Measure('ds', domain=domain, subdomain_data=facet_tag, metadata=metadata)
 dx = ufl.Measure("dx", domain=domain, metadata=metadata)
 # Define form F (we want to find u such that F(u) = 0)
-Form = ufl.inner(ufl.grad(v), P) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
-Jd = ufl.derivative(Form, u, du)
+F = ufl.inner(ufl.grad(v), P) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
+# Contact
+# F += Penalty*ufl.dot(v[2],(u[2]-(-4))) * ds(3)
+# F += ufl.conditional((u[2]<-4),Penalty,0)*ufl.dot(v[2],(u[2]-(-4))) * ds(3)
+J__ = ufl.derivative(F, u, du)
 
 from dolfinx.fem.petsc import NonlinearProblem
 from dolfinx.nls.petsc import NewtonSolver
 import petsc4py
 # 
-problem = NonlinearProblem(Form, u, bcs, J=Jd)
+problem = NonlinearProblem(F, u, bcs, J=J__)
 solver = NewtonSolver(domain.comm, problem)
 # 
 # Absolute tolerance
