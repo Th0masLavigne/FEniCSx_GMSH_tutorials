@@ -1,5 +1,5 @@
 # FEniCSx_GMSH_tutorials
-This repository holds all the documents related to the workshop conducted at I2M Bordeaux in September 2024. The objective of the workshop is to introduce open-source softwares for finite element modelling. More specifically, it focuses on the use of FEniCSx and GMSH. Their documentation as well as other softwares are available at the end of this document. 
+This repository holds all the documents related to the workshop conducted at I2M Bordeaux in September 2024. The objective of the workshop is to introduce open-source softwares for finite element modelling. More specifically, it focuses on the use of FEniCSx (version 0.8.0) and GMSH (version 4.11). Their documentation as well as other softwares are available at the end of this document. 
 
 The following elements are required to be able to run the examples:
 - Docker or Singularity with super-user rights (or a local installation of the softwares),
