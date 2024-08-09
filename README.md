@@ -6,15 +6,14 @@
 
 **$`\color{red} \text{Imposer u et évaluer RF comme}`$**
 
-
-**$`\color{red} \text{Reprendre dans ipad mon tuto docker et git}`$**
-
 ```math
 \frac{1}{S}\int f \mathrm{d}S
 ```
 ```math
 \frac{1}{V}\int f \mathrm{d}\Omega
 ```
+
+**$`\color{red} \text{Reprendre dans ipad mon tuto docker et git}`$**
 
 **$`\color{red} \text{1 mot sur bonne pratique de mettre des checks conditions try assert sur tag notamment s'assurer de ne pas avoir fait d'oublis}`$**
 
