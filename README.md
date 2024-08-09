@@ -7,8 +7,8 @@
 **Imposer u et évaluer RF comme**
 
 ```math
-\frac{1}{S}\int f \mathrm{d]S
-\frac{1}{V}\int f \mathrm{d]\Omega
+\frac{1}{S}\int f \mathrm{d}S
+\frac{1}{V}\int f \mathrm{d}\Omega
 ```
 
 **1 mot sur bonne pratique de mettre des checks conditions try assert sur tag notamment s'assurer de ne pas avoir fait d'oublis**
