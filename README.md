@@ -6,6 +6,9 @@
 
 **Imposer u et évaluer RF comme**
 
+
+**Reprendre dans ipad mon tuto docker et git**
+
 ```math
 \frac{1}{S}\int f \mathrm{d}S
 ```
@@ -43,6 +46,8 @@ The workshop indrocudes the following items:
   * Darcy problem, **Je n'ai pas la ressource**
   * Terzaghi poromechanical model. **A faire**
 
+One can also refer to the tutorial from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)*. Please cite this work if you use codes from this workshop that can be related to this tutorial.
+
 ## Creating a virtual workspace
 
 To set an interactive working directory, respectively using Docker and FEniCSx, the following commands can be used:
@@ -75,26 +80,6 @@ Sametimes a docker image is missing some python library you'd need. You can crea
 FROM dolfinx/dolfinx:v0.5.2
 RUN pip3 install pandas
 ```
-
-
-** hyper el poutre dans local finger tutorial. Ajout avec conditionnel contact**
-
-
-
-1 mot sur 
-
-Reprendre les commandes tuto docker et git sur 
-
-
-Cette formation a comme objectif d’introduire des outils « open-source » pour la modélisation élément finis. L’ensemble des codes et supports seront laissés en libre accès.
-
-
-Essayer docker en windows pour équivalent.
-
-**Reprendre dans ipad mon tuto docker et git**
-
-
-Penser à montrer comment trouver les fonctions d’une classe avec ipython3 quand on a du mal à trouver la documentation (exemple booléen GMSH).
 
 ## Ressources
 **Remark:** If you do not find the documentation for a specific item, you can use ipython3 and the help() command. For example if you have a class object element that we call mesh, executing "mesh." + "tab" you will be able to navigate the attributes to the object and then apply the help command.
