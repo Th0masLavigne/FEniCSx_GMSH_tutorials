@@ -5,8 +5,11 @@
 **Pour le multimateriau donner avec dx et elastique + hyper-elastique / avec fonctions et même loi constitutive**
 
 **Imposer u et évaluer RF comme**
-$`\frac{1}{S}\int f \mathrm{d]S`$
-$`\frac{1}{V}\int f \mathrm{d]\Omega`$
+
+```math
+\frac{1}{S}\int f \mathrm{d]S
+\frac{1}{V}\int f \mathrm{d]\Omega
+```
 
 **1 mot sur bonne pratique de mettre des checks conditions try assert sur tag notamment s'assurer de ne pas avoir fait d'oublis**
 
