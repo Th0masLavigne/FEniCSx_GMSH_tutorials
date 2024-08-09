@@ -1,10 +1,44 @@
 # FEniCSx_GMSH_tutorials
+
+**Dans presentation mettre exemple jolis de Pi et Matthieu, ajouter les erreurs courantes avec le choix dx/dt & attention en axisym à vérifier r diff 0 pour diviser dans grad et div**
+
+**Pour le multimateriau donner avec dx et elastique + hyper-elastique / avec fonctions et même loi constitutive**
+
+**Imposer u et évaluer RF comme**
+$$\frac{1}{S}\int f \mathrm{d]S$$
+$$\frac{1}{V}\int f \mathrm{d]\Omega$$
+
+**1 mot sur bonne pratique de mettre des checks conditions try assert sur tag notamment s'assurer de ne pas avoir fait d'oublis**
+
 This repository holds all the documents related to the workshop conducted at I2M Bordeaux in September 2024. The objective of the workshop is to introduce open-source softwares for finite element modelling. More specifically, it focuses on the use of FEniCSx (version 0.8.0) and GMSH (version 4.11). Their documentation as well as other softwares are available at the end of this document. 
 
 The following elements are required to be able to run the examples:
 - Docker or Singularity with super-user rights (or a local installation of the softwares),
 - GMSH software,
 - Paraview software.
+
+## Contents of the workshop
+
+The workshop indrocudes the following items:
+- Brief reminder about the finite element method,
+- Creation of a mesh using GMSH:
+  * GEO VS OCC kernels, **A FAIRE**
+  * From a simple sketch,
+  * From simple geometries,
+  * Using symmetries,
+  * Using boolean operations,
+  * From a STL file,**A faire**
+  * Local refinement,**Mettre exemple de l'article**
+  * Boundary and domain tagging,
+  * Export compatibility: FEniCSx vs Fenics Legacy. **Faire un cas extrèmement simple d'une poutre**
+- Finite Element computation using FEniCSx:
+  * [Stationary](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/thermique_diri-robin) and [transient](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/thermique_diri-robin-transitoire) thermal problems,
+  * Solid Continous Mechanics problem (elastic, hyper-elastic, penalty contact, updated lagrangian formulation and evaluation of a quantity), **Faire elastic poutre + hyper elastic poutre + Contact + multimateriau poutre et sein ici avec identification et generation en gmsh et en fenicsx + updated lagrangian**
+  * Stokes Equation solving in [2D](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/Stokes_2D) and [3D](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/Stokes_3D_half),
+  * Darcy problem, **Je n'ai pas la ressource**
+  * Terzaghi poromechanical model. **A faire**
+
+## Creating a virtual workspace
 
 To set an interactive working directory, respectively using Docker and FEniCSx, the following commands can be used:
 ```cmd
@@ -57,19 +91,21 @@ Essayer docker en windows pour équivalent.
 
 Penser à montrer comment trouver les fonctions d’une classe avec ipython3 quand on a du mal à trouver la documentation (exemple booléen GMSH).
 
-# Ressources
+## Ressources
+**Remark:** If you do not find the documentation for a specific item, you can use ipython3 and the help() command. For example if you have a class object element that we call mesh, executing "mesh." + "tab" you will be able to navigate the attributes to the object and then apply the help command.
 
-## Docker (alternatively singularity)
+### Docker (alternatively singularity)
 - *[Docker website](https://www.docker.com/products/docker-desktop/)**
 - *[Docker hub](https://hub.docker.com/)*
 - *[Docker cheat sheet](https://docs.docker.com/get-started/docker_cheatsheet.pdf)
 - *[Docker cheat sheet 2](https://dockerlabs.collabnix.com/docker/cheatsheet/)*
 - *[Windows docker cheat sheet](https://gist.github.com/danijeljw/a7a2553bd06742648172363ce3983a9a)*
+- *[Singularity](https://docs.sylabs.io/guides/3.5/user-guide/introduction.html)*
 
-## Paraview
+### Paraview
 - *[Paraview Download](https://www.paraview.org/download/)*
 
-## GMSH 
+### GMSH 
 - *[GMSH Download](https://gmsh.info/)*
 - *[GMSH Introductive Presentation]([https://duckduckgo.com](https://gmsh.info/doc/course/general_overview.pdf))*
 - *[GMSH Manual](https://gmsh.info/doc/texinfo/gmsh.html)*
@@ -77,7 +113,7 @@ Penser à montrer comment trouver les fonctions d’une classe avec ipython3 qua
 - *[GMSH API tutoraials](https://bthierry.pages.math.cnrs.fr/tutorial/gmsh/api/)*
 - *[OpenCascade Commands](https://koehlerson.github.io/gmsh.jl/dev/occ/occ/)*
 
-## FEniCSx
+### FEniCSx
 - *[FEniCS Website](https://fenicsproject.org/)*
 - *[FEniCSx Tutorial](https://jsdokken.com/dolfinx-tutorial/)*
 - *[FEniCSx Changelog](https://github.com/FEniCS/dolfinx/releases)*
@@ -94,28 +130,32 @@ Penser à montrer comment trouver les fonctions d’une classe avec ipython3 qua
 ```cmd
 sudo apt remove python3-numba
 ```
-## GIT
+### GIT
+- *[GIT Docs](https://docs.github.com/en/get-started)*
 - *[GIT Reference](https://git-scm.com/docs)*
 - *[GIT interactive tutorial](https://learngitbranching.js.org/?locale=fr_FR)*
 
-## Others
-### Deal.ii
+### Others
+#### Deal.ii
 - *[Deal.ii website](https://www.dealii.org/)*
 - *[Deal.ii tutorials](https://www.dealii.org/current/doxygen/deal.II/Tutorial.html)*
 - *[Deal.ii documentation](https://www.dealii.org/current/index.html)*
 - *[Deal.ii library](https://www.dealii.org/current/doxygen/deal.II/index.html)*
 
-### Neper
+#### Doxygen
+- *[Doxygen](https://www.doxygen.nl/index.html)*
+
+#### Neper
 - *[Neper](https://neper.info/)*
 
-### Pygmsh
+#### Pygmsh
 - *[Pygmsh](https://pypi.org/project/pygmsh/)*
 - *[Pygmsh github](https://github.com/nschloe/pygmsh)*
 
-### Meshio
+#### Meshio
 - *[Meshio](https://pypi.org/project/meshio/)*
 - *[Meshio github](https://github.com/nschloe/meshio)*
 
-### Pymesh
+#### Pymesh
 - *[Pymesh](https://pymesh.readthedocs.io/en/latest/)*
 - *[Pymesh githbu](https://github.com/PyMesh/PyMesh)*
