@@ -4,6 +4,8 @@
 
 **$`\color{red} \text{Pour le multimateriau donner avec dx et elastique + hyper-elastique / avec fonctions et même loi constitutive}`$**
 
+**Conditionnal** <https://github.com/Th0masLavigne/Double_Compartment_tangent/blob/main/Cassiopee/Singularity/FEniCSx_0_8_0/Theoretical_cube/main_theoretical_cube.py>
+
 **$`\color{red} \text{Imposer u et évaluer RF comme}`$**
 
 ```math
