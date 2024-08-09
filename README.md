@@ -1,5 +1,8 @@
 # FEniCSx_GMSH_tutorials
 
+Sur poutre : eval u avec formule surfacique sur la droite où u imposé.
+Exemple commenté pour cas volumique
+
 **$`\color{red} \text{Dans presentation mettre exemple jolis de Pi et Matthieu, ajouter les erreurs courantes avec le choix dx/dt \& attention en axisym à vérifier r diff 0 pour diviser dans grad et div}`$**
 
 **$`\color{red} \text{Pour le multimateriau donner avec dx et elastique + hyper-elastique / avec fonctions et même loi constitutive + Pour poutre hyper el faire avec et sans contact. Comprendre difference entre deux formes proposées de contact}`$**
