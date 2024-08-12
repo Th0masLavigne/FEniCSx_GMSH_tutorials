@@ -24,7 +24,6 @@ print("Dolfinx version is:",dolfinx.__version__)
 # Create the mesh in dolfinx and identify the volumes / Boundaries
 L      = 40.0
 domain = dolfinx.mesh.create_box(mpi4py.MPI.COMM_WORLD, [[0.0, 0.0, 0.0], [L, 1, 1]], [20, 5, 5], dolfinx.mesh.CellType.hexahedron)
-V      = dolfinx.fem.functionspace(domain, ("Lagrange", 2, (domain.geometry.dim, )))
 # 
 # Locators
 # 
@@ -93,28 +92,28 @@ P1_v = basix.ufl.element("P", domain.topology.cell_name(), degree=1, shape=(doma
 P2_v = basix.ufl.element("P", domain.topology.cell_name(), degree=2, shape=(domain.topology.dim,))
 # Function_spaces
 P1v_space = dolfinx.fem.functionspace(domain, P1_v)
-V = dolfinx.fem.functionspace(domain, P2_v)
+V         = dolfinx.fem.functionspace(domain, P2_v)
 # 
 #----------------------------------------------------------------------
 # Functions
-v = ufl.TestFunction(V)
-u = dolfinx.fem.Function(V)
+v  = ufl.TestFunction(V)
+u  = dolfinx.fem.Function(V)
 du = ufl.TrialFunction(V)
 #----------------------------------------------------------------------
 # Operators
 metadata = {"quadrature_degree": 4}
-ds = ufl.Measure('ds', domain=domain, subdomain_data=facet_tag, metadata=metadata)
-dx = ufl.Measure("dx", domain=domain, metadata=metadata)
+ds       = ufl.Measure('ds', domain=domain, subdomain_data=facet_tag, metadata=metadata)
+dx       = ufl.Measure("dx", domain=domain, metadata=metadata)
 #----------------------------------------------------------------------
 # Expressions
 # XDMF needs linear displacement
 u_export      = dolfinx.fem.Function(P1v_space)
 u_export.name = "u"
-u_expr = dolfinx.fem.Expression(u,P1v_space.element.interpolation_points())
+u_expr        = dolfinx.fem.Expression(u,P1v_space.element.interpolation_points())
 u_export.interpolate(u_expr)
 u_export.x.scatter_forward()
 # Evaluation of the displacement on the edge
-Nz  = dolfinx.fem.Constant(domain, numpy.asarray((0.0,0.0,1.0)))
+Nz                = dolfinx.fem.Constant(domain, numpy.asarray((0.0,0.0,1.0)))
 Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nz))*ds(2))
 # 
 #----------------------------------------------------------------------
@@ -124,7 +123,7 @@ Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nz))*ds(2))
 u_bc = numpy.array((0,) * domain.geometry.dim, dtype=dolfinx.default_scalar_type)
 # 
 left_dofs = dolfinx.fem.locate_dofs_topological(V, facet_tag.dim, facet_tag.find(1))
-bcs = [dolfinx.fem.dirichletbc(u_bc, left_dofs, V)]
+bcs       = [dolfinx.fem.dirichletbc(u_bc, left_dofs, V)]
 # 
 #----------------------------------------------------------------------
 # Definition of the Variationnal Form
@@ -142,7 +141,7 @@ def Hookean(mu,lmbda):
 #----------------------------------------------------------------------
 # Variational form
 # Define form F (we want to find u such that F(u) = 0)
-F = ufl.inner(ufl.grad(v), Hookean(mu_m,lmbda_m)) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
+F   = ufl.inner(ufl.grad(v), Hookean(mu_m,lmbda_m)) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
 # 
 # Jacobian of the problem
 J__ = ufl.derivative(F, u, du)
@@ -161,11 +160,11 @@ solver.convergence_criterion = "incremental"
 # Maximum iterations
 solver.max_it                = 15
 # Solver Pre-requisites
-ksp = solver.krylov_solver
-opts = petsc4py.PETSc.Options()
-option_prefix = ksp.getOptionsPrefix()
-opts[f"{option_prefix}ksp_type"] = "preonly"
-opts[f"{option_prefix}pc_type"] = "lu"
+ksp                                               = solver.krylov_solver
+opts                                              = petsc4py.PETSc.Options()
+option_prefix                                     = ksp.getOptionsPrefix()
+opts[f"{option_prefix}ksp_type"]                  = "preonly"
+opts[f"{option_prefix}pc_type"]                   = "lu"
 opts[f"{option_prefix}pc_factor_mat_solver_type"] = "mumps"
 ksp.setFromOptions()
 # 
@@ -181,24 +180,24 @@ plotter = pyvista.Plotter()
 plotter.open_gif("elastic_multimaterial_beam.gif", fps=3)
 # 
 topology, cells, geometry = dolfinx.plot.vtk_mesh(u.function_space)
-function_grid = pyvista.UnstructuredGrid(topology, cells, geometry)
+function_grid             = pyvista.UnstructuredGrid(topology, cells, geometry)
 # 
-values = numpy.zeros((geometry.shape[0], 3))
+values             = numpy.zeros((geometry.shape[0], 3))
 values[:, :len(u)] = u.x.array.reshape(geometry.shape[0], len(u))
 function_grid["u"] = values
 function_grid.set_active_vectors("u")
 # 
 # Warp mesh by deformation
-warped = function_grid.warp_by_vector("u", factor=1)
+warped        = function_grid.warp_by_vector("u", factor=1)
 warped.set_active_vectors("u")
 # 
 # Add mesh to plotter and visualize
-actor = plotter.add_mesh(warped, show_edges=True, lighting=False, clim=[0, 10])
+actor         = plotter.add_mesh(warped, show_edges=True, lighting=False, clim=[0, 10])
 # 
 # Compute magnitude of displacement to visualize in GIF
-Vs = dolfinx.fem.functionspace(domain, ("Lagrange", 2))
-magnitude = dolfinx.fem.Function(Vs)
-us = dolfinx.fem.Expression(ufl.sqrt(sum([u[i]**2 for i in range(len(u))])), Vs.element.interpolation_points())
+Vs            = dolfinx.fem.functionspace(domain, ("Lagrange", 2))
+magnitude     = dolfinx.fem.Function(Vs)
+us            = dolfinx.fem.Expression(ufl.sqrt(sum([u[i]**2 for i in range(len(u))])), Vs.element.interpolation_points())
 magnitude.interpolate(us)
 warped["mag"] = magnitude.x.array
 # 
@@ -214,7 +213,7 @@ if log_solve:
 tval0 = -0.75
 # Loop to get to the total load
 for n in range(1, 10):
-    T.value[2] = n * tval0
+    T.value[2]         = n * tval0
     num_its, converged = solver.solve(u)
     u.x.scatter_forward()
     try:
@@ -227,8 +226,8 @@ for n in range(1, 10):
         break
     # 
     # Evaluate the displacement
-    displacement_= dolfinx.fem.assemble_scalar(Displacement_expr)
-    Surface = 1*1
+    displacement_      = dolfinx.fem.assemble_scalar(Displacement_expr)
+    Surface            = 1*1
     displacement_right = 1/Surface*domain.comm.allreduce(displacement_, op=mpi4py.MPI.SUM)
     print("Edge displacement:", displacement_right)
     # 
@@ -237,8 +236,8 @@ for n in range(1, 10):
     function_grid["u"][:, :len(u)] = u.x.array.reshape(geometry.shape[0], len(u))
     magnitude.interpolate(us)
     warped.set_active_scalars("mag")
-    warped_n = function_grid.warp_by_vector(factor=1)
-    warped.points[:, :] = warped_n.points
+    warped_n                    = function_grid.warp_by_vector(factor=1)
+    warped.points[:, :]         = warped_n.points
     warped.point_data["mag"][:] = magnitude.x.array
     plotter.update_scalar_bar_range([0, 1.5])
     plotter.write_frame()
