@@ -46,7 +46,7 @@ bcs = [dolfinx.fem.dirichletbc(u_bc, left_dofs, V)]
 
 B = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type((0, 0, 0)))
 T = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type((0, 0, 0)))
-Penalty = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(100))
+Penalty = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(1000))
 
 v = ufl.TestFunction(V)
 u = dolfinx.fem.Function(V)
@@ -93,8 +93,7 @@ dx = ufl.Measure("dx", domain=domain, metadata=metadata)
 # Define form F (we want to find u such that F(u) = 0)
 Form = ufl.inner(ufl.grad(v), P) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
 # Contact
-Form += Penalty*ufl.dot(v[2],(u[2]-(-4))) * ds(3)
-# F += ufl.conditional((u[2]<-4),Penalty,0)*ufl.dot(v[2],(u[2]-(-4))) * ds(3)
+Form += Penalty*ufl.dot(v[2],ufl.conditional((u[2]<-4),(u[2]-(-4)),0)) * ds(3)
 Jd = ufl.derivative(Form, u, du)
 
 from dolfinx.fem.petsc import NonlinearProblem
@@ -117,20 +116,19 @@ ksp = solver.krylov_solver
 opts = petsc4py.PETSc.Options()
 option_prefix = ksp.getOptionsPrefix()
 # Plus rapide
-# opts[f"{option_prefix}ksp_type"] = "preonly"
-# opts[f"{option_prefix}pc_type"] = "lu"
-# opts[f"{option_prefix}pc_factor_mat_solver_type"] = "mumps"
-# Plus lent
-opts[f"{option_prefix}ksp_type"] = "cg"
-# opts[f"{option_prefix}pc_type"] = "gamg"
+opts[f"{option_prefix}ksp_type"] = "preonly"
 opts[f"{option_prefix}pc_type"] = "lu"
 opts[f"{option_prefix}pc_factor_mat_solver_type"] = "mumps"
+# Plus lent
+# opts[f"{option_prefix}ksp_type"] = "cg"
+# opts[f"{option_prefix}pc_type"] = "gamg"
+# opts[f"{option_prefix}pc_factor_mat_solver_type"] = "mumps"
 ksp.setFromOptions()
 
 
 pyvista.start_xvfb()
 plotter = pyvista.Plotter()
-plotter.open_gif("deformation.gif", fps=3)
+plotter.open_gif("deformation_contact_conditional_body_force.gif", fps=10)
 
 topology, cells, geometry = dolfinx.plot.vtk_mesh(u.function_space)
 function_grid = pyvista.UnstructuredGrid(topology, cells, geometry)
@@ -159,28 +157,28 @@ log.set_log_level(log.LogLevel.INFO)
 
 
 u_expr = dolfinx.fem.Expression(u,P1v_space.element.interpolation_points())
-u_export.interpolate(u_expr)
-u_export.x.scatter_forward()
 t=0
-tval0 = -0.75
-# tval0 = -0.5
+Bval0 = -0.1
+# Bval0 = -0.5
 # for n in range(1, 10):
-for n in range(1, 10):
-    T.value[2] = n * tval0
+for n in range(1, 100):
+    B.value[2] = n * Bval0
     num_its, converged = solver.solve(u)
     assert (converged)
     u.x.scatter_forward()
     print(min(u.x.array[:]))
-    print(f"Time step {n}, Number of iterations {num_its}, Load {T.value}")
+    print(f"Time step {n}, Number of iterations {num_its}, Load {B.value}")
     function_grid["u"][:, :len(u)] = u.x.array.reshape(geometry.shape[0], len(u))
     magnitude.interpolate(us)
     warped.set_active_scalars("mag")
     warped_n = function_grid.warp_by_vector(factor=1)
     warped.points[:, :] = warped_n.points
     warped.point_data["mag"][:] = magnitude.x.array
-    plotter.update_scalar_bar_range([0, 10])
+    plotter.update_scalar_bar_range([0, 4.5])
     plotter.write_frame()
-    xdmf.write_function(u_export,t+tval0)
+    u_export.interpolate(u_expr)
+    u_export.x.scatter_forward()
+    xdmf.write_function(u_export,t+Bval0)
 plotter.close()
 xdmf.close()
 
