@@ -48,12 +48,12 @@ The workshop indrocudes the following items:
   * Export compatibility: FEniCSx vs Fenics Legacy. **$`\color{red} \text{Faire un cas extrèmement simple d'une poutre}`$**
 - Finite Element computation using FEniCSx:
   * [Stationary](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/thermique_diri-robin) and [transient](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/thermique_diri-robin-transitoire) thermal problems,
-  * Solid Continous Mechanics problem (elastic, hyper-elastic, penalty contact, updated lagrangian formulation and evaluation of a quantity), **$`\color{red} \text{Faire elastic poutre + hyper elastic poutre + Contact + multimateriau poutre et sein ici avec identification et generation en gmsh et en fenicsx + updated lagrangian}`$**
+  * Solid Continous Mechanics problem (elastic, hyper-elastic, penalty contact, updated lagrangian formulation and evaluation of a quantity), **$`\color{red} \text{Faire elastic poutre + multimateriau poutre et sein ici avec identification et generation en gmsh et en fenicsx + updated lagrangian}`$**
   * Stokes Equation solving in [2D](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/Stokes_2D) and [3D](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/Stokes_3D_half),
   * Darcy problem, **$`\color{red} \text{Je n'ai pas la ressource}`$**
   * Terzaghi poromechanical model. **$`\color{red} \text{A faire}`$**
 
-One can also refer to the tutorial from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)*. Please cite this work if you use codes from this workshop that can be related to this tutorial.
+One can also refer to the tutorial from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)* ([Github ressource](https://github.com/Th0masLavigne/Skin_porous_modelling.git)). Please cite this work if you use codes from this workshop that can be related to this tutorial. *[Lavigne et al., 2024]()* for an example of an updated Lagrangian poro-elastic model with imposed displacement: [Github](https://github.com/Th0masLavigne/Skin_porous_modelling.git).
 
 ## Creating a virtual workspace
 
