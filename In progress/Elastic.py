@@ -90,16 +90,16 @@ C = ufl.variable(F.T * F)
 Ic = ufl.variable(ufl.tr(C))
 J = ufl.variable(ufl.det(F))
 
-# Elasticity parameters
-E = dolfinx.default_scalar_type(1.0e4)
-nu = dolfinx.default_scalar_type(0.3)
-mu = dolfinx.fem.Constant(domain, E / (2 * (1 + nu)))
-lmbda = dolfinx.fem.Constant(domain, E * nu / ((1 + nu) * (1 - 2 * nu)))
-# Stored strain energy density (compressible neo-Hookean model)
-psi = (mu / 2) * (Ic - 3) - mu * ufl.ln(J) + (lmbda / 2) * (ufl.ln(J))**2
-# Stress
-# Hyper-elasticity
-P = ufl.diff(psi, F)
+# # Elasticity parameters
+# E = dolfinx.default_scalar_type(1.0e4)
+# nu = dolfinx.default_scalar_type(0.3)
+# mu = dolfinx.fem.Constant(domain, E / (2 * (1 + nu)))
+# lmbda = dolfinx.fem.Constant(domain, E * nu / ((1 + nu) * (1 - 2 * nu)))
+# # Stored strain energy density (compressible neo-Hookean model)
+# psi = (mu / 2) * (Ic - 3) - mu * ufl.ln(J) + (lmbda / 2) * (ufl.ln(J))**2
+# # Stress
+# # Hyper-elasticity
+# P = ufl.diff(psi, F)
 
 # P = 2.0 * mu * ufl.sym(ufl.grad(u)) + lmbda * ufl.tr(ufl.sym(ufl.grad(u))) * I
 

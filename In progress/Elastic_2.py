@@ -6,54 +6,40 @@ import ufl
 import basix
 # 
 # from dolfinx import fem, mesh, plot
-L = 40.0
-domain = dolfinx.mesh.create_box(mpi4py.MPI.COMM_WORLD, [[0.0, 0.0, 0.0], [L, 1, 1]], [20, 5, 5], dolfinx.mesh.CellType.hexahedron)
+filename = "./3D_elastic_mesh.msh"
+domain, cell_tag, facet_tag = dolfinx.io.gmshio.read_from_msh(filename, mpi4py.MPI.COMM_WORLD, 0, gdim=3)
+# 
+cells_left = [x for x in cell_tag.indices if (cell_tag.values[x] == 10)]
+cells_right = [x for x in cell_tag.indices if (cell_tag.values[x] == 20)]
+# 
+try :
+    assert(len(cell_tag.indices) == len(cells_left)+len(cells_right))
+    if mpi4py.MPI.COMM_WORLD.rank       == 0:
+        print("All cell tags have been attributed")
+except:
+    if mpi4py.MPI.COMM_WORLD.rank       == 0:
+        print("*************") 
+        print("Forgotten tags => material badly defined")
+        print("*************") 
+        exit()
+# 
+# 
 V = dolfinx.fem.functionspace(domain, ("Lagrange", 2, (domain.geometry.dim, )))
-# 
-def Omega_left(x):
-    return x[0] <= 0.5*L
-# 
-def Omega_right(x):
-    return x[0] >= 0.5*L
-# 
-cells_left = dolfinx.mesh.locate_entities(domain, domain.topology.dim, Omega_left)
-cells_right = dolfinx.mesh.locate_entities(domain, domain.topology.dim, Omega_right)
-# 
-# 
-def left(x):
-    return numpy.isclose(x[0], 0)
-# 
-def right(x):
-    return numpy.isclose(x[0], L)
-# 
-def bottom(x):
-    return numpy.isclose(x[2], 0)
-# 
-fdim = domain.topology.dim - 1
-left_facets = dolfinx.mesh.locate_entities_boundary(domain, fdim, left)
-right_facets = dolfinx.mesh.locate_entities_boundary(domain, fdim, right)
-bottom_facets = dolfinx.mesh.locate_entities_boundary(domain, fdim, bottom)
-# 
-# Concatenate and sort the arrays based on facet indices. Left facets marked with 1, right facets with two
-marked_facets = numpy.hstack([left_facets, right_facets, bottom_facets])
-marked_values = numpy.hstack([numpy.full_like(left_facets, 1), numpy.full_like(right_facets, 2), numpy.full_like(bottom_facets, 3)])
-sorted_facets = numpy.argsort(marked_facets)
-facet_tag = dolfinx.mesh.meshtags(domain, fdim, marked_facets[sorted_facets], marked_values[sorted_facets])
-# 
+
 # 
 with dolfinx.io.XDMFFile(mpi4py.MPI.COMM_WORLD, "verif.xdmf", "w") as xdmf:
     xdmf.write_mesh(domain)
     xdmf.write_meshtags(facet_tag,domain.geometry)
 # 
 # 
-DG0_space = dolfinx.fem.functionspace(domain, ("DG", 0))
-E = dolfinx.fem.Function(DG0_space)
-E.x.array[cells_left] = numpy.full_like(cells_left, 1e8, dtype=dolfinx.default_scalar_type)
-E.x.array[cells_right] = numpy.full_like(cells_right, 2.5e4, dtype=dolfinx.default_scalar_type)
+E_left = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(1e8))
+E_right = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(2.5e4))
 nu = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(0.3))
 # 
-lmbda_m        = E*nu.value/((1+nu.value)*(1-2*nu.value))   
-mu_m           = E/(2*(1+nu.value)) 
+lmbda_m_left        = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(E_left.value*nu.value/((1+nu.value)*(1-2*nu.value))))   
+mu_m_left           = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(E_left.value/(2*(1+nu.value)))) 
+lmbda_m_right        = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(E_right.value*nu.value/((1+nu.value)*(1-2*nu.value))))   
+mu_m_right           = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(E_right.value/(2*(1+nu.value)))) 
 # 
 u_bc = numpy.array((0,) * domain.geometry.dim, dtype=dolfinx.default_scalar_type)
 # 
@@ -90,13 +76,8 @@ C = ufl.variable(F.T * F)
 Ic = ufl.variable(ufl.tr(C))
 J = ufl.variable(ufl.det(F))
 
-# Elasticity parameters
-E = dolfinx.default_scalar_type(1.0e4)
-nu = dolfinx.default_scalar_type(0.3)
-mu = dolfinx.fem.Constant(domain, E / (2 * (1 + nu)))
-lmbda = dolfinx.fem.Constant(domain, E * nu / ((1 + nu) * (1 - 2 * nu)))
 # Stored strain energy density (compressible neo-Hookean model)
-psi = (mu / 2) * (Ic - 3) - mu * ufl.ln(J) + (lmbda / 2) * (ufl.ln(J))**2
+psi = (mu_m_right / 2) * (Ic - 3) - mu_m_right * ufl.ln(J) + (lmbda_m_right / 2) * (ufl.ln(J))**2
 # Stress
 # Hyper-elasticity
 P = ufl.diff(psi, F)
@@ -105,12 +86,21 @@ P = ufl.diff(psi, F)
 
 metadata = {"quadrature_degree": 4}
 ds = ufl.Measure('ds', domain=domain, subdomain_data=facet_tag, metadata=metadata)
-dx = ufl.Measure("dx", domain=domain, metadata=metadata)
+dx = ufl.Measure("dx", domain=domain, metadata=metadata, subdomain_data=cell_tag)
 # Define form F (we want to find u such that F(u) = 0)
-F = ufl.inner(ufl.grad(v), 2*mu_m*ufl.sym(ufl.grad(u))+lmbda_m*ufl.tr(ufl.sym(ufl.grad(u)))*I) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
-# Contact
-# F += Penalty*ufl.dot(v[2],(u[2]-(-4))) * ds(3)
-# F += ufl.conditional((u[2]<-4),Penalty,0)*ufl.dot(v[2],(u[2]-(-4))) * ds(3)
+F = ufl.inner(ufl.grad(v), 2*mu_m_left*ufl.sym(ufl.grad(u))+lmbda_m_left*ufl.tr(ufl.sym(ufl.grad(u)))*I) * dx(10) + ufl.inner(ufl.grad(v), P) * dx(20) - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(3)
+# F = ufl.inner(ufl.grad(v), 2*mu_m_left*ufl.sym(ufl.grad(u))+lmbda_m_left*ufl.tr(ufl.sym(ufl.grad(u)))*I) * dx(10) + ufl.inner(ufl.grad(v), 2*mu_m_right*ufl.sym(ufl.grad(u))+lmbda_m_right*ufl.tr(ufl.sym(ufl.grad(u)))*I) * dx(20) - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(3)
+
+# DG0_space = dolfinx.fem.functionspace(domain, ("DG", 0))
+# E = dolfinx.fem.Function(DG0_space)
+# E.x.array[cells_left] = numpy.full_like(cells_left, 1e8, dtype=dolfinx.default_scalar_type)
+# E.x.array[cells_right] = numpy.full_like(cells_right, 2.5e4, dtype=dolfinx.default_scalar_type)
+# nu = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(0.3))
+# # 
+# lmbda_m        = E*nu.value/((1+nu.value)*(1-2*nu.value))   
+# mu_m           = E/(2*(1+nu.value)) 
+# F = ufl.inner(ufl.grad(v), 2*mu_m*ufl.sym(ufl.grad(u))+lmbda_m*ufl.tr(ufl.sym(ufl.grad(u)))*I) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(3)
+
 J__ = ufl.derivative(F, u, du)
 
 from dolfinx.fem.petsc import NonlinearProblem
@@ -133,12 +123,7 @@ ksp = solver.krylov_solver
 opts = petsc4py.PETSc.Options()
 option_prefix = ksp.getOptionsPrefix()
 # Plus rapide
-# opts[f"{option_prefix}ksp_type"] = "preonly"
-# opts[f"{option_prefix}pc_type"] = "lu"
-# opts[f"{option_prefix}pc_factor_mat_solver_type"] = "mumps"
-# Plus lent
-opts[f"{option_prefix}ksp_type"] = "cg"
-# opts[f"{option_prefix}pc_type"] = "gamg"
+opts[f"{option_prefix}ksp_type"] = "preonly"
 opts[f"{option_prefix}pc_type"] = "lu"
 opts[f"{option_prefix}pc_factor_mat_solver_type"] = "mumps"
 ksp.setFromOptions()
@@ -146,7 +131,7 @@ ksp.setFromOptions()
 
 pyvista.start_xvfb()
 plotter = pyvista.Plotter()
-plotter.open_gif("elastic.gif", fps=3)
+plotter.open_gif("elastic_hyper_elastic.gif", fps=3)
 
 topology, cells, geometry = dolfinx.plot.vtk_mesh(u.function_space)
 function_grid = pyvista.UnstructuredGrid(topology, cells, geometry)
