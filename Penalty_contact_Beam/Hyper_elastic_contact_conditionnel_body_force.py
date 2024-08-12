@@ -227,7 +227,7 @@ for n in range(1, 80):
     displacement_right = 1/Surface*domain.comm.allreduce(displacement_, op=mpi4py.MPI.SUM)
     print("Edge displacement:", displacement_right)
     # 
-    print(f"Time step {n}, Number of iterations {num_its}, Load {T.value}")
+    print(f"Time step {n}, Number of iterations {num_its}, Load {B.value}")
     # Post-processing
     function_grid["u"][:, :len(u)] = u.x.array.reshape(geometry.shape[0], len(u))
     magnitude.interpolate(us)
