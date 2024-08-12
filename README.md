@@ -22,7 +22,8 @@ Multimateriau (dx et fonction) & updated lagrange en Elastique / Terzaghi / Loca
 
 **$`\color{red} \text{1 mot sur bonne pratique de mettre des checks conditions try assert sur tag notamment s'assurer de ne pas avoir fait d'oublis}`$**
 
-**Faire 1 cas body forces pour le cas elastique**
+
+**Ne pas nommer les variables n'importe comment, commenter est très important ainsi qu'organiser un code pour débugger**
 
 This repository holds all the documents related to the workshop conducted at I2M Bordeaux in September 2024. The objective of the workshop is to introduce open-source softwares for finite element modelling. More specifically, it focuses on the use of FEniCSx (version 0.8.0) and GMSH (version 4.11). Their documentation as well as other softwares are available at the end of this document. 
 
@@ -76,6 +77,7 @@ alias fenics2019='docker run -ti -v $(pwd):/home/fenics/shared -w /home/fenics/s
 alias pymesh='docker run -ti -v $(pwd):/home/pymesh/shared -w /home/pymesh/shared pymesh/pymesh bash'
 ```
 **Remark:** Including the bash term at the end allows to exit the python environnment to the linux command.
+
 **Remark:** Docker can store the images and therefore fill a huge amount of space which you can purge with:
 ```cmd
 alias dockerRemoveAll="docker stop `docker ps -qa` > /dev/null 2>&1; docker system prune --volumes --all;"
@@ -91,7 +93,7 @@ RUN pip3 install pandas
 **Remark:** If you do not find the documentation for a specific item, you can use ipython3 and the help() command. For example if you have a class object element that we call mesh, executing "mesh." + "tab" you will be able to navigate the attributes to the object and then apply the help command.
 
 ### Docker (alternatively singularity)
-- *[Docker website](https://www.docker.com/products/docker-desktop/)**
+- *[Docker website](https://www.docker.com/products/docker-desktop/)*
 - *[Docker hub](https://hub.docker.com/)*
 - *[Docker cheat sheet](https://docs.docker.com/get-started/docker_cheatsheet.pdf)
 - *[Docker cheat sheet 2](https://dockerlabs.collabnix.com/docker/cheatsheet/)*
@@ -103,7 +105,7 @@ RUN pip3 install pandas
 
 ### GMSH 
 - *[GMSH Download](https://gmsh.info/)*
-- *[GMSH Introductive Presentation]([https://duckduckgo.com](https://gmsh.info/doc/course/general_overview.pdf))*
+- *[GMSH Introductive Presentation](https://gmsh.info/doc/course/general_overview.pdf)*
 - *[GMSH Manual](https://gmsh.info/doc/texinfo/gmsh.html)*
 - *[GMSH GitLab](https://gitlab.onelab.info/gmsh/gmsh)*
 - *[GMSH API tutoraials](https://bthierry.pages.math.cnrs.fr/tutorial/gmsh/api/)*
