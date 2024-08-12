@@ -51,7 +51,7 @@ The workshop indrocudes the following items:
   * Darcy problem, **$`\color{red} \text{Je n'ai pas la ressource}`$**
   * Terzaghi poromechanical model **$`\color{red} \text{A faire}`$** (from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)*).
 
-One can also refer to the tutorial from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)* ([Github ressource](https://github.com/Th0masLavigne/Dolfinx_Porous_Media.git)). Please cite this work if you use codes from this workshop that can be related to this tutorial. One can also refer to the work presented in *[Lavigne et al., 2024]()* for an example of an <ins>**updated Lagrangian**</ins> (*i.e.* mesh update) poro-elastic model with imposed displacement: [Github](https://github.com/Th0masLavigne/Skin_porous_modelling.git). The reaction force is evaluated and volume tags from gmsh are used to map the material parameters with a test case. It completes the multimaterial codes proposed in this workshop.
+One can also refer to the tutorial from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)* ([Github ressource](https://github.com/Th0masLavigne/Dolfinx_Porous_Media.git)). Please cite this work if you use codes from this workshop that can be related to this tutorial. One can also refer to the work presented in *[Lavigne et al., 2024]()* for an example of an <ins>**updated Lagrangian**</ins> (*i.e.* [mesh update](https://fenicsproject.discourse.group/t/how-to-do-updated-lagrangian-when-the-displacement-lives-in-a-different-space-to-the-mesh-geometry/10760/2)) poro-elastic model with imposed displacement: [Github](https://github.com/Th0masLavigne/Skin_porous_modelling.git). The reaction force is evaluated and volume tags from gmsh are used to map the material parameters with a test case. It completes the multimaterial codes proposed in this workshop.
 
 ## Creating a virtual workspace
 
@@ -140,6 +140,7 @@ docker save -o name.tar ImageTag
 - *[FFCx Documentation](https://docs.fenicsproject.org/ffcx/main/)*
 - *[FEniCS book](https://launchpadlibrarian.net/83776282/fenics-book-2011-10-27-final.pdf)*
 - *[FEniCS Legacy Documentation](https://fenicsproject.org/olddocs/)*
+- *[Mesh Update](https://fenicsproject.discourse.group/t/how-to-do-updated-lagrangian-when-the-displacement-lives-in-a-different-space-to-the-mesh-geometry/10760/2)*
 
 **Remark:** On ubuntu jammy, the FEniCSx version 0.8.0 had a conflict requiring to remove python3-numba:
 ```cmd
