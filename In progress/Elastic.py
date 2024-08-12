@@ -173,7 +173,8 @@ warped["mag"] = magnitude.x.array
 from dolfinx import log
 log.set_log_level(log.LogLevel.INFO)
 
-
+Nz  = dolfinx.fem.Constant(domain, numpy.asarray((0.0,0.0,1.0)))
+Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nz))*ds(3))
 u_expr = dolfinx.fem.Expression(u,P1v_space.element.interpolation_points())
 u_export.interpolate(u_expr)
 u_export.x.scatter_forward()
@@ -186,7 +187,10 @@ for n in range(1, 10):
     num_its, converged = solver.solve(u)
     assert (converged)
     u.x.scatter_forward()
-    print(min(u.x.array[:]))
+    displacement_= dolfinx.fem.assemble_scalar(Displacement_expr)
+    Surface = 1*1
+    displacement_right = 1/Surface*domain.comm.allreduce(displacement_, op=mpi4py.MPI.SUM)
+    print("Edge displacement:", displacement_right)
     print(f"Time step {n}, Number of iterations {num_its}, Load {T.value}")
     function_grid["u"][:, :len(u)] = u.x.array.reshape(geometry.shape[0], len(u))
     magnitude.interpolate(us)
