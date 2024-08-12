@@ -4,15 +4,24 @@ import numpy
 import pyvista
 import ufl
 import basix
-
+# 
 # from dolfinx import fem, mesh, plot
-L = 20.0
+L = 40.0
 domain = dolfinx.mesh.create_box(mpi4py.MPI.COMM_WORLD, [[0.0, 0.0, 0.0], [L, 1, 1]], [20, 5, 5], dolfinx.mesh.CellType.hexahedron)
 V = dolfinx.fem.functionspace(domain, ("Lagrange", 2, (domain.geometry.dim, )))
-
+# 
+def Omega_left(x):
+    return x[0] <= 0.5*L
+# 
+def Omega_right(x):
+    return x[0] >= 0.5*L
+# 
+cells_left = dolfinx.mesh.locate_entities(domain, domain.topology.dim, Omega_left)
+cells_right = dolfinx.mesh.locate_entities(domain, domain.topology.dim, Omega_right)
+# 
+# 
 def left(x):
     return numpy.isclose(x[0], 0)
-
 # 
 def right(x):
     return numpy.isclose(x[0], L)
@@ -24,20 +33,27 @@ fdim = domain.topology.dim - 1
 left_facets = dolfinx.mesh.locate_entities_boundary(domain, fdim, left)
 right_facets = dolfinx.mesh.locate_entities_boundary(domain, fdim, right)
 bottom_facets = dolfinx.mesh.locate_entities_boundary(domain, fdim, bottom)
-
+# 
 # Concatenate and sort the arrays based on facet indices. Left facets marked with 1, right facets with two
 marked_facets = numpy.hstack([left_facets, right_facets, bottom_facets])
 marked_values = numpy.hstack([numpy.full_like(left_facets, 1), numpy.full_like(right_facets, 2), numpy.full_like(bottom_facets, 3)])
 sorted_facets = numpy.argsort(marked_facets)
 facet_tag = dolfinx.mesh.meshtags(domain, fdim, marked_facets[sorted_facets], marked_values[sorted_facets])
 # 
-
+# 
 with dolfinx.io.XDMFFile(mpi4py.MPI.COMM_WORLD, "verif.xdmf", "w") as xdmf:
     xdmf.write_mesh(domain)
     xdmf.write_meshtags(facet_tag,domain.geometry)
-
-
-
+# 
+# 
+DG0_space = dolfinx.fem.functionspace(domain, ("DG", 0))
+E = dolfinx.fem.Function(DG0_space)
+E.x.array[cells_left] = numpy.full_like(cells_left, 1e8, dtype=dolfinx.default_scalar_type)
+E.x.array[cells_right] = numpy.full_like(cells_right, 2.5e4, dtype=dolfinx.default_scalar_type)
+nu = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(0.3))
+# 
+lmbda_m        = E*nu.value/((1+nu.value)*(1-2*nu.value))   
+mu_m           = E/(2*(1+nu.value)) 
 # 
 u_bc = numpy.array((0,) * domain.geometry.dim, dtype=dolfinx.default_scalar_type)
 # 
@@ -91,7 +107,7 @@ metadata = {"quadrature_degree": 4}
 ds = ufl.Measure('ds', domain=domain, subdomain_data=facet_tag, metadata=metadata)
 dx = ufl.Measure("dx", domain=domain, metadata=metadata)
 # Define form F (we want to find u such that F(u) = 0)
-F = ufl.inner(ufl.grad(v), P) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
+F = ufl.inner(ufl.grad(v), 2*mu_m*ufl.sym(ufl.grad(u))+lmbda_m*ufl.tr(ufl.sym(ufl.grad(u)))*I) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
 # Contact
 # F += Penalty*ufl.dot(v[2],(u[2]-(-4))) * ds(3)
 # F += ufl.conditional((u[2]<-4),Penalty,0)*ufl.dot(v[2],(u[2]-(-4))) * ds(3)
@@ -130,7 +146,7 @@ ksp.setFromOptions()
 
 pyvista.start_xvfb()
 plotter = pyvista.Plotter()
-plotter.open_gif("deformation.gif", fps=3)
+plotter.open_gif("elastic.gif", fps=3)
 
 topology, cells, geometry = dolfinx.plot.vtk_mesh(u.function_space)
 function_grid = pyvista.UnstructuredGrid(topology, cells, geometry)
@@ -178,7 +194,7 @@ for n in range(1, 10):
     warped_n = function_grid.warp_by_vector(factor=1)
     warped.points[:, :] = warped_n.points
     warped.point_data["mag"][:] = magnitude.x.array
-    plotter.update_scalar_bar_range([0, 10])
+    plotter.update_scalar_bar_range([0, 1.5])
     plotter.write_frame()
     xdmf.write_function(u_export,t+tval0)
 plotter.close()

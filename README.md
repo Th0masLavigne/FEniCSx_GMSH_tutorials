@@ -11,6 +11,8 @@ Multimateriau (dx et fonction) & updated lagrange en Elastique / Terzaghi / Loca
 
 **$`\color{red} \text{Imposer u et évaluer RF comme}`$**
 
+**Mettre clairement le risque oubli tags pour paramètres matériau ou loi constitutive = explosion**
+
 ```math
 \frac{1}{S}\int f \mathrm{d}S
 ```
@@ -23,7 +25,7 @@ Multimateriau (dx et fonction) & updated lagrange en Elastique / Terzaghi / Loca
 **$`\color{red} \text{1 mot sur bonne pratique de mettre des checks conditions try assert sur tag notamment s'assurer de ne pas avoir fait d'oublis}`$**
 
 
-**Ne pas nommer les variables n'importe comment, commenter est très important ainsi qu'organiser un code pour débugger**
+**Ne pas nommer les variables n'importe comment, commenter est très important ainsi qu'organiser un code pour débugger, mettre des try assert autant que possible**
 
 This repository holds all the documents related to the workshop conducted at I2M Bordeaux in September 2024. The objective of the workshop is to introduce open-source softwares for finite element modelling. More specifically, it focuses on the use of FEniCSx (version 0.8.0) and GMSH (version 4.11). Their documentation as well as other softwares are available at the end of this document. 
 
