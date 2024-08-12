@@ -71,7 +71,7 @@ P1_v = basix.ufl.element("P", domain.topology.cell_name(), degree=1, shape=(doma
 P2_v = basix.ufl.element("P", domain.topology.cell_name(), degree=1, shape=(domain.topology.dim,))
 # Function_spaces
 P1v_space = dolfinx.fem.functionspace(domain, P1_v)
-V = dolfinx.fem.functionspace(domain, ("P", 2, (domain.geometry.dim, )))
+V = dolfinx.fem.functionspace(domain, P2_v)
 # 
 #----------------------------------------------------------------------
 # Functions

@@ -104,7 +104,7 @@ du = ufl.TrialFunction(V)
 # Operators
 metadata = {"quadrature_degree": 4}
 ds = ufl.Measure('ds', domain=domain, subdomain_data=facet_tag, metadata=metadata)
-dx = ufl.Measure("dx", domain=domain, metadata=metadata, subdomain_data=cell_tag)
+dx = ufl.Measure("dx", domain=domain, metadata=metadata)
 #----------------------------------------------------------------------
 # Expressions
 # XDMF needs linear displacement
@@ -168,72 +168,54 @@ opts[f"{option_prefix}ksp_type"] = "preonly"
 opts[f"{option_prefix}pc_type"] = "lu"
 opts[f"{option_prefix}pc_factor_mat_solver_type"] = "mumps"
 ksp.setFromOptions()
-# 
-# 
-#----------------------------------------------------------------------
-# Solving and post-processing
-#----------------------------------------------------------------------
-# 
-#----------------------------------------------------------------------
-# Post-processing
+
+
 pyvista.start_xvfb()
 plotter = pyvista.Plotter()
-plotter.open_gif("elastic_beam.gif", fps=3)
-# 
+plotter.open_gif("elastic.gif", fps=3)
+
 topology, cells, geometry = dolfinx.plot.vtk_mesh(u.function_space)
 function_grid = pyvista.UnstructuredGrid(topology, cells, geometry)
-# 
+
 values = numpy.zeros((geometry.shape[0], 3))
 values[:, :len(u)] = u.x.array.reshape(geometry.shape[0], len(u))
 function_grid["u"] = values
 function_grid.set_active_vectors("u")
-# 
+
 # Warp mesh by deformation
 warped = function_grid.warp_by_vector("u", factor=1)
 warped.set_active_vectors("u")
-# 
+
 # Add mesh to plotter and visualize
 actor = plotter.add_mesh(warped, show_edges=True, lighting=False, clim=[0, 10])
-# 
+
 # Compute magnitude of displacement to visualize in GIF
 Vs = dolfinx.fem.functionspace(domain, ("Lagrange", 2))
 magnitude = dolfinx.fem.Function(Vs)
 us = dolfinx.fem.Expression(ufl.sqrt(sum([u[i]**2 for i in range(len(u))])), Vs.element.interpolation_points())
 magnitude.interpolate(us)
 warped["mag"] = magnitude.x.array
-# 
-#----------------------------------------------------------------------
-# Debug instance
-log_solve=False
-if log_solve:
-    from dolfinx import log
-    log.set_log_level(log.LogLevel.INFO)
-#----------------------------------------------------------------------
-# Computation (an increasing load allows to update the initial condition)
-# Load increment
+
+from dolfinx import log
+log.set_log_level(log.LogLevel.INFO)
+
+Nz  = dolfinx.fem.Constant(domain, numpy.asarray((0.0,0.0,1.0)))
+Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nz))*ds(3))
+u_expr = dolfinx.fem.Expression(u,P1v_space.element.interpolation_points())
+u_export.interpolate(u_expr)
+u_export.x.scatter_forward()
+
 tval0 = -0.75
-# Loop to get to the total load
 for n in range(1, 10):
     T.value[2] = n * tval0
     num_its, converged = solver.solve(u)
+    assert (converged)
     u.x.scatter_forward()
-    try:
-        assert (converged)
-    except:
-        if MPI.COMM_WORLD.rank == 0:
-            print("*************") 
-            print("Solver failed")
-            print("*************") 
-        break
-    # 
-    # Evaluate the displacement
     displacement_= dolfinx.fem.assemble_scalar(Displacement_expr)
     Surface = 1*1
     displacement_right = 1/Surface*domain.comm.allreduce(displacement_, op=mpi4py.MPI.SUM)
     print("Edge displacement:", displacement_right)
-    # 
     print(f"Time step {n}, Number of iterations {num_its}, Load {T.value}")
-    # Post-processing
     function_grid["u"][:, :len(u)] = u.x.array.reshape(geometry.shape[0], len(u))
     magnitude.interpolate(us)
     warped.set_active_scalars("mag")
@@ -245,3 +227,4 @@ for n in range(1, 10):
     xdmf.write_function(u_export,tval0)
 plotter.close()
 xdmf.close()
+
