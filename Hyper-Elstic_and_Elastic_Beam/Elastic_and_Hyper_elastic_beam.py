@@ -127,7 +127,7 @@ def Neo_Hoolean(mu,lmbda):
     Ic  = ufl.variable(ufl.tr(C))
     J   = ufl.variable(ufl.det(F))
     # Stored strain energy density (compressible neo-Hookean model)
-    psi = (mu_m_right / 2) * (Ic - 3) - mu_m_right * ufl.ln(J) + (lmbda_m_right / 2) * (ufl.ln(J))**2
+    psi = (mu / 2) * (Ic - 3) - mu * ufl.ln(J) + (lmbda / 2) * (ufl.ln(J))**2
     return ufl.diff(psi, F)
 # 
 def Hookean(mu,lmbda):
