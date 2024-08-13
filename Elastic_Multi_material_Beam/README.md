@@ -158,7 +158,7 @@ Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nz))*ds(2))
 ```
 is equivalent to:
 ```math
-\frac{1}{\int_{\partial\Omega}}\int_\int_{\partial\Omega} u\cdot N_z \mathrm{d}S
+\frac{1}{\int_{\partial\Omega}}\int_{\partial\Omega} u\cdot N_z \mathrm{d}S
 ```
 
 For a volume, we would have had $`\frac{1}{V}\int f \mathrm{d}\Omega`$ computed with:
