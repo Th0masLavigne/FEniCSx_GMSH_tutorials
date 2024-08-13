@@ -110,6 +110,13 @@ lmbda_m        = E*nu.value/((1+nu.value)*(1-2*nu.value))
 mu_m           = E/(2*(1+nu.value)) 
 ```
 
+The solid is assumed to follow the Hookean constitutive law:
+```python
+# Constitutive Law
+def Hookean(mu,lmbda):
+    return 2.0 * mu * ufl.sym(ufl.grad(u)) + lmbda * ufl.tr(ufl.sym(ufl.grad(u))) * ufl.variable(ufl.Identity(len(u)))
+```
+
 The body forces and traction forces are defined using:
 ```python
 # Body forces vector
@@ -173,3 +180,47 @@ bcs       = [dolfinx.fem.dirichletbc(u_bc, left_dofs, V)]
 
 ### Variationnal form
 
+For an elastic problem, the variationnal form to be solved is:
+
+```math
+\int_\Omega\sigma(u):\varepsilon(v)\mathrm{d}\Omega - B\cdot v \mathrm{d}\Omega -  T\cdot v \mathrm{d}S
+```
+where B stands for the body forces, T the traction forces, u is the unknown and v the test function. 
+
+This is traduced in FEniCSx with:
+
+```python
+F   = ufl.inner(ufl.grad(v), Hookean(mu_m,lmbda_m)) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
+```
+The Jacobian of the problem can further be defined with:
+
+```python
+J__ = ufl.derivative(F, u, du)
+```
+
+Finally the problem is introduced as:
+```python
+problem = NonlinearProblem(F, u, bcs, J=J__)
+solver = NewtonSolver(domain.comm, problem)
+```
+
+#### Solver settings:
+The solver settings are defined as follows:
+```python
+# Absolute tolerance
+solver.atol                  = 1e-8
+# relative tolerance
+solver.rtol                  = 1e-8
+# Convergence criterion
+solver.convergence_criterion = "incremental"
+# Maximum iterations
+solver.max_it                = 15
+# Solver Pre-requisites
+ksp                                               = solver.krylov_solver
+opts                                              = petsc4py.PETSc.Options()
+option_prefix                                     = ksp.getOptionsPrefix()
+opts[f"{option_prefix}ksp_type"]                  = "preonly"
+opts[f"{option_prefix}pc_type"]                   = "lu"
+opts[f"{option_prefix}pc_factor_mat_solver_type"] = "mumps"
+ksp.setFromOptions()
+```
