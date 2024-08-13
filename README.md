@@ -1,6 +1,9 @@
 # FEniCSx_GMSH_tutorials
 
 
+**Mettre lien article avec Jakub dans other GMSH**
+
+
 3D MESH LEGACY 
 ```python
 import meshio
