@@ -1,5 +1,33 @@
 # FEniCSx_GMSH_tutorials
 
+
+3D MESH LEGACY 
+```python
+import meshio
+msh = meshio.read("mesh.msh")
+# BCs
+surface_mesh = create_mesh(msh, "triangle", prune_z=False)
+meshio.write("facet_tags.xdmf", surface_mesh)
+# Mesh
+tetra_mesh = create_mesh(msh, "tetra", prune_z=False)
+meshio.write("mesh.xdmf", tetra_mesh)
+```
+
+2D MESH LEGACY 
+```python
+import meshio
+msh = meshio.read("Mesh_refine.msh")
+# BCs
+line_mesh = create_mesh(msh, "line", prune_z=True)
+meshio.write("facet_mesh_refine.xdmf", line_mesh)
+# Mesh
+triangle_mesh = create_mesh(msh, "triangle", prune_z=True)
+meshio.write("mesh_refine.xdmf", triangle_mesh)
+return line_mesh, triangle_mesh
+```
+
+
+
 Sur poutre : eval u avec formule surfacique sur la droite où u imposé.
 Exemple commenté pour cas volumique
 
