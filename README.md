@@ -59,6 +59,8 @@ alias fenicsx_v0_5_2='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fen
 alias fenicsx_v0_6_0='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.6.0'
 alias fenicsx_v0_7_3='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.7.3'
 alias fenicsx_v0_8_0='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.8.0'
+alias create_fenicsx_v0_8_0_jupyter='docker run --init -p 8888:8888 -v "$(pwd)":/root/shared --name=jupyter_dolfinx dolfinx/lab:v0.8.0'
+alias run_fenicsx_v0_8_0_jupyter='docker container start -i jupyter_dolfinx'
 alias fenics2019='docker run -ti -v $(pwd):/home/fenics/shared -w /home/fenics/shared pymor/fenics_py3.9 bash'
 alias pymesh='docker run -ti -v $(pwd):/home/pymesh/shared -w /home/pymesh/shared pymesh/pymesh bash'
 ```
@@ -69,10 +71,14 @@ alias pymesh='docker run -ti -v $(pwd):/home/pymesh/shared -w /home/pymesh/share
 alias dockerRemoveAll="docker stop `docker ps -qa` > /dev/null 2>&1; docker system prune --volumes --all;"
 ```
 
-Sametimes a docker image is missing some python library you'd need. You can create a new image (with a dockerfile that you will build) based on an existing image. For instance, you want the dolfinx image with pandas library. Your dockerfile will contain:
+Sametimes a docker image is missing some python library you'd need. You can create a new image (with a dockerfile that you will build) based on an existing image. For instance, you want the dolfinx image with pandas library. Your Dockerfile will contain:
 ```cmd
 FROM dolfinx/dolfinx:v0.5.2
 RUN pip3 install pandas
+```
+Then to build the image, run in the folder: 
+```cmd
+docker build .
 ```
 
 You can list your local images using :
