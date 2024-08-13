@@ -207,7 +207,7 @@ problem = NonlinearProblem(F, u, bcs, J=J__)
 solver = NewtonSolver(domain.comm, problem)
 ```
 
-#### Solver settings:
+### Solver settings:
 The solver settings are defined as follows:
 ```python
 # Absolute tolerance

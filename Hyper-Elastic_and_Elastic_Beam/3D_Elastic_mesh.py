@@ -41,8 +41,6 @@ gmsh.model.occ.synchronize()
 # 
 s1 = gmsh.model.occ.addBox(0, 0, 0, 20, 1, 1, tag=-1)
 s2 = gmsh.model.occ.addBox(20, 0, 0, 20, 1, 1, tag=-1)
-# s1 = gmsh.model.occ.addRectangle(0, 0, 0, 20, 5, tag=-1)
-# s2 = gmsh.model.occ.addRectangle(20, 0, 0, 20, 5, tag=-1)
 # 
 # Remove duplicate entities and synchronize
 gmsh.model.occ.removeAllDuplicates()
@@ -63,8 +61,8 @@ lines, surfaces, volumes = [gmsh.model.getEntities(d) for d in [1, 2, 3]]
 # 
 left, top, right, bottom = [], [], [], []
 tag_left, tag_top, tag_right, tag_bottom = 1, 2, 3, 4
-left_surf, right_surf = [], []
-tag_left_surf, tag_right_surf = 10, 20
+left_vol, right_vol = [], []
+tag_left_vol, tag_right_vol = 10, 20
 # 
 for border in surfaces:
 	center_of_mass = gmsh.model.occ.getCenterOfMass(border[0], border[1])
@@ -89,18 +87,18 @@ gmsh.model.setPhysicalName(gdim-1, tag_right, 'Right')
 gmsh.model.addPhysicalGroup(gdim-1, bottom, tag_bottom)
 gmsh.model.setPhysicalName(gdim-1, tag_bottom, 'Bottom')
 # 
-for surface in surfaces:
-	center_of_mass = gmsh.model.occ.getCenterOfMass(surface[0], surface[1])
+for volume in volumes:
+	center_of_mass = gmsh.model.occ.getCenterOfMass(volume[0], volume[1])
 	if center_of_mass[0]<20:
-		left_surf.append(surface[1])
+		left_surf.append(volume[1])
 	else:
-		right_surf.append(surface[1])
+		right_surf.append(volume[1])
 # 
-gmsh.model.addPhysicalGroup(gdim, left_surf, tag_left_surf)
-gmsh.model.setPhysicalName(gdim, tag_left_surf, 'left')
+gmsh.model.addPhysicalGroup(gdim, left_vol, tag_left_vol)
+gmsh.model.setPhysicalName(gdim, tag_left_vol, 'left')
 # 
-gmsh.model.addPhysicalGroup(gdim, right_surf, tag_right_surf)
-gmsh.model.setPhysicalName(gdim, tag_right_surf, 'right')
+gmsh.model.addPhysicalGroup(gdim, right_vol, tag_right_vol)
+gmsh.model.setPhysicalName(gdim, tag_right_vol, 'right')
 #----------------------------------------------------------------------
 # Export the geometry with the tags for control
 #----------------------------------------------------------------------
@@ -119,3 +117,4 @@ if 'close' not in sys.argv:
 	gmsh.fltk.run()
 # 
 gmsh.finalize()
+# EoF
