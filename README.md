@@ -209,7 +209,7 @@ sudo apt remove python3-numba
 
 #### Pymesh
 - *[Pymesh](https://pymesh.readthedocs.io/en/latest/)*
-- *[Pymesh githbu](https://github.com/PyMesh/PyMesh)*
+- *[Pymesh github](https://github.com/PyMesh/PyMesh)*
 
 ### Boolean Operations for STL Files
 OpenCascade Kernel does not support stls for boolean operations.
