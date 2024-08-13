@@ -253,10 +253,10 @@ For stability concerns, we increment the load to reach the solution and the mesh
 
 ```python
 # Load increment
-tval0 = -0.75
+tval0 = 1
 # Loop to get to the total load
 for n in range(1, 10):
-    T.value[2]         = n * tval0
+    T.value[0]         = n * tval0
     num_its, converged = solver.solve(u)
     u.x.scatter_forward()
     try:

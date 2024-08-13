@@ -90,9 +90,9 @@ gmsh.model.setPhysicalName(gdim-1, tag_bottom, 'Bottom')
 for volume in volumes:
 	center_of_mass = gmsh.model.occ.getCenterOfMass(volume[0], volume[1])
 	if center_of_mass[0]<20:
-		left_surf.append(volume[1])
+		left_vol.append(volume[1])
 	else:
-		right_surf.append(volume[1])
+		right_vol.append(volume[1])
 # 
 gmsh.model.addPhysicalGroup(gdim, left_vol, tag_left_vol)
 gmsh.model.setPhysicalName(gdim, tag_left_vol, 'left')
