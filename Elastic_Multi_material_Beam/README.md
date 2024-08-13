@@ -6,9 +6,7 @@ This example aims in providing an example of a 3D beam of dimensions $`40\times1
 
 The beam is subdivided into two subdomains of dimensions $`20\times1\times1`$ with different material properties. Both sides respect a same constitutive law and a mapping is applied on the material properties.
 
-<embed src="./Elastic_multimaterial_beam.pdf" type="application/pdf">
-
-![plot](./Elastic_multimaterial_beam.pdf)
+![Geometry](./Elastic_multimaterial_beam.jpg)
 
 The beam is clamped on its left face (Dirichlet boundary condition) and a vertical traction force is applied on its right face (Neumann Boundary condition).
 
