@@ -54,7 +54,7 @@ gmsh.model.occ.synchronize()
 
 #### Geometry
 Using the OpenCascade kernel, reference geometries can directly be created:
-```python3
+```python
 s1 = gmsh.model.occ.addBox(0, 0, 0, 20, 1, 1, tag=-1)
 s2 = gmsh.model.occ.addBox(20, 0, 0, 20, 1, 1, tag=-1)
 # 
@@ -63,18 +63,18 @@ gmsh.model.occ.removeAllDuplicates()
 gmsh.model.occ.synchronize()
 ```
 It is recommended to export the geometry to visualize and validate:
-```python3
+```python
 gmsh.model.occ.synchronize()
 gmsh.write('3D_beam.geo_unrolled')
 ```
 
 #### Marking
 GMSH creates the mesh for physical groups. Each of these groups are marked. All lines, surfaces and volumes of the model can be listed with:
-```python3
+```python
 lines, surfaces, volumes = [gmsh.model.getEntities(d) for d in [1, 2, 3]]
 ```
 It is then required to create empty lists and tag values:
-```python3
+```python
 left, top, right, bottom = [], [], [], []
 tag_left, tag_top, tag_right, tag_bottom = 1, 2, 3, 4
 left_surf, right_surf = [], []
@@ -82,7 +82,7 @@ tag_left_surf, tag_right_surf = 10, 20
 ```
 
 The lists can be automatically filled by identification of the faces and volumes based on their center of mass position:
-```python3
+```python
 for border in surfaces:
     center_of_mass = gmsh.model.occ.getCenterOfMass(border[0], border[1])
     if numpy.isclose(center_of_mass[0],0):
@@ -97,7 +97,7 @@ for border in surfaces:
 Alternatively they can be hand filled using the geo_unrolled filed and visualizing in the GMSH GUI.
 
 To assign the surface tags, we run the following:
-```python3
+```python
 gmsh.model.addPhysicalGroup(gdim-1, left, tag_left)
 gmsh.model.setPhysicalName(gdim-1, tag_left, 'Left')
 # 
@@ -111,7 +111,7 @@ gmsh.model.addPhysicalGroup(gdim-1, bottom, tag_bottom)
 gmsh.model.setPhysicalName(gdim-1, tag_bottom, 'Bottom')
 ```
 Similarly for the volumes:
-```python3
+```python
 for volume in volumes:
     center_of_mass = gmsh.model.occ.getCenterOfMass(volume[0], volume[1])
     if center_of_mass[0]<20:
@@ -206,7 +206,7 @@ with dolfinx.io.XDMFFile(mpi4py.MPI.COMM_WORLD, "verif.xdmf", "w") as xdmf:
 #### Material parameters
 The Lamé coefficients are defined for both sides of the beam, with a Poisson ratio which has been kept constant for all subdomains.
 
-```python3
+```python
 # Young's Moduli
 E_left  = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(1e8))
 E_right = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(2.5e4))
@@ -260,7 +260,7 @@ The choice of a constant allows to dynamically update the value with time. It is
 #### Function spaces, Functions and operators
 
 To identify the displacement, we chose a vectorial 2nd order Lagrange representation (P2). The XDMF does not support high order functions so we also create a first order space in which we will interpolate the solution:
-```python3
+```python
 # Vector Element
 P1_v = basix.ufl.element("P", domain.topology.cell_name(), degree=1, shape=(domain.topology.dim,))
 P2_v = basix.ufl.element("P", domain.topology.cell_name(), degree=2, shape=(domain.topology.dim,))
@@ -271,7 +271,7 @@ V         = dolfinx.fem.functionspace(domain, P2_v)
 
 The mathematical spaces being defined, one can introduce the functions, expressions for interpolation, test functions and trial functions. It is recommended to place them all at a same position for debugging.
 
-```python3
+```python
 v  = ufl.TestFunction(V)
 u  = dolfinx.fem.Function(V)
 du = ufl.TrialFunction(V)
@@ -291,7 +291,7 @@ dx       = ufl.Measure("dx", domain=domain, metadata=metadata, subdomain_data=ce
 
 
 To evaluate a reaction force or a displacement over a surface, a form can be used such that:
-```python3
+```python
 # Evaluation of the displacement on the edge
 Nz                = dolfinx.fem.Constant(domain, numpy.asarray((0.0,0.0,1.0)))
 Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nz))*ds(3))
@@ -302,7 +302,7 @@ is equivalent to:
 ```
 
 For a volume, we would have had $`\frac{1}{V}\int f \mathrm{d}\Omega`$ computed with:
-```python3
+```python
 volume_eval = dolfinx.fem.form(f*dx)
 ```
 

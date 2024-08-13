@@ -88,7 +88,7 @@ with dolfinx.io.XDMFFile(mpi4py.MPI.COMM_WORLD, "tags.xdmf", "w") as xdmf:
 
 The Lamé coefficients are defined as follows
 
-```python3
+```python
 # Map the Young's Modulus
 E = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(1e3))
 # 
@@ -120,7 +120,7 @@ The choice of a constant allows to dynamically update the value with time. It is
 ### Function spaces, Functions and operators
 
 To identify the displacement, we chose a vectorial 2nd order Lagrange representation (P2). The XDMF does not support high order functions so we also create a first order space in which we will interpolate the solution:
-```python3
+```python
 # Vector Element
 P1_v = basix.ufl.element("P", domain.topology.cell_name(), degree=1, shape=(domain.topology.dim,))
 P2_v = basix.ufl.element("P", domain.topology.cell_name(), degree=2, shape=(domain.topology.dim,))
@@ -133,7 +133,7 @@ updated_mesh_space = dolfinx.fem.functionspace(domain, domain.ufl_domain().ufl_c
 
 The mathematical spaces being defined, one can introduce the functions, expressions for interpolation, test functions and trial functions. It is recommended to place them all at a same position for debugging.
 
-```python3
+```python
 v  = ufl.TestFunction(V)
 u  = dolfinx.fem.Function(V)
 # Previous displacement
@@ -159,7 +159,7 @@ dx       = ufl.Measure("dx", domain=domain, metadata=metadata)
 
 
 To evaluate a reaction force or a displacement over a surface, a form can be used such that:
-```python3
+```python
 # Evaluation of the displacement on the edge
 Nx                = dolfinx.fem.Constant(domain, numpy.asarray((1.0,0.0,0.0)))
 Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nx))*ds(2))
@@ -170,7 +170,7 @@ is equivalent to:
 ```
 
 For a volume, we would have had $`\frac{1}{V}\int f \mathrm{d}\Omega`$ computed with:
-```python3
+```python
 volume_eval = dolfinx.fem.form(f*dx)
 ```
 

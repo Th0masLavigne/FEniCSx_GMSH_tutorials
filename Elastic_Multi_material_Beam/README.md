@@ -93,7 +93,7 @@ with dolfinx.io.XDMFFile(mpi4py.MPI.COMM_WORLD, "tags.xdmf", "w") as xdmf:
 ### Material parameters
 This example relies on a multimaterial definition based on the mapping of the material parameters. To do so, a DG0 function (defined at the Gauss points) attributes a Young modulus value to each cell based on its location:
 
-```python3
+```python
 DG0_space = dolfinx.fem.functionspace(domain, ("DG", 0))
 # Map the Young's Modulus
 E                      = dolfinx.fem.Function(DG0_space)
@@ -102,12 +102,12 @@ E.x.array[cells_right] = numpy.full_like(cells_right, 2.5e4, dtype=dolfinx.defau
 ```
 The Poisson ratio has been kept constant for all subdomains:
 
-```python3
+```python
 nu = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(0.3))
 ```
 
 A mapping of the Lamé coefficients is then proposed by:
-```python3
+```python
 # Lamé Coefficients
 lmbda_m        = E*nu.value/((1+nu.value)*(1-2*nu.value))   
 mu_m           = E/(2*(1+nu.value)) 
@@ -133,7 +133,7 @@ The choice of a constant allows to dynamically update the value with time. It is
 ### Function spaces, Functions and operators
 
 To identify the displacement, we chose a vectorial 2nd order Lagrange representation (P2). The XDMF does not support high order functions so we also create a first order space in which we will interpolate the solution:
-```python3
+```python
 # Vector Element
 P1_v = basix.ufl.element("P", domain.topology.cell_name(), degree=1, shape=(domain.topology.dim,))
 P2_v = basix.ufl.element("P", domain.topology.cell_name(), degree=2, shape=(domain.topology.dim,))
@@ -144,7 +144,7 @@ V         = dolfinx.fem.functionspace(domain, P2_v)
 
 The mathematical spaces being defined, one can introduce the functions, expressions for interpolation, test functions and trial functions. It is recommended to place them all at a same position for debugging.
 
-```python3
+```python
 v  = ufl.TestFunction(V)
 u  = dolfinx.fem.Function(V)
 du = ufl.TrialFunction(V)
@@ -163,7 +163,7 @@ dx       = ufl.Measure("dx", domain=domain, metadata=metadata)
 ```
 
 To evaluate a reaction force or a displacement over a surface, a form can be used such that:
-```python3
+```python
 # Evaluation of the displacement on the edge
 Nz                = dolfinx.fem.Constant(domain, numpy.asarray((0.0,0.0,1.0)))
 Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nz))*ds(2))
@@ -174,7 +174,7 @@ is equivalent to:
 ```
 
 For a volume, we would have had $`\frac{1}{V}\int f \mathrm{d}\Omega`$ computed with:
-```python3
+```python
 volume_eval = dolfinx.fem.form(f*dx)
 ```
 

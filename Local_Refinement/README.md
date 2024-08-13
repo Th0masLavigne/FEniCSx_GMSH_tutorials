@@ -34,7 +34,7 @@ for _ in numpy.arange(2):
 
 The mesh refinement in GMSH relies on a distance field to an existing surface of the mesh. A precise tutorial is available [here](https://jsdokken.com/src/tutorial_gmsh.html).
 
-```python3
+```python
 # Create a distance field from which a local resolution is defined for the refinement
 indenter_interface = surfaces[0][1]
 distance = gmsh.model.mesh.field.add("Distance")
