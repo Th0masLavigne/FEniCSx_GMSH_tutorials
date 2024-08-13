@@ -22,11 +22,11 @@ print("Dolfinx version is:",dolfinx.__version__)
 #----------------------------------------------------------------------
 # 
 # Create the mesh in dolfinx and identify the volumes / Boundaries
-L      = 20.0
+L      = 40.0
 domain = dolfinx.mesh.create_box(mpi4py.MPI.COMM_WORLD, [[0.0, 0.0, 0.0], [L, 1, 1]], [20, 5, 5], dolfinx.mesh.CellType.hexahedron)
 # 
-# Locators
 # 
+# Boundary locators
 def left(x):
     return numpy.isclose(x[0], 0)
 # 
@@ -57,12 +57,16 @@ with dolfinx.io.XDMFFile(mpi4py.MPI.COMM_WORLD, "tags.xdmf", "w") as xdmf:
 #----------------------------------------------------------------------
 # Problem and Material data
 #----------------------------------------------------------------------
-#  
-# Elasticity parameters
-E     = dolfinx.default_scalar_type(1.0e4)
-nu    = dolfinx.default_scalar_type(0.3)
-mu    = dolfinx.fem.Constant(domain, E / (2 * (1 + nu)))
-lmbda = dolfinx.fem.Constant(domain, E * nu / ((1 + nu) * (1 - 2 * nu)))
+# Map the Young's Modulus
+E = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(1e3))
+# 
+# Poisson ratio
+nu = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(0.1))
+# 
+# Lamé Coefficients
+lmbda_m        = E*nu.value/((1+nu.value)*(1-2*nu.value))   
+mu_m           = E/(2*(1+nu.value)) 
+# 
 #----------------------------------------------------------------------
 # Definition of functional spaces
 #----------------------------------------------------------------------
@@ -74,11 +78,18 @@ P2_v = basix.ufl.element("P", domain.topology.cell_name(), degree=2, shape=(doma
 P1v_space = dolfinx.fem.functionspace(domain, P1_v)
 V         = dolfinx.fem.functionspace(domain, P2_v)
 # 
+updated_mesh_space = dolfinx.fem.functionspace(domain, domain.ufl_domain().ufl_coordinate_element())
+# 
 #----------------------------------------------------------------------
 # Functions
 v  = ufl.TestFunction(V)
 u  = dolfinx.fem.Function(V)
+u_n  = dolfinx.fem.Function(V)
 du = ufl.TrialFunction(V)
+# 
+u_export      = dolfinx.fem.Function(P1v_space)
+du_update     = dolfinx.fem.Function(updated_mesh_space)
+u_export.name = "u"
 #----------------------------------------------------------------------
 # Operators
 metadata = {"quadrature_degree": 4}
@@ -87,14 +98,13 @@ dx       = ufl.Measure("dx", domain=domain, metadata=metadata)
 #----------------------------------------------------------------------
 # Expressions
 # XDMF needs linear displacement
-u_export      = dolfinx.fem.Function(P1v_space)
-u_export.name = "u"
-u_expr        = dolfinx.fem.Expression(u,P1v_space.element.interpolation_points())
+u_expr   = dolfinx.fem.Expression(u_n,P1v_space.element.interpolation_points())
 u_export.interpolate(u_expr)
 u_export.x.scatter_forward()
+# 
 # Evaluation of the displacement on the edge
-Nz                = dolfinx.fem.Constant(domain, numpy.asarray((0.0,0.0,1.0)))
-Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nz))*ds(2))
+Nx                = dolfinx.fem.Constant(domain, numpy.asarray((1.0,0.0,0.0)))
+Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nx))*ds(3))
 # 
 #----------------------------------------------------------------------
 # Definition of dirichlet boundary conditions
@@ -114,35 +124,22 @@ B = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type((0, 0, 0)))
 # Traction force vector
 T = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type((0, 0, 0)))
 # 
-# Constitutive Laws
-def Neo_Hoolean(mu,lmbda):
-    # Spatial dimension
-    d   = len(u)
-    # Identity tensor
-    I   = ufl.variable(ufl.Identity(d))
-    # Deformation gradient
-    F   = ufl.variable(I + ufl.grad(u))
-    # Right Cauchy-Green tensor
-    C   = ufl.variable(F.T * F)
-    # Invariants of deformation tensors
-    Ic  = ufl.variable(ufl.tr(C))
-    J   = ufl.variable(ufl.det(F))
-    # Stored strain energy density (compressible neo-Hookean model)
-    psi = (mu / 2) * (Ic - 3) - mu * ufl.ln(J) + (lmbda / 2) * (ufl.ln(J))**2
-    return ufl.diff(psi, F)
+# Constitutive Law
+def Hookean(mu,lmbda,u):
+    return 2.0 * mu * ufl.sym(ufl.grad(u)) + lmbda * ufl.tr(ufl.sym(ufl.grad(u))) * ufl.variable(ufl.Identity(len(u)))
 # 
 #----------------------------------------------------------------------
 # Variational form
 # Define form F (we want to find u such that F(u) = 0)
-Form = ufl.inner(ufl.grad(v), Neo_Hoolean(mu,lmbda)) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
+F   = ufl.inner(ufl.grad(v), Hookean(mu_m,lmbda_m,u_n+u)) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
 # 
 # Jacobian of the problem
-Jd = ufl.derivative(Form, u, du)
+J__ = ufl.derivative(F, u, du)
 # 
 #----------------------------------------------------------------------
 # Problem and Solver settings
-problem = NonlinearProblem(Form, u, bcs, J=Jd)
-solver  = NewtonSolver(domain.comm, problem)
+problem = NonlinearProblem(F, u, bcs, J=J__)
+solver = NewtonSolver(domain.comm, problem)
 # 
 # Absolute tolerance
 solver.atol                  = 1e-8
@@ -170,13 +167,13 @@ ksp.setFromOptions()
 # Post-processing
 pyvista.start_xvfb()
 plotter = pyvista.Plotter()
-plotter.open_gif("hyper_elastic_beam.gif", fps=3)
+plotter.open_gif("elastic_UL_beam.gif", fps=3)
 # 
 topology, cells, geometry = dolfinx.plot.vtk_mesh(u.function_space)
 function_grid             = pyvista.UnstructuredGrid(topology, cells, geometry)
 # 
 values             = numpy.zeros((geometry.shape[0], 3))
-values[:, :len(u)] = u.x.array.reshape(geometry.shape[0], len(u))
+values[:, :len(u)] = u_n.x.array.reshape(geometry.shape[0], len(u_n))
 function_grid["u"] = values
 function_grid.set_active_vectors("u")
 # 
@@ -190,7 +187,7 @@ actor         = plotter.add_mesh(warped, show_edges=True, lighting=False, clim=[
 # Compute magnitude of displacement to visualize in GIF
 Vs            = dolfinx.fem.functionspace(domain, ("Lagrange", 2))
 magnitude     = dolfinx.fem.Function(Vs)
-us            = dolfinx.fem.Expression(ufl.sqrt(sum([u[i]**2 for i in range(len(u))])), Vs.element.interpolation_points())
+us            = dolfinx.fem.Expression(ufl.sqrt(sum([u_n[i]**2 for i in range(len(u_n))])), Vs.element.interpolation_points())
 magnitude.interpolate(us)
 warped["mag"] = magnitude.x.array
 # 
@@ -203,10 +200,10 @@ if log_solve:
 #----------------------------------------------------------------------
 # Computation (an increasing load allows to update the initial condition)
 # Load increment
-tval0 = -0.75
+tval0 = 1
 # Loop to get to the total load
 for n in range(1, 10):
-    T.value[2]         = n * tval0
+    T.value[0] = n*tval0
     num_its, converged = solver.solve(u)
     u.x.scatter_forward()
     try:
@@ -218,23 +215,27 @@ for n in range(1, 10):
             print("*************") 
         break
     # 
+    u_n.x.array[:]+=u.x.array[:]
+    u_n.x.scatter_forward()
+    du_update.interpolate(u)
+    du_update.x.scatter_forward()
     # Evaluate the displacement
     displacement_      = dolfinx.fem.assemble_scalar(Displacement_expr)
     Surface            = 1*1
     displacement_right = 1/Surface*domain.comm.allreduce(displacement_, op=mpi4py.MPI.SUM)
-    print("Edge displacement:", displacement_right)
+    print("Edge displacement increment:", displacement_right)
     # 
     print(f"Time step {n}, Number of iterations {num_its}, Load {T.value}")
     # Post-processing
-    function_grid["u"][:, :len(u)] = u.x.array.reshape(geometry.shape[0], len(u))
+    function_grid["u"][:, :len(u_n)] = u_n.x.array.reshape(geometry.shape[0], len(u_n))
     magnitude.interpolate(us)
     warped.set_active_scalars("mag")
-    warped_n                    = function_grid.warp_by_vector(factor=1)
+    warped_n                    = function_grid.warp_by_vector(factor=10)
     warped.points[:, :]         = warped_n.points
     warped.point_data["mag"][:] = magnitude.x.array
-    plotter.update_scalar_bar_range([0, numpy.max(magnitude.x.array[:])])
+    plotter.update_scalar_bar_range([0, 0.05])
     plotter.write_frame()
     xdmf.write_function(u_export,n*tval0)
+    domain.geometry.x[:, :domain.geometry.dim] += du_update.x.array.reshape((-1, domain.geometry.dim))
 plotter.close()
 xdmf.close()
-# EoF

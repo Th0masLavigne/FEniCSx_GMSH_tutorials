@@ -241,6 +241,6 @@ for n in range(1, 10):
     warped.point_data["mag"][:] = magnitude.x.array
     plotter.update_scalar_bar_range([0, 1.5])
     plotter.write_frame()
-    xdmf.write_function(u_export,tval0)
+    xdmf.write_function(u_export,n*tval0)
 plotter.close()
 xdmf.close()
