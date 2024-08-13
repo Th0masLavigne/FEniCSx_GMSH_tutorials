@@ -166,93 +166,87 @@ One can assess the version of FEniCSx with the following:
 ```python
 print("Dolfinx version is:",dolfinx.__version__)
 ```
-#### Mesh generation
+#### Mesh Loading
 
-FEniCSx allows the creation of rectangle and boxes directly within its framework. It is however recommended to use **GMSH** to generate more complex structures since it exists a strong compatibility between GMSH and FEniCSx.
+We load the mesh, facet and cell tags from the msh file created:
 
 ```python
-L = 40
-domain = dolfinx.mesh.create_box(mpi4py.MPI.COMM_WORLD, [[0.0, 0.0, 0.0], [L, 1, 1]], [20, 5, 5], dolfinx.mesh.CellType.hexahedron)
+filename    = "./3D_elastic_mesh.msh"
+# 
+domain, cell_tag, facet_tag = dolfinx.io.gmshio.read_from_msh(filename, mpi4py.MPI.COMM_WORLD, 0, gdim=3)
 ```
 
-Once the mesh is defined, we can identify the subdomains. Locators (functions of space) and markers (tags) need to be introduced. For instance, to identify the cells from the subdomains, we define the following locators:
+It is recommended to regularly implement tests to ensure that the domain is well tagged. For instance, for cell tags, we can check that the marked cells have the same length than the mesh cells:
 
 ```python
-def Omega_left(x):
-    return x[0] <= 0.5*L
+# Ensure all cells have been properly tagged
+cells_left  = [x for x in cell_tag.indices if (cell_tag.values[x] == 10)]
+cells_right = [x for x in cell_tag.indices if (cell_tag.values[x] == 20)]
 # 
-def Omega_right(x):
-    return x[0] >= 0.5*L
-```
-Once the locators are defined, we can identify the indices of the cells based on their position:
-```python
-cells_left  = dolfinx.mesh.locate_entities(domain, domain.topology.dim, Omega_left)
-cells_right = dolfinx.mesh.locate_entities(domain, domain.topology.dim, Omega_right)
-```
-
-The identification and marking of the boundaries follows exactly the same concept. Using `locate_entities_boundary` allows to create the connectivity.
-
-```python
-# Boundary locators
-def left(x):
-    return numpy.isclose(x[0], 0)
-# 
-def right(x):
-    return numpy.isclose(x[0], L)
-# 
-def bottom(x):
-    return numpy.isclose(x[2], 0)
-# 
-# Mark the boundaries
-fdim          = domain.topology.dim - 1
-left_facets   = dolfinx.mesh.locate_entities_boundary(domain, fdim, left)
-right_facets  = dolfinx.mesh.locate_entities_boundary(domain, fdim, right)
-bottom_facets = dolfinx.mesh.locate_entities_boundary(domain, fdim, bottom)
-# 
-# Concatenate and sort the arrays based on facet indices. Left facets marked with 1, right facets with two
-marked_facets = numpy.hstack([left_facets, right_facets, bottom_facets])
-marked_values = numpy.hstack([numpy.full_like(left_facets, 1), numpy.full_like(right_facets, 2), numpy.full_like(bottom_facets, 3)])
-sorted_facets = numpy.argsort(marked_facets)
-facet_tag     = dolfinx.mesh.meshtags(domain, fdim, marked_facets[sorted_facets], marked_values[sorted_facets])
+try :
+    assert(len(cell_tag.indices)   == len(cells_left)+len(cells_right))
+    if mpi4py.MPI.COMM_WORLD.rank  == 0:
+        print("All cell tags have been attributed")
+except:
+    if mpi4py.MPI.COMM_WORLD.rank  == 0:
+        print("*************") 
+        print("Forgotten tags => material badly defined")
+        print("*************") 
+        exit()
 ```
 
 To verify if the domain is well tagged, an XDMF file can be created as follows:
 
 ```python
-with dolfinx.io.XDMFFile(mpi4py.MPI.COMM_WORLD, "tags.xdmf", "w") as xdmf:
+with dolfinx.io.XDMFFile(mpi4py.MPI.COMM_WORLD, "verif.xdmf", "w") as xdmf:
     xdmf.write_mesh(domain)
     xdmf.write_meshtags(facet_tag,domain.geometry)
 ```
 
 #### Material parameters
-This example relies on a multimaterial definition based on the mapping of the material parameters. To do so, a DG0 function (defined at the Gauss points) attributes a Young modulus value to each cell based on its location:
+The Lamé coefficients are defined for both sides of the beam, with a Poisson ratio which has been kept constant for all subdomains.
 
 ```python3
-DG0_space = dolfinx.fem.functionspace(domain, ("DG", 0))
-# Map the Young's Modulus
-E                      = dolfinx.fem.Function(DG0_space)
-E.x.array[cells_left]  = numpy.full_like(cells_left, 1e8, dtype=dolfinx.default_scalar_type)
-E.x.array[cells_right] = numpy.full_like(cells_right, 2.5e4, dtype=dolfinx.default_scalar_type)
-```
-The Poisson ratio has been kept constant for all subdomains:
-
-```python3
+# Young's Moduli
+E_left  = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(1e8))
+E_right = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(2.5e4))
+# 
+# Poisson ratio
 nu = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(0.3))
-```
-
-A mapping of the Lamé coefficients is then proposed by:
-```python3
+# 
 # Lamé Coefficients
-lmbda_m        = E*nu.value/((1+nu.value)*(1-2*nu.value))   
-mu_m           = E/(2*(1+nu.value)) 
+lmbda_m_left   = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(E_left.value*nu.value/((1+nu.value)*(1-2*nu.value))))   
+mu_m_left      = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(E_left.value/(2*(1+nu.value)))) 
+lmbda_m_right  = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(E_right.value*nu.value/((1+nu.value)*(1-2*nu.value))))   
+mu_m_right     = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(E_right.value/(2*(1+nu.value)))) 
 ```
 
-The solid is assumed to follow the Hookean constitutive law such that $` \mathbf{\sigma}(\mathbf{u}) = 2 \mu \mathbf{\varepsilon}(\mathbf{u}) + \lambda \mathrm{tr}(\mathbf{\varepsilon}(\mathbf{u}))\mathbf{I_d}:`$
+The left subdomain is assumed to follow the Hookean constitutive law such that $` \mathbf{\sigma}(\mathbf{u}) = 2 \mu \mathbf{\varepsilon}(\mathbf{u}) + \lambda \mathrm{tr}(\mathbf{\varepsilon}(\mathbf{u}))\mathbf{I_d}:`$
 ```python
 # Constitutive Law
 def Hookean(mu,lmbda):
     return 2.0 * mu * ufl.sym(ufl.grad(u)) + lmbda * ufl.tr(ufl.sym(ufl.grad(u))) * ufl.variable(ufl.Identity(len(u)))
 ```
+
+The right subdomain is assumed to follow the Hookean constitutive law such that $` \mathbf{\sigma}(\mathbf{u}) = \frac{\mathrm{d}\psi}{\mathrm{d}F}, \text{ with } \psi = \frac{\mu}{2} (\mathrm{tr}(F^T F)-3)-\mu\ln(\mathrm{det}F)+\frac{\lambda}{2} (\ln(\mathrm{det}F))^2:`$
+```python
+def Neo_Hoolean(mu,lmbda):
+    # Spatial dimension
+    d   = len(u)
+    # Identity tensor
+    I   = ufl.variable(ufl.Identity(d))
+    # Deformation gradient
+    F   = ufl.variable(I + ufl.grad(u))
+    # Right Cauchy-Green tensor
+    C   = ufl.variable(F.T * F)
+    # Invariants of deformation tensors
+    Ic  = ufl.variable(ufl.tr(C))
+    J   = ufl.variable(ufl.det(F))
+    # Stored strain energy density (compressible neo-Hookean model)
+    psi = (mu / 2) * (Ic - 3) - mu * ufl.ln(J) + (lmbda / 2) * (ufl.ln(J))**2
+    return ufl.diff(psi, F)
+```
+**Remark:** Note that the hereabove functions must be introduced after the definition of u.
 
 The body forces and traction forces are defined using:
 ```python
@@ -291,7 +285,7 @@ To evaluate a reaction force or a displacement over a surface, a form can be use
 ```python3
 # Evaluation of the displacement on the edge
 Nz                = dolfinx.fem.Constant(domain, numpy.asarray((0.0,0.0,1.0)))
-Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nz))*ds(2))
+Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nz))*ds(3))
 ```
 is equivalent to:
 ```math
@@ -320,14 +314,14 @@ bcs       = [dolfinx.fem.dirichletbc(u_bc, left_dofs, V)]
 For an elastic problem, the variationnal form to be solved is:
 
 ```math
-\int_\Omega\sigma(u):\varepsilon(v)\mathrm{d}\Omega - \int_\Omega B\cdot v \mathrm{d}\Omega -  \int_{\partial\Omega}T\cdot v \mathrm{d}S = 0
+\int_{\Omega_{left}} Hookean(u):\varepsilon(v)\mathrm{d}\Omega + \int_{\Omega_{right}} NeoHookean(u):\varepsilon(v)\mathrm{d}\Omega - \int_\Omega B\cdot v \mathrm{d}\Omega -  \int_{\partial\Omega}T\cdot v \mathrm{d}S = 0
 ```
 where B stands for the body forces, T the traction forces, u is the unknown and v the test function. 
 
 This is traduced in FEniCSx with:
 
 ```python
-F   = ufl.inner(ufl.grad(v), Hookean(mu_m,lmbda_m)) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
+F   = ufl.inner(ufl.grad(v), Hookean(mu_m_left,lmbda_m_left)) * dx(10) + ufl.inner(ufl.grad(v), Neo_Hoolean(mu_m_right,lmbda_m_right)) * dx(20) - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(3)
 ```
 The Jacobian of the problem can further be defined with:
 
@@ -398,6 +392,7 @@ for n in range(1, 10):
         break
     # 
     u_export.interpolate(u_expr)
+    u_export.x.scatter_forward()
     # Evaluate the displacement
     displacement_      = dolfinx.fem.assemble_scalar(Displacement_expr)
     Surface            = 1*1

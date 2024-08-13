@@ -119,6 +119,7 @@ The solid is assumed to follow the Hookean constitutive law such that $` \mathbf
 def Hookean(mu,lmbda):
     return 2.0 * mu * ufl.sym(ufl.grad(u)) + lmbda * ufl.tr(ufl.sym(ufl.grad(u))) * ufl.variable(ufl.Identity(len(u)))
 ```
+**Remark:** Note that the hereabove function must be introduced after the definition of u.
 
 The body forces and traction forces are defined using:
 ```python
@@ -264,6 +265,7 @@ for n in range(1, 10):
         break
     # 
     u_export.interpolate(u_expr)
+    u_export.x.scatter_forward()
     # Evaluate the displacement
     displacement_      = dolfinx.fem.assemble_scalar(Displacement_expr)
     Surface            = 1*1
