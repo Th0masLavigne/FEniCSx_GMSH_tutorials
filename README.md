@@ -43,13 +43,23 @@ One can also refer to the tutorial from *[Lavigne et al., 2023](https://doi.org/
 
 ## Creating a virtual workspace
 
-To set an interactive working directory, respectively using Docker and FEniCSx, the following commands can be used:
+To set an interactive working directory (in an ubuntu environment), respectively using Docker and FEniCSx, the following commands can be used:
 ```cmd
 docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.8.0
 ```
 
 ```cmd
 singularity exec /modules/containers/images/dolfinx/dolfinx-0.8.0.sif python3 file.py
+```
+
+To create a jupyter container, compute:
+```cmd
+docker run --init -p 8888:8888 -v "$(pwd)":/root/shared --name=jupyter_dolfinx dolfinx/lab:v0.8.0
+```
+
+Then to use it, consider using:
+```cmd
+docker container start -i jupyter_dolfinx
 ```
 
 The repeated use of a command can be reduced by the use of aliases (see *[create an alias fot linux](https://www.malekal.com/comment-creer-un-alias-linux/)*). Several containers can be considered based on the version you need:
