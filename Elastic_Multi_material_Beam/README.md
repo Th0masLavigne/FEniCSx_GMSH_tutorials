@@ -54,7 +54,7 @@ cells_left  = dolfinx.mesh.locate_entities(domain, domain.topology.dim, Omega_le
 cells_right = dolfinx.mesh.locate_entities(domain, domain.topology.dim, Omega_right)
 ```
 
-The identification of the boundaries follows exactly the same concept. Using `locate_entities_boundary` allows to create the connectivity.
+The identification and marking of the boundaries follows exactly the same concept. Using `locate_entities_boundary` allows to create the connectivity.
 
 ```python
 # Boundary locators
@@ -159,7 +159,7 @@ Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nz))*ds(2))
 ```
 is equivalent to:
 ```math
-\frac{1}{{\partial\Omega}}\int_{\partial\Omega} u\cdot N_z \mathrm{d}S
+\frac{1}{{\partial\Omega_t}}\int_{\partial\Omega_t} u\cdot N_z \mathrm{d}S
 ```
 
 For a volume, we would have had $`\frac{1}{V}\int f \mathrm{d}\Omega`$ computed with:
