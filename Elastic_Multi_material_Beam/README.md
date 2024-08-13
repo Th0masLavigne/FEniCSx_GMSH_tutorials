@@ -242,7 +242,7 @@ if log_solve:
 #----------------------------------------------------------------------
 ```
 
-Because the load is important, we increment it so the initial condition helps to reach the solution:
+For stability concerns, we increment the load to reach the solution:
 
 ```python
 # Load increment
