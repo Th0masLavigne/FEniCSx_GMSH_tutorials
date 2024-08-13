@@ -1,5 +1,7 @@
 # FEniCSx_GMSH_tutorials
 
+**Linear and non linear solvers**
+**lhs et rhs dans transitoire**
 
 **Mettre lien article avec Jakub dans other GMSH**
 
