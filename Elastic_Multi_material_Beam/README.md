@@ -8,7 +8,7 @@ The beam is subdivided into two subdomains of dimensions $`20\times5\times5`$ wi
 
 The beam is clamped on its left face (Dirichlet boundary condition) and a vertical traction force is applied on its right face (Neumann Boundary condition).
 
-The objective is to find the resulting displacement. Even though the proposed problem is linear, a non-linear solver is used for the example. Linear solvers have been proposed for the Stokes and Thermodynamic problems.
+The objective is to find the resulting displacement. 
 
 ## Implementation
 
