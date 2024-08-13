@@ -12,6 +12,7 @@ The objective is to find the resulting displacement. Even though the proposed pr
 
 ## Implementation
 
+### Libraries
 Computing the Finite element problem within FEniCSx in python requires to load the libraries:
 
 ```python
@@ -28,4 +29,60 @@ import pyvista
 One can assess the version of FEniCSx with the following:
 ```python
 print("Dolfinx version is:",dolfinx.__version__)
+```
+### Mesh generation
+
+FEniCSx allows the creation of rectangle and boxes directly within its framework. It is however recommended to use **GMSH** to generate more complex structures since it exists a strong compatibility between GMSH and FEniCSx.
+
+```python
+domain = dolfinx.mesh.create_box(mpi4py.MPI.COMM_WORLD, [[0.0, 0.0, 0.0], [40, 1, 1]], [20, 5, 5], dolfinx.mesh.CellType.hexahedron)
+```
+
+Once the mesh is defined, we can identify the subdomains. Locators (functions of space) and markers (tags) need to be introduced. For instance, to identify the cells from the subdomains, we define the following locators:
+
+```python
+def Omega_left(x):
+    return x[0] <= 0.5*L
+# 
+def Omega_right(x):
+    return x[0] >= 0.5*L
+```
+Once the locators are defined, we can identify the indices of the cells based on their position:
+```python
+cells_left  = dolfinx.mesh.locate_entities(domain, domain.topology.dim, Omega_left)
+cells_right = dolfinx.mesh.locate_entities(domain, domain.topology.dim, Omega_right)
+```
+
+The identification of the boundaries follows exactly the same concept. Using `locate_entities_boundary` allows to create the connectivity.
+
+```python
+# Boundary locators
+def left(x):
+    return numpy.isclose(x[0], 0)
+# 
+def right(x):
+    return numpy.isclose(x[0], L)
+# 
+def bottom(x):
+    return numpy.isclose(x[2], 0)
+# 
+# Mark the boundaries
+fdim          = domain.topology.dim - 1
+left_facets   = dolfinx.mesh.locate_entities_boundary(domain, fdim, left)
+right_facets  = dolfinx.mesh.locate_entities_boundary(domain, fdim, right)
+bottom_facets = dolfinx.mesh.locate_entities_boundary(domain, fdim, bottom)
+# 
+# Concatenate and sort the arrays based on facet indices. Left facets marked with 1, right facets with two
+marked_facets = numpy.hstack([left_facets, right_facets, bottom_facets])
+marked_values = numpy.hstack([numpy.full_like(left_facets, 1), numpy.full_like(right_facets, 2), numpy.full_like(bottom_facets, 3)])
+sorted_facets = numpy.argsort(marked_facets)
+facet_tag     = dolfinx.mesh.meshtags(domain, fdim, marked_facets[sorted_facets], marked_values[sorted_facets])
+```
+
+To assess that the domain is well tagged, an XDMF file can be created as follows:
+
+```python
+with dolfinx.io.XDMFFile(mpi4py.MPI.COMM_WORLD, "tags.xdmf", "w") as xdmf:
+    xdmf.write_mesh(domain)
+    xdmf.write_meshtags(facet_tag,domain.geometry)
 ```
