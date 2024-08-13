@@ -1,1 +1,0 @@
-# Elastic Multimaterial Beam
