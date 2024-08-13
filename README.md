@@ -9,6 +9,8 @@ Multimateriau (dx et fonction) & updated lagrange en Elastique / Terzaghi / Loca
 
 **Mettre clairement le risque oubli tags pour paramètres matériau ou loi constitutive = explosion**
 
+**1 mot sur possibilité utiliser collision pour evaluate** à placer à partir tuto en disant maj nécessaire avec changelogs
+
 ```math
 \frac{1}{S}\int f \mathrm{d}S
 ```
