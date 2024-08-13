@@ -2,19 +2,11 @@
 
 ## Description of the problem
 
-This example aims in providing an example of a 3D beam of dimensions $`40\times5\times5`$ composed of two materials.
+This example aims in providing an example of a 3D beam of dimensions $`40\times1\times1`$ composed of two materials.
 
-The beam is subdivided into two subdomains of dimensions $`20\times5\times5`$ with different material properties. Both sides respect a same constitutive law and a mapping is applied on the material properties.
+The beam is subdivided into two subdomains of dimensions $`20\times1\times1`$ with different material properties. Both sides respect a same constitutive law and a mapping is applied on the material properties.
 
-<p>
-<script src="https://i.upmath.me/latex.js"></script>
-\begin{tikzpicture}
-\draw[->] (-3,0) -- (-2,0) arc[radius=0.5cm,start angle=-180,end angle=0] (-1,0) -- (1,0) arc[radius=0.5cm,start angle=180,end angle=0] (2,0) -- (3,0);
-\filldraw (-1.5,0) circle[radius=1mm];
-\filldraw (1.5,0) circle[radius=1mm];
-\end{tikzpicture}
-</p>
-
+![plot](./Elastic_multimaterial_beam.pdf)
 The beam is clamped on its left face (Dirichlet boundary condition) and a vertical traction force is applied on its right face (Neumann Boundary condition).
 
 The objective is to find the resulting displacement. 
