@@ -158,7 +158,7 @@ Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nz))*ds(2))
 ```
 is equivalent to:
 ```math
-\frac{1}{S}\int u\cdot N_z \mathrm{d}S
+\frac{1}{\int_{\partial\Omega}}\int_\int_{\partial\Omega} u\cdot N_z \mathrm{d}S
 ```
 
 For a volume, we would have had $`\frac{1}{V}\int f \mathrm{d}\Omega`$ computed with:
@@ -183,7 +183,7 @@ bcs       = [dolfinx.fem.dirichletbc(u_bc, left_dofs, V)]
 For an elastic problem, the variationnal form to be solved is:
 
 ```math
-\int_\Omega\sigma(u):\varepsilon(v)\mathrm{d}\Omega - B\cdot v \mathrm{d}\Omega -  T\cdot v \mathrm{d}S
+\int_\Omega\sigma(u):\varepsilon(v)\mathrm{d}\Omega - \int_\Omega B\cdot v \mathrm{d}\Omega -  \int_{\partial\Omega}T\cdot v \mathrm{d}S
 ```
 where B stands for the body forces, T the traction forces, u is the unknown and v the test function. 
 
@@ -223,4 +223,51 @@ opts[f"{option_prefix}ksp_type"]                  = "preonly"
 opts[f"{option_prefix}pc_type"]                   = "lu"
 opts[f"{option_prefix}pc_factor_mat_solver_type"] = "mumps"
 ksp.setFromOptions()
+```
+
+### Solving and post-processing
+
+This example provide a gif with the displacement magnitude as well as a xdmf file. Please refer to the python file. A minimal resolution code is hereafter presented.
+
+To have the full computation log, the following is required. These information are crucial when debugging.
+
+```python
+#----------------------------------------------------------------------
+# Debug instance
+log_solve=True
+if log_solve:
+    from dolfinx import log
+    log.set_log_level(log.LogLevel.INFO)
+#----------------------------------------------------------------------
+```
+
+Because the load is important, we increment it so the initial condition helps to reach the solution:
+
+```python
+# Load increment
+tval0 = -0.75
+# Loop to get to the total load
+for n in range(1, 10):
+    T.value[2]         = n * tval0
+    num_its, converged = solver.solve(u)
+    u.x.scatter_forward()
+    try:
+        assert (converged)
+    except:
+        if MPI.COMM_WORLD.rank == 0:
+            print("*************") 
+            print("Solver failed")
+            print("*************") 
+        break
+    # 
+    u_export.interpolate(u_expr)
+    # Evaluate the displacement
+    displacement_      = dolfinx.fem.assemble_scalar(Displacement_expr)
+    Surface            = 1*1
+    displacement_right = 1/Surface*domain.comm.allreduce(displacement_, op=mpi4py.MPI.SUM)
+    print("Edge displacement:", displacement_right)
+    # 
+    print(f"Time step {n}, Number of iterations {num_its}, Load {T.value}")
+    xdmf.write_function(u_export,n*tval0)
+xdmf.close()
 ```
