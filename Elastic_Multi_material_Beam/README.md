@@ -183,7 +183,7 @@ bcs       = [dolfinx.fem.dirichletbc(u_bc, left_dofs, V)]
 For an elastic problem, the variationnal form to be solved is:
 
 ```math
-\int_\Omega\sigma(u):\varepsilon(v)\mathrm{d}\Omega - \int_\Omega B\cdot v \mathrm{d}\Omega -  \int_{\partial\Omega}T\cdot v \mathrm{d}S
+\int_\Omega\sigma(u):\varepsilon(v)\mathrm{d}\Omega - \int_\Omega B\cdot v \mathrm{d}\Omega -  \int_{\partial\Omega}T\cdot v \mathrm{d}S = 0
 ```
 where B stands for the body forces, T the traction forces, u is the unknown and v the test function. 
 
