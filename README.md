@@ -210,3 +210,17 @@ sudo apt remove python3-numba
 #### Pymesh
 - *[Pymesh](https://pymesh.readthedocs.io/en/latest/)*
 - *[Pymesh githbu](https://github.com/PyMesh/PyMesh)*
+
+### Boolean Operations for STL Files
+OpenCascade Kernel does not support stls for boolean operations.
+There a few libraries out there that support boolean operations for meshes, you might want to give them a try. Here's a personal list I have of mostly C++ and Python packages from a comment of [@gnikit](https://gitlab.onelab.info/gmsh/gmsh/-/issues/2493):
+- [CGAL](https://github.com/CGAL/cgal)
+- [VTK-based improved booleans](https://github.com/zippy84/vtkbool)
+- [MeshLib](https://github.com/MeshInspector/MeshLib)
+- [mcut](https://github.com/cutdigital/mcut)
+- [trimesh](https://github.com/mikedh/trimesh)
+- [vedo](https://github.com/marcomusy/vedo/blob/master/examples/basic/boolean.py)
+- [PyMeshLab](https://github.com/cnr-isti-vclab/PyMeshLab) (and its full application [MeshLab](https://www.meshlab.net/))
+- [PyMesh](https://github.com/PyMesh/PyMesh)
+- [Pycork](https://pypi.org/project/pycork/) (and it's C base library [cork](https://github.com/gilbo/cork))
+- [Blender](https://www.blender.org/) (also has a python module)
