@@ -71,6 +71,8 @@ alias fenicsx_v0_7_3='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fen
 alias fenicsx_v0_8_0='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.8.0'
 alias create_fenicsx_v0_8_0_jupyter='docker run --init -p 8888:8888 -v "$(pwd)":/root/shared --name=jupyter_dolfinx dolfinx/lab:v0.8.0'
 alias run_fenicsx_v0_8_0_jupyter='docker container start -i jupyter_dolfinx'
+alias stop_fenicsx_v0_8_0_jupyter='docker stop jupyter_dolfinx'
+alias logs_fenicsx_v0_8_0_jupyter='docker logs jupyter_dolfinx'
 alias fenics2019='docker run -ti -v $(pwd):/home/fenics/shared -w /home/fenics/shared pymor/fenics_py3.9 bash'
 alias pymesh='docker run -ti -v $(pwd):/home/pymesh/shared -w /home/pymesh/shared pymesh/pymesh bash'
 ```
