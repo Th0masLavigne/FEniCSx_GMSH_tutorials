@@ -86,3 +86,26 @@ with dolfinx.io.XDMFFile(mpi4py.MPI.COMM_WORLD, "tags.xdmf", "w") as xdmf:
     xdmf.write_mesh(domain)
     xdmf.write_meshtags(facet_tag,domain.geometry)
 ```
+
+### Material parameters
+This example relies on a multimaterial definition based on the mapping of the material parameters. To do so, a DG0 function (defined at the Gauss points) attributes a Young modulus value to each cell based on its location:
+
+```python3
+DG0_space = dolfinx.fem.functionspace(domain, ("DG", 0))
+# Map the Young's Modulus
+E                      = dolfinx.fem.Function(DG0_space)
+E.x.array[cells_left]  = numpy.full_like(cells_left, 1e8, dtype=dolfinx.default_scalar_type)
+E.x.array[cells_right] = numpy.full_like(cells_right, 2.5e4, dtype=dolfinx.default_scalar_type)
+```
+The Poisson ratio has been kept constant for all subdomains:
+
+```python3
+nu = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(0.3))
+```
+
+A mapping of the Lamé coefficients is then proposed by:
+```python3
+# Lamé Coefficients
+lmbda_m        = E*nu.value/((1+nu.value)*(1-2*nu.value))   
+mu_m           = E/(2*(1+nu.value)) 
+```
