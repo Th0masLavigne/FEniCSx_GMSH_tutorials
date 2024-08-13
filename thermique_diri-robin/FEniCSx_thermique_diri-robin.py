@@ -86,3 +86,4 @@ xdmf = dolfinx.io.XDMFFile(mesh.comm, "2D_thermique.xdmf", "w")
 xdmf.write_mesh(mesh)
 t=0
 xdmf.write_function(uh,t)
+# EoF
