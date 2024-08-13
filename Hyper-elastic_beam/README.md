@@ -270,12 +270,8 @@ for n in range(1, 10):
             print("*************") 
         break
     # 
-    u_n.x.array[:]+=u.x.array[:]
-    u_n.x.scatter_forward()
     u_export.interpolate(u_expr)
     u_export.x.scatter_forward()
-    du_update.interpolate(u)
-    du_update.x.scatter_forward()
     # Evaluate the displacement
     displacement_      = dolfinx.fem.assemble_scalar(Displacement_expr)
     Surface            = 1*1

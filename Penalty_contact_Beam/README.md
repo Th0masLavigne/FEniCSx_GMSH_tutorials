@@ -1,12 +1,12 @@
-# Hyper-elastic Beam
+# Hyper-elastic Beam with Penalty Contact
 
 ## Description of the problem
 
-This example aims in providing an example of a 3D hyper-elastic beam of dimensions $`40\times1\times1`$.
+This example aims in providing an example of a 3D hyper-elastic beam of dimensions $`40\times1\times1`$ introducing penalty contact with a plane of equation $`z=-4`$.
 
-![Geometry](./HyperElastic_beam.jpg)
+![Geometry](./Penalty.jpg)
 
-The beam is clamped on its left face (Dirichlet boundary condition) and a vertical traction force is applied on its right face (Neumann Boundary condition).
+The beam is clamped on its left face (Dirichlet boundary condition) and is submitted to a body force field B.
 
 The objective is to find the resulting displacement. 
 
@@ -96,6 +96,12 @@ mu    = dolfinx.fem.Constant(domain, E / (2 * (1 + nu)))
 lmbda = dolfinx.fem.Constant(domain, E * nu / ((1 + nu) * (1 - 2 * nu)))
 ```
 
+The penalty coefficient is further introduced:
+```python3
+Penalty = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(1000))
+```
+
+
 The solid is assumed to follow the Hookean constitutive law such that $` \mathbf{\sigma}(\mathbf{u}) = \frac{\mathrm{d}\psi}{\mathrm{d}F}, \text{ with } \psi = \frac{\mu}{2} (\mathrm{tr}(F^T F)-3)-\mu\ln(\mathrm{det}F)+\frac{\lambda}{2} (\ln(\mathrm{det}F))^2:`$
 ```python
 # Constitutive Law
@@ -150,7 +156,6 @@ u_export.name = "u"
 u_expr        = dolfinx.fem.Expression(u,P1v_space.element.interpolation_points())
 u_export.interpolate(u_expr)
 u_export.x.scatter_forward()
-
 ```
 
 The following operators are also defined:
@@ -193,7 +198,7 @@ bcs       = [dolfinx.fem.dirichletbc(u_bc, left_dofs, V)]
 For an elastic problem, the variationnal form to be solved is:
 
 ```math
-\int_\Omega\sigma(u):\varepsilon(v)\mathrm{d}\Omega - \int_\Omega B\cdot v \mathrm{d}\Omega -  \int_{\partial\Omega_t}T\cdot v \mathrm{d}S = 0
+\int_\Omega\sigma(u):\varepsilon(v)\mathrm{d}\Omega - \int_\Omega B\cdot v \mathrm{d}\Omega -  \int_{\partial\Omega_t}T\cdot v \mathrm{d}S + Penalty \int_{\partial\Omega_c} (v.N_c) \cdot Min(gap\cdot N_c,0)= 0
 ```
 where B stands for the body forces, T the traction forces, u is the unknown and v the test function. 
 
@@ -201,6 +206,8 @@ This is traduced in FEniCSx with:
 
 ```python
 Form = ufl.inner(ufl.grad(v), Neo_Hoolean(mu,lmbda)) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
+# Contact based on the gap if the gap is negative, 0 otherwise on the bottom face
+Form += Penalty*ufl.dot(v[2],ufl.conditional((u[2]<-4),(u[2]-(-4)),0)) * ds(3)
 ```
 The Jacobian of the problem can further be defined with:
 
@@ -270,12 +277,8 @@ for n in range(1, 10):
             print("*************") 
         break
     # 
-    u_n.x.array[:]+=u.x.array[:]
-    u_n.x.scatter_forward()
     u_export.interpolate(u_expr)
     u_export.x.scatter_forward()
-    du_update.interpolate(u)
-    du_update.x.scatter_forward()
     # Evaluate the displacement
     displacement_      = dolfinx.fem.assemble_scalar(Displacement_expr)
     Surface            = 1*1
