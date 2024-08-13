@@ -383,9 +383,9 @@ for n in range(num_steps):
 # 
 xdmf.close()
 # 
-# 
-#----------------------------------------------------------------------
-# post-processing
+###################################################
+################ Post-Processing ##################
+###################################################
 # 
 if mpi4py.MPI.COMM_WORLD.rank == 0:
 	print(f"L2 error p, min {numpy.min(L2_p):.2e}, mean {numpy.mean(L2_p):.2e}, max {numpy.max(L2_p):.2e}, std {numpy.std(L2_p):.2e}")
@@ -397,8 +397,11 @@ tmin = int(((end_t-begin_t)%3600)//60)
 tsec = int(((end_t-begin_t)%3600)%60)
 if mpi4py.MPI.COMM_WORLD.rank == 0:
 	print(f"FEM operated with {num_steps} iterations, in {t_hours} h {tmin} min {tsec} sec")
-	#----------------------------------------------------------------------
-	# Analytical solutions
+	# 
+	###################################################
+	################ Analytical solutions #############
+	###################################################
+	# 
 	cv = permeability.value/viscosity.value*(lambda_m.value+2*mu.value)
 	y=0
 	t=numpy.linspace(0,Tf,num_steps+1)
@@ -425,9 +428,9 @@ if mpi4py.MPI.COMM_WORLD.rank == 0:
 	for i in range(num_points):
 		pressure2[i] = terzaghi(pinit,Height,cv,y_check[i],t2,int(kmax))
 	# 
-	#----------------------------------------------------------------------
-	# plotting
-	# 
+	###################################################
+	################ Plots ############################
+	###################################################
 	# 
 	import matplotlib.pyplot as plt
 	# 
@@ -464,9 +467,6 @@ if mpi4py.MPI.COMM_WORLD.rank == 0:
 	ax2.legend()
 	fig2.tight_layout()
 	fig2.savefig('Figure_2b.jpg')
-	# 
-	#----------------------------------------------------------------------
-	# csv export
 	# 
 	def export_to_csv(data, filename, header=None):
 	    import csv
