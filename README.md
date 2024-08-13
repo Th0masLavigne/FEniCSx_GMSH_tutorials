@@ -3,6 +3,8 @@
 
 **Mettre lien article avec Jakub dans other GMSH**
 
+**Dans STL et opé booléennes mettre les liens**
+
 
 3D MESH LEGACY 
 ```python
