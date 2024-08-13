@@ -6,7 +6,7 @@ import gmsh
 import sys
 # 
 # OpenCascade Kernel does not support stls. This is a limitation for boolean operations
-# 
+
 # There a few libraries out there that support boolean operations for meshes, you might want to give them a try. Here's a personal list I have of mostly C++ and Python packages from a comment of @gnikit:
 #  https://gitlab.onelab.info/gmsh/gmsh/-/issues/2493
 # - CGAL: https://github.com/CGAL/cgal
