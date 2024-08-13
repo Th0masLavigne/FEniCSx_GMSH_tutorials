@@ -5,8 +5,6 @@
 
 **Mettre lien article avec Jakub dans other GMSH**
 
-**Dans STL et opé booléennes mettre les liens**
-
 
 3D MESH LEGACY 
 ```python
@@ -33,27 +31,10 @@ meshio.write("mesh_refine.xdmf", triangle_mesh)
 return line_mesh, triangle_mesh
 ```
 
-
-
-Sur poutre : eval u avec formule surfacique sur la droite où u imposé.
-Exemple commenté pour cas volumique
-
-Multimateriau (dx et fonction) & updated lagrange en Elastique / Terzaghi / Local refine / Export gmsh to fenics legacy / Darcy
-
-**$`\color{red} \text{Dans presentation mettre exemple jolis de Pi et Matthieu, ajouter les erreurs courantes avec le choix dx/dt \& attention en axisym à vérifier r diff 0 pour diviser dans grad et div}`$**
+**$`\color{red} \text{Dans presentation mettre exemple jolis de Pi et Matthieu, ajouter les erreurs courantes avec le choix dx/dt \& attention en axisym à vérifier r diff 0 pour diviser dans grad et div}`$** + Exemple rose + Exemple Anne
 
 **Mettre clairement le risque oubli tags pour paramètres matériau ou loi constitutive = explosion**
 
-**1 mot sur possibilité utiliser collision pour evaluate** à placer à partir tuto en disant maj nécessaire avec changelogs
-
-```math
-\frac{1}{S}\int f \mathrm{d}S
-```
-```math
-\frac{1}{V}\int f \mathrm{d}\Omega
-```
-
-**$`\color{red} \text{Reprendre dans ipad mon tuto docker et git}`$**
 
 **$`\color{red} \text{1 mot sur bonne pratique de mettre des checks conditions try assert sur tag notamment s'assurer de ne pas avoir fait d'oublis}`$**
 
@@ -77,16 +58,15 @@ The workshop indrocudes the following items:
   * From simple geometries,
   * Using symmetries,
   * Using boolean operations,
-  * From a STL file,**$`\color{red} \text{A faire}`$**
-  * Local refinement **$`\color{red} \text{Mettre exemple de l'article}`$** (from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)*),
+  * From a STL file,
+  * Local refinement (from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)*),
   * Boundary and domain tagging,
-  * Export compatibility: FEniCSx vs Fenics Legacy. **$`\color{red} \text{Faire un cas extrèmement simple d'une poutre}`$**
+  * Export compatibility: FEniCSx vs Fenics Legacy. 
 - Finite Element computation using FEniCSx:
   * [Stationary](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/thermique_diri-robin) and [transient](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/thermique_diri-robin-transitoire) thermal problems,
   * Solid Continous Mechanics problem (elastic, hyper-elastic, penalty contact, updated lagrangian formulation and evaluation of a quantity),
   * Stokes Equation solving in [2D](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/Stokes_2D) and [3D](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/Stokes_3D_half),
-  * Darcy problem, **$`\color{red} \text{Je n'ai pas la ressource}`$**
-  * Terzaghi poromechanical model **$`\color{red} \text{A faire}`$** (from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)*).
+  * Terzaghi poromechanical model (from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)*).
 
 One can also refer to the tutorial from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)* ([Github ressource](https://github.com/Th0masLavigne/Dolfinx_Porous_Media.git)). Please cite this work if you use codes from this workshop that can be related to this tutorial. One can also refer to the work presented in *[Lavigne et al., 2024]()* for an example of an <ins>**updated Lagrangian**</ins> (*i.e.* [mesh update](https://fenicsproject.discourse.group/t/how-to-do-updated-lagrangian-when-the-displacement-lives-in-a-different-space-to-the-mesh-geometry/10760/2)) poro-elastic model with imposed displacement: [Github](https://github.com/Th0masLavigne/Skin_porous_modelling.git). The reaction force is evaluated and volume tags from gmsh are used to map the material parameters with a test case. It completes the multimaterial codes proposed in this workshop.
 
