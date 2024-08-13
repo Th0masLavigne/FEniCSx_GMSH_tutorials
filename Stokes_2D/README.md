@@ -7,4 +7,3 @@ The geometry is created using GMSH. Two different pipelines are proposed. It con
 <p align="center">
   <img src="./Stokes2D.jpg">
 </p>
-![Geometry](./Stokes2D.jpg)
