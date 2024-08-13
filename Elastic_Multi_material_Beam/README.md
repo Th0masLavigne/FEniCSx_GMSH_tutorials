@@ -110,6 +110,15 @@ lmbda_m        = E*nu.value/((1+nu.value)*(1-2*nu.value))
 mu_m           = E/(2*(1+nu.value)) 
 ```
 
+The body forces and traction forces are defined using:
+```python
+# Body forces vector
+B = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type((0, 0, 0)))
+# Traction force vector
+T = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type((0, 0, 0)))
+```
+The choice of a constant allows to dynamically update the value with time. It is of interest for boundary conditions and loading.
+
 ### Function spaces, Functions and operators
 
 To identify the displacement, we chose a vectorial 2nd order Lagrange representation (P2). The XDMF does not support high order functions so we also create a first order space in which we will interpolate the solution:
@@ -142,7 +151,7 @@ Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nz))*ds(2))
 ```
 is equivalent to:
 ```math
-\frac{1}{S}\int u\cdot Nz \mathrm{d}S
+\frac{1}{S}\int u\cdot N_z \mathrm{d}S
 ```
 
 For a volume, we would have had $`\frac{1}{V}\int f \mathrm{d}\Omega`$ computed with:
@@ -151,3 +160,16 @@ volume_eval = dolfinx.fem.form(f*dx)
 ```
 
 The form is computed later after the solver application. 
+
+### Dirichlet boundary conditions
+The boundary condition being fixed (no dynamically imposed displacement), the clamp is defined as follows:
+
+```python
+u_bc = numpy.array((0,) * domain.geometry.dim, dtype=dolfinx.default_scalar_type)
+# 
+left_dofs = dolfinx.fem.locate_dofs_topological(V, facet_tag.dim, facet_tag.find(1))
+bcs       = [dolfinx.fem.dirichletbc(u_bc, left_dofs, V)]
+```
+
+### Variationnal form
+
