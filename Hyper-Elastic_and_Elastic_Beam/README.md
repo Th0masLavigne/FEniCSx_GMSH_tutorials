@@ -281,6 +281,15 @@ u_expr        = dolfinx.fem.Expression(u,P1v_space.element.interpolation_points(
 u_export.interpolate(u_expr)
 u_export.x.scatter_forward()
 ```
+
+The following operators are also defined:
+```python
+metadata = {"quadrature_degree": 4}
+ds       = ufl.Measure('ds', domain=domain, subdomain_data=facet_tag, metadata=metadata)
+dx       = ufl.Measure("dx", domain=domain, metadata=metadata, subdomain_data=cell_tag)
+```
+
+
 To evaluate a reaction force or a displacement over a surface, a form can be used such that:
 ```python3
 # Evaluation of the displacement on the edge

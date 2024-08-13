@@ -39,22 +39,7 @@ L = 40
 domain = dolfinx.mesh.create_box(mpi4py.MPI.COMM_WORLD, [[0.0, 0.0, 0.0], [L, 1, 1]], [20, 5, 5], dolfinx.mesh.CellType.hexahedron)
 ```
 
-Once the mesh is defined, we can identify the subdomains. Locators (functions of space) and markers (tags) need to be introduced. For instance, to identify the cells from the subdomains, we define the following locators:
-
-```python
-def Omega_left(x):
-    return x[0] <= 0.5*L
-# 
-def Omega_right(x):
-    return x[0] >= 0.5*L
-```
-Once the locators are defined, we can identify the indices of the cells based on their position:
-```python
-cells_left  = dolfinx.mesh.locate_entities(domain, domain.topology.dim, Omega_left)
-cells_right = dolfinx.mesh.locate_entities(domain, domain.topology.dim, Omega_right)
-```
-
-The identification and marking of the boundaries follows exactly the same concept. Using `locate_entities_boundary` allows to create the connectivity.
+Once the mesh is defined, we can identify the subdomains. Locators (functions of space) and markers (tags) need to be introduced. For instance, to identify the boundaries, we define the following locators:
 
 ```python
 # Boundary locators
@@ -66,7 +51,18 @@ def right(x):
 # 
 def bottom(x):
     return numpy.isclose(x[2], 0)
-# 
+```
+Once the locators are defined, we can identify the indices of the cells based on their position. Using `locate_entities_boundary` allows to create the connectivity:
+```python
+fdim          = domain.topology.dim - 1
+left_facets   = dolfinx.mesh.locate_entities_boundary(domain, fdim, left)
+right_facets  = dolfinx.mesh.locate_entities_boundary(domain, fdim, right)
+bottom_facets = dolfinx.mesh.locate_entities_boundary(domain, fdim, bottom)
+```
+
+Then, the facet_tag object can be created.
+
+```python
 # Mark the boundaries
 fdim          = domain.topology.dim - 1
 left_facets   = dolfinx.mesh.locate_entities_boundary(domain, fdim, left)
@@ -89,23 +85,16 @@ with dolfinx.io.XDMFFile(mpi4py.MPI.COMM_WORLD, "tags.xdmf", "w") as xdmf:
 ```
 
 ### Material parameters
-This example relies on a multimaterial definition based on the mapping of the material parameters. To do so, a DG0 function (defined at the Gauss points) attributes a Young modulus value to each cell based on its location:
+
+The Lamé coefficients are defined as follows
 
 ```python3
-DG0_space = dolfinx.fem.functionspace(domain, ("DG", 0))
 # Map the Young's Modulus
-E                      = dolfinx.fem.Function(DG0_space)
-E.x.array[cells_left]  = numpy.full_like(cells_left, 1e8, dtype=dolfinx.default_scalar_type)
-E.x.array[cells_right] = numpy.full_like(cells_right, 2.5e4, dtype=dolfinx.default_scalar_type)
-```
-The Poisson ratio has been kept constant for all subdomains:
-
-```python3
-nu = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(0.3))
-```
-
-A mapping of the Lamé coefficients is then proposed by:
-```python3
+E = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(1e3))
+# 
+# Poisson ratio
+nu = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(0.1))
+# 
 # Lamé Coefficients
 lmbda_m        = E*nu.value/((1+nu.value)*(1-2*nu.value))   
 mu_m           = E/(2*(1+nu.value)) 
@@ -114,7 +103,7 @@ mu_m           = E/(2*(1+nu.value))
 The solid is assumed to follow the Hookean constitutive law such that $` \mathbf{\sigma}(\mathbf{u}) = 2 \mu \mathbf{\varepsilon}(\mathbf{u}) + \lambda \mathrm{tr}(\mathbf{\varepsilon}(\mathbf{u}))\mathbf{I_d}:`$
 ```python
 # Constitutive Law
-def Hookean(mu,lmbda):
+def Hookean(mu,lmbda,u):
     return 2.0 * mu * ufl.sym(ufl.grad(u)) + lmbda * ufl.tr(ufl.sym(ufl.grad(u))) * ufl.variable(ufl.Identity(len(u)))
 ```
 **Remark:** Note that the hereabove function must be introduced after the definition of u.
@@ -152,6 +141,16 @@ u_expr        = dolfinx.fem.Expression(u,P1v_space.element.interpolation_points(
 u_export.interpolate(u_expr)
 u_export.x.scatter_forward()
 ```
+
+The following operators are also defined:
+```python
+metadata = {"quadrature_degree": 4}
+ds       = ufl.Measure('ds', domain=domain, subdomain_data=facet_tag, metadata=metadata)
+dx       = ufl.Measure("dx", domain=domain, metadata=metadata)
+```
+
+
+
 To evaluate a reaction force or a displacement over a surface, a form can be used such that:
 ```python3
 # Evaluation of the displacement on the edge
