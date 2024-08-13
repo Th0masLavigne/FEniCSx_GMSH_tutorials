@@ -1,1 +1,1 @@
-Je n'ai pas réussi dans un cas 2D à gérer dans paraview la visualisation du strainrate et stress. Cela me paraît logique car pas de coordonnée en Z dans le maillage et on cherche à afficher du 3D sur du 2D ... Pression et déplacement sont satisfaisants.
+# Stokes Problem (2D)
