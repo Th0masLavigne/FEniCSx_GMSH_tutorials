@@ -3,37 +3,8 @@
 **Linear and non linear solvers**
 **lhs et rhs dans transitoire**
 
-**Mettre lien article avec Jakub dans other GMSH**
-
-
-3D MESH LEGACY 
-```python
-import meshio
-msh = meshio.read("mesh.msh")
-# BCs
-surface_mesh = create_mesh(msh, "triangle", prune_z=False)
-meshio.write("facet_tags.xdmf", surface_mesh)
-# Mesh
-tetra_mesh = create_mesh(msh, "tetra", prune_z=False)
-meshio.write("mesh.xdmf", tetra_mesh)
-```
-
-2D MESH LEGACY 
-```python
-import meshio
-msh = meshio.read("Mesh_refine.msh")
-# BCs
-line_mesh = create_mesh(msh, "line", prune_z=True)
-meshio.write("facet_mesh_refine.xdmf", line_mesh)
-# Mesh
-triangle_mesh = create_mesh(msh, "triangle", prune_z=True)
-meshio.write("mesh_refine.xdmf", triangle_mesh)
-return line_mesh, triangle_mesh
-```
 
 **$`\color{red} \text{Dans presentation mettre exemple jolis de Pi et Matthieu, ajouter les erreurs courantes avec le choix dx/dt \& attention en axisym à vérifier r diff 0 pour diviser dans grad et div}`$** + Exemple rose + Exemple Anne
-
-**Mettre clairement le risque oubli tags pour paramètres matériau ou loi constitutive = explosion**
 
 
 **$`\color{red} \text{1 mot sur bonne pratique de mettre des checks conditions try assert sur tag notamment s'assurer de ne pas avoir fait d'oublis}`$**
