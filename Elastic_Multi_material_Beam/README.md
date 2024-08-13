@@ -35,7 +35,8 @@ print("Dolfinx version is:",dolfinx.__version__)
 FEniCSx allows the creation of rectangle and boxes directly within its framework. It is however recommended to use **GMSH** to generate more complex structures since it exists a strong compatibility between GMSH and FEniCSx.
 
 ```python
-domain = dolfinx.mesh.create_box(mpi4py.MPI.COMM_WORLD, [[0.0, 0.0, 0.0], [40, 1, 1]], [20, 5, 5], dolfinx.mesh.CellType.hexahedron)
+L = 40
+domain = dolfinx.mesh.create_box(mpi4py.MPI.COMM_WORLD, [[0.0, 0.0, 0.0], [L, 1, 1]], [20, 5, 5], dolfinx.mesh.CellType.hexahedron)
 ```
 
 Once the mesh is defined, we can identify the subdomains. Locators (functions of space) and markers (tags) need to be introduced. For instance, to identify the cells from the subdomains, we define the following locators:
