@@ -80,7 +80,7 @@ sorted_facets = numpy.argsort(marked_facets)
 facet_tag     = dolfinx.mesh.meshtags(domain, fdim, marked_facets[sorted_facets], marked_values[sorted_facets])
 ```
 
-To assess that the domain is well tagged, an XDMF file can be created as follows:
+To verify if the domain is well tagged, an XDMF file can be created as follows:
 
 ```python
 with dolfinx.io.XDMFFile(mpi4py.MPI.COMM_WORLD, "tags.xdmf", "w") as xdmf:
