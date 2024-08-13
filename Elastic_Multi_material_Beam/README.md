@@ -111,7 +111,7 @@ lmbda_m        = E*nu.value/((1+nu.value)*(1-2*nu.value))
 mu_m           = E/(2*(1+nu.value)) 
 ```
 
-The solid is assumed to follow the Hookean constitutive law such that $` \sigma(\mathbf{u}) = 2 \mu \varepsilon(\mathbf{u}) + \lambda \mathrm{tr}(\varepsilon(\mathbf{u}))\mathbf{I_d}:`$
+The solid is assumed to follow the Hookean constitutive law such that $` \mathbf{\sigma}(\mathbf{u}) = 2 \mu \mathbf{\varepsilon}(\mathbf{u}) + \lambda \mathrm{tr}(\mathbf{\varepsilon}(\mathbf{u}))\mathbf{I_d}:`$
 ```python
 # Constitutive Law
 def Hookean(mu,lmbda):
