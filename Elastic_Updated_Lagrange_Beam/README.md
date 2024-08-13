@@ -127,6 +127,8 @@ P2_v = basix.ufl.element("P", domain.topology.cell_name(), degree=2, shape=(doma
 # Function_spaces
 P1v_space = dolfinx.fem.functionspace(domain, P1_v)
 V         = dolfinx.fem.functionspace(domain, P2_v)
+# 
+updated_mesh_space = dolfinx.fem.functionspace(domain, domain.ufl_domain().ufl_coordinate_element())
 ```
 
 The mathematical spaces being defined, one can introduce the functions, expressions for interpolation, test functions and trial functions. It is recommended to place them all at a same position for debugging.
@@ -134,10 +136,15 @@ The mathematical spaces being defined, one can introduce the functions, expressi
 ```python3
 v  = ufl.TestFunction(V)
 u  = dolfinx.fem.Function(V)
+# Previous displacement
+u_n  = dolfinx.fem.Function(V)
 du = ufl.TrialFunction(V)
+# 
+du_update     = dolfinx.fem.Function(updated_mesh_space)
+# 
 u_export      = dolfinx.fem.Function(P1v_space)
 u_export.name = "u"
-u_expr        = dolfinx.fem.Expression(u,P1v_space.element.interpolation_points())
+u_expr   = dolfinx.fem.Expression(u_n,P1v_space.element.interpolation_points())
 u_export.interpolate(u_expr)
 u_export.x.scatter_forward()
 ```
@@ -154,8 +161,8 @@ dx       = ufl.Measure("dx", domain=domain, metadata=metadata)
 To evaluate a reaction force or a displacement over a surface, a form can be used such that:
 ```python3
 # Evaluation of the displacement on the edge
-Nz                = dolfinx.fem.Constant(domain, numpy.asarray((0.0,0.0,1.0)))
-Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nz))*ds(2))
+Nx                = dolfinx.fem.Constant(domain, numpy.asarray((1.0,0.0,0.0)))
+Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nx))*ds(2))
 ```
 is equivalent to:
 ```math
@@ -191,7 +198,7 @@ where B stands for the body forces, T the traction forces, u is the unknown and 
 This is traduced in FEniCSx with:
 
 ```python
-F   = ufl.inner(ufl.grad(v), Hookean(mu_m,lmbda_m)) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
+F   = ufl.inner(ufl.grad(v), Hookean(mu_m,lmbda_m,u_n+u)) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
 ```
 The Jacobian of the problem can further be defined with:
 
@@ -242,7 +249,7 @@ if log_solve:
 #----------------------------------------------------------------------
 ```
 
-For stability concerns, we increment the load to reach the solution:
+For stability concerns, we increment the load to reach the solution and the mesh is updated (updated lagrangian) between two load steps:
 
 ```python
 # Load increment
@@ -261,15 +268,20 @@ for n in range(1, 10):
             print("*************") 
         break
     # 
+    u_n.x.array[:]+=u.x.array[:]
+    u_n.x.scatter_forward()
     u_export.interpolate(u_expr)
     u_export.x.scatter_forward()
+    du_update.interpolate(u)
+    du_update.x.scatter_forward()
     # Evaluate the displacement
     displacement_      = dolfinx.fem.assemble_scalar(Displacement_expr)
     Surface            = 1*1
     displacement_right = 1/Surface*domain.comm.allreduce(displacement_, op=mpi4py.MPI.SUM)
-    print("Edge displacement:", displacement_right)
+    print("Edge displacement increment:", displacement_right)
     # 
     print(f"Time step {n}, Number of iterations {num_its}, Load {T.value}")
     xdmf.write_function(u_export,n*tval0)
+    domain.geometry.x[:, :domain.geometry.dim] += du_update.x.array.reshape((-1, domain.geometry.dim))
 xdmf.close()
 ```

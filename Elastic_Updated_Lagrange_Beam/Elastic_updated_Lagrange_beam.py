@@ -104,7 +104,7 @@ u_export.x.scatter_forward()
 # 
 # Evaluation of the displacement on the edge
 Nx                = dolfinx.fem.Constant(domain, numpy.asarray((1.0,0.0,0.0)))
-Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nx))*ds(3))
+Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nx))*ds(2))
 # 
 #----------------------------------------------------------------------
 # Definition of dirichlet boundary conditions
@@ -217,6 +217,8 @@ for n in range(1, 10):
     # 
     u_n.x.array[:]+=u.x.array[:]
     u_n.x.scatter_forward()
+    u_export.interpolate(u_expr)
+    u_export.x.scatter_forward()
     du_update.interpolate(u)
     du_update.x.scatter_forward()
     # Evaluate the displacement
