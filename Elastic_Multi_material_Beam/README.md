@@ -109,3 +109,45 @@ A mapping of the Lamé coefficients is then proposed by:
 lmbda_m        = E*nu.value/((1+nu.value)*(1-2*nu.value))   
 mu_m           = E/(2*(1+nu.value)) 
 ```
+
+### Function spaces, Functions and operators
+
+To identify the displacement, we chose a vectorial 2nd order Lagrange representation (P2). The XDMF does not support high order functions so we also create a first order space in which we will interpolate the solution:
+```python3
+# Vector Element
+P1_v = basix.ufl.element("P", domain.topology.cell_name(), degree=1, shape=(domain.topology.dim,))
+P2_v = basix.ufl.element("P", domain.topology.cell_name(), degree=2, shape=(domain.topology.dim,))
+# Function_spaces
+P1v_space = dolfinx.fem.functionspace(domain, P1_v)
+V         = dolfinx.fem.functionspace(domain, P2_v)
+```
+
+The mathematical spaces being defined, one can introduce the functions, expressions for interpolation, test functions and trial functions. It is recommended to place them all at a same position for debugging.
+
+```python3
+v  = ufl.TestFunction(V)
+u  = dolfinx.fem.Function(V)
+du = ufl.TrialFunction(V)
+u_export      = dolfinx.fem.Function(P1v_space)
+u_export.name = "u"
+u_expr        = dolfinx.fem.Expression(u,P1v_space.element.interpolation_points())
+u_export.interpolate(u_expr)
+u_export.x.scatter_forward()
+```
+To evaluate a reaction force or a displacement over a surface, a form can be used such that:
+```python3
+# Evaluation of the displacement on the edge
+Nz                = dolfinx.fem.Constant(domain, numpy.asarray((0.0,0.0,1.0)))
+Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nz))*ds(2))
+```
+is equivalent to:
+```math
+\frac{1}{S}\int u\cdot Nz \mathrm{d}S
+```
+
+For a volume, we would have had $`\frac{1}{V}\int f \mathrm{d}\Omega`$ computed with:
+```python3
+volume_eval = dolfinx.fem.form(f*dx)
+```
+
+The form is computed later after the solver application. 
