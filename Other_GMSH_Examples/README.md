@@ -6,6 +6,18 @@ This directory contains other examples of mesh generated with GMSH:
 
 The GMSH tagged meshes can be converted to meshes with fenics legacy compatibility considering the following:
 3D meshes:
+
+```python
+def create_mesh(mesh, cell_type, prune_z=False):
+    import meshio
+    cells = mesh.get_cells_type(cell_type)
+    cell_data = mesh.get_cell_data("gmsh:physical", cell_type)
+    points = mesh.points[:, :2] if prune_z else mesh.points
+    out_mesh = meshio.Mesh(points=points, cells={cell_type: cells}, cell_data={
+                           "name_to_read": [cell_data]})
+    return out_mesh
+```
+
 ```python
 import meshio
 msh = meshio.read("mesh.msh")
@@ -27,5 +39,4 @@ meshio.write("facet_mesh_refine.xdmf", line_mesh)
 # Mesh
 triangle_mesh = create_mesh(msh, "triangle", prune_z=True)
 meshio.write("mesh_refine.xdmf", triangle_mesh)
-return line_mesh, triangle_mesh
 ```
