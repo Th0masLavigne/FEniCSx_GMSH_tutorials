@@ -17,7 +17,7 @@ The workshop indrocudes the following items:
   * Using symmetries,
   * Using boolean operations,
   * From a STL file,
-  * Local refinement procedures (from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)*),
+  * with local refinement procedures (from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)*),
   * Boundary and domain tagging,
   * Export compatibility: FEniCSx vs Fenics Legacy. 
 - Finite Element computation using FEniCSx:
