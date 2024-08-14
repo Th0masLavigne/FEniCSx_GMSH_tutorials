@@ -1,38 +1,23 @@
 # FEniCSx_GMSH_tutorials
 
-A csv export can further be introduced to be able to modify the plots at any time:
-```python
-    def export_to_csv(data, filename, header=None):
-        import csv
-        try:
-            with open(filename, 'w', newline='') as file:
-                writer = csv.writer(file)
-                if header:
-                    writer.writerow(header)
-                writer.writerows(data)
-            print(f"Data exported to {filename} successfully")
-        except Exception as e:
-            print(f"An error occurred while exporting data to {filename}: {e}")
-```
 
-```sh 
-mpirun -n <N > python3 < filename >
-```
+**Pour présentation générale**
+*rappels elements finis*
 
-Where <N> is the number of threads to use and <filename> is the python code of the problem.
+*Rappels bonnes pratiques code et 1 mot sur bonne pratique de mettre des checks conditions try assert sur tag notamment s'assurer de ne pas avoir fait d'oublis
+1 code doit se suffire, les commentaires sont superflus normalement. Ne pas nommer les variables n'importe comment, commenter est très important ainsi qu'organiser un code pour débugger, mettre des try assert autant que possible*
 
-**Linear and non linear solvers**
-**lhs et rhs dans transitoire**
-**Stokes 2D et 3D ont des différences dans équation variationnelle**
+*overview commercial et open source*
 
-**$`\color{red} \text{Dans presentation mettre exemple jolis de Pi et Matthieu, ajouter les erreurs courantes avec le choix dx/dt \& attention en axisym à vérifier r diff 0 pour diviser dans grad et div}`$** + Exemple rose + Exemple Anne
+*liste des outils avantages inconvenients*
+
+*Parler des outils collaboratifs*
+
+*point focus sur GMSH FENICS ET DEAL.II*
+
+*MONTRER DES EXEMPLES Dans presentation mettre exemple jolis de Pi et Matthieu, ajouter les erreurs courantes avec le choix dx/dt + Exemple Meryem, exemple rose + Exemple Anne*
 
 
-**$`\color{red} \text{1 mot sur bonne pratique de mettre des checks conditions try assert sur tag notamment s'assurer de ne pas avoir fait d'oublis}`$**
-
-1 code doit se suffire, les commentaires sont superflus normalement.
-
-**Ne pas nommer les variables n'importe comment, commenter est très important ainsi qu'organiser un code pour débugger, mettre des try assert autant que possible**
 
 This repository holds all the documents related to the workshop conducted at I2M Bordeaux in September 2024. The objective of the workshop is to introduce open-source softwares for finite element modelling. More specifically, it focuses on the use of FEniCSx (version 0.8.0) and GMSH (version 4.11). Their documentation as well as other softwares are available at the end of this document. 
 
@@ -221,3 +206,18 @@ There a few libraries out there that support boolean operations for meshes, you 
 - [PyMesh](https://github.com/PyMesh/PyMesh)
 - [Pycork](https://pypi.org/project/pycork/) (and it's C base library [cork](https://github.com/gilbo/cork))
 - [Blender](https://www.blender.org/) (also has a python module)
+
+### Function to export lists in a csv file
+```python
+    def export_to_csv(data, filename, header=None):
+        import csv
+        try:
+            with open(filename, 'w', newline='') as file:
+                writer = csv.writer(file)
+                if header:
+                    writer.writerow(header)
+                writer.writerows(data)
+            print(f"Data exported to {filename} successfully")
+        except Exception as e:
+            print(f"An error occurred while exporting data to {filename}: {e}")
+```
