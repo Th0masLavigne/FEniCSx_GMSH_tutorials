@@ -463,7 +463,7 @@ where a((u,p),(w,q)) is known as the bilinear form, L((w,q)) as a linear form, a
 
 In our case, we have the variationnal form:
 ```math
-\int_\Omega 2\,\eta\,\varepsilon(u):\nabla(w) \mathrm{d}\Omega - \int_\Omega \nabla\cdot(w)\,p\,\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,\mathrm{d}\Omega+\int_{\partial\Omega_p} p_{imp}\,n\cdot w \mathrm{d}S = 0
+\int_\Omega 2\,\eta\,\varepsilon(u):\varepsilon(w) \mathrm{d}\Omega - \int_\Omega \nabla\cdot(w)\,p\,\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,\mathrm{d}\Omega+\int_{\partial\Omega_p} p_{imp}\,n\cdot w \mathrm{d}S = 0
 ```
 We can identify a and L such that:
 ```math
