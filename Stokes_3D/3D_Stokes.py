@@ -186,9 +186,13 @@ grid = pyvista.UnstructuredGrid(*dolfinx.plot.vtk_mesh(mesh, mesh.topology.dim))
 
 # Create plotter
 plotter = pyvista.Plotter()
-plotter.add_mesh(grid, style="wireframe", color="k")
-plotter.add_mesh(glyphs)
-plotter.view_xy()
+# plotter.add_mesh(grid, style="wireframe", color="k")
+plotter.add_mesh(grid, color="grey", ambient=0.02, opacity=0.05 , show_edges=False)
+plotter.add_mesh(glyphs, cmap='coolwarm')
+plotter.update_scalar_bar_range([1, 8])
+plotter.view_vector((0, 3, -20))
+plotter.show_axes()
+# plotter.view_xy()
 plotter.save_graphic('Result.pdf')
 plotter.close()
 # EoF

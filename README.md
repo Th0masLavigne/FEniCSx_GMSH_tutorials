@@ -9,6 +9,7 @@
 
 **$`\color{red} \text{1 mot sur bonne pratique de mettre des checks conditions try assert sur tag notamment s'assurer de ne pas avoir fait d'oublis}`$**
 
+1 code doit se suffire, les commentaires sont superflus normalement.
 
 **Ne pas nommer les variables n'importe comment, commenter est très important ainsi qu'organiser un code pour débugger, mettre des try assert autant que possible**
 
@@ -114,6 +115,10 @@ docker save -o name.tar ImageTag
 
 ## Ressources
 **Remark:** If you do not find the documentation for a specific item, you can use ipython3 and the help() command. For example if you have a class object element that we call mesh, executing "mesh." + "tab" you will be able to navigate the attributes to the object and then apply the help command.
+
+### Good Practice for coding conferences:
+- *[Clean Code - Uncle Bob / Lesson 1](https://www.youtube.com/watch?v=7EmboKQH8lM)*
+- *[Clean Code - Uncle Bob / Lesson 1](https://www.youtube.com/watch?v=7EmboKQH8lM)*
 
 ### Docker (alternatively singularity)
 - *[Docker website](https://www.docker.com/products/docker-desktop/)*
