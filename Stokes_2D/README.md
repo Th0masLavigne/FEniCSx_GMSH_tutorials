@@ -458,3 +458,49 @@ add_dirichlet_BC(CHS.sub(1).sub(1),fdim,facet_tag.find(6), petsc4py.PETSc.Scalar
 ```
 
 ### Variational form
+
+We want to solve this problem with an axi-symmetric formulation. To do so, we have to redefine properly the operators. First, we define the radius. **Beware, it cannot equal 0 due to a division by the radius in the gradient and divergence. Consider adding an infinitesimal value as 1e-16 to prevent this situation**.
+
+```python
+# Definition of divergence and gradient in cylindrycal coordinates
+x  = ufl.SpatialCoordinate(mesh)
+r  = abs(x[1]) + 1e-16 # Avoid division by zero in the operators.
+# 
+def grad_cyl(u):
+  return ufl.as_tensor([[u[0].dx(0), u[0].dx(1), 0.], [u[1].dx(0), u[1].dx(1), 0.], [0., 0., u[1]/r]])
+# 
+def div_cyl(u):
+  return u[1]/r + u[0].dx(0) + u[1].dx(1)
+```
+
+The objective is to find (u,p), such that:
+
+```math
+a((u,p),w)=L(w)
+```
+where a((u,p),(w,q)) is known as the bilinear form, L((w,q)) as a linear form, and (w,q) are the test functions.
+
+In our case, we have the variationnal form:
+```math
+\int_\Omega \nabla(u):\nabla(w) r\mathrm{d}\Omega + \int_\Omega \nabla\cdot(w)\,p\,r\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,r\mathrm{d}\Omega-\int_\Omega f\cdot w r \mathrm{d}\Omega = 0
+```
+We can identify a and L such that:
+```math
+a((u,p),(w,q)) = \int_\Omega \nabla(u):\nabla(w) r\mathrm{d}\Omega + \int_\Omega \nabla\cdot(w)\,p\,r\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,r\mathrm{d}\Omega
+```
+```math
+L((w,q))=\int_\Omega f\cdot w r \mathrm{d}\Omega
+```
+
+This can be introduced as:
+
+```python
+# Alternative form (from the tutorial to comprae with the iterative solution)
+A1 = ufl.inner(grad_cyl(u), grad_cyl(w))*r*dx + div_cyl(w)*p*r*dx 
+A2 = q*div_cyl(u)*r*dx
+# Assembling of the system of eqs 
+A = A1 + A2
+# 
+f = dolfinx.fem.Constant(mesh,(0.0, 0.0))
+L = ufl.inner(f, w)*r*dx
+```

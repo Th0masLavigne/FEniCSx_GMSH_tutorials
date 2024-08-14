@@ -97,7 +97,6 @@ add_dirichlet_BC(CHS.sub(1).sub(1),fdim,facet_tag.find(6), petsc4py.PETSc.Scalar
 #----------------------------------------------------------------------
 # Define variational problem
 # 
-Id = ufl.Identity(3)
 # Definition of divergence and gradient in cylindrycal coordinates
 x  = ufl.SpatialCoordinate(mesh)
 r  = abs(x[1]) + 1e-16 # Avoid division by zero in the operators.
@@ -149,6 +148,7 @@ strainrate.x.scatter_forward()
 eta=1
 stress=dolfinx.fem.Function(tensor_space)
 stress.name = "stress"
+Id = ufl.Identity(3)
 stress_expr = dolfinx.fem.Expression(-1.*p_*Id + eta*2*ufl.sym(grad_cyl(u_)),tensor_space.element.interpolation_points())
 stress.interpolate(stress_expr)
 stress.x.scatter_forward()
