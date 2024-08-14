@@ -477,6 +477,7 @@ This can be introduced as:
 
 ```python
 eta=1.
+Id = ufl.Identity(3)
 # NS equations Divergence form
 A1 =  eta*ufl.inner(ufl.grad(u), ufl.grad(w))*dx +  eta*ufl.inner(ufl.grad(u).T, ufl.grad(w))*dx -  p*(ufl.inner(Id,ufl.grad(w)))*dx 
 A2 = q*ufl.div(u)*dx 
@@ -529,7 +530,6 @@ strainrate.x.scatter_forward()
 eta=1
 stress=dolfinx.fem.Function(tensor_space)
 stress.name = "stress"
-Id = ufl.Identity(3)
 stress_expr = dolfinx.fem.Expression(-1.*p_*Id + eta*2*ufl.sym(grad_cyl(u_)),tensor_space.element.interpolation_points())
 stress.interpolate(stress_expr)
 stress.x.scatter_forward()
