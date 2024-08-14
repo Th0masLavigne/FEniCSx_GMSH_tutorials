@@ -12,7 +12,7 @@ The objective is to find the resulting velocity and pressure.
 
 # Implementation
 
-Given the strong compatibility between GMSH and FEniCSx it is recommended to use GMSH. GMSH also has a python API. The mesh, refinement and marking operations can be proceeded in GMSH and imported in the FEniCSx environment.
+Given the strong compatibility between GMSH and FEniCSx it is recommended to use GMSH. GMSH also has a python API. The mesh, refinement and marking operations can be proceeded in GMSH and imported in the FEniCSx environment. 
 
 ## Geomerty creation using GMSG
 ### From a 2D Geometry
@@ -43,9 +43,9 @@ The gmsh model is initialised with its internal settings specified:
 ```python
 gmsh.initialize()
 gmsh.clear()
-gmsh.model.add("2D_Stokes")
+gmsh.model.add("3D_Stokes")
 #Characteristic length
-lc = (L1+L2)/60
+lc = (L1+L2)/50
 gmsh.model.occ.synchronize()
 gmsh.option.setNumber("General.Terminal",1)
 gmsh.option.setNumber("Mesh.Optimize", True)
@@ -86,7 +86,6 @@ gmsh.model.occ.synchronize()
 As a safeguard, we ensure removing all duplicates and export the geometry fot control:
 ```python
 gmsh.model.occ.removeAllDuplicates()
-gmsh.model.occ.synchronize()
 # 
 gmsh.model.occ.synchronize()
 gmsh.write('3D_Stokes.geo_unrolled')
@@ -224,7 +223,7 @@ gdim = 3
 # 
 gmsh.initialize()
 gmsh.clear()
-gmsh.model.add("2D_Stokes")
+gmsh.model.add("3D_Stokes")
 #Characteristic length
 lc = (L1+L2)/60
 gmsh.model.occ.synchronize()
@@ -252,7 +251,6 @@ The duplicates are removed and a check file is generated.
 ```python
 # Remove duplicate entities and synchronize
 gmsh.model.occ.removeAllDuplicates()
-gmsh.model.occ.synchronize()
 # 
 gmsh.model.occ.synchronize()
 gmsh.write('3D_Stokes.geo_unrolled')

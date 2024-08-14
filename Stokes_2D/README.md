@@ -474,7 +474,7 @@ def div_cyl(u):
 The objective is to find (u,p), such that:
 
 ```math
-a((u,p),w)=L(w)
+a((u,p),(w,q))=L((w,q))
 ```
 where a((u,p),(w,q)) is known as the bilinear form, L((w,q)) as a linear form, and (w,q) are the test functions.
 
@@ -493,7 +493,7 @@ L((w,q))=\int_\Omega f\cdot w r \mathrm{d}\Omega
 This can be introduced as:
 
 ```python
-# Alternative form (from the tutorial to comprae with the iterative solution)
+# Alternative form (from the tutorial to compare with the iterative solution)
 A1 = ufl.inner(grad_cyl(u), grad_cyl(w))*r*dx + div_cyl(w)*p*r*dx 
 A2 = q*div_cyl(u)*r*dx
 # Assembling of the system of eqs 
