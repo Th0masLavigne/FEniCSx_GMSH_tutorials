@@ -131,7 +131,6 @@ gmsh.model.setPhysicalName(gdim-2, tag_right, 'Right')
 gmsh.model.addPhysicalGroup(gdim-2, bottom, tag_bottom)
 gmsh.model.setPhysicalName(gdim-2, tag_bottom, 'Bottom')
 # 
-print(surfaces)
 for surface in surfaces:
 	center_of_mass = gmsh.model.occ.getCenterOfMass(surface[0], surface[1])
 	if center_of_mass[0]<L1:
