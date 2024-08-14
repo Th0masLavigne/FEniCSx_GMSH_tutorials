@@ -263,7 +263,7 @@ where a(u,v) is known as the bilinear form, L(v) as a linear form, and v is the 
 
 In our case, we have the variationnal form:
 ```math
-\int_\Omega cc\, u \cdot v \mathrm{d}\Omega + dt * \int_\Omega k_c \nabla(u):\nabla(v) \mathrm{d}\Omega + dt * \int_{\partial\Omega_T} h_c (u-T_e) \cdot v\,\mathrm{d}S - dt * \int_\Omega f\,v\,\mathrm{d}\Omega - dt * \int_\Omega cc\,u_n \cdot v\,\mathrm{d}\Omega =0
+\int_\Omega cc\, (u-u_n) \cdot v \mathrm{d}\Omega + dt * \int_\Omega k_c \nabla(u):\nabla(v) \mathrm{d}\Omega + dt * \int_{\partial\Omega_T} h_c (u-T_e) \cdot v\,\mathrm{d}S - dt * \int_\Omega f\,v\,\mathrm{d}\Omega =0
 ```
 
 The left hand side (lhs) and right hand side (rhs) to identify a(u,v)=L(v) can be directly identified in FEniCSx. This is traduced with:

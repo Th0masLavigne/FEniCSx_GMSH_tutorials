@@ -301,23 +301,23 @@ for line in lines:
   elif numpy.isclose(center_of_mass[1],0):
     bottom.append(line[1])
 # 
-gmsh.model.addPhysicalGroup(gdim-2, left, tag_left)
-gmsh.model.setPhysicalName(gdim-2, tag_left, 'Left')
+gmsh.model.addPhysicalGroup(gdim-1, left, tag_left)
+gmsh.model.setPhysicalName(gdim-1, tag_left, 'Left')
 # 
-gmsh.model.addPhysicalGroup(gdim-2, top_left, tag_top_left)
-gmsh.model.setPhysicalName(gdim-2, tag_top_left, 'Top_left')
+gmsh.model.addPhysicalGroup(gdim-1, top_left, tag_top_left)
+gmsh.model.setPhysicalName(gdim-1, tag_top_left, 'Top_left')
 # 
-gmsh.model.addPhysicalGroup(gdim-2, middle_up, tag_middle_up)
-gmsh.model.setPhysicalName(gdim-2, tag_middle_up, 'Middle_up')
+gmsh.model.addPhysicalGroup(gdim-1, middle_up, tag_middle_up)
+gmsh.model.setPhysicalName(gdim-1, tag_middle_up, 'Middle_up')
 # 
-gmsh.model.addPhysicalGroup(gdim-2, top_right, tag_top_right)
-gmsh.model.setPhysicalName(gdim-2, tag_top_right, 'Top_right')
+gmsh.model.addPhysicalGroup(gdim-1, top_right, tag_top_right)
+gmsh.model.setPhysicalName(gdim-1, tag_top_right, 'Top_right')
 # 
-gmsh.model.addPhysicalGroup(gdim-2, right, tag_right)
-gmsh.model.setPhysicalName(gdim-2, tag_right, 'Right')
+gmsh.model.addPhysicalGroup(gdim-1, right, tag_right)
+gmsh.model.setPhysicalName(gdim-1, tag_right, 'Right')
 # 
-gmsh.model.addPhysicalGroup(gdim-2, bottom, tag_bottom)
-gmsh.model.setPhysicalName(gdim-2, tag_bottom, 'Bottom')
+gmsh.model.addPhysicalGroup(gdim-1, bottom, tag_bottom)
+gmsh.model.setPhysicalName(gdim-1, tag_bottom, 'Bottom')
 # 
 for surface in surfaces:
   center_of_mass = gmsh.model.occ.getCenterOfMass(surface[0], surface[1])
@@ -327,11 +327,11 @@ for surface in surfaces:
     right_surf.append(surface[1])
 # 
 print(surfaces)
-gmsh.model.addPhysicalGroup(gdim-1, left_surf, tag_left_surf)
-gmsh.model.setPhysicalName(gdim-1, tag_left_surf, 'left')
+gmsh.model.addPhysicalGroup(gdim, left_surf, tag_left_surf)
+gmsh.model.setPhysicalName(gdim, tag_left_surf, 'left')
 # 
-gmsh.model.addPhysicalGroup(gdim-1, right_surf, tag_right_surf)
-gmsh.model.setPhysicalName(gdim-1, tag_right_surf, 'right')
+gmsh.model.addPhysicalGroup(gdim, right_surf, tag_right_surf)
+gmsh.model.setPhysicalName(gdim, tag_right_surf, 'right')
 #----------------------------------------------------------------------
 # Export the geometry with the tags for control
 #----------------------------------------------------------------------
@@ -339,7 +339,7 @@ gmsh.model.setPhysicalName(gdim-1, tag_right_surf, 'right')
 gmsh.model.occ.synchronize()
 gmsh.write('2D_Stokes_marked.geo_unrolled')
 # 
-gmsh.model.mesh.generate(gdim-1)
+gmsh.model.mesh.generate(gdim)
 gmsh.write("2D_Stokes_mesh.msh")
 ```
 ```python
