@@ -17,8 +17,11 @@ alt="Geometry">
 For such problem, the analytical Terzaghi solution is defined by:
 
 $$\text{p(z,t)}=\frac{4p_0}{\pi}\sum_{k=1}^{+\infty}\frac{(-1)^{k-1}}{2k-1}\cos[(2k-1)\frac{\pi}{2}\frac{z}{h}]\exp[-(2k-1)^2\frac{\pi^2}{4}\frac{c_vt}{h^2}]$$
+
 $$ c_v = \frac{k^\varepsilon}{\mu^l(S+\frac{\beta^2}{M})}$$
+
 $$ M = \frac{3K^s(1-\nu)}{(1+\nu)}$$
+
 $$ S = \frac{\beta-\varepsilon^l_0}{K^s} + \frac{\varepsilon^l_0}{K^l}$$
 
 [^1]: T. Lavigne, S. Urcun, P-Y. Rohan, G. Sciumè, D. Baroli, S.P.A. Bordas, Single and bi-compartment poro-elastic model of perfused biological soft tissues: FEniCSx implementation and tutorial: implementation in FEniCSx, https://doi.org/10.48550/arXiv.2301.11256](https://doi.org/10.1016/j.jmbbm.2023.105902
