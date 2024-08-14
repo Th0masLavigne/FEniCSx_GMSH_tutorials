@@ -283,7 +283,7 @@ The problem is extensively described in *[Lavigne et al., 2023](https://doi.org/
 
 $$     \begin{split}  
     \frac{S}{dt}\int_{\Omega} (p^l-p^l_n)q\text{d}\Omega+\frac{1}{dt}\int_{\Omega} \mathbf{\nabla}\cdot(\mathbf{u}^s-\mathbf{u}^s_n)q\text{d}\Omega \\
-    + \frac{k^\varepsilon}{\mu^l} \int_{\Omega} \mathbf{\nabla}p^l\mathbf{\nabla}q\text{d}\Omega = 0, \forall~q\in~\text{L}_0^2(\Omega)
+    + \frac{k^\varepsilon}{\mu^l} \int_{\Omega} \mathbf{\nabla}p^l\mathbf{\nabla}q\text{d}\Omega = 0, \forall~ q\in~\text{L}_0^2(\Omega)
     \end{split} $$
 
 $$     \begin{split}  
