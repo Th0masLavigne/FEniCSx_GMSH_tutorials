@@ -10,7 +10,8 @@ import ufl
 import basix
 import mpi4py
 import petsc4py
-from dolfinx.fem.petsc import LinearProblem
+from dolfinx.fem.petsc import NonlinearProblem
+from dolfinx.nls.petsc import NewtonSolver
 # 
 print("Dolfinx version is:",dolfinx.__version__)
 # 
@@ -47,7 +48,7 @@ tensor_space = dolfinx.fem.functionspace(mesh, tensor_elem)
 u_export      = dolfinx.fem.Function(P1v_space)
 u_export.name = "u"
 # 
-sol    = ufl.TrialFunction(CHS)
+sol    = dolfinx.fem.Function(CHS)
 q, w   = ufl.TestFunctions(CHS)
 # Solution vector
 p, u   = ufl.split(sol)
@@ -59,17 +60,13 @@ n      = ufl.FacetNormal(mesh)
 q_deg = 4
 # Redefinition dx and ds
 dx    = ufl.Measure('dx', metadata={"quadrature_degree":q_deg}, subdomain_data=cell_tag, domain=mesh)
-ds    = ufl.Measure("ds", domain=mesh, subdomain_data=facet_tag)
-# 
-# --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- VOIR A QUOI SERT X
-# x      = SpatialCoordinate(mesh)
-#----------------------------------------------------------------------
+ds    = ufl.Measure("ds", domain=mesh, subdomain_data=facet_tag, metadata={"quadrature_degree":q_deg})
 # 
 #----------------------------------------------------------------------
 # Definition of dirichlet boundary conditions
 #----------------------------------------------------------------------
 # 
-# tag_left, tag_top_left, tag_middle_up, tag_top_right, tag_right, tag_bottom = 1, 2, 3, 4, 5, 6
+# tag_left, tag_top_left, tag_middle_up, tag_top_right, tag_right, tag_bottom, tag front = 1, 2, 3, 4, 5, 6, 7
 # 
 bcs = []
 fdim = mesh.topology.dim - 1
@@ -108,17 +105,8 @@ add_dirichlet_BC(CHS.sub(1).sub(2),fdim,facet_tag.find(7), petsc4py.PETSc.Scalar
 #----------------------------------------------------------------------
 # Define variational problem
 # 
-# 
-Id = ufl.Identity(3)
-eta=1.
-# NS equations Divergence form
-A1 =  eta*ufl.inner(ufl.grad(u), ufl.grad(w))*dx +  eta*ufl.inner(ufl.grad(u).T, ufl.grad(w))*dx -  p*(ufl.inner(Id,ufl.grad(w)))*dx 
-A2 = q*ufl.div(u)*dx 
-
-# Assembling of the system of eqs (4) + (5) + (6) in weak form
-A = A1 + A2
-p_right = dolfinx.fem.Constant(mesh,petsc4py.PETSc.ScalarType(0.0))
-L = - p_right*ufl.dot(n, w)*ds(5) 
+b = dolfinx.fem.Constant(mesh,(0.0, 0.0, 0.0))
+F = ufl.inner(ufl.grad(u), ufl.grad(w))*dx + ufl.div(w)*p*dx + q*ufl.div(u)*dx - ufl.inner(b, w)*dx
 # 
 #----------------------------------------------------------------------
 # Debug instance
@@ -127,14 +115,34 @@ if log_solve:
 	from dolfinx import log
 	log.set_log_level(log.LogLevel.INFO)
 # 
-problem = LinearProblem(A, L, bcs=bcs, petsc_options={"ksp_type": "preonly", "pc_type": "lu"})
-uh = problem.solve()
+#----------------------------------------------------------------------
+problem = NonlinearProblem(F, sol, bcs)
+solver = NewtonSolver(mesh.comm, problem)
+#  
+# Absolute tolerance
+solver.atol                  = 1e-8
+# relative tolerance
+solver.rtol                  = 1e-8
+# Convergence criterion
+solver.convergence_criterion = "incremental"
+# Maximum iterations
+solver.max_it                = 15
+# Solver Pre-requisites
+ksp                                               = solver.krylov_solver
+opts                                              = petsc4py.PETSc.Options()
+option_prefix                                     = ksp.getOptionsPrefix()
+opts[f"{option_prefix}ksp_type"]                  = "preonly"
+opts[f"{option_prefix}pc_type"]                   = "lu"
+opts[f"{option_prefix}pc_factor_mat_solver_type"] = "mumps"
+ksp.setFromOptions()
 # 
+num_its, converged = solver.solve(sol)
+sol.x.scatter_forward()
 # Get sub-functions
-p_, u_ = uh.split()
+p_, u_ = sol.split()
 p_.name = "p"
 # 
-u_expr = dolfinx.fem.Expression(uh.sub(1),P1v_space.element.interpolation_points())
+u_expr = dolfinx.fem.Expression(sol.sub(1),P1v_space.element.interpolation_points())
 u_export.interpolate(u_expr)
 u_export.x.scatter_forward()
 # 
@@ -145,6 +153,8 @@ strainrate_expr = dolfinx.fem.Expression(ufl.sym(ufl.grad(u_)),tensor_space.elem
 strainrate.interpolate(strainrate_expr)
 strainrate.x.scatter_forward()
 # # 
+Id = ufl.Identity(3)
+eta=1.
 stress=dolfinx.fem.Function(tensor_space)
 stress.name = "stress"
 stress_expr = dolfinx.fem.Expression(-1.*p_*Id + eta*2*ufl.sym(ufl.grad(u_)),tensor_space.element.interpolation_points())
@@ -159,4 +169,26 @@ xdmf.write_function(p_,t)
 xdmf.write_function(strainrate,t)
 xdmf.write_function(stress,t)
 # 
+import pyvista
+import numpy
+pyvista.start_xvfb()
+topology, cell_types, geometry = dolfinx.plot.vtk_mesh(P1v_space)
+values = numpy.zeros((geometry.shape[0], 3), dtype=numpy.float64)
+values[:, :len(u_export)] = u_export.x.array.real.reshape((geometry.shape[0], len(u_export)))
+
+# Create a point cloud of glyphs
+function_grid = pyvista.UnstructuredGrid(topology, cell_types, geometry)
+function_grid["u"] = values
+glyphs = function_grid.glyph(orient="u", factor=0.1)
+
+# Create a pyvista-grid for the mesh
+grid = pyvista.UnstructuredGrid(*dolfinx.plot.vtk_mesh(mesh, mesh.topology.dim))
+
+# Create plotter
+plotter = pyvista.Plotter()
+plotter.add_mesh(grid, style="wireframe", color="k")
+plotter.add_mesh(glyphs)
+plotter.view_xy()
+plotter.save_graphic('Result.pdf')
+plotter.close()
 # EoF

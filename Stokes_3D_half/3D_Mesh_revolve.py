@@ -26,9 +26,9 @@ gdim = 3
 # 
 gmsh.initialize()
 gmsh.clear()
-gmsh.model.add("2D_Stokes")
+gmsh.model.add("3D_Stokes")
 #Characteristic length
-lc = (L1+L2)/10
+lc = (L1+L2)/30
 gmsh.model.occ.synchronize()
 gmsh.option.setNumber("General.Terminal",1)
 gmsh.option.setNumber("Mesh.Optimize", True)
@@ -39,7 +39,7 @@ gmsh.model.occ.synchronize()
 # gmsh.option.setNumber("Mesh.MshFileVersion", 2.0)
 # gmsh.option.setNumber("Mesh.MeshSizeExtendFromBoundary", 0.002)
 # gmsh.option.setNumber("Mesh.MeshSizeFromPoints", 0)
-# gmsh.option.setNumber("Mesh.MeshSizeFromCurvature", 5)
+# gmsh.option.setNumber("Mesh.MeshSizeFromCurvature", 0.5)
 # 
 #----------------------------------------------------------------------
 # Compute the geometry
