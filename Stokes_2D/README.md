@@ -504,3 +504,59 @@ A = A1 + A2
 f = dolfinx.fem.Constant(mesh,(0.0, 0.0))
 L = ufl.inner(f, w)*r*dx
 ```
+
+### Solving and Post-Processing
+To have the full computation log, the following is required. These information are crucial when debugging.
+
+```python
+#----------------------------------------------------------------------
+# Debug instance
+log_solve=True
+if log_solve:
+    from dolfinx import log
+    log.set_log_level(log.LogLevel.INFO)
+#----------------------------------------------------------------------
+```
+
+We solve the problem using the linear approach:
+```python
+problem = LinearProblem(A, L, bcs=bcs, petsc_options={"ksp_type": "preonly", "pc_type": "lu"})
+uh = problem.solve()
+```
+
+Once the problem is solved, we can apply the post processing:
+```python
+# Get sub-functions
+p_, u_ = uh.split()
+p_.name = "p"
+# 
+u_expr = dolfinx.fem.Expression(uh.sub(1),P1v_space.element.interpolation_points())
+u_export.interpolate(u_expr)
+u_export.x.scatter_forward()
+```
+
+At this point other quantities such as the strain rate and the stress can further be computed and saved in an xdmf file:
+```python
+strainrate=dolfinx.fem.Function(tensor_space)
+strainrate.name = "strainrate"
+# 0.5*(grad_cyl(u_export) + grad_cyl(u_export).T)
+strainrate_expr = dolfinx.fem.Expression(ufl.sym(grad_cyl(u_)),tensor_space.element.interpolation_points())
+strainrate.interpolate(strainrate_expr)
+strainrate.x.scatter_forward()
+# # 
+eta=1
+stress=dolfinx.fem.Function(tensor_space)
+stress.name = "stress"
+Id = ufl.Identity(3)
+stress_expr = dolfinx.fem.Expression(-1.*p_*Id + eta*2*ufl.sym(grad_cyl(u_)),tensor_space.element.interpolation_points())
+stress.interpolate(stress_expr)
+stress.x.scatter_forward()
+# 
+xdmf = dolfinx.io.XDMFFile(mesh.comm, "2D_Stokes.xdmf", "w")
+xdmf.write_mesh(mesh)
+t=0
+xdmf.write_function(u_export,t)
+xdmf.write_function(p_,t)
+xdmf.write_function(strainrate,t)
+xdmf.write_function(stress,t)
+```

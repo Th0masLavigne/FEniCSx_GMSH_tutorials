@@ -135,8 +135,7 @@ u_expr = dolfinx.fem.Expression(uh.sub(1),P1v_space.element.interpolation_points
 u_export.interpolate(u_expr)
 u_export.x.scatter_forward()
 # 
-# Stress and strain rate visualising require 3D MESH ? and quantities i guess. Export is weird. We'll try
-# eta  = 1.
+# Stress and strain rate 
 # # 
 strainrate=dolfinx.fem.Function(tensor_space)
 strainrate.name = "strainrate"
