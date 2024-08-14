@@ -1,4 +1,4 @@
-# Stokes Problem (2D)
+# Stokes Problem (3D)
 
 The following directory contains the application of a 2D axi-symmetric Stokes Problem. 
 
