@@ -424,3 +424,37 @@ ds    = ufl.Measure("ds", domain=mesh, subdomain_data=facet_tag)
 ```
 
 ### Boundary conditions
+
+Three different type of dirichlet boundary conditions are introduced:
+- no-slip conditions for the velocity on the top left / top right and top middle boundaries,
+- inflow of $`v_x=1`$ on the left boundary,
+- Symmetry condition $`v_y=0`$ on the bottom boundary.
+
+```python
+bcs = []
+fdim = mesh.topology.dim - 1
+# 
+def add_dirichlet_BC(functionspace,dimension,facet,value):
+  dofs   = dolfinx.fem.locate_dofs_topological(functionspace, dimension, facet)
+  bcs.append(dolfinx.fem.dirichletbc(value, dofs, functionspace))
+# 
+# No-slip boundary condition for velocity
+# top left
+add_dirichlet_BC(CHS.sub(1).sub(0),fdim,facet_tag.find(2), petsc4py.PETSc.ScalarType(0.))
+add_dirichlet_BC(CHS.sub(1).sub(1),fdim,facet_tag.find(2), petsc4py.PETSc.ScalarType(0.))
+# top right
+add_dirichlet_BC(CHS.sub(1).sub(0),fdim,facet_tag.find(4), petsc4py.PETSc.ScalarType(0.))
+add_dirichlet_BC(CHS.sub(1).sub(1),fdim,facet_tag.find(4), petsc4py.PETSc.ScalarType(0.))
+# middle up
+add_dirichlet_BC(CHS.sub(1).sub(0),fdim,facet_tag.find(3), petsc4py.PETSc.ScalarType(0.))
+add_dirichlet_BC(CHS.sub(1).sub(1),fdim,facet_tag.find(3), petsc4py.PETSc.ScalarType(0.))
+# 
+# inflow vx = 1 left side
+add_dirichlet_BC(CHS.sub(1).sub(0),fdim,facet_tag.find(1), petsc4py.PETSc.ScalarType(1.))
+add_dirichlet_BC(CHS.sub(1).sub(1),fdim,facet_tag.find(1), petsc4py.PETSc.ScalarType(0.))
+# 
+# Symmetry plan vy = 0 bottom
+add_dirichlet_BC(CHS.sub(1).sub(1),fdim,facet_tag.find(6), petsc4py.PETSc.ScalarType(0.))
+```
+
+### Variational form
