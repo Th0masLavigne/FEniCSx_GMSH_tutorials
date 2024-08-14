@@ -1,24 +1,5 @@
 # FEniCSx_GMSH_tutorials
 
-
-**Pour présentation générale**
-*rappels elements finis*
-
-*Rappels bonnes pratiques code et 1 mot sur bonne pratique de mettre des checks conditions try assert sur tag notamment s'assurer de ne pas avoir fait d'oublis
-1 code doit se suffire, les commentaires sont superflus normalement. Ne pas nommer les variables n'importe comment, commenter est très important ainsi qu'organiser un code pour débugger, mettre des try assert autant que possible*
-
-*overview commercial et open source*
-
-*liste des outils avantages inconvenients*
-
-*Parler des outils collaboratifs*
-
-*point focus sur GMSH FENICS ET DEAL.II*
-
-*MONTRER DES EXEMPLES Dans presentation mettre exemple jolis de Pi et Matthieu, ajouter les erreurs courantes avec le choix dx/dt + Exemple Meryem, exemple rose + Exemple Anne*
-
-
-
 This repository holds all the documents related to the workshop conducted at I2M Bordeaux in September 2024. The objective of the workshop is to introduce open-source softwares for finite element modelling. More specifically, it focuses on the use of FEniCSx (version 0.8.0) and GMSH (version 4.11). Their documentation as well as other softwares are available at the end of this document. 
 
 The following elements are required to be able to run the examples:
@@ -31,22 +12,23 @@ The following elements are required to be able to run the examples:
 The workshop indrocudes the following items:
 - Brief reminder about the finite element method,
 - Creation of a mesh using GMSH:
-  * GEO VS OCC kernels, **$`\color{red} \text{A FAIRE}`$**
-  * From a simple sketch,
-  * From simple geometries,
+  * From a sketch,
+  * From elementary geometries,
   * Using symmetries,
   * Using boolean operations,
   * From a STL file,
-  * Local refinement (from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)*),
+  * Local refinement procedures (from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)*),
   * Boundary and domain tagging,
   * Export compatibility: FEniCSx vs Fenics Legacy. 
 - Finite Element computation using FEniCSx:
-  * [Stationary](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/thermique_diri-robin) and [transient](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/thermique_diri-robin-transitoire) thermal problems,
+  * Stationary and transient thermal problems,
   * Solid Continous Mechanics problem (elastic, hyper-elastic, penalty contact, updated lagrangian formulation and evaluation of a quantity),
-  * Stokes Equation solving in [2D](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/Stokes_2D) and [3D](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/tree/6adb233dd2ca19caa52c8e56ad904a39323b2edd/Stokes_3D_half),
+  * Stokes Equation solving in 2D and 3D,
+  * Linear and Non-Linear resolutions,
+  * Updated mesh resolution,
   * Terzaghi poromechanical model (from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)*).
 
-One can also refer to the tutorial from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)* ([Github ressource](https://github.com/Th0masLavigne/Dolfinx_Porous_Media.git)). Please cite this work if you use codes from this workshop that can be related to this tutorial. One can also refer to the work presented in *[Lavigne et al., 2024]()* for an example of an <ins>**updated Lagrangian**</ins> (*i.e.* [mesh update](https://fenicsproject.discourse.group/t/how-to-do-updated-lagrangian-when-the-displacement-lives-in-a-different-space-to-the-mesh-geometry/10760/2)) poro-elastic model with imposed displacement: [Github](https://github.com/Th0masLavigne/Skin_porous_modelling.git). The reaction force is evaluated and volume tags from gmsh are used to map the material parameters with a test case. It completes the multimaterial codes proposed in this workshop.
+One can also refer to the tutorial from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)* ([Github repository](https://github.com/Th0masLavigne/Dolfinx_Porous_Media.git)). Please cite this work if you use codes from this workshop that can be related to this tutorial. One can also refer to the work presented in *[Lavigne et al., 2024]()* for an example of an <ins>**updated Lagrangian**</ins> (*i.e.* [mesh update](https://fenicsproject.discourse.group/t/how-to-do-updated-lagrangian-when-the-displacement-lives-in-a-different-space-to-the-mesh-geometry/10760/2)) poro-elastic model with imposed displacement: [Github repository](https://github.com/Th0masLavigne/Skin_porous_modelling.git). The reaction force is evaluated and volume tags from gmsh are used to map the material parameters with a test case. It completes the multimaterial codes proposed in this workshop.
 
 ## Creating a virtual workspace
 
@@ -221,3 +203,19 @@ There a few libraries out there that support boolean operations for meshes, you 
         except Exception as e:
             print(f"An error occurred while exporting data to {filename}: {e}")
 ```
+
+**Pour présentation générale**
+*rappels elements finis*
+
+*Rappels bonnes pratiques code et 1 mot sur bonne pratique de mettre des checks conditions try assert sur tag notamment s'assurer de ne pas avoir fait d'oublis
+1 code doit se suffire, les commentaires sont superflus normalement. Ne pas nommer les variables n'importe comment, commenter est très important ainsi qu'organiser un code pour débugger, mettre des try assert autant que possible*
+
+*overview commercial et open source*
+
+*liste des outils avantages inconvenients*
+
+*Parler des outils collaboratifs*
+
+*point focus sur GMSH (GEO VS OCC kernels)* FENICS ET DEAL.II
+
+*MONTRER DES EXEMPLES Dans presentation mettre exemple jolis de Pi et Matthieu, ajouter les erreurs courantes avec le choix dx/dt + Exemple Meryem, exemple rose + Exemple Anne*
