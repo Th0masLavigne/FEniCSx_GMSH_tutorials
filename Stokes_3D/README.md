@@ -348,7 +348,8 @@ import ufl
 import basix
 import mpi4py
 import petsc4py
-from dolfinx.fem.petsc import LinearProblem
+from dolfinx.fem.petsc import NonlinearProblem
+from dolfinx.nls.petsc import NewtonSolver
 ```
 
 One can assess the version of FEniCSx with the following:
@@ -390,7 +391,7 @@ One can then specify the functions and if needed their expression for interpolat
 u_export      = dolfinx.fem.Function(P1v_space)
 u_export.name = "u"
 # 
-sol    = ufl.TrialFunction(CHS)
+sol    = dolfinx.fem.Function(CHS)
 q, w   = ufl.TestFunctions(CHS)
 # Solution vector
 p, u   = ufl.split(sol)
@@ -452,38 +453,15 @@ add_dirichlet_BC(CHS.sub(1).sub(2),fdim,facet_tag.find(7), petsc4py.PETSc.Scalar
 
 ### Variational form
 
-The objective is to find (u,p), such that:
-
+The objective is to find (u,p), such that we have the following variationnal form:
 ```math
-a((u,p),w)=L(w)
+\int_\Omega \nabla(u):\nabla(w) r\mathrm{d}\Omega + \int_\Omega \nabla\cdot(w)\,p\,r\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,r\mathrm{d}\Omega-\int_\Omega f\cdot w r \mathrm{d}\Omega = 0
 ```
-where a((u,p),(w,q)) is known as the bilinear form, L((w,q)) as a linear form, and (w,q) are the test functions.
-
-In our case, we have the variationnal form:
-```math
-\int_\Omega 2\,\eta\,\varepsilon(u):\varepsilon(w) \mathrm{d}\Omega - \int_\Omega \nabla\cdot(w)\,p\,\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,\mathrm{d}\Omega+\int_{\partial\Omega_p} p_{imp}\,n\cdot w \mathrm{d}S = 0
-```
-We can identify a and L such that:
-```math
-a((u,p),(w,q)) = \int_\Omega 2\,\eta\,\varepsilon(u):\nabla(w) \mathrm{d}\Omega - \int_\Omega \nabla\cdot(w)\,p\,\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,\mathrm{d}\Omega
-```
-```math
-L((w,q))=-\int_{\partial\Omega_p} p_{imp}\,n\cdot w \mathrm{d}S
-```
-
 This can be introduced as:
 
 ```python
-eta=1.
-Id = ufl.Identity(3)
-# NS equations Divergence form
-A1 =  eta*ufl.inner(ufl.grad(u), ufl.grad(w))*dx +  eta*ufl.inner(ufl.grad(u).T, ufl.grad(w))*dx -  p*(ufl.inner(Id,ufl.grad(w)))*dx 
-A2 = q*ufl.div(u)*dx 
-
-# Assembling of the system of eqs (4) + (5) + (6) in weak form
-A = A1 + A2
-p_right = dolfinx.fem.Constant(mesh,petsc4py.PETSc.ScalarType(0.0))
-L = - p_right*ufl.dot(n, w)*ds(5) 
+b = dolfinx.fem.Constant(mesh,(0.0, 0.0, 0.0))
+F = ufl.inner(ufl.grad(u), ufl.grad(w))*dx + ufl.div(w)*p*dx + q*ufl.div(u)*dx - ufl.inner(b, w)*dx
 ```
 
 ### Solving and Post-Processing
@@ -499,19 +477,38 @@ if log_solve:
 #----------------------------------------------------------------------
 ```
 
-We solve the problem using the linear approach:
+We solve the problem using the nonlinear approach:
 ```python
-problem = LinearProblem(A, L, bcs=bcs, petsc_options={"ksp_type": "preonly", "pc_type": "lu"})
-uh = problem.solve()
+problem = NonlinearProblem(F, sol, bcs)
+solver = NewtonSolver(mesh.comm, problem)
+#  
+# Absolute tolerance
+solver.atol                  = 1e-8
+# relative tolerance
+solver.rtol                  = 1e-8
+# Convergence criterion
+solver.convergence_criterion = "incremental"
+# Maximum iterations
+solver.max_it                = 15
+# Solver Pre-requisites
+ksp                                               = solver.krylov_solver
+opts                                              = petsc4py.PETSc.Options()
+option_prefix                                     = ksp.getOptionsPrefix()
+opts[f"{option_prefix}ksp_type"]                  = "preonly"
+opts[f"{option_prefix}pc_type"]                   = "lu"
+opts[f"{option_prefix}pc_factor_mat_solver_type"] = "mumps"
+ksp.setFromOptions()
+num_its, converged = solver.solve(sol)
+sol.x.scatter_forward()
 ```
 
 Once the problem is solved, we can apply the post processing:
 ```python
 # Get sub-functions
-p_, u_ = uh.split()
+p_, u_ = sol.split()
 p_.name = "p"
 # 
-u_expr = dolfinx.fem.Expression(uh.sub(1),P1v_space.element.interpolation_points())
+u_expr = dolfinx.fem.Expression(sol.sub(1),P1v_space.element.interpolation_points())
 u_export.interpolate(u_expr)
 u_export.x.scatter_forward()
 ```
@@ -539,4 +536,34 @@ xdmf.write_function(u_export,t)
 xdmf.write_function(p_,t)
 xdmf.write_function(strainrate,t)
 xdmf.write_function(stress,t)
+```
+
+One can further represent the velocity field with glyphs using pyvista:
+```python
+import pyvista
+import numpy
+pyvista.start_xvfb()
+topology, cell_types, geometry = dolfinx.plot.vtk_mesh(P1v_space)
+values = numpy.zeros((geometry.shape[0], 3), dtype=numpy.float64)
+values[:, :len(u_export)] = u_export.x.array.real.reshape((geometry.shape[0], len(u_export)))
+
+# Create a point cloud of glyphs
+function_grid = pyvista.UnstructuredGrid(topology, cell_types, geometry)
+function_grid["u"] = values
+glyphs = function_grid.glyph(orient="u", factor=0.1)
+
+# Create a pyvista-grid for the mesh
+grid = pyvista.UnstructuredGrid(*dolfinx.plot.vtk_mesh(mesh, mesh.topology.dim))
+
+# Create plotter
+plotter = pyvista.Plotter()
+# plotter.add_mesh(grid, style="wireframe", color="k")
+plotter.add_mesh(grid, color="grey", ambient=0.02, opacity=0.05 , show_edges=False)
+plotter.add_mesh(glyphs, cmap='coolwarm')
+plotter.update_scalar_bar_range([1, 8])
+plotter.view_vector((0, 3, -20))
+plotter.show_axes()
+# plotter.view_xy()
+plotter.save_graphic('Result.pdf')
+plotter.close()
 ```
