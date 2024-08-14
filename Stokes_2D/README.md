@@ -34,7 +34,7 @@ H1 = 1.
 L2 = 2.
 H2 = 0.5
 # Dimension of the problem,
-gdim = 3
+gdim = 2
 ```
 
 The gmsh model is initialised with its internal settings specified:
@@ -95,12 +95,11 @@ s2  = gmsh.model.occ.addPlaneSurface([2], cl2)
 gmsh.model.occ.synchronize()
 ```
 
-As a safeguard, we ensure removing all duplicates and export the geometry fot control:
+As a safeguard, we ensure removing all duplicates and export the geometry for control:
 ```python
 gmsh.model.occ.removeAllDuplicates()
 gmsh.model.occ.synchronize()
 # 
-gmsh.model.occ.synchronize()
 gmsh.write('2D_Stokes.geo_unrolled')
 ```
 
@@ -143,23 +142,23 @@ Alternatively they can be hand filled using the geo_unrolled filed and visualizi
 
 To assign the surface tags, we run the following:
 ```python
-gmsh.model.addPhysicalGroup(gdim-2, left, tag_left)
-gmsh.model.setPhysicalName(gdim-2, tag_left, 'Left')
+gmsh.model.addPhysicalGroup(gdim-1, left, tag_left)
+gmsh.model.setPhysicalName(gdim-1, tag_left, 'Left')
 # 
-gmsh.model.addPhysicalGroup(gdim-2, top_left, tag_top_left)
-gmsh.model.setPhysicalName(gdim-2, tag_top_left, 'Top_left')
+gmsh.model.addPhysicalGroup(gdim-1, top_left, tag_top_left)
+gmsh.model.setPhysicalName(gdim-1, tag_top_left, 'Top_left')
 # 
-gmsh.model.addPhysicalGroup(gdim-2, middle_up, tag_middle_up)
-gmsh.model.setPhysicalName(gdim-2, tag_middle_up, 'Middle_up')
+gmsh.model.addPhysicalGroup(gdim-1, middle_up, tag_middle_up)
+gmsh.model.setPhysicalName(gdim-1, tag_middle_up, 'Middle_up')
 # 
-gmsh.model.addPhysicalGroup(gdim-2, top_right, tag_top_right)
-gmsh.model.setPhysicalName(gdim-2, tag_top_right, 'Top_right')
+gmsh.model.addPhysicalGroup(gdim-1, top_right, tag_top_right)
+gmsh.model.setPhysicalName(gdim-1, tag_top_right, 'Top_right')
 # 
-gmsh.model.addPhysicalGroup(gdim-2, right, tag_right)
-gmsh.model.setPhysicalName(gdim-2, tag_right, 'Right')
+gmsh.model.addPhysicalGroup(gdim-1, right, tag_right)
+gmsh.model.setPhysicalName(gdim-1, tag_right, 'Right')
 # 
-gmsh.model.addPhysicalGroup(gdim-2, bottom, tag_bottom)
-gmsh.model.setPhysicalName(gdim-2, tag_bottom, 'Bottom')
+gmsh.model.addPhysicalGroup(gdim-1, bottom, tag_bottom)
+gmsh.model.setPhysicalName(gdim-1, tag_bottom, 'Bottom')
 ```
 
 Similarly for the volumes:
@@ -171,11 +170,11 @@ for surface in surfaces:
   else:
     right_surf.append(surface[1])
 # 
-gmsh.model.addPhysicalGroup(gdim-1, left_surf, tag_left_surf)
-gmsh.model.setPhysicalName(gdim-1, tag_left_surf, 'left')
+gmsh.model.addPhysicalGroup(gdim, left_surf, tag_left_surf)
+gmsh.model.setPhysicalName(gdim, tag_left_surf, 'left')
 # 
-gmsh.model.addPhysicalGroup(gdim-1, right_surf, tag_right_surf)
-gmsh.model.setPhysicalName(gdim-1, tag_right_surf, 'right')
+gmsh.model.addPhysicalGroup(gdim, right_surf, tag_right_surf)
+gmsh.model.setPhysicalName(gdim, tag_right_surf, 'right')
 ```
 
 Once again it is recommended to check the geometry identification:
@@ -186,7 +185,7 @@ gmsh.write('2D_Stokes_marked.geo_unrolled')
 
 The mesh is generated and exported:
 ```python
-gmsh.model.mesh.generate(gdim-1)
+gmsh.model.mesh.generate(gdim)
 gmsh.write("2D_Stokes_mesh.msh")
 ```
 
@@ -221,7 +220,7 @@ H1 = 1.
 L2 = 2.
 H2 = 0.5
 # Dimension of the problem,
-gdim = 3
+gdim = 2
 #----------------------------------------------------------------------
 # 
 #----------------------------------------------------------------------

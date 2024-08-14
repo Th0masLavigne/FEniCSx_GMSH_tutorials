@@ -2,7 +2,7 @@
 
 **Linear and non linear solvers**
 **lhs et rhs dans transitoire**
-
+**Stokes 2D et 3D ont des différences dans équation variationnelle**
 
 **$`\color{red} \text{Dans presentation mettre exemple jolis de Pi et Matthieu, ajouter les erreurs courantes avec le choix dx/dt \& attention en axisym à vérifier r diff 0 pour diviser dans grad et div}`$** + Exemple rose + Exemple Anne
 

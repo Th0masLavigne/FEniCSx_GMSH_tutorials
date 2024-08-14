@@ -159,4 +159,27 @@ xdmf.write_function(u_export,t)
 xdmf.write_function(p_,t)
 xdmf.write_function(strainrate,t)
 xdmf.write_function(stress,t)
+# 
+import pyvista
+import numpy
+pyvista.start_xvfb()
+topology, cell_types, geometry = dolfinx.plot.vtk_mesh(P1v_space)
+values = numpy.zeros((geometry.shape[0], 3), dtype=numpy.float64)
+values[:, :len(u_export)] = u_export.x.array.real.reshape((geometry.shape[0], len(u_export)))
+
+# Create a point cloud of glyphs
+function_grid = pyvista.UnstructuredGrid(topology, cell_types, geometry)
+function_grid["u"] = values
+glyphs = function_grid.glyph(orient="u", factor=0.1)
+
+# Create a pyvista-grid for the mesh
+grid = pyvista.UnstructuredGrid(*dolfinx.plot.vtk_mesh(mesh, mesh.topology.dim))
+
+# Create plotter
+plotter = pyvista.Plotter()
+plotter.add_mesh(grid, style="wireframe", color="k")
+plotter.add_mesh(glyphs)
+plotter.view_xy()
+plotter.save_graphic('result.pdf')
+plotter.close()
 # EoF
