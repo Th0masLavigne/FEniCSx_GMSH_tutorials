@@ -61,8 +61,8 @@ v  = ufl.TestFunction(V)
 # Definition of Initial condition
 #----------------------------------------------------------------------
 # 
-u_n                               = dolfinx.fem.Function(V)
-u_n.x.array[:]       = numpy.full_like(u_n.x.array[:], T_e, dtype=petsc4py.PETSc.ScalarType)
+u_n              = dolfinx.fem.Function(V)
+u_n.x.array[:]   = numpy.full_like(u_n.x.array[:], T_e, dtype=petsc4py.PETSc.ScalarType)
 u_n.x.scatter_forward()
 #----------------------------------------------------------------------
 # 
@@ -96,8 +96,6 @@ add_dirichlet_BC(V,fdim,facet_tag.find(5), petsc4py.PETSc.ScalarType(T_i))
 F = cc*u*v*dx + dt*kc*ufl.dot(ufl.grad(u), ufl.grad(v))*dx - (cc*u_n + dt*f)*v*dx + dt*hc*(u - T_e)*v*ds(2)
 A, L = ufl.lhs(F), ufl.rhs(F)
 # 
-# A = kc*ufl.dot(ufl.grad(u), ufl.grad(v))*dx + hc*u*v*ds(2)
-# L = f*v*dx + hc*T_e*v*ds(2)
 #----------------------------------------------------------------------
 # Debug instance
 log_solve=True
@@ -110,7 +108,6 @@ problem = LinearProblem(A, L, bcs=bcs, petsc_options={"ksp_type": "preonly", "pc
 xdmf = dolfinx.io.XDMFFile(mesh.comm, "2D_thermique_transitoire.xdmf", "w")
 xdmf.write_mesh(mesh)
 t=0
-u                               = ufl.TrialFunction(V)
 for n in range(num_steps):
 	# Update current time
 	t += dt
@@ -119,3 +116,5 @@ for n in range(num_steps):
 	u_n.x.array[:] = uh.x.array[:]
 	u_n.x.scatter_forward()
 	xdmf.write_function(uh,t)
+xdmf.close()
+# EoF

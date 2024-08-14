@@ -1,4 +1,4 @@
-# Stationnary thermal problem
+# Transient thermal problem
 
 ## Description of the problem
 
@@ -166,6 +166,7 @@ import ufl
 import basix
 import petsc4py
 import mpi4py
+import numpy
 ``` 
 One can assess the version of FEniCSx with the following:
 ```python
@@ -191,11 +192,21 @@ with dolfinx.io.XDMFFile(mpi4py.MPI.COMM_WORLD, "verif.xdmf", "w") as xdmf:
 The thermal properties are defined.
 
 ```python
-T_i   = 100.0
-T_e   = 20.0
-kc    = 1.0
-hc    = 10.0
-f     = 0.
+T_i   = dolfinx.fem.Constant(mesh,petsc4py.PETSc.ScalarType(50.0))
+T_e   = dolfinx.fem.Constant(mesh,petsc4py.PETSc.ScalarType(10.0))
+kc    = dolfinx.fem.Constant(mesh,petsc4py.PETSc.ScalarType(43.))
+cc    = dolfinx.fem.Constant(mesh,petsc4py.PETSc.ScalarType(4290000.))
+hc    = dolfinx.fem.Constant(mesh,petsc4py.PETSc.ScalarType(10.0))
+f     = dolfinx.fem.Constant(mesh,petsc4py.PETSc.ScalarType(0.))
+```
+The time discretisation is specified:
+```python
+# final time
+TFIN = 360.    
+# number of time steps        
+num_steps = 36 
+# time step size    
+dt = TFIN / num_steps 
 ```
 
 #### Function spaces, Functions and operators
@@ -220,6 +231,14 @@ The following operators are also defined:
 q_deg = 4
 dx    = ufl.Measure('dx', metadata={"quadrature_degree":q_deg}, subdomain_data=cell_tag, domain=mesh)
 ds    = ufl.Measure("ds", domain=mesh, subdomain_data=facet_tag)
+```
+
+#### Initial Conditions
+The transient formulation requires the solution of the previous time step:
+```python
+u_n              = dolfinx.fem.Function(V)
+u_n.x.array[:]   = numpy.full_like(u_n.x.array[:], T_e, dtype=petsc4py.PETSc.ScalarType)
+u_n.x.scatter_forward()
 ```
 
 #### Dirichlet boundary conditions
@@ -247,22 +266,14 @@ where a(u,v) is known as the bilinear form, L(v) as a linear form, and v is the 
 
 In our case, we have the variationnal form:
 ```math
-\int_\Omega k_c \nabla(u):\nabla(v) \mathrm{d}\Omega + \int_{\partial\Omega_T} h_c u \cdot v\,\mathrm{d}S - \int_\Omega f\,v\,\mathrm{d}\Omega -\int_{\partial\Omega_T} h_c T_e \cdot v\,\mathrm{d}S =0
-```
-We can identify a and L such that:
-```math
-a(u,v) = \int_\Omega k_c \nabla(u):\nabla(v) \mathrm{d}\Omega + \int_{\partial\Omega_T} h_c u \cdot v\,\mathrm{d}S
-```
-```math
-L(v) = \int_\Omega f\,v\,\mathrm{d}\Omega + \int_{\partial\Omega_T} h_c T_e \cdot v\,\mathrm{d}S
+\int_\Omega cc\, u \cdot v \mathrm{d}\Omega + dt * \int_\Omega k_c \nabla(u):\nabla(v) \mathrm{d}\Omega + dt * \int_{\partial\Omega_T} h_c (u-T_e) \cdot v\,\mathrm{d}S - dt * \int_\Omega f\,v\,\mathrm{d}\Omega - dt * \int_\Omega cc\,u_n \cdot v\,\mathrm{d}\Omega =0
 ```
 
-
-This is traduced in FEniCSx with:
+The left hand side (lhs) and right hand side (rhs) to identify a(u,v)=L(v) can be directly identified in FEniCSx. This is traduced with:
 
 ```python
-A = kc*ufl.dot(ufl.grad(u), ufl.grad(v))*dx + hc*u*v*ds(2)
-L = f*v*dx + hc*T_e*v*ds(2)
+F = cc*u*v*dx + dt*kc*ufl.dot(ufl.grad(u), ufl.grad(v))*dx - (cc*u_n + dt*f)*v*dx + dt*hc*(u - T_e)*v*ds(2)
+A, L = ufl.lhs(F), ufl.rhs(F)
 ```
 
 #### Solving and post-processing
@@ -282,16 +293,19 @@ if log_solve:
 Finally the problem is introduced as:
 ```python
 problem = LinearProblem(A, L, bcs=bcs, petsc_options={"ksp_type": "preonly", "pc_type": "lu"})
-uh = problem.solve()
 ```
 
-The solution can be saved in a xdmf file:
+The solution can be computed at each time step and saved in a xdmf file:
 ```python
-uh.name = "solution"
-xdmf = dolfinx.io.XDMFFile(mesh.comm, "2D_thermique.xdmf", "w")
-xdmf.write_mesh(mesh)
 t=0
-xdmf.write_function(uh,t)
+for n in range(num_steps):
+    # Update current time
+    t += dt
+    uh = problem.solve()
+    uh.name = "solution"
+    # update previous solution
+    u_n.x.array[:] = uh.x.array[:]
+    u_n.x.scatter_forward()
+    xdmf.write_function(uh,t)
 xdmf.close()
-# EoF
 ```
