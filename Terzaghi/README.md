@@ -42,9 +42,9 @@ from dolfinx.nls.petsc import NewtonSolver
 ```
 
 We can then define the useful functions for the rest of the computation:
-- Elasticity Law : $$2\mu\mathbf{\epsilon}(\mathbf{u}^s)+\lambda \text{tr}(\mathbf{\epsilon}(\mathbf{u}^s))\mathbf{I_d} $$,
+- Elasticity Law : $$2\mu\mathbf{\epsilon}(\mathbf{u}^s)+\lambda \text{tr}(\mathbf{\epsilon}(\mathbf{u}^s))\mathbf{I_d}$$,
 - Terzaghi analytical solution in space,
-- L2 error function in pressure : $$ \mu $$,
+- L2 error function in pressure : $$\mu$$,
 - Evaluation of a function for a physical point,
 - Terzaghi solution in time for the top points.
 
