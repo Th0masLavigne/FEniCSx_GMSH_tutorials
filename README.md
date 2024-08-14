@@ -1,5 +1,26 @@
 # FEniCSx_GMSH_tutorials
 
+A csv export can further be introduced to be able to modify the plots at any time:
+```python
+    def export_to_csv(data, filename, header=None):
+        import csv
+        try:
+            with open(filename, 'w', newline='') as file:
+                writer = csv.writer(file)
+                if header:
+                    writer.writerow(header)
+                writer.writerows(data)
+            print(f"Data exported to {filename} successfully")
+        except Exception as e:
+            print(f"An error occurred while exporting data to {filename}: {e}")
+```
+
+```sh 
+mpirun -n <N > python3 < filename >
+```
+
+Where <N> is the number of threads to use and <filename> is the python code of the problem.
+
 **Linear and non linear solvers**
 **lhs et rhs dans transitoire**
 **Stokes 2D et 3D ont des différences dans équation variationnelle**
@@ -45,27 +66,27 @@ One can also refer to the tutorial from *[Lavigne et al., 2023](https://doi.org/
 ## Creating a virtual workspace
 
 To set an interactive working directory (in an ubuntu environment), respectively using Docker and FEniCSx, the following commands can be used:
-```cmd
+```sh
 docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.8.0
 ```
 
-```cmd
+```sh
 singularity exec /modules/containers/images/dolfinx/dolfinx-0.8.0.sif python3 file.py
 ```
 
 To create a jupyter container, compute:
-```cmd
+```sh
 docker run --init -p 8888:8888 -v "$(pwd)":/root/shared --name=jupyter_dolfinx dolfinx/lab:v0.8.0
 ```
 
 Then to use it, consider using:
-```cmd
+```sh
 docker container start -i jupyter_dolfinx
 ```
 
 The repeated use of a command can be reduced by the use of aliases (see *[create an alias fot linux](https://www.malekal.com/comment-creer-un-alias-linux/)*). Several containers can be considered based on the version you need:
 
-```cmd
+```sh
 alias fenicsx_v0_5_2='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared th0maslavigne/dolfinx:v0.5.2'
 alias fenicsx_v0_6_0='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.6.0'
 alias fenicsx_v0_7_3='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.7.3'
@@ -80,36 +101,36 @@ alias pymesh='docker run -ti -v $(pwd):/home/pymesh/shared -w /home/pymesh/share
 **Remark:** Including the bash term at the end allows to exit the python environnment to the linux command.
 
 **Remark:** Docker can store the images and therefore fill a huge amount of space which you can purge with:
-```cmd
+```sh
 alias dockerRemoveAll="docker stop `docker ps -qa` > /dev/null 2>&1; docker system prune --volumes --all;"
 ```
 
 Sametimes a docker image is missing some python library you'd need. You can create a new image (with a dockerfile that you will build) based on an existing image. For instance, you want the dolfinx image with pandas library. Your Dockerfile will contain:
-```cmd
+```sh
 FROM dolfinx/dolfinx:v0.5.2
 RUN pip3 install pandas
 ```
 Then to build the image, run in the folder: 
-```cmd
+```sh
 docker build .
 ```
 
 You can list your local images using :
-```cmd
+```sh
 docker images
 ```
 
 You can tag the images based on their ID:
-```cmd
+```sh
 docker tag ImageID meaningful_name
 ```
 
 To save an image:
-```cmd
+```sh
 docker save ImageTag > name.tar
 ```
 or
-```cmd
+```sh
 docker save -o name.tar ImageTag
 ```
 
@@ -118,7 +139,7 @@ docker save -o name.tar ImageTag
 
 ### Good Practice for coding conferences:
 - *[Clean Code - Uncle Bob / Lesson 1](https://www.youtube.com/watch?v=7EmboKQH8lM)*
-- *[Clean Code - Uncle Bob / Lesson 1](https://www.youtube.com/watch?v=7EmboKQH8lM)*
+- *[Clean Code - Conference](https://www.youtube.com/watch?v=7EmboKQH8lM&list=PLmmYSbUCWJ4x1GO839azG_BBw8rkh-zOj&index=1)*
 
 ### Docker (alternatively singularity)
 - *[Docker website](https://www.docker.com/products/docker-desktop/)*
@@ -154,7 +175,7 @@ docker save -o name.tar ImageTag
 - *[Mesh Update](https://fenicsproject.discourse.group/t/how-to-do-updated-lagrangian-when-the-displacement-lives-in-a-different-space-to-the-mesh-geometry/10760/2)*
 
 **Remark:** On ubuntu jammy, the FEniCSx version 0.8.0 had a conflict requiring to remove python3-numba:
-```cmd
+```sh
 sudo apt remove python3-numba
 ```
 ### GIT

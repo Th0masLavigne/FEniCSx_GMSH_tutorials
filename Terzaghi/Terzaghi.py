@@ -204,7 +204,6 @@ T     = dolfinx.fem.Constant(mesh,dolfinx.default_scalar_type(-pinit))
 #----------------------------------------------------------------------
 #
 # Define Mixed Space (R2,R) -> (u,p)
-
 # Finite Element 
 P1   = basix.ufl.element("P", mesh.topology.cell_name(), degree=1)
 # Vector Element
@@ -277,9 +276,7 @@ Xn.x.scatter_forward()
 #----------------------------------------------------------------------
 # Definition of the Variationnal Form
 #----------------------------------------------------------------------
-# Equation 19
 F       = (1/dt)*ufl.nabla_div(u-u_n)*q*dx + (permeability/viscosity)*ufl.dot(ufl.grad(p),ufl.grad(q))*dx  + ( S/dt )*(p-p_n)*q*dx
-# Equation 20
 F      += ufl.inner(ufl.grad(v),Hookean(u))*dx - beta * p * ufl.nabla_div(v)*dx - T*ufl.inner(v,normal)*ds(3)
 # Non linear problem definition
 J       = ufl.derivative(F, X0, dX0)

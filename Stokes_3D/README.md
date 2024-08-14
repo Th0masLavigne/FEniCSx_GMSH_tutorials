@@ -14,7 +14,7 @@ The objective is to find the resulting velocity and pressure.
 
 Given the strong compatibility between GMSH and FEniCSx it is recommended to use GMSH. GMSH also has a python API. The mesh, refinement and marking operations can be proceeded in GMSH and imported in the FEniCSx environment. 
 
-## Geomerty creation using GMSG
+## Geomerty creation using GMSH
 ### From a 2D Geometry
 
 For this example we start from the 2D geometry generated for the 2D Stoke example and we apply a revolution operation. Similarly, an extrusion operation can be operated within GMSH.
