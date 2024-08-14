@@ -204,19 +204,3 @@ There a few libraries out there that support boolean operations for meshes, you 
         except Exception as e:
             print(f"An error occurred while exporting data to {filename}: {e}")
 ```
-
-**Pour présentation générale**
-*rappels elements finis*
-
-*Rappels bonnes pratiques code et 1 mot sur bonne pratique de mettre des checks conditions try assert sur tag notamment s'assurer de ne pas avoir fait d'oublis
-1 code doit se suffire, les commentaires sont superflus normalement. Ne pas nommer les variables n'importe comment, commenter est très important ainsi qu'organiser un code pour débugger, mettre des try assert autant que possible*
-
-*overview commercial et open source*
-
-*liste des outils avantages inconvenients*
-
-*Parler des outils collaboratifs*
-
-*point focus sur GMSH (GEO VS OCC kernels)* FENICS ET DEAL.II
-
-*MONTRER DES EXEMPLES Dans presentation mettre exemple jolis de Pi et Matthieu, ajouter les erreurs courantes avec le choix dx/dt + Exemple Meryem, exemple rose + Exemple Anne*
