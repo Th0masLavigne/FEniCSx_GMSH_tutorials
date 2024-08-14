@@ -29,7 +29,6 @@ The model can be initialized:
 ```python
 gmsh.initialize()
 gmsh.clear()
-gmsh.model.add("3D_Elastic")
 ```
 The dimension of the problem as well as the mesher options can be defined:
 ```python
@@ -41,8 +40,6 @@ l_d = 0.24
 h_d = 0.1
 gdim = 2
 # 
-gmsh.initialize()
-gmsh.clear()
 gmsh.model.add("2D_Stokes")
 #Characteristic length
 lc = l_d/60
@@ -183,8 +180,8 @@ To verify if the domain is well tagged, an XDMF file can be created as follows:
 
 ```python
 with dolfinx.io.XDMFFile(mpi4py.MPI.COMM_WORLD, "verif.xdmf", "w") as xdmf:
-    xdmf.write_mesh(domain)
-    xdmf.write_meshtags(facet_tag,domain.geometry)
+    xdmf.write_mesh(mesh)
+    xdmf.write_meshtags(facet_tag,mesh.geometry)
 ```
 
 #### Material parameters

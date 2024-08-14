@@ -518,14 +518,15 @@ At this point other quantities such as the strain rate and the stress can furthe
 strainrate=dolfinx.fem.Function(tensor_space)
 strainrate.name = "strainrate"
 # 0.5*(grad_cyl(u_export) + grad_cyl(u_export).T)
-strainrate_expr = dolfinx.fem.Expression(ufl.sym(grad_cyl(u_)),tensor_space.element.interpolation_points())
+strainrate_expr = dolfinx.fem.Expression(ufl.sym(ufl.grad(u_)),tensor_space.element.interpolation_points())
 strainrate.interpolate(strainrate_expr)
 strainrate.x.scatter_forward()
 # # 
 eta=1
+Id = ufl.Identity(3)
 stress=dolfinx.fem.Function(tensor_space)
 stress.name = "stress"
-stress_expr = dolfinx.fem.Expression(-1.*p_*Id + eta*2*ufl.sym(grad_cyl(u_)),tensor_space.element.interpolation_points())
+stress_expr = dolfinx.fem.Expression(-1.*p_*Id + eta*2*ufl.sym(ufl.grad(u_)),tensor_space.element.interpolation_points())
 stress.interpolate(stress_expr)
 stress.x.scatter_forward()
 # 
