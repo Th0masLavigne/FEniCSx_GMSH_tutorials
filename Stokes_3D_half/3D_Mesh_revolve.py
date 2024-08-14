@@ -57,7 +57,7 @@ E = [(L1+L2), H2]
 s1 = gmsh.model.occ.addRectangle(A[0], A[1], 0, L1, H1, tag=-1)
 s2 = gmsh.model.occ.addRectangle(D[0], D[1], 0, L2, H2, tag=-1)
 # 
-gmsh.model.occ.synchronize
+gmsh.model.occ.synchronize()
 # 
 gmsh.model.occ.revolve([(2,s1),(2,s2)], 0,0,0, 1, 0, 0, -numpy.pi/2)
 gmsh.model.occ.synchronize()
@@ -129,7 +129,6 @@ for volume in volumes:
 	else:
 		right_vol.append(volume[1])
 # 
-print(surfaces)
 gmsh.model.addPhysicalGroup(gdim, left_vol, tag_left_vol)
 gmsh.model.setPhysicalName(gdim, tag_left_vol, 'left')
 # 
@@ -155,3 +154,4 @@ if 'close' not in sys.argv:
 	gmsh.fltk.run()
 # 
 gmsh.finalize()
+# EoF

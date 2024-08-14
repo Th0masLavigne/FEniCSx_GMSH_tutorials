@@ -1,8 +1,8 @@
 # Stokes Problem (3D)
 
-The following directory contains the application of a 2D axi-symmetric Stokes Problem. 
+The following directory contains the application of a 3D Stokes Problem. 
 
-The geometry is created using GMSH. Two different pipelines are proposed. It consists in two rectangles of different heights with an inflow imposed on the left side and a no slip condition for the upper sides.
+The geometry is created using GMSH. Two different pipelines are proposed. It consists in two quarter of cylinders of different heights with an inflow imposed on the left side and a no slip condition for the upper sides.
 
 <p align="center">
   <img width=40% src="./Stokes3D.jpg"><img width=46.5% src="./Stokes3D2.png">
@@ -15,7 +15,9 @@ The objective is to find the resulting velocity and pressure.
 Given the strong compatibility between GMSH and FEniCSx it is recommended to use GMSH. GMSH also has a python API. The mesh, refinement and marking operations can be proceeded in GMSH and imported in the FEniCSx environment.
 
 ## Geomerty creation using GMSG
-### From a Sketch
+### From a 2D Geometry
+
+For this example we start from the 2D geometry generated for the 2D Stoke example and we apply a revolution operation. Similarly, an extrusion operation can be operated within GMSH.
 
 #### Libraries and settings
 
@@ -59,49 +61,35 @@ gmsh.model.occ.synchronize()
 
 #### Geometry
 
-To compute the geometry, we first put the points of the rectangles:
+To compute the geometry, we first generate the rectangles:
 ```python
 # Left square
-A = gmsh.model.occ.addPoint(0, 0, lc)
-B = gmsh.model.occ.addPoint(0, H1, lc)
-C = gmsh.model.occ.addPoint(L1, H1, lc)
-D = gmsh.model.occ.addPoint(L1, 0, lc)
+A = [0, 0]
+C = [L1, H1]
+D = [L1, 0]
 # Right square
-E = gmsh.model.occ.addPoint((L1+L2), H2, lc)
-F = gmsh.model.occ.addPoint((L1+L2), 0, lc)
-G = gmsh.model.occ.addPoint(L1, H2, lc)
-```
-
-Then, we link the points:
-```python
-lAB  = gmsh.model.occ.addLine(A, B)
-lBC  = gmsh.model.occ.addLine(B, C)
-lCG  = gmsh.model.occ.addLine(C, G)
-lGD  = gmsh.model.occ.addLine(G, D)
-lDA  = gmsh.model.occ.addLine(D, A)
+E = [(L1+L2), H2]
 # 
-lDF = gmsh.model.occ.addLine(D, F)
-lFE = gmsh.model.occ.addLine(F,E)
-lEG = gmsh.model.occ.addLine(E,G)
+# gmsh.model.occ.addRectangle(x, y, z, dx, dy, tag=-1, roundedRadius=0.)
+s1 = gmsh.model.occ.addRectangle(A[0], A[1], 0, L1, H1, tag=-1)
+s2 = gmsh.model.occ.addRectangle(D[0], D[1], 0, L2, H2, tag=-1)
+# 
+gmsh.model.occ.synchronize()
 ```
 
-The surfaces are defined from a curve loop:
+Then, we operate a revolution operation:
 ```python
-cl1 = gmsh.model.occ.addCurveLoop([lAB, lBC, lCG, lGD, lDA])
-s1  = gmsh.model.occ.addPlaneSurface([1], cl1)
-gmsh.model.occ.synchronize()
-cl2 = gmsh.model.occ.addCurveLoop([lGD, lDF, lFE, lEG])
-s2  = gmsh.model.occ.addPlaneSurface([2], cl2)
+# gmsh.model.occ.revolve(dimTags, x, y, z, ax, ay, az, angle, numElements=[], heights=[], recombine=False)
+gmsh.model.occ.revolve([(2,s1),(2,s2)], 0,0,0, 1, 0, 0, -numpy.pi/2)
 gmsh.model.occ.synchronize()
 ```
-
 As a safeguard, we ensure removing all duplicates and export the geometry fot control:
 ```python
 gmsh.model.occ.removeAllDuplicates()
 gmsh.model.occ.synchronize()
 # 
 gmsh.model.occ.synchronize()
-gmsh.write('2D_Stokes.geo_unrolled')
+gmsh.write('3D_Stokes.geo_unrolled')
 ```
 
 #### Marking
@@ -110,84 +98,90 @@ GMSH creates the mesh for physical groups. Each of these groups are marked. All 
 
 ```python
 lines, surfaces, volumes = [gmsh.model.getEntities(d) for d in [1, 2, 3]]
+boundaries = gmsh.model.getBoundary(volumes, oriented=False)
 ```
 
 It is then required to create empty lists and tag values:
 
 ```python
-left, top_left, middle_up, top_right, right, bottom = [], [], [], [], [], []
-tag_left, tag_top_left, tag_middle_up, tag_top_right, tag_right, tag_bottom = 1, 2, 3, 4, 5, 6
-left_surf, right_surf = [], []
-tag_left_surf, tag_right_surf = 10, 20
+left, top_left, middle_up, top_right, right, bottom, front = [], [], [], [], [], [], []
+tag_left, tag_top_left, tag_middle_up, tag_top_right, tag_right, tag_bottom, tag_front = 1, 2, 3, 4, 5, 6,7
+left_vol, right_vol = [], []
+tag_left_vol, tag_right_vol = 10, 20
 ```
 
 The lists can be automatically filled by identification of the faces and volumes based on their center of mass position:
 ```python
-for line in lines:
-  center_of_mass = gmsh.model.occ.getCenterOfMass(line[0], line[1])
+for boundary in boundaries:
+  center_of_mass = gmsh.model.occ.getCenterOfMass(boundary[0], boundary[1])
   if numpy.isclose(center_of_mass[0],0):
-    left.append(line[1])
-  elif numpy.isclose(center_of_mass[1],H1):
-    top_left.append(line[1])
-  elif numpy.isclose(center_of_mass[1],(H2+H1)/2):
-    middle_up.append(line[1])
-  elif numpy.isclose(center_of_mass[1],H2):
-    top_right.append(line[1])
+    left.append(boundary[1])
+  elif (center_of_mass[0]>H2) and (center_of_mass[1]>H2):
+    top_left.append(boundary[1])
+  elif numpy.isclose(center_of_mass[0],L1):
+    middle_up.append(boundary[1])
   elif numpy.isclose(center_of_mass[0],L1+L2):
-    right.append(line[1])
+    right.append(boundary[1])
   elif numpy.isclose(center_of_mass[1],0):
-    bottom.append(line[1])
+    bottom.append(boundary[1])
+  elif numpy.isclose(center_of_mass[2],0):
+    front.append(boundary[1])
+  else:
+    top_right.append(boundary[1])
 ```
 
 Alternatively they can be hand filled using the geo_unrolled filed and visualizing in the GMSH GUI.
 
 To assign the surface tags, we run the following:
 ```python
-gmsh.model.addPhysicalGroup(gdim-2, left, tag_left)
-gmsh.model.setPhysicalName(gdim-2, tag_left, 'Left')
+gmsh.model.addPhysicalGroup(gdim-1, left, tag_left)
+gmsh.model.setPhysicalName(gdim-1, tag_left, 'Left')
 # 
-gmsh.model.addPhysicalGroup(gdim-2, top_left, tag_top_left)
-gmsh.model.setPhysicalName(gdim-2, tag_top_left, 'Top_left')
+gmsh.model.addPhysicalGroup(gdim-1, top_left, tag_top_left)
+gmsh.model.setPhysicalName(gdim-1, tag_top_left, 'Top_left')
 # 
-gmsh.model.addPhysicalGroup(gdim-2, middle_up, tag_middle_up)
-gmsh.model.setPhysicalName(gdim-2, tag_middle_up, 'Middle_up')
+gmsh.model.addPhysicalGroup(gdim-1, middle_up, tag_middle_up)
+gmsh.model.setPhysicalName(gdim-1, tag_middle_up, 'Middle_up')
 # 
-gmsh.model.addPhysicalGroup(gdim-2, top_right, tag_top_right)
-gmsh.model.setPhysicalName(gdim-2, tag_top_right, 'Top_right')
+gmsh.model.addPhysicalGroup(gdim-1, top_right, tag_top_right)
+gmsh.model.setPhysicalName(gdim-1, tag_top_right, 'Top_right')
 # 
-gmsh.model.addPhysicalGroup(gdim-2, right, tag_right)
-gmsh.model.setPhysicalName(gdim-2, tag_right, 'Right')
+gmsh.model.addPhysicalGroup(gdim-1, right, tag_right)
+gmsh.model.setPhysicalName(gdim-1, tag_right, 'Right')
 # 
-gmsh.model.addPhysicalGroup(gdim-2, bottom, tag_bottom)
-gmsh.model.setPhysicalName(gdim-2, tag_bottom, 'Bottom')
+gmsh.model.addPhysicalGroup(gdim-1, bottom, tag_bottom)
+gmsh.model.setPhysicalName(gdim-1, tag_bottom, 'Bottom')
+# 
+gmsh.model.addPhysicalGroup(gdim-1, front, tag_front)
+gmsh.model.setPhysicalName(gdim-1, tag_front, 'Front')
 ```
 
 Similarly for the volumes:
 ```python
-for surface in surfaces:
-  center_of_mass = gmsh.model.occ.getCenterOfMass(surface[0], surface[1])
+for volume in volumes:
+  center_of_mass = gmsh.model.occ.getCenterOfMass(volume[0], volume[1])
   if center_of_mass[0]<L1:
-    left_surf.append(surface[1])
+    left_vol.append(volume[1])
   else:
-    right_surf.append(surface[1])
+    right_vol.append(volume[1])
 # 
-gmsh.model.addPhysicalGroup(gdim-1, left_surf, tag_left_surf)
-gmsh.model.setPhysicalName(gdim-1, tag_left_surf, 'left')
+gmsh.model.addPhysicalGroup(gdim, left_vol, tag_left_vol)
+gmsh.model.setPhysicalName(gdim, tag_left_vol, 'left')
 # 
-gmsh.model.addPhysicalGroup(gdim-1, right_surf, tag_right_surf)
-gmsh.model.setPhysicalName(gdim-1, tag_right_surf, 'right')
+gmsh.model.addPhysicalGroup(gdim, right_vol, tag_right_vol)
+gmsh.model.setPhysicalName(gdim, tag_right_vol, 'right')
 ```
 
 Once again it is recommended to check the geometry identification:
 ```python
 gmsh.model.occ.synchronize()
-gmsh.write('2D_Stokes_marked.geo_unrolled')
+gmsh.write('3D_Stokes_marked.geo_unrolled')
 ```
 
 The mesh is generated and exported:
 ```python
-gmsh.model.mesh.generate(gdim-1)
-gmsh.write("2D_Stokes_mesh.msh")
+gmsh.model.mesh.generate(gdim)
+gmsh.write("3D_Stokes_mesh.msh")
 ```
 
 Executing the following command at the end run the GMSH Gui for visualization before finalizing the model:
@@ -200,7 +194,7 @@ gmsh.finalize()
 ```
 
 ### From elementary geometries
-When you have elementary entities defining your domain, it is often easier to use them and use boolean operations (cut,fragment,fuse,*etc.*). In the present case the Geometry could be created simply with two rectangles. 
+When you have elementary entities defining your domain, it is often easier to use them and use boolean operations (cut,fragment,fuse,*etc.*). In the present case the Geometry could be created simply with two cylinders. 
 
 The beginning is the same:
 
@@ -244,25 +238,15 @@ gmsh.model.occ.synchronize()
 # gmsh.option.setNumber("Mesh.MeshSizeExtendFromBoundary", 0.002)
 # gmsh.option.setNumber("Mesh.MeshSizeFromPoints", 0)
 # gmsh.option.setNumber("Mesh.MeshSizeFromCurvature", 5)
-# 
-#----------------------------------------------------------------------
-# Compute the geometry
-#----------------------------------------------------------------------
-# 
-#Add the points
-# Left square
-A = [0, 0]
-C = [L1, H1]
-D = [L1, 0]
-# Right square
-E = [(L1+L2), H2]
 ```
 
-Then, two rectangles are added and our geometry is finished:
+Then, two cylinders are added and our geometry is finished:
 ```python
-# gmsh.model.occ.addRectangle(x, y, z, dx, dy, tag=-1, roundedRadius=0.)
-s1 = gmsh.model.occ.addRectangle(A[0], A[1], 0, L1, H1, tag=-1)
-s2 = gmsh.model.occ.addRectangle(D[0], D[1], 0, L2, H2, tag=-1)
+# gmsh.model.occ.addCylinder(x, y, z, dx, dy, dz, r, tag=-1, angle=2*pi)
+cylinder = gmsh.model.occ. addCylinder(0 ,0 ,0 ,L1 ,0 ,0 ,H1,tag =10 , angle=numpy.pi/2)
+gmsh.model.occ. synchronize ()
+cylinder2 = gmsh.model.occ. addCylinder(L1 ,0 ,0 ,L2 ,0 ,0 ,H2,tag =20 , angle=numpy.pi/2)
+gmsh.model.occ. synchronize ()
 ```
 The duplicates are removed and a check file is generated.
 ```python
@@ -271,7 +255,7 @@ gmsh.model.occ.removeAllDuplicates()
 gmsh.model.occ.synchronize()
 # 
 gmsh.model.occ.synchronize()
-gmsh.write('2D_Stokes.geo_unrolled')
+gmsh.write('3D_Stokes.geo_unrolled')
 ```
 
 All the following steps (marking, meshing) are the same as previously:
@@ -282,67 +266,70 @@ All the following steps (marking, meshing) are the same as previously:
 #----------------------------------------------------------------------
 # 
 lines, surfaces, volumes = [gmsh.model.getEntities(d) for d in [1, 2, 3]]
+boundaries = gmsh.model.getBoundary(volumes, oriented=False)
 # 
-left, top_left, middle_up, top_right, right, bottom = [], [], [], [], [], []
-tag_left, tag_top_left, tag_middle_up, tag_top_right, tag_right, tag_bottom = 1, 2, 3, 4, 5, 6
-left_surf, right_surf = [], []
-tag_left_surf, tag_right_surf = 10, 20
+left, top_left, middle_up, top_right, right, bottom, front = [], [], [], [], [], [], []
+tag_left, tag_top_left, tag_middle_up, tag_top_right, tag_right, tag_bottom, tag_front = 1, 2, 3, 4, 5, 6,7
+left_vol, right_vol = [], []
+tag_left_vol, tag_right_vol = 10, 20
 # 
-for line in lines:
-  center_of_mass = gmsh.model.occ.getCenterOfMass(line[0], line[1])
+for boundary in boundaries:
+  center_of_mass = gmsh.model.occ.getCenterOfMass(boundary[0], boundary[1])
   if numpy.isclose(center_of_mass[0],0):
-    left.append(line[1])
-  elif numpy.isclose(center_of_mass[1],H1):
-    top_left.append(line[1])
-  elif numpy.isclose(center_of_mass[1],(H2+H1)/2):
-    middle_up.append(line[1])
-  elif numpy.isclose(center_of_mass[1],H2):
-    top_right.append(line[1])
+    left.append(boundary[1])
+  elif (center_of_mass[0]>H2) and (center_of_mass[1]<-H2):
+    top_left.append(boundary[1])
+  elif numpy.isclose(center_of_mass[0],L1):
+    middle_up.append(boundary[1])
   elif numpy.isclose(center_of_mass[0],L1+L2):
-    right.append(line[1])
+    right.append(boundary[1])
   elif numpy.isclose(center_of_mass[1],0):
-    bottom.append(line[1])
-# 
-gmsh.model.addPhysicalGroup(gdim-2, left, tag_left)
-gmsh.model.setPhysicalName(gdim-2, tag_left, 'Left')
-# 
-gmsh.model.addPhysicalGroup(gdim-2, top_left, tag_top_left)
-gmsh.model.setPhysicalName(gdim-2, tag_top_left, 'Top_left')
-# 
-gmsh.model.addPhysicalGroup(gdim-2, middle_up, tag_middle_up)
-gmsh.model.setPhysicalName(gdim-2, tag_middle_up, 'Middle_up')
-# 
-gmsh.model.addPhysicalGroup(gdim-2, top_right, tag_top_right)
-gmsh.model.setPhysicalName(gdim-2, tag_top_right, 'Top_right')
-# 
-gmsh.model.addPhysicalGroup(gdim-2, right, tag_right)
-gmsh.model.setPhysicalName(gdim-2, tag_right, 'Right')
-# 
-gmsh.model.addPhysicalGroup(gdim-2, bottom, tag_bottom)
-gmsh.model.setPhysicalName(gdim-2, tag_bottom, 'Bottom')
-# 
-for surface in surfaces:
-  center_of_mass = gmsh.model.occ.getCenterOfMass(surface[0], surface[1])
-  if center_of_mass[0]<L1:
-    left_surf.append(surface[1])
+    bottom.append(boundary[1])
+  elif numpy.isclose(center_of_mass[2],0):
+    front.append(boundary[1])
   else:
-    right_surf.append(surface[1])
+    top_right.append(boundary[1])
+# 
+gmsh.model.addPhysicalGroup(gdim-1, left, tag_left)
+gmsh.model.setPhysicalName(gdim-1, tag_left, 'Left')
+# 
+gmsh.model.addPhysicalGroup(gdim-1, top_left, tag_top_left)
+gmsh.model.setPhysicalName(gdim-1, tag_top_left, 'Top_left')
+# 
+gmsh.model.addPhysicalGroup(gdim-1, middle_up, tag_middle_up)
+gmsh.model.setPhysicalName(gdim-1, tag_middle_up, 'Middle_up')
+# 
+gmsh.model.addPhysicalGroup(gdim-1, top_right, tag_top_right)
+gmsh.model.setPhysicalName(gdim-1, tag_top_right, 'Top_right')
+# 
+gmsh.model.addPhysicalGroup(gdim-1, right, tag_right)
+gmsh.model.setPhysicalName(gdim-1, tag_right, 'Right')
+# 
+gmsh.model.addPhysicalGroup(gdim-1, bottom, tag_bottom)
+gmsh.model.setPhysicalName(gdim-1, tag_bottom, 'Bottom')
+# 
+gmsh.model.addPhysicalGroup(gdim-1, front, tag_front)
+gmsh.model.setPhysicalName(gdim-1, tag_front, 'Front')
+# 
+for volume in volumes:
+  center_of_mass = gmsh.model.occ.getCenterOfMass(volume[0], volume[1])
+  if center_of_mass[0]<L1:
+    left_vol.append(volume[1])
+  else:
+    right_vol.append(volume[1])
 # 
 print(surfaces)
-gmsh.model.addPhysicalGroup(gdim-1, left_surf, tag_left_surf)
-gmsh.model.setPhysicalName(gdim-1, tag_left_surf, 'left')
+gmsh.model.addPhysicalGroup(gdim, left_vol, tag_left_vol)
+gmsh.model.setPhysicalName(gdim, tag_left_vol, 'left')
 # 
-gmsh.model.addPhysicalGroup(gdim-1, right_surf, tag_right_surf)
-gmsh.model.setPhysicalName(gdim-1, tag_right_surf, 'right')
-#----------------------------------------------------------------------
-# Export the geometry with the tags for control
-#----------------------------------------------------------------------
+gmsh.model.addPhysicalGroup(gdim, right_vol, tag_right_vol)
+gmsh.model.setPhysicalName(gdim, tag_right_vol, 'right')
 # 
 gmsh.model.occ.synchronize()
-gmsh.write('2D_Stokes_marked.geo_unrolled')
+gmsh.write('3D_Stokes_marked.geo_unrolled')
 # 
-gmsh.model.mesh.generate(gdim-1)
-gmsh.write("2D_Stokes_mesh.msh")
+gmsh.model.mesh.generate(gdim)
+gmsh.write("3D_Stokes_mesh.msh")
 ```
 ```python
 if 'close' not in sys.argv:
@@ -375,7 +362,7 @@ print("Dolfinx version is:",dolfinx.__version__)
 We load the mesh, facet and cell tags from the msh file created:
 
 ```python
-mesh, cell_tag, facet_tag = dolfinx.io.gmshio.read_from_msh('./2D_Stokes_mesh.msh', mpi4py.MPI.COMM_WORLD, 0, gdim=2)
+mesh, cell_tag, facet_tag = dolfinx.io.gmshio.read_from_msh('./3D_Stokes_mesh.msh', mpi4py.MPI.COMM_WORLD, 0, gdim=3)
 ```
 
 ### Function spaces, Functions and expressions
@@ -428,7 +415,8 @@ ds    = ufl.Measure("ds", domain=mesh, subdomain_data=facet_tag)
 Three different type of dirichlet boundary conditions are introduced:
 - no-slip conditions for the velocity on the top left / top right and top middle boundaries,
 - inflow of $`v_x=1`$ on the left boundary,
-- Symmetry condition $`v_y=0`$ on the bottom boundary.
+- Symmetry condition $`v_y=0`$ on the bottom boundary,
+- Symmetry condition $`v_z=0`$ on the front boundary.
 
 ```python
 bcs = []
@@ -442,36 +430,29 @@ def add_dirichlet_BC(functionspace,dimension,facet,value):
 # top left
 add_dirichlet_BC(CHS.sub(1).sub(0),fdim,facet_tag.find(2), petsc4py.PETSc.ScalarType(0.))
 add_dirichlet_BC(CHS.sub(1).sub(1),fdim,facet_tag.find(2), petsc4py.PETSc.ScalarType(0.))
+add_dirichlet_BC(CHS.sub(1).sub(2),fdim,facet_tag.find(2), petsc4py.PETSc.ScalarType(0.))
 # top right
 add_dirichlet_BC(CHS.sub(1).sub(0),fdim,facet_tag.find(4), petsc4py.PETSc.ScalarType(0.))
 add_dirichlet_BC(CHS.sub(1).sub(1),fdim,facet_tag.find(4), petsc4py.PETSc.ScalarType(0.))
+add_dirichlet_BC(CHS.sub(1).sub(2),fdim,facet_tag.find(4), petsc4py.PETSc.ScalarType(0.))
 # middle up
 add_dirichlet_BC(CHS.sub(1).sub(0),fdim,facet_tag.find(3), petsc4py.PETSc.ScalarType(0.))
 add_dirichlet_BC(CHS.sub(1).sub(1),fdim,facet_tag.find(3), petsc4py.PETSc.ScalarType(0.))
+add_dirichlet_BC(CHS.sub(1).sub(2),fdim,facet_tag.find(3), petsc4py.PETSc.ScalarType(0.))
 # 
 # inflow vx = 1 left side
 add_dirichlet_BC(CHS.sub(1).sub(0),fdim,facet_tag.find(1), petsc4py.PETSc.ScalarType(1.))
 add_dirichlet_BC(CHS.sub(1).sub(1),fdim,facet_tag.find(1), petsc4py.PETSc.ScalarType(0.))
+add_dirichlet_BC(CHS.sub(1).sub(2),fdim,facet_tag.find(1), petsc4py.PETSc.ScalarType(0.))
 # 
 # Symmetry plan vy = 0 bottom
 add_dirichlet_BC(CHS.sub(1).sub(1),fdim,facet_tag.find(6), petsc4py.PETSc.ScalarType(0.))
+# 
+# Symmetry plan vz = 0 front
+add_dirichlet_BC(CHS.sub(1).sub(2),fdim,facet_tag.find(7), petsc4py.PETSc.ScalarType(0.))
 ```
 
 ### Variational form
-
-We want to solve this problem with an axi-symmetric formulation. To do so, we have to redefine properly the operators. First, we define the radius. **Beware, it cannot equal 0 due to a division by the radius in the gradient and divergence. Consider adding an infinitesimal value as 1e-16 to prevent this situation**.
-
-```python
-# Definition of divergence and gradient in cylindrycal coordinates
-x  = ufl.SpatialCoordinate(mesh)
-r  = abs(x[1]) + 1e-16 # Avoid division by zero in the operators.
-# 
-def grad_cyl(u):
-  return ufl.as_tensor([[u[0].dx(0), u[0].dx(1), 0.], [u[1].dx(0), u[1].dx(1), 0.], [0., 0., u[1]/r]])
-# 
-def div_cyl(u):
-  return u[1]/r + u[0].dx(0) + u[1].dx(1)
-```
 
 The objective is to find (u,p), such that:
 
@@ -482,27 +463,28 @@ where a((u,p),(w,q)) is known as the bilinear form, L((w,q)) as a linear form, a
 
 In our case, we have the variationnal form:
 ```math
-\int_\Omega \nabla(u):\nabla(w) r\mathrm{d}\Omega + \int_\Omega \nabla\cdot(w)\,p\,r\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,r\mathrm{d}\Omega-\int_\Omega f\cdot w r \mathrm{d}\Omega = 0
+\int_\Omega 2\,\eta\,\varepsilon(u):\nabla(w) \mathrm{d}\Omega - \int_\Omega \nabla\cdot(w)\,p\,\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,\mathrm{d}\Omega+\int_{\partial\Omega_p} p_{imp}\,n\cdot w \mathrm{d}S = 0
 ```
 We can identify a and L such that:
 ```math
-a((u,p),(w,q)) = \int_\Omega \nabla(u):\nabla(w) r\mathrm{d}\Omega + \int_\Omega \nabla\cdot(w)\,p\,r\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,r\mathrm{d}\Omega
+a((u,p),(w,q)) = \int_\Omega 2\,\eta\,\varepsilon(u):\nabla(w) \mathrm{d}\Omega - \int_\Omega \nabla\cdot(w)\,p\,\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,\mathrm{d}\Omega
 ```
 ```math
-L((w,q))=\int_\Omega f\cdot w r \mathrm{d}\Omega
+L((w,q))=-\int_{\partial\Omega_p} p_{imp}\,n\cdot w \mathrm{d}S
 ```
 
 This can be introduced as:
 
 ```python
-# Alternative form (from the tutorial to comprae with the iterative solution)
-A1 = ufl.inner(grad_cyl(u), grad_cyl(w))*r*dx + div_cyl(w)*p*r*dx 
-A2 = q*div_cyl(u)*r*dx
-# Assembling of the system of eqs 
+eta=1.
+# NS equations Divergence form
+A1 =  eta*ufl.inner(ufl.grad(u), ufl.grad(w))*dx +  eta*ufl.inner(ufl.grad(u).T, ufl.grad(w))*dx -  p*(ufl.inner(Id,ufl.grad(w)))*dx 
+A2 = q*ufl.div(u)*dx 
+
+# Assembling of the system of eqs (4) + (5) + (6) in weak form
 A = A1 + A2
-# 
-f = dolfinx.fem.Constant(mesh,(0.0, 0.0))
-L = ufl.inner(f, w)*r*dx
+p_right = dolfinx.fem.Constant(mesh,petsc4py.PETSc.ScalarType(0.0))
+L = - p_right*ufl.dot(n, w)*ds(5) 
 ```
 
 ### Solving and Post-Processing
@@ -552,7 +534,7 @@ stress_expr = dolfinx.fem.Expression(-1.*p_*Id + eta*2*ufl.sym(grad_cyl(u_)),ten
 stress.interpolate(stress_expr)
 stress.x.scatter_forward()
 # 
-xdmf = dolfinx.io.XDMFFile(mesh.comm, "2D_Stokes.xdmf", "w")
+xdmf = dolfinx.io.XDMFFile(mesh.comm, "3D_Stokes.xdmf", "w")
 xdmf.write_mesh(mesh)
 t=0
 xdmf.write_function(u_export,t)

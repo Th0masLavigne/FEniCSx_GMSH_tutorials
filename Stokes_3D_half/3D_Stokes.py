@@ -108,7 +108,6 @@ add_dirichlet_BC(CHS.sub(1).sub(2),fdim,facet_tag.find(7), petsc4py.PETSc.Scalar
 #----------------------------------------------------------------------
 # Define variational problem
 # 
-Id = ufl.Identity(3)
 # 
 eta=1.
 # NS equations Divergence form
@@ -147,6 +146,7 @@ strainrate.x.scatter_forward()
 # # 
 stress=dolfinx.fem.Function(tensor_space)
 stress.name = "stress"
+Id = ufl.Identity(3)
 stress_expr = dolfinx.fem.Expression(-1.*p_*Id + eta*2*ufl.sym(ufl.grad(u_)),tensor_space.element.interpolation_points())
 stress.interpolate(stress_expr)
 stress.x.scatter_forward()

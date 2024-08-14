@@ -139,7 +139,7 @@ if 'close' not in sys.argv:
 # 
 # 
 # 
-gmsh.model.mesh.generate(gdim-1)
+gmsh.model.mesh.generate(gdim)
 gmsh.write("3D_Stokes_mesh.msh")
 # 
 #----------------------------------------------------------------------
@@ -150,3 +150,4 @@ if 'close' not in sys.argv:
 	gmsh.fltk.run()
 # 
 gmsh.finalize()
+# EoF
