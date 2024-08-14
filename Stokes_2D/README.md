@@ -267,7 +267,6 @@ The duplicates are removed and a check file is generated.
 ```python
 # Remove duplicate entities and synchronize
 gmsh.model.occ.removeAllDuplicates()
-gmsh.model.occ.synchronize()
 # 
 gmsh.model.occ.synchronize()
 gmsh.write('2D_Stokes.geo_unrolled')
