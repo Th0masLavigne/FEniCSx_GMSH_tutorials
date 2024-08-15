@@ -1,4 +1,4 @@
-# Stationnary thermal problem
+# Stationary thermal problem
 
 ## Description of the problem
 
