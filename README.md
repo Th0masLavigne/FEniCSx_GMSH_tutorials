@@ -1,6 +1,6 @@
 # FEniCSx_GMSH_tutorials
 
-This repository holds all the documents related to the workshop conducted at I2M Bordeaux in September 2024. The objective of the workshop is to introduce open-source softwares for finite element modelling. More specifically, it focuses on the use of FEniCSx (version 0.8.0) and GMSH (version 4.11). Their documentation as well as other softwares are available at the end of this document. 
+This repository holds all the documents related to the workshop conducted at I2M Bordeaux in September 2024. The objective of the workshop is to introduce open-source softwares for finite element modelling. More specifically, it focuses on the use of FEniCSx (version 0.8.0) and GMSH (version >4.11). Their documentation as well as other softwares are available at the end of this document. 
 
 The following elements are required to be able to run the examples:
 - Docker or Singularity with super-user rights (or a local installation of the softwares),
@@ -189,6 +189,11 @@ There a few libraries out there that support boolean operations for meshes, you 
 - [PyMesh](https://github.com/PyMesh/PyMesh)
 - [Pycork](https://pypi.org/project/pycork/) (and it's C base library [cork](https://github.com/gilbo/cork))
 - [Blender](https://www.blender.org/) (also has a python module)
+
+
+### Tomography to conform mutlipart meshes
+- *[Tomo2FE github](https://github.com/ANR-MultiFIRE/TomoToFE/blob/main/workflow2/Workflow2-Python.ipynb)*
+- *[Tomo2FE article](https://letters.rilem.net/index.php/rilem/article/view/184)*
 
 ### Function to export lists in a csv file
 ```python

@@ -5,7 +5,6 @@ This directory contains other examples of mesh generated with GMSH:
 - a breast-like phantom as well as a tire-like geometry from *[Lavigne et al. 2023b](https://doi.org/10.1016/j.cma.2023.115889)*
 
 The GMSH tagged meshes can be converted to meshes with fenics legacy compatibility considering the following:
-3D meshes:
 
 ```python
 def create_mesh(mesh, cell_type, prune_z=False):
@@ -17,7 +16,7 @@ def create_mesh(mesh, cell_type, prune_z=False):
                            "name_to_read": [cell_data]})
     return out_mesh
 ```
-
+## 3D meshes:
 ```python
 import meshio
 msh = meshio.read("mesh.msh")
@@ -29,7 +28,7 @@ tetra_mesh = create_mesh(msh, "tetra", prune_z=False)
 meshio.write("mesh.xdmf", tetra_mesh)
 ```
 
-2D meshes
+## 2D meshes
 ```python
 import meshio
 msh = meshio.read("Mesh_refine.msh")
@@ -40,3 +39,7 @@ meshio.write("facet_mesh_refine.xdmf", line_mesh)
 triangle_mesh = create_mesh(msh, "triangle", prune_z=True)
 meshio.write("mesh_refine.xdmf", triangle_mesh)
 ```
+
+## Tomography to conform mutlipart meshes
+- *[Tomo2FE github](https://github.com/ANR-MultiFIRE/TomoToFE/blob/main/workflow2/Workflow2-Python.ipynb)*
+- *[Tomo2FE article](https://letters.rilem.net/index.php/rilem/article/view/184)*
