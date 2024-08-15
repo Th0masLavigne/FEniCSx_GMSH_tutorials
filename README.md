@@ -176,6 +176,10 @@ sudo apt remove python3-numba
 - *[Pymesh](https://pymesh.readthedocs.io/en/latest/)*
 - *[Pymesh github](https://github.com/PyMesh/PyMesh)*
 
+#### Netgen/NGSolve
+- *[Website](https://ngsolve.org/)*
+- *[Tutorials](https://jschoeberl.github.io/iFEM/intro.html)*
+
 ### Boolean Operations for STL Files
 OpenCascade Kernel does not support stls for boolean operations.
 There a few libraries out there that support boolean operations for meshes, you might want to give them a try. Here's a personal list I have of mostly C++ and Python packages from a comment of [@gnikit](https://gitlab.onelab.info/gmsh/gmsh/-/issues/2493):
@@ -209,3 +213,4 @@ There a few libraries out there that support boolean operations for meshes, you 
         except Exception as e:
             print(f"An error occurred while exporting data to {filename}: {e}")
 ```
+
