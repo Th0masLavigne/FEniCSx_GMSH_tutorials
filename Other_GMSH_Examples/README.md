@@ -40,6 +40,6 @@ triangle_mesh = create_mesh(msh, "triangle", prune_z=True)
 meshio.write("mesh_refine.xdmf", triangle_mesh)
 ```
 
-## Tomography to conform mutlipart meshes
+## Tomography to conform mutlipart meshes from several STL files
 - *[Tomo2FE github](https://github.com/ANR-MultiFIRE/TomoToFE/blob/main/workflow2/Workflow2-Python.ipynb)*
 - *[Tomo2FE article](https://letters.rilem.net/index.php/rilem/article/view/184)*
