@@ -40,6 +40,42 @@ triangle_mesh = create_mesh(msh, "triangle", prune_z=True)
 meshio.write("mesh_refine.xdmf", triangle_mesh)
 ```
 
-## Tomography to conform mutlipart meshes from several STL files
+# Tomography to conform mutlipart meshes from several STL files
 - *[Tomo2FE github](https://github.com/ANR-MultiFIRE/TomoToFE/blob/main/workflow2/Workflow2-Python.ipynb)*
 - *[Tomo2FE article](https://letters.rilem.net/index.php/rilem/article/view/184)*
+
+# Python tutorials
+- *[Gitlab GMSH](https://gitlab.onelab.info/gmsh/gmsh/-/tree/master/tutorials/python)*
+- *[Remesh STL](https://gitlab.onelab.info/gmsh/gmsh/-/blob/master/tutorials/python/t13.py)*
+Contents (from *[Gitlab GMSH](https://gitlab.onelab.info/gmsh/gmsh/-/tree/master/tutorials/python)*):
+* t1: Geometry basics, elementary entities, physical groups
+* t2: Transformations, extruded geometries, volumes
+* t3: Extruded meshes, parameters, options
+* t4: Built-in functions, holes in surfaces, annotations, entity colors
+* t5: Mesh sizes, loops, holes in volumes
+* t6: Transfinite meshes, deleting entities
+* t7: Background meshes
+* t8: Post-processing, image export and animations
+* t9: Plugins
+* t10: Mesh size fields
+* t11: Unstructured quadrangular meshes
+* t12: Cross-patch meshing with compounds
+* t13: Remeshing an STL file without an underlying CAD model
+* t14: Homology and cohomology computation
+* t15: Embedded points, lines and surfaces
+* t16: Constructive Solid Geometry, OpenCASCADE geometry kernel
+* t17: Anisotropic background mesh
+* t18: Periodic meshes
+* t19: Thrusections, fillets, pipes, mesh size from curvature
+* t20: STEP import and manipulation, geometry partitioning
+* t21: Mesh partitioning
+
+Extended tutorials (API only):
+
+* x1: Geometry and mesh data
+* x2: Mesh import, discrete entities, hybrid models, terrain meshing
+* x3: Post-processing data import: list-based
+* x4: Post-processing data import: model-based
+* x5: Additional geometrical data: parametrizations, normals, curvatures
+* x6: Additional mesh data: integration points, Jacobians and basis functions
+* x7: Additional mesh data: internal edges and faces
