@@ -3,7 +3,7 @@
 This repository holds all the documents related to the workshop conducted at I2M Bordeaux in September 2024. The objective of the workshop is to introduce open-source softwares for finite element modelling. More specifically, it focuses on the use of FEniCSx (version 0.8.0) and GMSH (version >4.11). Their documentation as well as other softwares are available at the end of this document. 
 
 The following elements are required to be able to run the examples:
-- Docker or Singularity with super-user rights (or a local installation of the softwares),
+- [Docker](https://docs.docker.com/desktop/install/windows-install/) or Singularity with super-user rights (or a local installation of the softwares),
 - GMSH software,
 - Paraview software.
 
@@ -112,6 +112,7 @@ docker save -o name.tar ImageTag
 
 ### Docker (alternatively singularity)
 - *[Docker website](https://www.docker.com/products/docker-desktop/)*
+- *[Docker Installation Ressource](https://docs.docker.com/desktop/install/windows-install/)*
 - *[Docker hub](https://hub.docker.com/)*
 - *[Docker cheat sheet](https://docs.docker.com/get-started/docker_cheatsheet.pdf)*
 - *[Docker cheat sheet 2](https://dockerlabs.collabnix.com/docker/cheatsheet/)*
