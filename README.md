@@ -3,7 +3,7 @@
 This repository holds all the documents related to the workshop conducted at I2M Bordeaux in September 2024. The objective of the workshop is to introduce open-source softwares for finite element modelling. More specifically, it focuses on the use of FEniCSx (version 0.8.0) and GMSH (version >4.11). Their documentation as well as other softwares are available at the end of this document. 
 
 The following elements are required to be able to run the examples:
-- [Docker](https://docs.docker.com/desktop/install/windows-install/) or Singularity with super-user rights (or a local installation of the softwares),
+- A **local installation** of FEniCSx v0.8.0 or [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/) v4.34.0 or later *(macOS or linked with WSL2 on Windows)* **or** [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) *(macOS or Linux or Ubuntu WSL2)*,
 - GMSH software,
 - Paraview software.
 
@@ -30,6 +30,154 @@ The workshop indrocudes the following items:
 
 One can also refer to the tutorial from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)* ([Github repository](https://github.com/Th0masLavigne/Dolfinx_Porous_Media.git)). Please cite this work if you use codes from this workshop that can be related to this tutorial. One can also refer to the work presented in *[Lavigne et al., 2024]()* for an example of an <ins>**updated Lagrangian**</ins> (*i.e.* [mesh update](https://fenicsproject.discourse.group/t/how-to-do-updated-lagrangian-when-the-displacement-lives-in-a-different-space-to-the-mesh-geometry/10760/2)) poro-elastic model with imposed displacement: [Github repository](https://github.com/Th0masLavigne/Skin_porous_modelling.git). The reaction force is evaluated and volume tags from gmsh are used to map the material parameters with a test case. It completes the multimaterial codes proposed in this workshop.
 The Corresponding **jupyter** notebooks are available for an interactive use.
+
+## Installation of the prerequisites
+
+### Linux
+
+#### Local Version of FEniCSx v0.8.0
+
+From the [official website](https://fenicsproject.org/download/), the easiest way to install FEniCSx on Debian or Ubuntu Linux is via apt.
+
+**Remark**: FEniCSx v0.8.0 requires at least **Ubuntu 22.04**. If you are using **Ubuntu 20.04**, consider using a docker. Previous distro versions might require an upgrade.
+
+First you need to access the package:
+```sh
+sudo add-apt-repository ppa:fenics-packages/fenics
+```
+
+Update the environment:
+```sh
+sudo apt update
+```
+
+Install FEniCSx:
+```sh
+sudo apt install fenicsx
+```
+
+
+### Docker Engine
+
+If you already have a version of FEniCSx you prefer not to upgrade, it is possible to use Docker (alternatively singularity for cluster computations).
+The Directives to install it are provided on the (official website)[https://docs.docker.com/engine/install/]. 
+
+First, uninstall conflicting packages:
+```sh
+for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+```
+
+#### Install using the apt repository. 
+Set up Docker's apt repository:
+```sh
+# Add Docker's official GPG key:
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+```
+
+**Remark**: According to the official website, if you use an Ubuntu derivative distro, such as Linux Mint, you may need to use UBUNTU_CODENAME instead of VERSION_CODENAME.
+
+Install the Docker packages:
+```sh
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+Verify that the Docker Engine installation is successful by running the hello-world image.
+```sh
+sudo docker run hello-world
+```
+
+**Remark**: On linux, you might further need to define a rootless context (if files are locked/secured when the codes are computed with sudo). Please refer to the guide of the (official website)[https://docs.docker.com/engine/security/rootless/].
+
+#### Manage Docker as a non-root user:
+Create the docker group.
+```sh
+sudo groupadd docker
+
+
+Add your user to the docker group.
+```sh
+sudo usermod -aG docker $USER
+```
+
+Activate the changes to groups:
+```sh
+newgrp docker
+
+Verify that you can run docker commands without sudo.
+```sh
+docker run hello-world
+```
+
+If you initially ran Docker CLI commands using sudo before adding your user to the docker group, you may see the following error:
+```sh
+WARNING: Error loading config file: /home/user/.docker/config.json -
+stat /home/user/.docker/config.json: permission denied
+```
+
+This error indicates that the permission settings for the ~/.docker/ directory are incorrect, due to having used the sudo command earlier.
+
+To fix it:
+```sh
+sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
+sudo chmod g+rwx "$HOME/.docker" -R
+```
+
+#### Configure Docker to start on boot with systemd
+
+From the (official website)[https://docs.docker.com/engine/install/linux-postinstall/], to automatically start Docker and containerd on boot for other Linux distributions using systemd, run the following commands:
+```sh
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
+```
+
+To stop it :
+```sh
+sudo systemctl disable docker.service
+sudo systemctl disable containerd.service
+```
+
+### Windows
+
+
+
+
+
+
+
+
+
+
+
+
+### macOS
+
+Use of conda or binaries (docker desktop / docker engine)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Creating a virtual workspace
 
