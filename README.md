@@ -4,8 +4,10 @@ This repository holds all the documents related to the workshop conducted at I2M
 
 The following elements are required to be able to run the examples:
 - A **local installation** of [FEniCSx v0.8.0](https://fenicsproject.org/download/) or [Docker Desktop](https://docs.docker.com/desktop/release-notes/#4340) v4.34.0 or later *(macOS or linked with WSL2 on Windows)* **or** [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) *(macOS or Linux or Ubuntu WSL2)*,
-- GMSH software,
-- Paraview software.
+- [GMSH](https://gmsh.info/#Download) software,
+- [Paraview](https://www.paraview.org/download/) software.
+
+A described description of the installation procedure is recalled for FEniCSx/Docker. To install [GMSH](https://gmsh.info/#Download) and [Paraview](https://www.paraview.org/download/), please refer to their official website.
 
 ## Contents of the workshop
 
