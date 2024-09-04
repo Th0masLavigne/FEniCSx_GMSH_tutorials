@@ -67,24 +67,15 @@ sudo apt install fenicsx
 #### Additional packages
 To run the codes you further require to load the following packages:
 ```sh
-pip3 install h5py
+pip3 install h5py \
+             imageio \
+             pyvista \
+             gmsh
 ```
+
 ```sh
-pip3 install imageio
-```
-```sh
-pip3 install pyvista
-```
-```sh
-sudo apt install libgl1-mesa-glx xvfb
-```
-```sh
-sudo apt install gmsh
-```
-```sh
-pip3 install gmsh
-```
-```sh
+sudo apt install libgl1-mesa-glx xvfb -y && \
+sudo apt install gmsh -y  && \
 sudo apt update
 ```
 
@@ -116,23 +107,23 @@ sudo apt-mark unhold <package-name>
 For FEniCSx:
 ```sh
 
-sudo apt-mark hold  basix-doc
-                    dolfinx-doc
-                    fenicsx
-                    libbasix-dev
-                    libbasix0.8
-                    libdolfinx-dev
-                    libdolfinx-real-dev
-                    libdolfinx-real0.8
-                    python-petsc4py-doc
-                    python-ufl-doc
-                    python3-basix
-                    python3-dolfinx
-                    python3-dolfinx-real
-                    python3-ffcx
-                    python3-petsc4py
-                    python3-petsc4py-real
-                    python3-petsc4py-real3.15
+sudo apt-mark hold  basix-doc \
+                    dolfinx-doc \
+                    fenicsx \
+                    libbasix-dev \
+                    libbasix0.8 \
+                    libdolfinx-dev \
+                    libdolfinx-real-dev \
+                    libdolfinx-real0.8 \
+                    python-petsc4py-doc \
+                    python-ufl-doc \
+                    python3-basix \
+                    python3-dolfinx \
+                    python3-dolfinx-real \
+                    python3-ffcx \
+                    python3-petsc4py \
+                    python3-petsc4py-real \
+                    python3-petsc4py-real3.15 \
                     python3-ufl
 ```
 
