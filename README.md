@@ -281,9 +281,10 @@ conda install -c conda-forge fenics-dolfinx mpich pyvista
 
 To set an interactive working directory (in an ubuntu environment), respectively using Docker and FEniCSx, the following commands can be used:
 ```sh
-docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.8.0
+docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared th0maslavigne/dolfinx:v0.8.0
 ```
 
+**Remark**: On a cluster, singularity is often installed instead of docker. In such cases, based on the image.sif file, the command is similar:
 ```sh
 singularity exec /modules/containers/images/dolfinx/dolfinx-0.8.0.sif python3 file.py
 ```
@@ -298,28 +299,13 @@ Then to use it, consider using:
 docker container start -i jupyter_dolfinx
 ```
 
-The repeated use of a command can be reduced by the use of aliases (see *[create an alias fot linux](https://www.malekal.com/comment-creer-un-alias-linux/)*). Several containers can be considered based on the version you need:
-
-```sh
-alias fenicsx_v0_5_2='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared th0maslavigne/dolfinx:v0.5.2'
-alias fenicsx_v0_6_0='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.6.0'
-alias fenicsx_v0_7_3='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.7.3'
-alias fenicsx_v0_8_0='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.8.0'
-alias create_fenicsx_v0_8_0_jupyter='docker run --init -p 8888:8888 -v "$(pwd)":/root/shared --name=jupyter_dolfinx dolfinx/lab:v0.8.0'
-alias run_fenicsx_v0_8_0_jupyter='docker container start -i jupyter_dolfinx'
-alias stop_fenicsx_v0_8_0_jupyter='docker stop jupyter_dolfinx'
-alias logs_fenicsx_v0_8_0_jupyter='docker logs jupyter_dolfinx'
-alias fenics2019='docker run -ti -v $(pwd):/home/fenics/shared -w /home/fenics/shared pymor/fenics_py3.9 bash'
-alias pymesh='docker run -ti -v $(pwd):/home/pymesh/shared -w /home/pymesh/shared pymesh/pymesh bash'
-```
-**Remark:** Including the bash term at the end allows to exit the python environnment to the linux command.
 
 **Remark:** Docker can store the images and therefore fill a huge amount of space which you can purge with:
 ```sh
-alias dockerRemoveAll="docker stop `docker ps -qa` > /dev/null 2>&1; docker system prune --volumes --all;"
+docker stop `docker ps -qa` > /dev/null 2>&1; docker system prune --volumes --all;
 ```
 
-Sametimes a docker image is missing some python library you'd need. You can create a new image (with a dockerfile that you will build) based on an existing image. For instance, the present image have been created using the following Dockerfile:
+Sometimes a docker image is missing some python library one want to use. A new image based on an existing image can be created including additionnal packages. For instance, the image used for this workshop have been created using the following Dockerfile:
 ```sh
 FROM dolfinx/dolfinx:v0.8.0
 RUN apt update && \
@@ -333,10 +319,12 @@ RUN pip3 install pandas \
          imageio \
          pyvista
 ```
-Then to build the image, run in the folder: 
+
+Then to build the image, run in the folder where the 'Dockerfile' is present: 
 ```sh
 docker build .
 ```
+**Remark**: Be careful, it is sensitive to the case so ensure your file is named 'Dockerfile'.
 
 You can list your local images using :
 ```sh
@@ -358,12 +346,58 @@ docker save -o name.tar ImageTag
 ```
 
 
+Further commands are described in the cheat sheets available in the resources section.
+
+
+## Create an Alias
+The repeated use of a command can be reduced by the use of aliases (see *[create an alias fot linux](https://www.malekal.com/comment-creer-un-alias-linux/)*). 
+The idea of the alias is to execute commands from a meaningful name by introducing them in a `sh ~/.bash_aliases`. 
+
+To access this file, run:
+```sh
+gedit ~/.bash_aliases
+```
+
+It will open a window in which you can write your aliases on the following basis:
+```sh
+alias <Meaningful_name>='<the command>'
+```
+
+For example, in the present workshop, one could create:
+```sh
+alias fenicsx_v0_8_0='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared th0maslavigne/dolfinx:v0.8.0'
+```
+
+This is of interest and will allow you to have different versions of a same environment without conflicting package:
+```sh
+alias fenicsx_v0_6_0='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.6.0'
+alias fenicsx_v0_7_3='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.7.3'
+alias fenicsx_v0_8_0='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared dolfinx/dolfinx:v0.8.0'
+```
+
+If you prefer using the jupyter lab notebooks, the following commands can be created:
+Run once:
+```sh
+alias create_fenicsx_v0_8_0_jupyter='docker run --init -p 8888:8888 -v "$(pwd)":/root/shared --name=jupyter_dolfinx dolfinx/lab:v0.8.0'
+```
+
+Then use:
+```sh
+alias run_fenicsx_v0_8_0_jupyter='docker container start -i jupyter_dolfinx'
+alias stop_fenicsx_v0_8_0_jupyter='docker stop jupyter_dolfinx'
+alias logs_fenicsx_v0_8_0_jupyter='docker logs jupyter_dolfinx'
+```
+
+**Remark:** Including the bash term at the end allows to exit the python environnment to the linux command. Here are two examples respectively for fenics legacy and pymesh:
+```sh
+alias fenics2019='docker run -ti -v $(pwd):/home/fenics/shared -w /home/fenics/shared pymor/fenics_py3.9 bash'
+alias pymesh='docker run -ti -v $(pwd):/home/pymesh/shared -w /home/pymesh/shared pymesh/pymesh bash'
+```
+
 ## Acknowledgments 
 This repository is inspired from the work of (Jørgen S. Dokken)[https://jsdokken.com/tutorials.html] and (Christophe Geuzaine)[https://gitlab.onelab.info/gmsh/gmsh/tree/master/tutorials]. The author also wants to thank Jack Hale and Stéphane Urcun for their help in debugging throughout the work and Giuseppe Sciumè for the invite.
 
 This activity is part of Thomas Lavigne PhD work. This research was funded in whole, or in part, by the Luxembourg National Research Fund (FNR), grant reference No. 17013182. For the purpose of open access, the author has applied a Creative Commons Attribution 4.0 International (CC BY 4.0) license to any Author Accepted Manuscript version arising from this submission. 
-
-
 
 ## Resources
 
@@ -407,7 +441,7 @@ This activity is part of Thomas Lavigne PhD work. This research was funded in wh
 - *[FEniCS Legacy Documentation](https://fenicsproject.org/olddocs/)*
 - *[Mesh Update](https://fenicsproject.discourse.group/t/how-to-do-updated-lagrangian-when-the-displacement-lives-in-a-different-space-to-the-mesh-geometry/10760/2)*
 
-**Remark:** On ubuntu jammy, the FEniCSx version 0.8.0 had a conflict requiring to remove python3-numba:
+**Remark:** On ubuntu jammy, the FEniCSx version 0.8.0 had a conflict on my laptop requiring to remove python3-numba:
 ```sh
 sudo apt remove python3-numba
 ```
@@ -445,7 +479,7 @@ sudo apt remove python3-numba
 - *[Website](https://ngsolve.org/)*
 - *[Tutorials](https://jschoeberl.github.io/iFEM/intro.html)*
 
-### Boolean Operations for STL Files
+#### Boolean Operations for STL Files
 OpenCascade Kernel does not support stls for boolean operations.
 There a few libraries out there that support boolean operations for meshes, you might want to give them a try. Here's a personal list I have of mostly C++ and Python packages from a comment of [@gnikit](https://gitlab.onelab.info/gmsh/gmsh/-/issues/2493):
 - [CGAL](https://github.com/CGAL/cgal)
@@ -460,11 +494,11 @@ There a few libraries out there that support boolean operations for meshes, you 
 - [Blender](https://www.blender.org/) (also has a python module)
 
 
-### Tomography to conform mutlipart meshes
+#### Tomography to conform mutlipart meshes
 - *[Tomo2FE github](https://github.com/ANR-MultiFIRE/TomoToFE/blob/main/workflow2/Workflow2-Python.ipynb)*
 - *[Tomo2FE article](https://letters.rilem.net/index.php/rilem/article/view/184)*
 
-### Function to export lists in a csv file
+#### Function to export lists in a csv file
 ```python
     def export_to_csv(data, filename, header=None):
         import csv
@@ -478,4 +512,3 @@ There a few libraries out there that support boolean operations for meshes, you 
         except Exception as e:
             print(f"An error occurred while exporting data to {filename}: {e}")
 ```
-
