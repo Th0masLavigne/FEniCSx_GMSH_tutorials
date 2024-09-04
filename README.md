@@ -167,7 +167,7 @@ Verify that the Docker Engine installation is successful by running the hello-wo
 sudo docker run hello-world
 ```
 
-**Remark**: On linux, you might further need to define a rootless context (if files are locked/secured when the codes are computed with sudo). Please refer to the guide of the (official website)[https://docs.docker.com/engine/security/rootless/].
+**Remark**: On linux, you might further need to define a rootless context (if files are locked/secured when the codes are computed with sudo). Please refer to the guide of the [official website](https://docs.docker.com/engine/security/rootless/).
 
 #### Manage Docker as a non-root user:
 Create the docker group.
@@ -206,7 +206,7 @@ sudo chmod g+rwx "$HOME/.docker" -R
 
 #### Configure Docker to start on boot with systemd
 
-From the (official website)[https://docs.docker.com/engine/install/linux-postinstall/], to automatically start Docker and containerd on boot for other Linux distributions using systemd, run the following commands:
+From the [official website](https://docs.docker.com/engine/install/linux-postinstall/), to automatically start Docker and containerd on boot for other Linux distributions using systemd, run the following commands:
 ```sh
 sudo systemctl enable docker.service
 sudo systemctl enable containerd.service
