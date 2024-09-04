@@ -3,7 +3,7 @@
 This repository holds all the documents related to the workshop conducted at I2M Bordeaux in September 2024. The objective of the workshop is to introduce open-source softwares for finite element modelling. More specifically, it focuses on the use of FEniCSx (version 0.8.0) and GMSH (version >4.11). Their documentation as well as other softwares are available at the end of this document. 
 
 The following elements are required to be able to run the examples:
-- A **local installation** of [FEniCSx v0.8.0](https://fenicsproject.org/download/) or [Docker Desktop](https://docs.docker.com/desktop/release-notes/#4340) v4.34.0 or later *(macOS or linked with WSL2 on Windows)* **or** [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) *(macOS or Linux or Ubuntu WSL2)*,
+- A **local installation** of [FEniCSx v0.8.0](https://fenicsproject.org/download/) or [Docker Desktop](https://desktop.docker.com/win/main/amd64/165256/Docker%20Desktop%20Installer.exe) v4.34.0 or later *(macOS or linked with WSL2 on Windows)* **or** [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) *(macOS or Linux or Ubuntu WSL2)*,
 - [GMSH](https://gmsh.info/#Download) software,
 - [Paraview](https://www.paraview.org/download/) software.
 
@@ -31,7 +31,7 @@ The workshop indrocudes the following items:
   * Terzaghi poromechanical model (from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)*).
 
 One can also refer to the tutorial from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)* ([Github repository](https://github.com/Th0masLavigne/Dolfinx_Porous_Media.git)). Please cite this work if you use codes from this workshop that can be related to this tutorial. One can also refer to the work presented in *[Lavigne et al., 2024]()* for an example of an <ins>**updated Lagrangian**</ins> (*i.e.* [mesh update](https://fenicsproject.discourse.group/t/how-to-do-updated-lagrangian-when-the-displacement-lives-in-a-different-space-to-the-mesh-geometry/10760/2)) poro-elastic model with imposed displacement: [Github repository](https://github.com/Th0masLavigne/Skin_porous_modelling.git). The reaction force is evaluated and volume tags from gmsh are used to map the material parameters with a test case. It completes the multimaterial codes proposed in this workshop.
-The Corresponding **jupyter** notebooks are available for an interactive use.
+The Corresponding **Jupyter lab** notebooks are available for an interactive use.
 
 ## Installation of the prerequisites
 
@@ -267,24 +267,18 @@ where `sh <distroName>` is the name of your Linux distro, which can be seen from
 #### Install FEniCSx
 Once Ubuntu is installed you can follow the <ins>here-above installation procedures for Linux</ins> (either local or with Docker) in the WSL 2 terminal. The non-root user procedure in Docker does not look necessary within WSL 2. Ensure adding sudo at the beginning of your commands/aliases in that case. 
 
+If one prefer to use [Docker Desktop](https://desktop.docker.com/win/main/amd64/165256/Docker%20Desktop%20Installer.exe) v4.34.0 or later, please refer to the installation .exe on the official website (please use the following link: [Docker Desktop](https://desktop.docker.com/win/main/amd64/165256/Docker%20Desktop%20Installer.exe) to get the right .exe) and link it with WSL 2.
+
 ### macOS
 
-Use of conda or binaries (docker desktop / docker engine)
+For macOS consider using a **conda** environment or install Docker Desktop (with [Apple chip](https://desktop.docker.com/mac/main/arm64/165256/Docker.dmg) or [Intel chip](https://desktop.docker.com/mac/main/amd64/165256/Docker.dmg)). In case of use of docker desktop please refer to the official website for guidelines.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+To create the conda environment, run:
+```sh
+conda create -n fenicsx-env
+conda activate fenicsx-env
+conda install -c conda-forge fenics-dolfinx mpich pyvista
+```
 
 ## Creating a virtual workspace
 
