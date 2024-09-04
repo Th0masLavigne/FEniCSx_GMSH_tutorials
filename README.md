@@ -3,7 +3,7 @@
 This repository holds all the documents related to the workshop conducted at I2M Bordeaux in September 2024. The objective of the workshop is to introduce open-source softwares for finite element modelling. More specifically, it focuses on the use of FEniCSx (version 0.8.0) and GMSH (version >4.11). Their documentation as well as other softwares are available at the end of this document. 
 
 The following elements are required to be able to run the examples:
-- A **local installation** of FEniCSx v0.8.0 or [Docker Desktop](https://docs.docker.com/desktop/install/windows-install/) v4.34.0 or later *(macOS or linked with WSL2 on Windows)* **or** [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) *(macOS or Linux or Ubuntu WSL2)*,
+- A **local installation** of [FEniCSx v0.8.0](https://fenicsproject.org/download/) or [Docker Desktop](https://docs.docker.com/desktop/release-notes/#4340) v4.34.0 or later *(macOS or linked with WSL2 on Windows)* **or** [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) *(macOS or Linux or Ubuntu WSL2)*,
 - GMSH software,
 - Paraview software.
 
@@ -41,6 +41,7 @@ From the [official website](https://fenicsproject.org/download/), the easiest wa
 
 **Remark**: FEniCSx v0.8.0 requires at least **Ubuntu 22.04**. If you are using **Ubuntu 20.04**, consider using a docker. Previous distro versions might require an upgrade.
 
+#### Install FEniCSx
 First you need to access the package:
 ```sh
 sudo add-apt-repository ppa:fenics-packages/fenics
@@ -56,13 +57,84 @@ Install FEniCSx:
 sudo apt install fenicsx
 ```
 
+#### Additional packages
+To run the codes you further require to load the following packages:
+```sh
+pip3 install h5py
+```
+```sh
+pip3 install imageio
+```
+```sh
+pip3 install pyvista
+```
+```sh
+sudo apt install libgl1-mesa-glx xvfb
+```
+```sh
+sudo apt install gmsh
+```
+```sh
+pip3 install gmsh
+```
+```sh
+sudo apt update
+```
+
+If one further need to check a python module version, one can use:
+```sh
+pip3 freeze | grep module
+```
+
+
+#### Avoid an upgrade of the packages
+
+To avoid an upgrade of the packages you can set them 'on hold'.
+To hold a package:
+```sh
+sudo apt-mark hold <package-name>
+```
+
+To show all packages on hold:
+```sh
+sudo apt-mark showhold
+```
+
+
+To remove the hold:
+```sh
+sudo apt-mark unhold <package-name>
+```
+
+For FEniCSx:
+```sh
+
+sudo apt-mark hold  basix-doc
+                    dolfinx-doc
+                    fenicsx
+                    libbasix-dev
+                    libbasix0.8
+                    libdolfinx-dev
+                    libdolfinx-real-dev
+                    libdolfinx-real0.8
+                    python-petsc4py-doc
+                    python-ufl-doc
+                    python3-basix
+                    python3-dolfinx
+                    python3-dolfinx-real
+                    python3-ffcx
+                    python3-petsc4py
+                    python3-petsc4py-real
+                    python3-petsc4py-real3.15
+                    python3-ufl
+```
 
 ### Docker Engine
 
 If you already have a version of FEniCSx you prefer not to upgrade, it is possible to use Docker (alternatively singularity for cluster computations).
-The Directives to install it are provided on the (official website)[https://docs.docker.com/engine/install/]. 
+The Directives to install it are provided on the [official website](https://docs.docker.com/engine/install/). 
 
-First, uninstall conflicting packages:
+First, uninstall potential conflicting packages:
 ```sh
 for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
 ```
@@ -364,3 +436,7 @@ There a few libraries out there that support boolean operations for meshes, you 
             print(f"An error occurred while exporting data to {filename}: {e}")
 ```
 
+## Acknowledgments 
+This repository is inspired from the work of (Jørgen S. Dokken)[https://jsdokken.com/tutorials.html] and (Christophe Geuzaine)[https://gitlab.onelab.info/gmsh/gmsh/tree/master/tutorials].
+
+This activity is part of Thomas Lavigne PhD work. This research was funded in whole, or in part, by the Luxembourg National Research Fund (FNR), grant reference No. 17013182. For the purpose of open access, the author has applied a Creative Commons Attribution 4.0 International (CC BY 4.0) license to any Author Accepted Manuscript version arising from this submission. 
