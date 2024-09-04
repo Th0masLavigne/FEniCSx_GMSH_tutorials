@@ -279,6 +279,7 @@ conda install -c conda-forge fenics-dolfinx mpich pyvista
 
 ## Creating a virtual workspace
 
+### If Docker as a non-root user is configured:
 To set an interactive working directory (in an ubuntu environment), respectively using Docker and FEniCSx, the following commands can be used:
 ```sh
 docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared th0maslavigne/dolfinx:v0.8.0
@@ -345,9 +346,27 @@ or
 docker save -o name.tar ImageTag
 ```
 
-
 Further commands are described in the cheat sheets available in the resources section.
 
+### Else, Docker as a non-root user is not configured:
+All the above commands are working but one need to put `sudo` before.
+
+To set an interactive working directory (in an ubuntu environment), respectively using Docker and FEniCSx, the following commands can be used:
+```sh
+sudo docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared th0maslavigne/dolfinx:v0.8.0
+```
+
+To create a jupyter container, compute:
+```sh
+sudo docker run --init -p 8888:8888 -v "$(pwd)":/root/shared --name=jupyter_dolfinx dolfinx/lab:v0.8.0
+```
+
+Then to use it, consider using:
+```sh
+sudo docker container start -i jupyter_dolfinx
+```
+
+And so on. **Remark**: if Docker as a non-root user is not configured, it is required to put sudo as part of the commands for the aliases defined here-after too.
 
 ## Create an Alias
 The repeated use of a command can be reduced by the use of aliases (see *[create an alias fot linux](https://www.malekal.com/comment-creer-un-alias-linux/)*). 
