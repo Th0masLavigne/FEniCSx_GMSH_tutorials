@@ -221,18 +221,51 @@ sudo systemctl disable docker.service
 sudo systemctl disable containerd.service
 ```
 
+#### Command to start and stop docker
+
+If the docker daemon does not start automatically, run:
+```sh
+sudo systemctl start docker
+```
+
+To stop it, run:
+```sh
+sudo systemctl stop docker
+```
+
 ### Windows
 
+The use of FEniCSx and Docker is here based on the Windows Subsystem Linux ([WSL 2](https://learn.microsoft.com/fr-fr/windows/wsl/install)). WSL 2 allows to get a Ubuntu distribution within windows (10 or 11)
 
+#### Check WSL status and install Ubuntu 22.04 (if not existing)
+In Windows Powershell, run:
+```sh
+wsl --install
+```
 
+Then ensure using WSL2 with:
+```sh
+wsl --set-default-version 2
+```
 
+You can then list the available distribution using:
+```sh
+wsl.exe -l -v
+```
 
+If no distribution is currently installed use:
+```sh
+wsl.exe --install Ubuntu
+```
 
+To remove a distribution from WSL and delete all of the data associated with that Linux distribution, run:
+```sh 
+wsl --unregister <distroName>
+``` 
+where `sh <distroName>` is the name of your Linux distro, which can be seen from the list in the `sh wsl -l` command.
 
-
-
-
-
+#### Install FEniCSx
+Once Ubuntu is installed you can follow the <ins>here-above installation procedures for Linux</ins> (either local or with Docker) in the WSL 2 terminal. The non-root user procedure in Docker does not look necessary within WSL 2. Ensure adding sudo at the beginning of your commands/aliases in that case. 
 
 ### macOS
 
