@@ -466,6 +466,6 @@ There a few libraries out there that support boolean operations for meshes, you 
 ```
 
 ## Acknowledgments 
-This repository is inspired from the work of (Jørgen S. Dokken)[https://jsdokken.com/tutorials.html] and (Christophe Geuzaine)[https://gitlab.onelab.info/gmsh/gmsh/tree/master/tutorials].
+This repository is inspired from the work of (Jørgen S. Dokken)[https://jsdokken.com/tutorials.html] and (Christophe Geuzaine)[https://gitlab.onelab.info/gmsh/gmsh/tree/master/tutorials]. The author also wants to thank Jack Hale and Stéphane Urcun for their help in debugging throughout the work and Giuseppe Sciumè for the invite.
 
 This activity is part of Thomas Lavigne PhD work. This research was funded in whole, or in part, by the Luxembourg National Research Fund (FNR), grant reference No. 17013182. For the purpose of open access, the author has applied a Creative Commons Attribution 4.0 International (CC BY 4.0) license to any Author Accepted Manuscript version arising from this submission. 
