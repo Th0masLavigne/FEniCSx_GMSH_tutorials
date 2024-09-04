@@ -7,7 +7,11 @@ The following elements are required to be able to run the examples:
 - [GMSH](https://gmsh.info/#Download) software,
 - [Paraview](https://www.paraview.org/download/) software.
 
-A described description of the installation procedure is recalled for FEniCSx/Docker. To install [GMSH](https://gmsh.info/#Download) and [Paraview](https://www.paraview.org/download/), please refer to their official website.
+
+This README is organised as follows:
+1. A described description of the installation procedure is recalled for FEniCSx/Docker. To install [GMSH](https://gmsh.info/#Download) and [Paraview](https://www.paraview.org/download/), please refer to their official website.
+2. The instructions to use a virtual workspace is described (docker commands)
+3. All links used as references are provided.
 
 ## Contents of the workshop
 
@@ -322,10 +326,19 @@ alias pymesh='docker run -ti -v $(pwd):/home/pymesh/shared -w /home/pymesh/share
 alias dockerRemoveAll="docker stop `docker ps -qa` > /dev/null 2>&1; docker system prune --volumes --all;"
 ```
 
-Sametimes a docker image is missing some python library you'd need. You can create a new image (with a dockerfile that you will build) based on an existing image. For instance, you want the dolfinx image with pandas library. Your Dockerfile will contain:
+Sametimes a docker image is missing some python library you'd need. You can create a new image (with a dockerfile that you will build) based on an existing image. For instance, the present image have been created using the following Dockerfile:
 ```sh
-FROM dolfinx/dolfinx:v0.5.2
-RUN pip3 install pandas
+FROM dolfinx/dolfinx:v0.8.0
+RUN apt update && \
+    apt upgrade -y && \
+    apt update && \
+    apt install libgl1-mesa-glx xvfb -y && \
+    python3 -m pip install --upgrade pip && \
+    apt update
+   
+RUN pip3 install pandas \
+         imageio \
+         pyvista
 ```
 Then to build the image, run in the folder: 
 ```sh
@@ -350,6 +363,14 @@ or
 ```sh
 docker save -o name.tar ImageTag
 ```
+
+
+## Acknowledgments 
+This repository is inspired from the work of (Jørgen S. Dokken)[https://jsdokken.com/tutorials.html] and (Christophe Geuzaine)[https://gitlab.onelab.info/gmsh/gmsh/tree/master/tutorials]. The author also wants to thank Jack Hale and Stéphane Urcun for their help in debugging throughout the work and Giuseppe Sciumè for the invite.
+
+This activity is part of Thomas Lavigne PhD work. This research was funded in whole, or in part, by the Luxembourg National Research Fund (FNR), grant reference No. 17013182. For the purpose of open access, the author has applied a Creative Commons Attribution 4.0 International (CC BY 4.0) license to any Author Accepted Manuscript version arising from this submission. 
+
+
 
 ## Resources
 
@@ -465,7 +486,3 @@ There a few libraries out there that support boolean operations for meshes, you 
             print(f"An error occurred while exporting data to {filename}: {e}")
 ```
 
-## Acknowledgments 
-This repository is inspired from the work of (Jørgen S. Dokken)[https://jsdokken.com/tutorials.html] and (Christophe Geuzaine)[https://gitlab.onelab.info/gmsh/gmsh/tree/master/tutorials]. The author also wants to thank Jack Hale and Stéphane Urcun for their help in debugging throughout the work and Giuseppe Sciumè for the invite.
-
-This activity is part of Thomas Lavigne PhD work. This research was funded in whole, or in part, by the Luxembourg National Research Fund (FNR), grant reference No. 17013182. For the purpose of open access, the author has applied a Creative Commons Attribution 4.0 International (CC BY 4.0) license to any Author Accepted Manuscript version arising from this submission. 

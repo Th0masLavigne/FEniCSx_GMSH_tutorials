@@ -2,7 +2,7 @@ FROM dolfinx/dolfinx:v0.8.0
 RUN apt update && \
     apt upgrade -y && \
     apt update && \
-    apt install libgl1-mesa-glx xvfb && \
+    apt install libgl1-mesa-glx xvfb -y && \
     python3 -m pip install --upgrade pip && \
     apt update
    
