@@ -173,7 +173,7 @@ sudo docker run hello-world
 Create the docker group.
 ```sh
 sudo groupadd docker
-
+```
 
 Add your user to the docker group.
 ```sh
@@ -183,6 +183,7 @@ sudo usermod -aG docker $USER
 Activate the changes to groups:
 ```sh
 newgrp docker
+```
 
 Verify that you can run docker commands without sudo.
 ```sh
