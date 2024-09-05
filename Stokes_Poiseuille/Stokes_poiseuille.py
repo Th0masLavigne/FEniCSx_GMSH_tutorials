@@ -130,7 +130,7 @@ b = dolfinx.fem.Constant(mesh,(0.0, 0.0))
 # 
 Id = ufl.Identity(2)
 # 
-A1 = ufl.inner((- p*Id + mu*(ufl.sym(ufl.grad(u)))), ufl.grad(w))*dx
+A1 = ufl.inner((- p*Id + 2*mu*(ufl.sym(ufl.grad(u)))), ufl.grad(w))*dx
 A2 = q*ufl.div(u)*dx
 # Assembling of the system of eqs 
 A = A1 + A2
@@ -172,31 +172,24 @@ xdmf.write_function(u_export,t)
 xdmf.write_function(p_,t)
 xdmf.close()
 # 
-# pyvista.start_xvfb()
-# topology, cell_types, geometry = dolfinx.plot.vtk_mesh(P1v_space)
-# function_grid             = pyvista.UnstructuredGrid(topology, cell_types, geometry)
-# values = numpy.zeros((geometry.shape[0], 3), dtype=numpy.float64)
-# values[:, :len(u_export)] = u_export.x.array.real.reshape((geometry.shape[0], len(u_export)))
+pyvista.start_xvfb()
+topology, cell_types, geometry = dolfinx.plot.vtk_mesh(P1v_space)
+values = numpy.zeros((geometry.shape[0], 3), dtype=numpy.float64)
+values[:, :len(u_export)] = u_export.x.array.real.reshape((geometry.shape[0], len(u_export)))
 
-# # Create a point cloud of glyphs
-# function_grid = pyvista.UnstructuredGrid(topology, cell_types, geometry)
-# function_grid["u"] = values
-# function_grid.set_active_vectors("u")
+# Create a point cloud of glyphs
+function_grid = pyvista.UnstructuredGrid(topology, cell_types, geometry)
+function_grid["u"] = values
+glyphs = function_grid.glyph(orient="u", factor=0.2)
 
-# # Warp mesh by deformation
-# warped        = function_grid.warp_by_vector("u", factor=1)
-# warped.set_active_vectors("u")
-# # Compute magnitude of displacement to visualize in GIF
-# Vs            = dolfinx.fem.functionspace(mesh, ("Lagrange", 2))
-# magnitude     = dolfinx.fem.Function(Vs)
-# us            = dolfinx.fem.Expression(ufl.sqrt(sum([u_export[i]**2 for i in range(len(u_export))])), Vs.element.interpolation_points())
-# magnitude.interpolate(us)
-# warped["mag"] = magnitude.x.array
+# Create a pyvista-grid for the mesh
+grid = pyvista.UnstructuredGrid(*dolfinx.plot.vtk_mesh(mesh, mesh.topology.dim))
 
 # Create plotter
-# plotter = pyvista.Plotter()
-# plotter.add_mesh(warped, show_edges=True, lighting=False)
-# plotter.view_xy()
-# plotter.save_graphic('result.pdf')
-# plotter.close()
+plotter = pyvista.Plotter()
+plotter.add_mesh(grid, style="wireframe", color="k")
+plotter.add_mesh(glyphs,  cmap='coolwarm')
+plotter.view_xy()
+plotter.save_graphic('result.pdf')
+plotter.close()
 # EoF
