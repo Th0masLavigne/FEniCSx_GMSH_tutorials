@@ -152,11 +152,11 @@ where a((u,p),(w,q)) is known as the bilinear form, L((w,q)) as a linear form, a
 
 In our case, we have the variationnal form:
 
-$$ \int_\Omega [-p\mathbf{I_d} + 2 \mu \varepsilon(\mathbf{u})]:\nabla(\mathbf{w}) \mathrm{d}\Omega + \int_{\Gamma_t} p_0 \mathbf{n} \cdot \mathbf{w} \mathrm{d}\Gamma -\int_\Omega \mathbf{b}\cdot \mathbf{w}  \mathrm{d}\Omega + \int_\Omega (\nabla \cdot \mathbf{u}) q = 0 $$
+$$ \int_\Omega [-p\mathbf{I_d} + 2 \mu \varepsilon(\mathbf{u})]:\nabla(\mathbf{w}) \mathrm{d}\Omega + \int_{\Gamma_t} p_0 \mathbf{n} \cdot \mathbf{w} \mathrm{d}\Gamma -\int_\Omega \mathbf{b}\cdot \mathbf{w}  \mathrm{d}\Omega + \int_\Omega (\nabla \cdot \mathbf{u}) q \mathrm{d}\Omega= 0 $$
 
 We can identify a and L such that:
 
-$$a((u,p),(w,q)) = \int_\Omega [-p\mathbf{I_d} + 2 \mu \varepsilon(\mathbf{u})]:\nabla(\mathbf{w}) \mathrm{d}\Omega + \mathrm{d}\Omega + \int_\Omega (\nabla \cdot \mathbf{u}) q$$
+$$a((u,p),(w,q)) = \int_\Omega [-p\mathbf{I_d} + 2 \mu \varepsilon(\mathbf{u})]:\nabla(\mathbf{w}) \mathrm{d}\Omega + \mathrm{d}\Omega + \int_\Omega (\nabla \cdot \mathbf{u}) q \mathrm{d}\Omega$$
 
 $$L((w,q))=\int_\Omega b\cdot w \mathrm{d}\Omega - \int_{\Gamma_t} p_0 \mathbf{n} \cdot \mathbf{w} \mathrm{d}\Gamma$$
 
