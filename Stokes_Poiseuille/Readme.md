@@ -7,7 +7,7 @@ This examples focus on a pipe section for a Poiseuille-Stokes Problem. The bound
            margin-left: auto;
            margin-right: auto;
            width: 30%;"
-src=./image.jpg
+src=./Stokes-poiseuille.jpg
 alt="Geometry">
 </img>
 </p>
