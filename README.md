@@ -218,6 +218,8 @@ sudo systemctl disable docker.service
 sudo systemctl disable containerd.service
 ```
 
+In case systemctl is not working with WSL, configure the /etc/wsl.conf file as described in the following [link](https://learn.microsoft.com/fr-fr/windows/wsl/systemd). 
+
 #### Command to start and stop docker
 
 If the docker daemon does not start automatically, run:
