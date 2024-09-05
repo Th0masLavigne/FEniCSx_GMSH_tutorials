@@ -124,9 +124,18 @@ if log_solve:
 	from dolfinx import log
 	log.set_log_level(log.LogLevel.INFO)
 # 
+#----------------------------------------------------------------------
+# Solve
+#----------------------------------------------------------------------
+#
+# 
 problem = LinearProblem(A, L, bcs=bcs, petsc_options={"ksp_type": "preonly", "pc_type": "lu"})
 uh = problem.solve()
 # 
+#----------------------------------------------------------------------
+# Post-process
+#----------------------------------------------------------------------
+#
 # Get sub-functions
 p_, u_ = uh.split()
 p_.name = "p"
@@ -159,6 +168,7 @@ xdmf.write_function(u_export,t)
 xdmf.write_function(p_,t)
 xdmf.write_function(strainrate,t)
 xdmf.write_function(stress,t)
+xdmf.close()
 # 
 import pyvista
 import numpy

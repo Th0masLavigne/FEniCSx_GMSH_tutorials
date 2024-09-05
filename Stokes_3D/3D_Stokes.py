@@ -116,6 +116,11 @@ if log_solve:
 	log.set_log_level(log.LogLevel.INFO)
 # 
 #----------------------------------------------------------------------
+# 
+#----------------------------------------------------------------------
+# Solve
+#----------------------------------------------------------------------
+# 
 problem = NonlinearProblem(F, sol, bcs)
 solver = NewtonSolver(mesh.comm, problem)
 #  
@@ -138,6 +143,11 @@ ksp.setFromOptions()
 # 
 num_its, converged = solver.solve(sol)
 sol.x.scatter_forward()
+# 
+#----------------------------------------------------------------------
+# Post-process
+#----------------------------------------------------------------------
+#
 # Get sub-functions
 p_, u_ = sol.split()
 p_.name = "p"
@@ -168,6 +178,7 @@ xdmf.write_function(u_export,t)
 xdmf.write_function(p_,t)
 xdmf.write_function(strainrate,t)
 xdmf.write_function(stress,t)
+cdmf.close()
 # 
 import pyvista
 import numpy
