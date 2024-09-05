@@ -414,9 +414,9 @@ alias pymesh='docker run -ti -v $(pwd):/home/pymesh/shared -w /home/pymesh/share
 ```
 
 ## Acknowledgments 
-This repository is inspired from the work of (Jørgen S. Dokken)[https://jsdokken.com/tutorials.html] and (Christophe Geuzaine)[https://gitlab.onelab.info/gmsh/gmsh/tree/master/tutorials]. The author also wants to thank Jack Hale and Stéphane Urcun for their help in debugging throughout the work and Giuseppe Sciumè for the invite.
+This repository is inspired from the work of [Jørgen S. Dokken](https://jsdokken.com/tutorials.html) and [Christophe Geuzaine](https://gitlab.onelab.info/gmsh/gmsh/tree/master/tutorials). The author also wants to thank F. Daghia and Ludovic Chamoin for the quality of the finite element courses at the \'Ecole Normale Supérieure Paris-Saclay, Jack Hale and Stéphane Urcun for their help in debugging the codes throughout the PhD work and Giuseppe Sciumè for the invite.
 
-This activity is part of Thomas Lavigne PhD work. This research was funded in whole, or in part, by the Luxembourg National Research Fund (FNR), grant reference No. 17013182. For the purpose of open access, the author has applied a Creative Commons Attribution 4.0 International (CC BY 4.0) license to any Author Accepted Manuscript version arising from this submission. 
+This activity is part of Thomas Lavigne PhD work. This research was funded in whole, or in part, by the Luxembourg National Research Fund (FNR), grant reference No. 17013182. For the purpose of open access, the author has applied a Creative Commons Attribution 4.0 International (CC BY 4.0) license to any Author Accepted Manuscript version arising from this submission.
 
 ## Resources
 
