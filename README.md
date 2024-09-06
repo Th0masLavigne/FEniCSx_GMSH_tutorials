@@ -247,6 +247,11 @@ Then ensure using WSL2 with:
 wsl --set-default-version 2
 ```
 
+Update the version:
+```sh
+wsl --update
+```
+
 You can then list the available distribution using:
 ```sh
 wsl.exe -l -v
