@@ -96,24 +96,29 @@ mu    = dolfinx.fem.Constant(domain, E / (2 * (1 + nu)))
 lmbda = dolfinx.fem.Constant(domain, E * nu / ((1 + nu) * (1 - 2 * nu)))
 ```
 
-The solid is assumed to follow the Hookean constitutive law such that $` \mathbf{\sigma}(\mathbf{u}) = \frac{\mathrm{d}\psi}{\mathrm{d}F}, \text{ with } \psi = \frac{\mu}{2} (\mathrm{tr}(F^T F)-3)-\mu\ln(\mathrm{det}F)+\frac{\lambda}{2} (\ln(\mathrm{det}F))^2:`$
+The solid is assumed to follow the Hookean constitutive law such that $` \mathbf{\sigma}(\mathbf{u}) = \frac{1}{J}\frac{\mathrm{d}\psi}{\mathrm{d}F}F^T, \text{ with } \psi = \frac{\mu}{2} (\mathrm{tr}(F^T F)-3)-\mu\ln(\mathrm{det}F)+\frac{\lambda}{2} (\ln(\mathrm{det}F))^2:`$
 ```python
 # Constitutive Law
-def Neo_Hoolean(mu,lmbda):
-    # Spatial dimension
-    d   = len(u)
-    # Identity tensor
-    I   = ufl.variable(ufl.Identity(d))
-    # Deformation gradient
-    F   = ufl.variable(I + ufl.grad(u))
-    # Right Cauchy-Green tensor
-    C   = ufl.variable(F.T * F)
-    # Invariants of deformation tensors
-    Ic  = ufl.variable(ufl.tr(C))
-    J   = ufl.variable(ufl.det(F))
-    # Stored strain energy density (compressible neo-Hookean model)
-    psi = (mu / 2) * (Ic - 3) - mu * ufl.ln(J) + (lmbda / 2) * (ufl.ln(J))**2
-    return ufl.diff(psi, F)
+def Cauchy_from_Neo_Hookean(mesh,u,lambda_m,mu):
+    """
+    Compute the Cauchy stress from a compressible neo-Hookean formulation: W = (mu / 2) * (Ic - tr(Identity(len(u)))) - mu * ln(J) + (lambda_m / 2) * (ln(J))^2
+    Inputs:
+    - lambda_m, mu : Lame_Coefficients
+    - u : displacement 
+    Outputs: 
+    - Cauchy stress tensor: Nanson's Formula with diff(W, F), First Piola Kirchoff stress tensor
+    """
+    from ufl import variable, Identity, grad, det, tr, ln, diff
+    ## Deformation gradient
+    F = variable(Identity(mesh.geometry.dim) + grad(u))
+    J  = variable(det(F))
+    ## Right Cauchy-Green tensor
+    C = variable(F.T * F)
+    ##Invariants of deformation tensors
+    Ic = variable(tr(C))
+    ## Strain energy density function
+    W = (mu / 2) * (Ic - tr(Identity(mesh.geometry.dim))) - mu * ln(J) + (lambda_m / 2) * (ln(J))**2
+    return (1/J)*diff(W, F)*F.T
 ```
 **Remark:** Note that the hereabove function must be introduced after the definition of u.
 
@@ -200,7 +205,7 @@ where B stands for the body forces, T the traction forces, u is the unknown and 
 This is traduced in FEniCSx with:
 
 ```python
-Form = ufl.inner(ufl.grad(v), Neo_Hoolean(mu,lmbda)) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
+Form = ufl.inner(ufl.grad(v), Cauchy_from_Neo_Hookean(domain,u,mu,lmbda)) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
 ```
 The Jacobian of the problem can further be defined with:
 

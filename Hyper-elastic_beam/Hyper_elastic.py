@@ -115,26 +115,32 @@ B = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type((0, 0, 0)))
 T = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type((0, 0, 0)))
 # 
 # Constitutive Laws
-def Neo_Hoolean(mu,lmbda):
-    # Spatial dimension
-    d   = len(u)
-    # Identity tensor
-    I   = ufl.variable(ufl.Identity(d))
-    # Deformation gradient
-    F   = ufl.variable(I + ufl.grad(u))
-    # Right Cauchy-Green tensor
-    C   = ufl.variable(F.T * F)
-    # Invariants of deformation tensors
-    Ic  = ufl.variable(ufl.tr(C))
-    J   = ufl.variable(ufl.det(F))
-    # Stored strain energy density (compressible neo-Hookean model)
-    psi = (mu / 2) * (Ic - 3) - mu * ufl.ln(J) + (lmbda / 2) * (ufl.ln(J))**2
-    return ufl.diff(psi, F)
+# 
+def Cauchy_from_Neo_Hookean(mesh,u,lambda_m,mu):
+    """
+    Compute the Cauchy stress from a compressible neo-Hookean formulation: W = (mu / 2) * (Ic - tr(Identity(len(u)))) - mu * ln(J) + (lambda_m / 2) * (ln(J))^2
+    Inputs:
+    - lambda_m, mu : Lame_Coefficients
+    - u : displacement 
+    Outputs: 
+    - Cauchy stress tensor: Nanson's Formula with diff(W, F), First Piola Kirchoff stress tensor
+    """
+    from ufl import variable, Identity, grad, det, tr, ln, diff
+    ## Deformation gradient
+    F = variable(Identity(mesh.geometry.dim) + grad(u))
+    J  = variable(det(F))
+    ## Right Cauchy-Green tensor
+    C = variable(F.T * F)
+    ##Invariants of deformation tensors
+    Ic = variable(tr(C))
+    ## Strain energy density function
+    W = (mu / 2) * (Ic - tr(Identity(mesh.geometry.dim))) - mu * ln(J) + (lambda_m / 2) * (ln(J))**2
+    return (1/J)*diff(W, F)*F.T
 # 
 #----------------------------------------------------------------------
 # Variational form
 # Define form F (we want to find u such that F(u) = 0)
-Form = ufl.inner(ufl.grad(v), Neo_Hoolean(mu,lmbda)) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
+Form = ufl.inner(ufl.grad(v), Cauchy_from_Neo_Hookean(domain,u,mu,lmbda)) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
 # 
 # Jacobian of the problem
 Jd = ufl.derivative(Form, u, du)
