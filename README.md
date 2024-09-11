@@ -10,7 +10,7 @@ The following elements are required to be able to run the examples:
 
 This README is organised as follows:
 1. Description of the Workshop contents
-2. A described description of the installation procedure is recalled for FEniCSx/Docker. To install [GMSH](https://gmsh.info/#Download) and [Paraview](https://www.paraview.org/download/), please refer to their official website,
+2. A described description of the installation procedure is recalled for FEniCSx/Docker (in the INSTALL.md file). To install [GMSH](https://gmsh.info/#Download) and [Paraview](https://www.paraview.org/download/), please refer to their official website,
 3. The instructions to use a virtual workspace is described (docker commands and aliases definition),
 4. All links used as references are provided.
 
