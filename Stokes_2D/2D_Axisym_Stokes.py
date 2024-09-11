@@ -39,8 +39,6 @@ MxE      = basix.ufl.mixed_element([P1,P2_v])
 P1v_space = dolfinx.fem.functionspace(mesh, P1_v)
 CHS       = dolfinx.fem.functionspace(mesh, MxE)
 # 
-tensor_elem  = basix.ufl.element("P", mesh.topology.cell_name(), degree=1, shape=(3,3))
-tensor_space = dolfinx.fem.functionspace(mesh, tensor_elem)
 #___________________________________________________________________________
 # Define function & parameters
 # 
@@ -144,30 +142,12 @@ u_expr = dolfinx.fem.Expression(uh.sub(1),P1v_space.element.interpolation_points
 u_export.interpolate(u_expr)
 u_export.x.scatter_forward()
 # 
-# Stress and strain rate 
-# # 
-strainrate=dolfinx.fem.Function(tensor_space)
-strainrate.name = "strainrate"
-# 0.5*(grad_cyl(u_export) + grad_cyl(u_export).T)
-strainrate_expr = dolfinx.fem.Expression(ufl.sym(grad_cyl(u_)),tensor_space.element.interpolation_points())
-strainrate.interpolate(strainrate_expr)
-strainrate.x.scatter_forward()
-# # 
-eta=1
-stress=dolfinx.fem.Function(tensor_space)
-stress.name = "stress"
-Id = ufl.Identity(3)
-stress_expr = dolfinx.fem.Expression(-1.*p_*Id + eta*2*ufl.sym(grad_cyl(u_)),tensor_space.element.interpolation_points())
-stress.interpolate(stress_expr)
-stress.x.scatter_forward()
 # 
 xdmf = dolfinx.io.XDMFFile(mesh.comm, "2D_Stokes.xdmf", "w")
 xdmf.write_mesh(mesh)
 t=0
 xdmf.write_function(u_export,t)
 xdmf.write_function(p_,t)
-xdmf.write_function(strainrate,t)
-xdmf.write_function(stress,t)
 xdmf.close()
 # 
 import pyvista
