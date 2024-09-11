@@ -116,9 +116,9 @@ T = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type((0, 0, 0)))
 # 
 # Constitutive Laws
 # 
-def Cauchy_from_Neo_Hookean(mesh,u,lambda_m,mu):
+def Neo_Hookean(mesh,u,lambda_m,mu):
     """
-    Compute the Cauchy stress from a compressible neo-Hookean formulation: W = (mu / 2) * (Ic - tr(Identity(len(u)))) - mu * ln(J) + (lambda_m / 2) * (ln(J))^2
+    Compute the PK1 stress from a compressible neo-Hookean formulation: W = (mu / 2) * (Ic - tr(Identity(len(u)))) - mu * ln(J) + (lambda_m / 2) * (ln(J))^2
     Inputs:
     - lambda_m, mu : Lame_Coefficients
     - u : displacement 
@@ -135,12 +135,12 @@ def Cauchy_from_Neo_Hookean(mesh,u,lambda_m,mu):
     Ic = variable(tr(C))
     ## Strain energy density function
     W = (mu / 2) * (Ic - tr(Identity(mesh.geometry.dim))) - mu * ln(J) + (lambda_m / 2) * (ln(J))**2
-    return (1/J)*diff(W, F)*F.T
+    return diff(W, F)
 # 
 #----------------------------------------------------------------------
 # Variational form
 # Define form F (we want to find u such that F(u) = 0)
-Form = ufl.inner(ufl.grad(v), Cauchy_from_Neo_Hookean(domain,u,mu,lmbda)) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
+Form = ufl.inner(ufl.grad(v), Neo_Hookean(domain,u,mu,lmbda)) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
 # 
 # Jacobian of the problem
 Jd = ufl.derivative(Form, u, du)

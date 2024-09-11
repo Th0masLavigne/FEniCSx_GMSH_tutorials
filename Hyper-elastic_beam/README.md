@@ -99,9 +99,9 @@ lmbda = dolfinx.fem.Constant(domain, E * nu / ((1 + nu) * (1 - 2 * nu)))
 The solid is assumed to follow the Hookean constitutive law such that $` \mathbf{\sigma}(\mathbf{u}) = \frac{1}{J}\frac{\mathrm{d}\psi}{\mathrm{d}F}F^T, \text{ with } \psi = \frac{\mu}{2} (\mathrm{tr}(F^T F)-3)-\mu\ln(\mathrm{det}F)+\frac{\lambda}{2} (\ln(\mathrm{det}F))^2:`$
 ```python
 # Constitutive Law
-def Cauchy_from_Neo_Hookean(mesh,u,lambda_m,mu):
+def Neo_Hookean(mesh,u,lambda_m,mu):
     """
-    Compute the Cauchy stress from a compressible neo-Hookean formulation: W = (mu / 2) * (Ic - tr(Identity(len(u)))) - mu * ln(J) + (lambda_m / 2) * (ln(J))^2
+    Compute the PK1 stress from a compressible neo-Hookean formulation: W = (mu / 2) * (Ic - tr(Identity(len(u)))) - mu * ln(J) + (lambda_m / 2) * (ln(J))^2
     Inputs:
     - lambda_m, mu : Lame_Coefficients
     - u : displacement 
@@ -118,7 +118,7 @@ def Cauchy_from_Neo_Hookean(mesh,u,lambda_m,mu):
     Ic = variable(tr(C))
     ## Strain energy density function
     W = (mu / 2) * (Ic - tr(Identity(mesh.geometry.dim))) - mu * ln(J) + (lambda_m / 2) * (ln(J))**2
-    return (1/J)*diff(W, F)*F.T
+    return diff(W, F)
 ```
 **Remark:** Note that the hereabove function must be introduced after the definition of u.
 
@@ -205,7 +205,7 @@ where B stands for the body forces, T the traction forces, u is the unknown and 
 This is traduced in FEniCSx with:
 
 ```python
-Form = ufl.inner(ufl.grad(v), Cauchy_from_Neo_Hookean(domain,u,mu,lmbda)) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
+Form = ufl.inner(ufl.grad(v), Neo_Hookean(domain,u,mu,lmbda)) * dx - ufl.inner(v, B) * dx - ufl.inner(v, T) * ds(2)
 ```
 The Jacobian of the problem can further be defined with:
 
