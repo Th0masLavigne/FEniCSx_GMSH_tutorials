@@ -3,7 +3,7 @@
 This repository holds all the documents related to the workshop conducted at I2M Bordeaux of the 9th-11th September 2024. This workshop as been co-arganised with Giuseppe Sciumè at the Bordeaux University and is related to Thomas Lavigne AFR-FNR research project (cotutelle University of Luxembourg, Bordeaux University (I2M) and ENSAM Paris (IBHGC)). 
 
 
-The objective of the workshop is to introduce open-source softwares for mesh generation and finite element modelling used as part of my PhD project. More specifically, it focuses on the use of FEniCSx (version 0.8.0) and GMSH (version >4.11). Their documentation as well as other softwares are available at the end of this document. 
+The objective of the workshop is to introduce open-source softwares for mesh generation and finite element modelling used as part of my PhD project. More specifically, it focuses on the use of FEniCSx (version 0.8.0 or v0.9.0) and GMSH (version >4.11). Their documentation as well as other softwares are available at the end of this document. 
 
 The following elements are required to be able to run the examples:
 - A local installation of [FEniCSx v0.8.0 or v0.9.0](https://fenicsproject.org/download/) or [Docker Desktop](https://desktop.docker.com/win/main/amd64/165256/Docker%20Desktop%20Installer.exe) v4.34.0 or later *(macOS or linked with WSL2 on Windows)* **or** [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) *(macOS or Linux or Ubuntu WSL2)*,
