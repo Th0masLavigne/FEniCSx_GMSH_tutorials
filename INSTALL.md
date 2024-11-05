@@ -2,7 +2,7 @@
 
 ### Linux
 
-#### Local Version of FEniCSx v0.8.0
+#### Local Version of FEniCSx v0.8.0 or v0.9.0
 
 From the [official website](https://fenicsproject.org/download/), the easiest way to install FEniCSx on Debian or Ubuntu Linux is via apt.
 
