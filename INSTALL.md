@@ -64,7 +64,30 @@ To remove the hold:
 sudo apt-mark unhold <package-name>
 ```
 
-For FEniCSx:
+For FEniCSx 0.8.0:
+```sh
+
+sudo apt-mark hold  basix-doc \
+                    dolfinx-doc \
+                    fenicsx \
+                    libbasix-dev \
+                    libbasix0.8 \
+                    libdolfinx-dev \
+                    libdolfinx-real-dev \
+                    libdolfinx-real0.8 \
+                    python-petsc4py-doc \
+                    python-ufl-doc \
+                    python3-basix \
+                    python3-dolfinx \
+                    python3-dolfinx-real \
+                    python3-ffcx \
+                    python3-petsc4py \
+                    python3-petsc4py-real \
+                    python3-petsc4py-real3.15 \
+                    python3-ufl
+```
+
+For FEniCSx 0.9.0 (TBD):
 ```sh
 
 sudo apt-mark hold  basix-doc \
