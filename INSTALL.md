@@ -87,7 +87,7 @@ sudo apt-mark hold  basix-doc \
                     python3-ufl
 ```
 
-For FEniCSx 0.9.0 (TBD):
+For FEniCSx 0.9.0 (TBD / requires ubuntu 24.04):
 ```sh
 
 sudo apt-mark hold  basix-doc \
