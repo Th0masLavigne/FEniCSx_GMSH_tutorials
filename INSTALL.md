@@ -87,27 +87,27 @@ sudo apt-mark hold  basix-doc \
                     python3-ufl
 ```
 
-For FEniCSx 0.9.0 (TBD / requires ubuntu 24.04):
+For FEniCSx 0.9.0 :
 ```sh
 
-sudo apt-mark hold  basix-doc \
-                    dolfinx-doc \
-                    fenicsx \
-                    libbasix-dev \
-                    libbasix0.8 \
-                    libdolfinx-dev \
-                    libdolfinx-real-dev \
-                    libdolfinx-real0.8 \
-                    python-petsc4py-doc \
-                    python-ufl-doc \
-                    python3-basix \
-                    python3-dolfinx \
-                    python3-dolfinx-real \
-                    python3-ffcx \
-                    python3-petsc4py \
-                    python3-petsc4py-real \
-                    python3-petsc4py-real3.15 \
-                    python3-ufl
+sudo apt-mark hold basix-doc \
+                   libbasix0.9 \
+                   libfmt8 \
+                   python-ufl-doc \
+                   libspdlog1 \
+                   libbasix-dev \
+                   python3-pusimp \
+                   python3-basix \
+                   libdolfinx-real0.9 \
+                   python3-dolfin \
+                   python3-ffcx \
+                   libdolfinx-real-dev \
+                   libfmt-dev \
+                   dolfin-bin \
+                   libspdlog-dev \
+                   libdolfinx-dev \
+                   python3-dolfinx-real \
+                   python3-dolfinx fenicsx
 ```
 
 ### Docker Engine
