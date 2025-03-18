@@ -42,7 +42,7 @@ spack env create MyFenicsxEnv
 * activate the environment, add some packages, and install them:
 ```bash
 spack env activate MyFenicsxEnv
-spack add petsc +fortran +mumps +trilinos +superlu-dist
+spack add petsc ~trilinos +fortran +mumps +superlu-dist
 spack add python
 spack add py-fenics-dolfinx@0.9.0
 spack add py-numpy
