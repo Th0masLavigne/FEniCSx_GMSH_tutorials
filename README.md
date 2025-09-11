@@ -214,6 +214,7 @@ This activity is part of Thomas Lavigne PhD work. This research was funded in wh
 ### FEniCSx
 - *[FEniCS Website](https://fenicsproject.org/)*
 - *[FEniCSx Tutorial](https://jsdokken.com/dolfinx-tutorial/)*
+- -*[FEniCSx Workshop by J. Dokken](https://jsdokken.com/FEniCS-workshop/src/deep_dive/expressions.html)*
 - *[FEniCSx Changelog](https://github.com/FEniCS/dolfinx/releases)*
 - *[FEniCSx Discourse Forum](https://fenicsproject.discourse.group/)*
 - *[FEniCSx Github](https://github.com/orgs/FEniCS/repositories)*
