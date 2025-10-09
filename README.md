@@ -227,6 +227,8 @@ This activity is part of Thomas Lavigne PhD work. This research was funded in wh
 - *[FEniCS Legacy Documentation](https://fenicsproject.org/olddocs/)*
 - *[Mesh Update](https://fenicsproject.discourse.group/t/how-to-do-updated-lagrangian-when-the-displacement-lives-in-a-different-space-to-the-mesh-geometry/10760/2)*
 - *[Parallel stuff](https://fenicsproject.discourse.group/t/different-results-in-serial-and-parallel-run-dolfinx/4370)*
+- *[parallel_demo_1](https://github.com/FEniCS/dolfinx/blob/main/python/demo/demo_pml.py)*
+- *[parallel_demo_2](https://github.com/FEniCS/dolfinx/blob/main/python/demo/demo_axis.py)*
 
 **Remark:** On ubuntu jammy, the FEniCSx version 0.8.0 had a conflict on my laptop requiring to remove python3-numba:
 ```sh
