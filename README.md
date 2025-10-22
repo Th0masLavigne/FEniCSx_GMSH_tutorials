@@ -1,12 +1,12 @@
 # FEniCSx_GMSH_tutorials
 
-This repository holds all the documents related to the workshop conducted at I2M Bordeaux of the 9th-11th September 2024. This workshop as been co-arganised with Giuseppe Sciumè at the Bordeaux University and is related to Thomas Lavigne AFR-FNR research project (cotutelle University of Luxembourg, Bordeaux University (I2M) and ENSAM Paris (IBHGC)). 
+This repository holds all the documents related to the workshop conducted at I2M Bordeaux of the 9th-11th September 2024, **Updated for FEniCSx 0.9.0**. This workshop as been co-arganised with Giuseppe Sciumè at the Bordeaux University and is related to Thomas Lavigne AFR-FNR research project (cotutelle University of Luxembourg, Bordeaux University (I2M) and ENSAM Paris (IBHGC)). 
 
 
-The objective of the workshop is to introduce open-source softwares for mesh generation and finite element modelling used as part of my PhD project. More specifically, it focuses on the use of FEniCSx (version 0.8.0 or v0.9.0) and GMSH (version >4.11). Their documentation as well as other softwares are available at the end of this document. 
+The objective of the workshop is to introduce open-source softwares for mesh generation and finite element modelling used as part of my PhD project. More specifically, it focuses on the use of FEniCSx (version 0.9.0) and GMSH (version >4.11). Their documentation as well as other softwares are available at the end of this document. 
 
 The following elements are required to be able to run the examples:
-- A local installation of [FEniCSx v0.8.0](https://fenicsproject.org/download/) or [Docker Desktop](https://desktop.docker.com/win/main/amd64/165256/Docker%20Desktop%20Installer.exe) v4.34.0 or later *(macOS or linked with WSL2 on Windows)* **or** [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) *(macOS or Linux or Ubuntu WSL2)*,
+- A local installation of [FEniCSx v0.9.0](https://fenicsproject.org/download/) or [Docker Desktop](https://desktop.docker.com/win/main/amd64/165256/Docker%20Desktop%20Installer.exe) v4.34.0 or later *(macOS or linked with WSL2 on Windows)* **or** [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) *(macOS or Linux or Ubuntu WSL2)*,
 - [GMSH](https://gmsh.info/#Download) software,
 - [Paraview](https://www.paraview.org/download/) software.
 
@@ -47,17 +47,17 @@ The Corresponding **Jupyter lab** notebooks are available for an interactive use
 ### If Docker as a non-root user is configured:
 To set an interactive working directory (in an ubuntu environment), respectively using Docker and FEniCSx, the following commands can be used:
 ```sh
-docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared th0maslavigne/dolfinx:v0.8.0
+docker run -ti -v $(pwd):/home/fenics/shared -w /home/fenics/shared th0maslavigne/dolfinx:v0.9.0
 ```
 
 **Remark**: On a cluster, singularity is often installed instead of docker. In such cases, based on the image.sif file, the command is similar:
 ```sh
-singularity exec /modules/containers/images/dolfinx/dolfinx-0.8.0.sif python3 file.py
+singularity exec /modules/containers/images/dolfinx/dolfinx-0.9.0.sif python3 file.py
 ```
 
 To create a jupyter container, compute:
 ```sh
-docker run --init -p 8888:8888 -v "$(pwd)":/root/shared --name=jupyter_dolfinx dolfinx/lab:v0.8.0
+docker run --init -p 8888:8888 -v "$(pwd)":/root/shared --name=jupyter_dolfinx dolfinx/lab:v0.9.0
 ```
 
 Then to use it, consider using:
@@ -73,13 +73,13 @@ docker stop `docker ps -qa` > /dev/null 2>&1; docker system prune --volumes --al
 
 Sometimes a docker image is missing some python library one want to use. A new image based on an existing image can be created including additionnal packages. For instance, the image used for this workshop have been created using the following Dockerfile:
 ```sh
-FROM dolfinx/dolfinx:v0.8.0
+FROM dolfinx/dolfinx:v0.9.0
 RUN apt update && \
     apt upgrade -y && \
     apt update && \
-    apt install libgl1-mesa-glx xvfb -y && \
+    apt install xvfb libgl1 libglu1-mesa mesa-utils && \
     python3 -m pip install --upgrade pip && \
-    apt update
+    apt update 
    
 RUN pip3 install pandas \
          imageio \
@@ -88,7 +88,7 @@ RUN pip3 install pandas \
 
 Then to build the image, run in the folder where the 'Dockerfile' is present: 
 ```sh
-docker build -f Dockerfile -t FEniCSx:v0.8.0 .
+docker build -f Dockerfile -t FEniCSx:v0.9.0 .
 ```
 **Remark**: Be careful, it is sensitive to the case so ensure your file is named 'Dockerfile'.
 
@@ -118,12 +118,12 @@ All the above commands are working but one need to put `sudo` before.
 
 To set an interactive working directory (in an ubuntu environment), respectively using Docker and FEniCSx, the following commands can be used:
 ```sh
-sudo docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared th0maslavigne/dolfinx:v0.8.0
+sudo docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared th0maslavigne/dolfinx:v0.9.0
 ```
 
 To create a jupyter container, compute:
 ```sh
-sudo docker run --init -p 8888:8888 -v "$(pwd)":/root/shared --name=jupyter_dolfinx dolfinx/lab:v0.8.0
+sudo docker run --init -p 8888:8888 -v "$(pwd)":/root/shared --name=jupyter_dolfinx dolfinx/lab:v0.9.0
 ```
 
 Then to use it, consider using:
@@ -149,7 +149,7 @@ alias <Meaningful_name>='<the command>'
 
 For example, in the present workshop, one could create:
 ```sh
-alias fenicsx_v0_8_0='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared th0maslavigne/dolfinx:v0.8.0'
+alias fenicsx_v0_9_0='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fenicsx/shared th0maslavigne/dolfinx:v0.9.0'
 ```
 
 This is of interest and will allow you to have different versions of a same environment without conflicting package:
@@ -162,14 +162,24 @@ alias fenicsx_v0_8_0='docker run -ti -v $(pwd):/home/fenicsx/shared -w /home/fen
 If you prefer using the jupyter lab notebooks, the following commands can be created:
 Run once:
 ```sh
-alias create_fenicsx_v0_8_0_jupyter='docker run --init -p 8888:8888 -v "$(pwd)":/root/shared --name=jupyter_dolfinx dolfinx/lab:v0.8.0'
+alias create_fenicsx_v0_8_0_jupyter='docker run --init -p 8888:8888 -v "$(pwd)":/root/shared --name=jupyter_dolfinx08 dolfinx/lab:v0.8.0'
+```
+or
+```sh
+alias create_fenicsx_v0_9_0_jupyter='docker run --init -p 8888:8888 -v "$(pwd)":/root/shared --name=jupyter_dolfinx09 dolfinx/lab:v0.9.0'
 ```
 
 Then use:
 ```sh
-alias run_fenicsx_v0_8_0_jupyter='docker container start -i jupyter_dolfinx'
-alias stop_fenicsx_v0_8_0_jupyter='docker stop jupyter_dolfinx'
-alias logs_fenicsx_v0_8_0_jupyter='docker logs jupyter_dolfinx'
+alias run_fenicsx_v0_8_0_jupyter='docker container start -i jupyter_dolfinx08'
+alias stop_fenicsx_v0_8_0_jupyter='docker stop jupyter_dolfinx08'
+alias logs_fenicsx_v0_8_0_jupyter='docker logs jupyter_dolfinx08'
+```
+or
+```sh
+alias run_fenicsx_v0_9_0_jupyter='docker container start -i jupyter_dolfinx09'
+alias stop_fenicsx_v0_9_0_jupyter='docker stop jupyter_dolfinx09'
+alias logs_fenicsx_v0_9_0_jupyter='docker logs jupyter_dolfinx09'
 ```
 
 **Remark:** Including the bash term at the end allows to exit the python environnment to the linux command. Here are two examples respectively for fenics legacy and pymesh:
