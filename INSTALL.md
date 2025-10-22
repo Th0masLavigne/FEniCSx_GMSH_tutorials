@@ -1,126 +1,149 @@
-## Installation of the prerequisites
+# Installation Guide for FEniCSx v0.9.0
 
-### Linux
+This guide provides detailed instructions to install **FEniCSx v0.9.0** and its dependencies on **Linux**, **Windows (via WSL 2)**, and **macOS**. You can choose between **local installation** or **Docker-based installation** depending on your system and requirements.
 
-#### Local Version of FEniCSx v0.8.0
+## Linux Installation
 
-From the [official website](https://fenicsproject.org/download/), the easiest way to install FEniCSx on Debian or Ubuntu Linux is via apt.
+### Local Installation of FEniCSx v0.9.0
 
-**Remark**: FEniCSx v0.8.0 requires at least **Ubuntu 22.04**. If you are using **Ubuntu 20.04**, consider using a docker. Previous distro versions might require an upgrade.
+The recommended way to install [FEniCSx](https://fenicsproject.org/download/) on Debian/Ubuntu is via the official APT repository.
 
-#### Install FEniCSx
-First you need to access the package:
+> **Note:** These instructions are tested for **Ubuntu 24.04 LTS**. Versions ≥22.04 may work. For older distributions, consider using Docker.
+
+#### Step 1 — Add the FEniCSx Repository
+First you need to access the package and update your shell environment:
 ```sh
 sudo add-apt-repository ppa:fenics-packages/fenics
-```
-
-Update the environment:
-```sh
 sudo apt update
 ```
 
-Install FEniCSx:
+#### Step 2 — Install FEniCSx
+Install FEniCSx, with the desired version:
 ```sh
-sudo apt install fenicsx
+sudo apt install -y 'fenicsx=2:0.9.0.1*'
 ```
 
-#### Additional packages
+#### Step 3 — Install Additional Packages
 To run the codes you further require to load the following packages:
 ```sh
-pip3 install h5py \
-             imageio \
-             pyvista \
-             gmsh
+sudo apt install python3-pip -y &&\
+sudo apt install python3-venv -y &&\
+sudo apt update &&\
+sudo apt install python3-pandas
 ```
-
+And 
 ```sh
-sudo apt install libgl1-mesa-glx xvfb -y && \
+sudo apt install xvfb libgl1 libglu1-mesa mesa-utils -y && \
 sudo apt install gmsh -y  && \
 sudo apt update
 ```
 
-If one further need to check a python module version, one can use:
+
+#### Step 4 — Check Versions
+Python module version:
 ```sh
-pip3 freeze | grep module
+pip freeze | grep <module-name>
+```
+APT package version:
+```sh
+apt show <package-name>
 ```
 
+Python installed module:
+```sh
+pip list
+```
+APT installed module:
+```sh
+apt list --installed
+```
 
-#### Avoid an upgrade of the packages
+#### Step 5 — Setup Virtual Environment (Recommended for Ubuntu ≥24.04)
 
-To avoid an upgrade of the packages you can set them 'on hold'.
-To hold a package:
+Starting from Ubuntu 24.04, it is recommended to work in a **Python virtual environment** for externally managed packages, allowing you to safely use `pip` without affecting system packages.
+
+```sh
+cd <your_install_directory>
+python3 -m venv fenicsx-env --system-site-packages
+```
+
+>**Note:** The --system-site-packages option allows the virtual environment to access system-wide packages, including FEniCSx.
+
+Activate the environment:
+```sh
+source <your_install_directory>/fenicsx-env/bin/activate
+```
+
+Upgrade pip and install additional Python packages:
+```sh
+pip install --upgrade pip
+pip install matplotlib
+```
+
+Deactivate the environment:
+```sh
+deactivate
+```
+
+Remove the environment if needed:
+```sh
+# Delete the current venv
+rm -rf fenicsx-env
+```
+
+*Remark*: In case of a virtual environment, a quick check to verify that the MPI consistency is:
+```sh
+mpirun -n 2 python3 -c "from mpi4py import MPI; print(MPI.COMM_WORLD.Get_rank())"
+```
+You should see ranks 0 and 1 printed — confirming MPI is consistent.
+
+
+#### Step 6 — Prevent Automatic Package Upgrades
+
+Hold packages:
 ```sh
 sudo apt-mark hold <package-name>
 ```
 
-To show all packages on hold:
+List held packages:
 ```sh
 sudo apt-mark showhold
 ```
 
 
-To remove the hold:
+Remove hold:
 ```sh
 sudo apt-mark unhold <package-name>
 ```
 
-For FEniCSx 0.8.0:
+Hold all FEniCSx v0.9.0 dependencies:
 ```sh
-
-sudo apt-mark hold  basix-doc \
-                    dolfinx-doc \
-                    fenicsx \
-                    libbasix-dev \
-                    libbasix0.8 \
-                    libdolfinx-dev \
-                    libdolfinx-real-dev \
-                    libdolfinx-real0.8 \
-                    python-petsc4py-doc \
-                    python-ufl-doc \
-                    python3-basix \
-                    python3-dolfinx \
-                    python3-dolfinx-real \
-                    python3-ffcx \
-                    python3-petsc4py \
-                    python3-petsc4py-real \
-                    python3-petsc4py-real3.15 \
-                    python3-ufl
+sudo apt-mark hold python-ufl-doc python3-ufl python3-pusimp python3-basix \
+libdolfinx-real0.9 python3-ffcx libfmt-dev libspdlog-dev fenicsx dolfinx-doc basix-doc \
+gcc-13 g++-13 gfortran-13 gcc-13-x86-64-linux-gnu g++-13-x86-64-linux-gnu gfortran-13-x86-64-linux-gnu \
+cmake gmsh libdolfinx-dev libdolfinx-real-dev libdolfinx-real0.9 libbasix-dev libbasix0.9 \
+libadios2-common-c++11-dev libadios2-common-core-dev libadios2-mpi-auxiliary-2.10 \
+libadios2-mpi-auxiliary-dev libadios2-mpi-c++11-2.10 libadios2-mpi-c++11-dev \
+libadios2-mpi-core-2.10 libadios2-mpi-core-dev libadios2-mpi-plugins \
+libeigen3-dev libpetsc-real-dev libpetsc-real3.19-dev libpetsc-real3.19t64 \
+libpetsc3.19-dev-common libpetsc3.19-dev-examples libhypre-2.28.0 libhypre-dev \
+libmumps-5.6t64 libmumps-dev libmumps-headers-dev libgraphblas-dev libgraphblas7 \
+libparpack2-dev libparpack2t64 libmetis5 python3.12 python3.12-dev python3.12-minimal \
+python3.12-venv libpython3.12-dev libpython3.12-stdlib python3-dolfinx python3-dolfinx-real \
+trilinos-dev
 ```
 
-For FEniCSx 0.9.0 :
-```sh
+### Docker Engine (in Linux)
 
-sudo apt-mark hold basix-doc \
-                   libbasix0.9 \
-                   libfmt8 \
-                   python-ufl-doc \
-                   libspdlog1 \
-                   libbasix-dev \
-                   python3-pusimp \
-                   python3-basix \
-                   libdolfinx-real0.9 \
-                   python3-dolfin \
-                   python3-ffcx \
-                   libdolfinx-real-dev \
-                   libfmt-dev \
-                   dolfin-bin \
-                   libspdlog-dev \
-                   libdolfinx-dev \
-                   python3-dolfinx-real \
-                   python3-dolfinx fenicsx
-```
-
-### Docker Engine
-
-If you already have a version of FEniCSx you prefer not to upgrade, it is possible to use Docker (alternatively singularity for cluster computations).
+If you prefer not to alter system packages, Docker is a robust alternative.
 The Directives to install it are provided on the [official website](https://docs.docker.com/engine/install/). 
 
-First, uninstall potential conflicting packages:
+#### Step 1 — Remove Conflicting Packages
 ```sh
 for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
 ```
 
-#### Install using the apt repository. 
+#### Step 2 — Add Docker Repository
 Set up Docker's apt repository:
 ```sh
 # Add Docker's official GPG key:
@@ -138,9 +161,10 @@ echo \
 sudo apt-get update
 ```
 
-**Remark**: According to the official website, if you use an Ubuntu derivative distro, such as Linux Mint, you may need to use UBUNTU_CODENAME instead of VERSION_CODENAME.
+>**Note**: According to the official website, if you use an Ubuntu derivative distro, such as Linux Mint, you may need to use UBUNTU_CODENAME instead of VERSION_CODENAME.
 
-Install the Docker packages:
+#### Step 3 — Install Docker Engine
+Install the Docker Engine:
 ```sh
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
@@ -187,7 +211,7 @@ sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
 sudo chmod g+rwx "$HOME/.docker" -R
 ```
 
-#### Configure Docker to start on boot with systemd
+#### Autostart Docker
 
 From the [official website](https://docs.docker.com/engine/install/linux-postinstall/), to automatically start Docker and containerd on boot for other Linux distributions using systemd, run the following commands:
 ```sh
@@ -203,7 +227,7 @@ sudo systemctl disable containerd.service
 
 In case systemctl is not working with WSL, configure the /etc/wsl.conf file as described in the following [link](https://learn.microsoft.com/fr-fr/windows/wsl/systemd). 
 
-#### Command to start and stop docker
+#### Command to start and stop docker manually
 
 If the docker daemon does not start automatically, run:
 ```sh
@@ -215,12 +239,17 @@ To stop it, run:
 sudo systemctl stop docker
 ```
 
-### Windows
+## Windows
 
 The use of FEniCSx and Docker is here based on the Windows Subsystem Linux ([WSL 2](https://learn.microsoft.com/fr-fr/windows/wsl/install)). WSL 2 allows to get a Ubuntu distribution within windows (10 or 11)
 
-#### Check WSL status and install Ubuntu 22.04 (if not existing)
-In Windows Powershell, run:
+### Check WSL status and install Ubuntu 24.04 (if not existing)
+You can check if WSL is already installed with:
+```sh
+wsl --status
+```
+
+If not installed, after having enabled Microsoft-Windows-Subsystem-Linux and VirtualMachinePlatform features and completed a reboot, launch Windows Powershell or Terminal (admin):
 ```sh
 wsl --install
 ```
@@ -235,26 +264,30 @@ Update the version:
 wsl --update
 ```
 
-You can then list the available distribution using:
+You can then list the installed versions distribution using:
 ```sh
 wsl.exe -l -v
 ```
 
+Available versions can be seen using:
+```sh
+wsl.exe --list --online
+```
+
+
 If no distribution is currently installed use:
 ```sh
-wsl.exe --install Ubuntu
+wsl.exe --install Ubuntu --name <Whatever the name you want to give>
 ```
 
 To remove a distribution from WSL and delete all of the data associated with that Linux distribution, run:
 ```sh 
 wsl --unregister <distroName>
 ``` 
-where `sh <distroName>` is the name of your Linux distro, which can be seen from the list in the `sh wsl -l` command.
+where `sh <distroName>` is the name of your Linux distro, which can be seen from the list in the `sh wsl --list --online` command. In the present case, it is Ubuntu-24.04 .
 
-#### Install FEniCSx
-Once Ubuntu is installed you can follow the <ins>here-above installation procedures for Linux</ins> (either local or with Docker) in the WSL 2 terminal. The non-root user procedure in Docker does not look necessary within WSL 2. Ensure adding sudo at the beginning of your commands/aliases in that case. 
-
-If one prefer to use [Docker Desktop](https://desktop.docker.com/win/main/amd64/165256/Docker%20Desktop%20Installer.exe) v4.34.0 or later, please refer to the installation .exe on the official website (please use the following link: [Docker Desktop](https://desktop.docker.com/win/main/amd64/165256/Docker%20Desktop%20Installer.exe) to get the right .exe) and link it with WSL 2.
+### Install FEniCSx inside WSL
+Once Ubuntu is installed you can follow the <ins>here-above installation procedures for Linux</ins> (either local or with Docker) in the WSL 2 terminal. Prefer to use [Docker Desktop](https://desktop.docker.com/win/main/amd64/165256/Docker%20Desktop%20Installer.exe) v4.34.0 or later, please refer to the installation .exe on the official website (please use the following link: [Docker Desktop](https://desktop.docker.com/win/main/amd64/165256/Docker%20Desktop%20Installer.exe) to get the right .exe) and **link it with WSL 2**.
 
 ### macOS
 
