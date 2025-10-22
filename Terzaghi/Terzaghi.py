@@ -263,18 +263,22 @@ bcs.append(dolfinx.fem.dirichletbc(dolfinx.default_scalar_type(0), dofs, MS.sub(
 #----------------------------------------------------------------------
 # 
 Un_, Un_to_MS = MS.sub(0).collapse()
-FUn_          = dolfinx.fem.Function(Un_)
-with FUn_.vector.localForm() as initial_local:
-	initial_local.set(dolfinx.default_scalar_type(0.0)) 
-Xn.x.array[Un_to_MS] = FUn_.x.array
-Xn.x.scatter_forward()
-
 Pn_, Pn_to_MS = MS.sub(1).collapse()
-FPn_          = dolfinx.fem.Function(Pn_)
-with FPn_.vector.localForm() as initial_local:
-	initial_local.set(dolfinx.default_scalar_type(pinit)) 
+
+# For displacement
+FUn_ = dolfinx.fem.Function(Un_)
+FUn_.x.array[:] = 0.0  # set all DOFs to zero
+FUn_.x.scatter_forward()
+
+# For pressure
+FPn_ = dolfinx.fem.Function(Pn_)
+FPn_.x.array[:] = pinit  # set all DOFs to pinit
+FPn_.x.scatter_forward()
+
+Xn.x.array[Un_to_MS] = FUn_.x.array
 Xn.x.array[Pn_to_MS] = FPn_.x.array
 Xn.x.scatter_forward()
+
 #  
 #----------------------------------------------------------------------
 # Definition of the Variationnal Form
