@@ -6,7 +6,7 @@ This repository holds all the documents related to the workshop conducted at I2M
 The objective of the workshop is to introduce open-source softwares for mesh generation and finite element modelling used as part of my PhD project. More specifically, it focuses on the use of FEniCSx (version 0.8.0 or v0.9.0) and GMSH (version >4.11). Their documentation as well as other softwares are available at the end of this document. 
 
 The following elements are required to be able to run the examples:
-- A local installation of [FEniCSx v0.8.0 or v0.9.0](https://fenicsproject.org/download/) or [Docker Desktop](https://desktop.docker.com/win/main/amd64/165256/Docker%20Desktop%20Installer.exe) v4.34.0 or later *(macOS or linked with WSL2 on Windows)* **or** [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) *(macOS or Linux or Ubuntu WSL2)*,
+- A local installation of [FEniCSx v0.8.0](https://fenicsproject.org/download/) or [Docker Desktop](https://desktop.docker.com/win/main/amd64/165256/Docker%20Desktop%20Installer.exe) v4.34.0 or later *(macOS or linked with WSL2 on Windows)* **or** [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) *(macOS or Linux or Ubuntu WSL2)*,
 - [GMSH](https://gmsh.info/#Download) software,
 - [Paraview](https://www.paraview.org/download/) software.
 
@@ -32,13 +32,13 @@ The workshop indrocudes the following items:
   * Export compatibility: FEniCSx vs Fenics Legacy. 
 - Finite Element computation using FEniCSx:
   * Stationary and transient thermal problems,
-  * Solid Continous Mechanics problem (elastic, hyper-elastic, penalty contact, updated lagrangian formulation and evaluation of a quantity),
+  * Solid Continous Mechanics problem (elastic, hyper-elastic, penalty contact, incremental (for updated lagrangian formulation please see C. Cornillon work) and evaluation of a quantity),
   * Stokes Equation solving in 2D and 3D,
   * Linear and Non-Linear resolutions,
   * Updated mesh resolution,
   * Terzaghi poromechanical model (from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)*).
 
-One can also refer to the tutorial from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)* ([Github repository](https://github.com/Th0masLavigne/Dolfinx_Porous_Media.git)). Please cite this work if you use codes from this workshop that can be related to this tutorial. One can also refer to the work presented in *[Lavigne et al., 2024]()* for an example of an <ins>**updated Lagrangian**</ins> (*i.e.* [mesh update](https://fenicsproject.discourse.group/t/how-to-do-updated-lagrangian-when-the-displacement-lives-in-a-different-space-to-the-mesh-geometry/10760/2)) poro-elastic model with imposed displacement: [Github repository](https://github.com/Th0masLavigne/Skin_porous_modelling.git). The reaction force is evaluated and volume tags from gmsh are used to map the material parameters with a test case. It completes the multimaterial codes proposed in this workshop.
+One can also refer to the tutorial from *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)* ([Github repository](https://github.com/Th0masLavigne/Dolfinx_Porous_Media.git)). Please cite this work if you use codes from this workshop that can be related to this tutorial. One can also refer to the work presented in *[Lavigne et al., 2024]()* for an example of an <ins>**incremental resolution**</ins> (*i.e.* [mesh update](https://fenicsproject.discourse.group/t/how-to-do-updated-lagrangian-when-the-displacement-lives-in-a-different-space-to-the-mesh-geometry/10760/2)) poro-elastic model with imposed displacement: [Github repository](https://github.com/Th0masLavigne/Skin_porous_modelling.git). The reaction force is evaluated and volume tags from gmsh are used to map the material parameters with a test case. It completes the multimaterial codes proposed in this workshop.
 The Corresponding **Jupyter lab** notebooks are available for an interactive use.
 
 
@@ -88,7 +88,7 @@ RUN pip3 install pandas \
 
 Then to build the image, run in the folder where the 'Dockerfile' is present: 
 ```sh
-docker build .
+docker build -f Dockerfile -t FEniCSx:v0.8.0 .
 ```
 **Remark**: Be careful, it is sensitive to the case so ensure your file is named 'Dockerfile'.
 
@@ -226,9 +226,9 @@ This activity is part of Thomas Lavigne PhD work. This research was funded in wh
 - *[FEniCS book](https://launchpadlibrarian.net/83776282/fenics-book-2011-10-27-final.pdf)*
 - *[FEniCS Legacy Documentation](https://fenicsproject.org/olddocs/)*
 - *[Mesh Update](https://fenicsproject.discourse.group/t/how-to-do-updated-lagrangian-when-the-displacement-lives-in-a-different-space-to-the-mesh-geometry/10760/2)*
-- *[Parallel stuff](https://fenicsproject.discourse.group/t/different-results-in-serial-and-parallel-run-dolfinx/4370)*
-- *[parallel_demo_1](https://github.com/FEniCS/dolfinx/blob/main/python/demo/demo_pml.py)*
-- *[parallel_demo_2](https://github.com/FEniCS/dolfinx/blob/main/python/demo/demo_axis.py)*
+- *[Parallel run](https://fenicsproject.discourse.group/t/different-results-in-serial-and-parallel-run-dolfinx/4370)*
+- *[parallel_demo_pml](https://github.com/FEniCS/dolfinx/blob/main/python/demo/demo_pml.py)*
+- *[parallel_demo_axis](https://github.com/FEniCS/dolfinx/blob/main/python/demo/demo_axis.py)*
 
 **Remark:** On ubuntu jammy, the FEniCSx version 0.8.0 had a conflict on my laptop requiring to remove python3-numba:
 ```sh
