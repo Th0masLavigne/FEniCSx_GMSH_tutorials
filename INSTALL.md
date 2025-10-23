@@ -289,6 +289,16 @@ where `sh <distroName>` is the name of your Linux distro, which can be seen from
 ### Install FEniCSx inside WSL
 Once Ubuntu is installed you can follow the <ins>here-above installation procedures for Linux</ins> (either local or with Docker) in the WSL 2 terminal. Prefer to use [Docker Desktop](https://desktop.docker.com/win/main/amd64/165256/Docker%20Desktop%20Installer.exe) v4.34.0 or later, please refer to the installation .exe on the official website (please use the following link: [Docker Desktop](https://desktop.docker.com/win/main/amd64/165256/Docker%20Desktop%20Installer.exe) to get the right .exe) and **link it with WSL 2**.
 
+
+
+>**Note**: If you have more than a single *default* WSL distro (let's say FEniCSxenv), you need to tell Docker Desktop to integrate with all distros. Step-by-step:
+
+1. Open Docker Desktop (on Windows).
+
+2. o to Settings → Resources → WSL Integration.
+
+3. Under “Enable integration with additional distros,” check the box next to FEniCSxenv
+
 ### macOS
 
 For macOS consider using a **conda** environment or install Docker Desktop (with [Apple chip](https://desktop.docker.com/mac/main/arm64/165256/Docker.dmg) or [Intel chip](https://desktop.docker.com/mac/main/amd64/165256/Docker.dmg)). In case of use of docker desktop please refer to the official website for guidelines.

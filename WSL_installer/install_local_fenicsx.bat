@@ -1,7 +1,7 @@
 @echo off
 REM ============================================
 REM Semi-interactive Ubuntu 24.04 + FEniCSx 0.9.0 Installer for WSL
-REM Shows progress bar during installation
+REM Includes Python virtual environment setup with auto-activation
 REM ============================================
 
 setlocal
@@ -51,13 +51,33 @@ REM ============================================
 REM Step 4: Install FEniCSx 0.9.0
 REM ============================================
 echo Installing FEniCSx 0.9.0...
-wsl -d %DIST_NAME% -u %USER_NAME% -- bash -c "dpkg -l | grep -q fenicsx || (sudo apt install -y software-properties-common && sudo add-apt-repository -y ppa:fenics-packages/fenics && sudo apt update && sudo apt install -y 'fenicsx=2:0.9.0.1*' && sudo apt-mark hold fenicsx python3-dolfinx python3-ufl)"
+wsl -d %DIST_NAME% -u %USER_NAME% -- bash -c ^
+"dpkg -l | grep -q fenicsx || (sudo apt install -y software-properties-common && \
+sudo add-apt-repository -y ppa:fenics-packages/fenics && \
+sudo apt update && sudo apt install -y 'fenicsx=2:0.9.0.1*' && \
+sudo apt install -y python3-pip python3-venv python3-pandas xvfb libgl1 libglu1-mesa mesa-utils gmsh && \
+sudo apt update)"
 
 REM ============================================
-REM Step 5: Verify installation
+REM Step 5: Setup Python Virtual Environment
 REM ============================================
-echo make the test
-for /f %%v in ('wsl -d %DIST_NAME% -u %USER_NAME% -- python3 -c "import dolfinx; print(dolfinx.__version__)"') do set "FENICSX_VER=%%v"
+echo Setting up Python virtual environment...
+wsl -d %DIST_NAME% -u %USER_NAME% -- bash -c ^
+"cd ~ && python3 -m venv fenicsx-env --system-site-packages && \
+echo 'Virtual environment created at ~/fenicsx-env'"
+
+REM ============================================
+REM Step 5b: Auto-activate virtual environment in .bashrc
+REM ============================================
+echo Configuring auto-activation of virtual environment...
+wsl -d %DIST_NAME% -u %USER_NAME% -- bash -c ^
+"grep -qxF 'source ~/fenicsx-env/bin/activate' ~/.bashrc || echo 'source ~/fenicsx-env/bin/activate' >> ~/.bashrc"
+
+REM ============================================
+REM Step 6: Verify FEniCSx installation inside venv
+REM ============================================
+echo Verifying FEniCSx installation...
+for /f %%v in ('wsl -d %DIST_NAME% -u %USER_NAME% -- bash -c "source ~/fenicsx-env/bin/activate && python3 -c \"import dolfinx; print(dolfinx.__version__)\" "') do set "FENICSX_VER=%%v"
 
 if "%FENICSX_VER%"=="" (
     powershell -Command "Add-Type -AssemblyName PresentationFramework; [System.Windows.MessageBox]::Show('FEniCSx verification FAILED!','FEniCSx Installer',[System.Windows.MessageBoxButton]::OK,[System.Windows.MessageBoxImage]::Error)"
@@ -70,6 +90,7 @@ echo Installation/resume complete!
 echo Launch environment using:
 echo     wsl -d %DIST_NAME%
 echo You will be automatically logged in as: %USER_NAME%
+echo Your virtual environment will auto-activate on login.
 echo ============================================
 pause
 endlocal

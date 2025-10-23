@@ -50,7 +50,9 @@ To set an interactive working directory (in an ubuntu environment), respectively
 docker run -ti -v $(pwd):/home/fenics/shared -w /home/fenics/shared th0maslavigne/dolfinx:v0.9.0
 ```
 
-**Remark**: On a cluster, singularity is often installed instead of docker. In such cases, based on the image.sif file, the command is similar:
+>**Note**: If you have several WSL Distros, enable them all in Docker Desktop (if used, in Windows). See Install.md
+
+>**Remark**: On a cluster, singularity is often installed instead of docker. In such cases, based on the image.sif file, the command is similar:
 ```sh
 singularity exec /modules/containers/images/dolfinx/dolfinx-0.9.0.sif python3 file.py
 ```
