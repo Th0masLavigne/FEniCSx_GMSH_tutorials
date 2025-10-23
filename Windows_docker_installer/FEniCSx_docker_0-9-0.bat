@@ -118,7 +118,7 @@ if exist "%VERSION_LOG%" (
 timeout /t 5 >nul
 
 if exist "%MPI_LOG%" (
-    echo MPI ranks (should print 0 1)
+    echo MPI ranks which should print 0 1
     type "%MPI_LOG%"
     del "%MPI_LOG%" 2>nul
 ) else (
