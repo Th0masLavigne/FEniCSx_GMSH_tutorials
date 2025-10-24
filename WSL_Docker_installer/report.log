@@ -1,4 +1,4 @@
-Installation started on 24/10/2025 at 16:38:19,38 
+Installation started on 24/10/2025 at 23:53:24,51 
 ----------------------------------------------------------------
 Custom package (pyproject.toml) detected. It will be installed in the Docker image. 
 Prompting user for custom distribution name... 
@@ -17,14 +17,14 @@ Copying WSL2_Docker_FEniCSx from C:\Users\tlavigne002\Documents\Test_2\WSL2_Dock
 Linux source path: /mnt/c/Users/tlavigne002/Documents/Test_2/WSL2_Docker_FEniCSx 
 Files copied and permissions set. 
 Updating WSL system... This might take a while... 
-Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease
-Hit:2 http://archive.ubuntu
+Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease
+Hit:2 http://arch
 WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
 
 
 WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
 
-Hit:5 http://security.ubuntu.com/ubuntu noble-security InRelease
+Hit:5 http://archive.ubuntu.com/ubuntu noble-backports InRelease
 Reading package lists...
 Building dependency tree...
 Reading state information...
@@ -51,41 +51,156 @@ Building FEniCSx Docker image...
 #0 building with "default" instance using docker driver
 
 #1 [internal] load build definition from Dockerfile.fenicsx
-#1 transferring dockerfile: 849B done
+#1 transferring dockerfile: 1.02kB done
 #1 DONE 0.1s
 
-#2 [internal] load metadata for docker.io/dolfinx/dolfinx:v0.Docker build successful.
+#2 [internal] load metadata for docker.io/dolfinx/dolfinx:vDocker build successful.
 Docker image build script finished.
-rring context: 2B done
+ferring context: 2B done
 #3 DONE 0.0s
 
 #4 [1/6] FROM docker.io/dolfinx/dolfinx:v0.9.0@sha256:628f40dd62c7f37962ccadc5a745f23d52c56b2ac3ad9b9b6a86c567c07aa27b
 #4 DONE 0.0s
 
-#5 [internal] load build context
-#5 transferring context: 2.10kB done
-#5 DONE 0.1s
+#5 [2/6] RUN apt-get update &&     apt-get install -y xvfb libgl1-mesa-dri libglx-mesa0 libglu1-mesa mesa-utils &&     python3 -m pip install --upgrade pip
+#5 CACHED
 
-#6 [2/6] RUN apt-get update &&     apt-get install -y xvfb libgl1 libglu1-mesa mesa-utils &&     python3 -m pip install --upgrade pip
-#6 CACHED
+#6 [internal] load build context
+#6 transferring context: 2.10kB done
+#6 DONE 0.0s
 
-#7 [3/6] RUN pip3 install pandas imageio pyvista &&     rm -rf /var/lib/apt/lists/*
-#7 CACHED
+#7 [3/6] RUN pip3 install pandas imageio pyvista meshio h5py &&     rm -rf /var/lib/apt/lists/*
+#7 1.152 Collecting pandas
+#7 1.229   Downloading pandas-2.3.3-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (91 kB)
+#7 1.413 Collecting imageio
+#7 1.426   Downloading imageio-2.37.0-py3-none-any.whl.metadata (5.2 kB)
+#7 1.589 Collecting pyvista
+#7 1.601   Downloading pyvista-0.46.3-py3-none-any.whl.metadata (15 kB)
+#7 1.789 Collecting meshio
+#7 1.817   Downloading meshio-5.3.5-py3-none-any.whl.metadata (11 kB)
+#7 2.013 Collecting h5py
+#7 2.026   Downloading h5py-3.15.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (3.0 kB)
+#7 2.078 Requirement already satisfied: numpy>=1.26.0 in /dolfinx-env/lib/python3.12/site-packages (from pandas) (2.0.2)
+#7 2.158 Collecting python-dateutil>=2.8.2 (from pandas)
+#7 2.169   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+#7 2.308 Collecting pytz>=2020.1 (from pandas)
+#7 2.319   Downloading pytz-2025.2-py2.py3-none-any.whl.metadata (22 kB)
+#7 2.440 Collecting tzdata>=2022.7 (from pandas)
+#7 2.472   Downloading tzdata-2025.2-py2.py3-none-any.whl.metadata (1.4 kB)
+#7 2.922 Collecting pillow>=8.3.2 (from imageio)
+#7 2.989   Downloading pillow-12.0.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+#7 3.385 Collecting matplotlib>=3.0.1 (from pyvista)
+#7 3.434   Downloading matplotlib-3.10.7-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (11 kB)
+#7 3.567 Collecting pooch (from pyvista)
+#7 3.579   Downloading pooch-1.8.2-py3-none-any.whl.metadata (10 kB)
+#7 3.724 Collecting scooby>=0.5.1 (from pyvista)
+#7 3.740   Downloading scooby-0.10.2-py3-none-any.whl.metadata (15 kB)
+#7 3.854 Collecting typing-extensions>=4.10 (from pyvista)
+#7 3.865   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+#7 4.124 Collecting vtk!=9.4.0 (from pyvista)
+#7 4.175   Downloading vtk-9.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.6 kB)
+#7 4.325 Collecting rich (from meshio)
+#7 4.339   Downloading rich-14.2.0-py3-none-any.whl.metadata (18 kB)
+#7 4.491 Collecting contourpy>=1.0.1 (from matplotlib>=3.0.1->pyvista)
+#7 4.505   Downloading contourpy-1.3.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.5 kB)
+#7 4.634 Collecting cycler>=0.10 (from matplotlib>=3.0.1->pyvista)
+#7 4.702   Downloading cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+#7 5.143 Collecting fonttools>=4.22.0 (from matplotlib>=3.0.1->pyvista)
+#7 5.214   Downloading fonttools-4.60.1-cp312-cp312-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl.metadata (112 kB)
+#7 5.498 Collecting kiwisolver>=1.3.1 (from matplotlib>=3.0.1->pyvista)
+#7 5.511   Downloading kiwisolver-1.4.9-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (6.3 kB)
+#7 5.545 Requirement already satisfied: packaging>=20.0 in /dolfinx-env/lib/python3.12/site-packages (from matplotlib>=3.0.1->pyvista) (24.1)
+#7 5.640 Collecting pyparsing>=3 (from matplotlib>=3.0.1->pyvista)
+#7 5.652   Downloading pyparsing-3.2.5-py3-none-any.whl.metadata (5.0 kB)
+#7 5.711 Requirement already satisfied: six>=1.5 in /dolfinx-env/lib/python3.12/site-packages (from python-dateutil>=2.8.2->pandas) (1.16.0)
+#7 5.791 Collecting platformdirs>=2.5.0 (from pooch->pyvista)
+#7 5.809   Downloading platformdirs-4.5.0-py3-none-any.whl.metadata (12 kB)
+#7 6.005 Collecting requests>=2.19.0 (from pooch->pyvista)
+#7 6.029   Downloading requests-2.32.5-py3-none-any.whl.metadata (4.9 kB)
+#7 6.236 Collecting charset_normalizer<4,>=2 (from requests>=2.19.0->pooch->pyvista)
+#7 6.248   Downloading charset_normalizer-3.4.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (37 kB)
+#7 6.353 Collecting idna<4,>=2.5 (from requests>=2.19.0->pooch->pyvista)
+#7 6.396   Downloading idna-3.11-py3-none-any.whl.metadata (8.4 kB)
+#7 6.561 Collecting urllib3<3,>=1.21.1 (from requests>=2.19.0->pooch->pyvista)
+#7 6.572   Downloading urllib3-2.5.0-py3-none-any.whl.metadata (6.5 kB)
+#7 6.707 Collecting certifi>=2017.4.17 (from requests>=2.19.0->pooch->pyvista)
+#7 6.760   Downloading certifi-2025.10.5-py3-none-any.whl.metadata (2.5 kB)
+#7 7.014 Collecting markdown-it-py>=2.2.0 (from rich->meshio)
+#7 7.059   Downloading markdown_it_py-4.0.0-py3-none-any.whl.metadata (7.3 kB)
+#7 7.108 Requirement already satisfied: pygments<3.0.0,>=2.13.0 in /dolfinx-env/lib/python3.12/site-packages (from rich->meshio) (2.18.0)
+#7 7.163 Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich->meshio)
+#7 7.177   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+#7 7.283 Downloading pandas-2.3.3-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (12.4 MB)
+#7 8.008    ???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????? 12.4/12.4 MB 17.1 MB/s  0:00:00
+#7 8.022 Downloading imageio-2.37.0-py3-none-any.whl (315 kB)
+#7 9.586 Downloading pyvista-0.46.3-py3-none-any.whl (2.4 MB)
+#7 4.257    ???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????? 2.4/2.4 MB 10.9 MB/s  0:00:00
+#7 4.270 Downloading vtk-9.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (112.3 MB)
+#7 8.915    ???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????? 112.3/112.3 MB 24.2 MB/s  0:00:04
+#7 8.930 Downloading meshio-5.3.5-py3-none-any.whl (166 kB)
+#7 8.980 Downloading h5py-3.15.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (5.1 MB)
+#7 8.872    ???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????? 5.1/5.1 MB 18.0 MB/s  0:00:00
+#7 8.883 Downloading matplotlib-3.10.7-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (8.7 MB)
+#7 9.201    ???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????? 8.7/8.7 MB 28.2 MB/s  0:00:00
+#7 9.216 Downloading contourpy-1.3.3-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (362 kB)
+#7 9.271 Downloading cycler-0.12.1-py3-none-any.whl (8.3 kB)
+#7 9.322 Downloading fonttools-4.60.1-cp312-cp312-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl (4.9 MB)
+#7 9.502    ???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????? 4.9/4.9 MB 27.2 MB/s  0:00:00
+#7 9.515 Downloading kiwisolver-1.4.9-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.5 MB)
+#7 9.610    ???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????? 1.5/1.5 MB 13.8 MB/s  0:00:00
+#7 9.623 Downloading pillow-12.0.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.0 MB)
+#7 9.861    ???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????? 7.0/7.0 MB 29.3 MB/s  0:00:00
+#7 9.872 Downloading pyparsing-3.2.5-py3-none-any.whl (113 kB)
+#7 9.939 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+#7 9.994 Downloading pytz-2025.2-py2.py3-none-any.whl (509 kB)
+#7 10.06 Downloading scooby-0.10.2-py3-none-any.whl (18 kB)
+#7 10.11 Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+#7 10.17 Downloading tzdata-2025.2-py2.py3-none-any.whl (347 kB)
+#7 10.24 Downloading pooch-1.8.2-py3-none-any.whl (64 kB)
+#7 10.30 Downloading platformdirs-4.5.0-py3-none-any.whl (18 kB)
+#7 10.34 Downloading requests-2.32.5-py3-none-any.whl (64 kB)
+#7 10.38 Downloading charset_normalizer-3.4.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (153 kB)
+#7 10.44 Downloading idna-3.11-py3-none-any.whl (71 kB)
+#7 10.50 Downloading urllib3-2.5.0-py3-none-any.whl (129 kB)
+#7 10.56 Downloading certifi-2025.10.5-py3-none-any.whl (163 kB)
+#7 10.61 Downloading rich-14.2.0-py3-none-any.whl (243 kB)
+#7 10.66 Downloading markdown_it_py-4.0.0-py3-none-any.whl (87 kB)
+#7 10.71 Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+#7 11.40 Installing collected packages: pytz, urllib3, tzdata, typing-extensions, scooby, python-dateutil, pyparsing, platformdirs, pillow, mdurl, kiwisolver, idna, h5py, fonttools, cycler, contourpy, charset_normalizer, certifi, requests, pandas, matplotlib, markdown-it-py, imageio, vtk, rich, pooch, pyvista, meshio
+#7 26.27 
+#7 26.29 Successfully installed certifi-2025.10.5 charset_normalizer-3.4.4 contourpy-1.3.3 cycler-0.12.1 fonttools-4.60.1 h5py-3.15.1 idna-3.11 imageio-2.37.0 kiwisolver-1.4.9 markdown-it-py-4.0.0 matplotlib-3.10.7 mdurl-0.1.2 meshio-5.3.5 pandas-2.3.3 pillow-12.0.0 platformdirs-4.5.0 pooch-1.8.2 pyparsing-3.2.5 python-dateutil-2.9.0.post0 pytz-2025.2 pyvista-0.46.3 requests-2.32.5 rich-14.2.0 scooby-0.10.2 typing-extensions-4.15.0 tzdata-2025.2 urllib3-2.5.0 vtk-9.5.2
+#7 DONE 28.7s
 
 #8 [4/6] COPY src_install/custom_packages /tmp/custom_packages
-#8 CACHED
+#8 DONE 0.2s
 
 #9 [5/6] RUN pip3 install /tmp/custom_packages
-#9 CACHED
+#9 0.656 Processing /tmp/custom_packages
+#9 0.660   Installing build dependencies: started
+#9 2.027   Installing build dependencies: finished with status 'done'
+#9 2.028   Getting requirements to build wheel: started
+#9 2.538   Getting requirements to build wheel: finished with status 'done'
+#9 2.541   Preparing metadata (pyproject.toml): started
+#9 2.768   Preparing metadata (pyproject.toml): finished with status 'done'
+#9 2.772 Building wheels for collected packages: MLacour_fenicsx
+#9 2.775   Building wheel for MLacour_fenicsx (pyproject.toml): started
+#9 3.021   Building wheel for MLacour_fenicsx (pyproject.toml): finished with status 'done'
+#9 3.022   Created wheel for MLacour_fenicsx: filename=mlacour_fenicsx-0.9.0-py3-none-any.whl size=2242 sha256=f15049740a715fdb584d79d3d4a9e1a20510a2e2b7a62e8d59b4f73fe1c30769
+#9 3.023   Stored in directory: /tmp/pip-ephem-wheel-cache-4u7iudwr/wheels/c6/20/e3/f8a20c7ea556ccedb697894238e48627228ef76e1ba31e59d2
+#9 3.026 Successfully built MLacour_fenicsx
+#9 2.898 Installing collected packages: MLacour_fenicsx
+#9 2.987 Successfully installed MLacour_fenicsx-0.9.0
+#9 DONE 3.2s
 
 #10 [6/6] WORKDIR /home/fenics
-#10 CACHED
+#10 DONE 0.2s
 
 #11 exporting to image
-#11 exporting layers done
-#11 writing image sha256:b3bfeb802d03b56eae283191065cc1ccfc80241b5f125327946eb57641e515e8 0.0s done
+#11 exporting layers
+#11 exporting layers 8.4s done
+#11 writing image sha256:b4a97c2a7c1e7778c3b687450a7c8fa801968c41202877a5d161974f48fd130a 0.0s done
 #11 naming to docker.io/library/fenicsx:v0.9.0 0.0s done
-#11 DONE 0.1s
+#11 DONE 8.5s
 FEniCSx Docker image built. 
 Creating aliases... 
 FEniCSx aliases updated (replaced) in ~/.bash_aliases using image: fenicsx:v0.9.0.

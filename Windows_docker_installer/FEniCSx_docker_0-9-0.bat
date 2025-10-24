@@ -62,10 +62,13 @@ REM ============================================================
 echo Creating Dockerfile...
 (
     echo FROM dolfinx/dolfinx:%TAG%
+    echo # RUN apt-get update ^&^& \
+    echo #     apt-get install -y xvfb libgl1 libglu1-mesa mesa-utils ^&^& \
+    echo #     python3 -m pip install --upgrade pip ^&^& \
     echo RUN apt-get update ^&^& \
-    echo     apt-get install -y xvfb libgl1 libglu1-mesa mesa-utils ^&^& \
+    echo     apt-get install -y xvfb libgl1-mesa-dri libglx-mesa0 libglu1-mesa mesa-utils ^&^& \
     echo     python3 -m pip install --upgrade pip ^&^& \
-    echo     pip3 install pandas imageio pyvista ^&^& \
+    echo     pip3 install pandas imageio pyvista meshio ^&^& \
     echo     rm -rf /var/lib/apt/lists/*
 ) > "%DOCKERFILE%"
 echo Dockerfile created successfully.

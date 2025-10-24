@@ -25,12 +25,15 @@ cat <<'EODF' > "${DOCKERFILE_PATH}"
 FROM dolfinx/dolfinx:TAG_PLACEHOLDER
 
 # Install system dependencies (for plotting/GUI/utility)
+# RUN apt-get update && \
+#     apt-get install -y xvfb libgl1 libglu1-mesa mesa-utils && \
+#     python3 -m pip install --upgrade pip
 RUN apt-get update && \
-    apt-get install -y xvfb libgl1 libglu1-mesa mesa-utils && \
+    apt-get install -y xvfb libgl1-mesa-dri libglx-mesa0 libglu1-mesa mesa-utils && \
     python3 -m pip install --upgrade pip
 
 # Other standard Python packages used by common demos/post-processing
-RUN pip3 install pandas imageio pyvista && \
+RUN pip3 install pandas imageio pyvista meshio h5py && \
     rm -rf /var/lib/apt/lists/*
 EODF
 
