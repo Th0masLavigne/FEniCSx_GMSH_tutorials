@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project]
+name = "MLacour_fenicsx"
+version = "0.9.0"
+authors = [
+  { name="Thomas Lavigne", email="lavignethomas@hotmail.fr" },
+]
+description = "Support elements for FEniCSx developed during Matthieu Lacour P.h.D"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = {file = "LICENSE"}
+dependencies = [
+#   "gmsh>=4.13.1",
+#   "h5py>=3.12.1",
+#   "pyvista>=0.44.2",
+#   "imageio>=2.37.0",
+#   "matplotlib>=3.10.0",
+#   "numpy>=2.2.2"
+]
+
+
+
+[project.optional-dependencies]
+# Dev dependencies.
+dev = [
+#    "csv>=3.13.1",
+#    "pandas>=2.2.3",
+]
+
+[project.urls]
+# Homepage = "https://github.com/Th0masLavigne/2-compartment-poromechanical-and-LDF-measurement.git"
+# Issues = "https://github.com/Th0masLavigne/2-compartment-poromechanical-and-LDF-measurement.git/issues"

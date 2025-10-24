@@ -1,0 +1,121 @@
+Installation started on 24/10/2025 at 16:38:19,38 
+----------------------------------------------------------------
+Custom package (pyproject.toml) detected. It will be installed in the Docker image. 
+Prompting user for custom distribution name... 
+Using distribution name: FEniCSxenv 
+Checking WSL installation... 
+Checking if WSL distribution FEniCSxenv exists using direct access... 
+WARNING: The environment FEniCSxenv already exists. 
+Skipping full reinstall. Continuing with existing distro configuration (Docker, Aliases). 
+Detected existing WSL username: tlavigne002 
+WSL target directory set to: /home/tlavigne002/Softwares/WSL2_Docker_FEniCSx 
+Setting up sudo access for non-interactive commands... 
+tlavigne002 ALL=(ALL) NOPASSWD:ALL
+Configuring WSL filesystem and copying installation files... 
+Created ~/Softwares and ~/Documents. 
+Copying WSL2_Docker_FEniCSx from C:\Users\tlavigne002\Documents\Test_2\WSL2_Docker_FEniCSx to /home/tlavigne002/Softwares/WSL2_Docker_FEniCSx... 
+Linux source path: /mnt/c/Users/tlavigne002/Documents/Test_2/WSL2_Docker_FEniCSx 
+Files copied and permissions set. 
+Updating WSL system... This might take a while... 
+Hit:1 http://archive.ubuntu.com/ubuntu noble InRelease
+Hit:2 http://archive.ubuntu
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+
+WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+
+Hit:5 http://security.ubuntu.com/ubuntu noble-security InRelease
+Reading package lists...
+Building dependency tree...
+Reading state information...
+1 package can be upgraded. Run 'apt list --upgradable' to see it.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+The following upgrades have been deferred due to phasing:
+  wsl-pro-service
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+WSL system updated. 
+Installing Docker Engine... 
+groupadd: group 'docker' already exists
+ daemon is accessible...
+Docker daemon is reachable (likely via Docker Desktop integration). Skipping local installation and service start.
+User added to 'docker' group.
+Docker installation and daemon setup complete. 
+Building FEniCSx Docker image... 
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile.fenicsx
+#1 transferring dockerfile: 849B done
+#1 DONE 0.1s
+
+#2 [internal] load metadata for docker.io/dolfinx/dolfinx:v0.Docker build successful.
+Docker image build script finished.
+rring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/6] FROM docker.io/dolfinx/dolfinx:v0.9.0@sha256:628f40dd62c7f37962ccadc5a745f23d52c56b2ac3ad9b9b6a86c567c07aa27b
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 2.10kB done
+#5 DONE 0.1s
+
+#6 [2/6] RUN apt-get update &&     apt-get install -y xvfb libgl1 libglu1-mesa mesa-utils &&     python3 -m pip install --upgrade pip
+#6 CACHED
+
+#7 [3/6] RUN pip3 install pandas imageio pyvista &&     rm -rf /var/lib/apt/lists/*
+#7 CACHED
+
+#8 [4/6] COPY src_install/custom_packages /tmp/custom_packages
+#8 CACHED
+
+#9 [5/6] RUN pip3 install /tmp/custom_packages
+#9 CACHED
+
+#10 [6/6] WORKDIR /home/fenics
+#10 CACHED
+
+#11 exporting to image
+#11 exporting layers done
+#11 writing image sha256:b3bfeb802d03b56eae283191065cc1ccfc80241b5f125327946eb57641e515e8 0.0s done
+#11 naming to docker.io/library/fenicsx:v0.9.0 0.0s done
+#11 DONE 0.1s
+FEniCSx Docker image built. 
+Creating aliases... 
+FEniCSx aliases updated (replaced) in ~/.bash_aliases using image: fenicsx:v0.9.0.
+You may need to run 'source ~/.bash_aliases' or open a new terminal for changes to take effect.
+Aliases created. 
+Running verification inside WSL2... 
+--- FEniCSx Docker Image Verification ---
+Checking dolfinx version inside the container: fenicsx:v0.9.0
+------------------------------------------------
+dolfinx version: 0.9.0
+------------------------------------------------
+Checking mpirun (Open MPI) version inside the container (Printing first 3 lines of output):
+------------------------------------------------
+HYDRA build details:
+    Version:                                 4.2.2
+    Release Date:                            Wed Jul  3 09:16:22 AM CDT 2024
+------------------------------------------------
+ All version checks passed successfully.
+Verification complete. 
+===================================================== 
+Installation and verification complete 
+Pop-up displayed and awaiting user acknowledgement. 
+===================================================== 
+Installation and verification complete 
+Launch your environment with: 
+    wsl -d FEniCSxenv 
+Use: 
+    fenicsx       - interactive FEniCSx shell 
+    fenicsx-run   - execute a bash command in FEniCSx container 
+===================================================== 
+NOTE: Since all necessary files are now copied inside the WSL distribution at: 
+      \\wsl.localhost\FEniCSxenv\home\tlavigne002\Softwares\WSL2_Docker_FEniCSx 
+      You may safely **DELETE** the Windows folder: C:\Users\tlavigne002\Documents\Test_2\WSL2_Docker_FEniCSx 
