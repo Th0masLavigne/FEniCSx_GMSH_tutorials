@@ -1,5 +1,7 @@
 # 🐳 FEniCSx Docker Environment Installer for WSL2
 
+>**Note:** to run the .bat please first copy-paste them somewhere in the Windows root (for instance Desktop, Downloads or Documents in C:/)
+
 This repository contains the scripts necessary to automate the installation of a **FEniCSx** simulation environment running inside a **Docker container** on **Windows Subsystem for Linux 2 (WSL2)**.
 
 This setup prioritizes a clean, isolated, and easily reproducible environment, avoiding the complexities and potential instability of native Python virtual environments or Docker Desktop's direct Windows integration for FEniCSx installations.
