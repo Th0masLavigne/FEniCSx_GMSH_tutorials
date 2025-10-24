@@ -74,12 +74,12 @@ def L2_error_p(mesh,P1,__p):
 	p_theo  = dolfinx.fem.Function(P1space)
 	p_theo.interpolate(terzaghi_p)
 	L2_errorp, L2_normp = dolfinx.fem.form(ufl.inner(__p - p_theo, __p - p_theo) * dx), dolfinx.fem.form(ufl.inner(p_theo, p_theo) * dx)
-    num_local = dolfinx.fem.assemble_scalar(L2_errorp)
-    den_local = dolfinx.fem.assemble_scalar(L2_normp)
+	num_local = dolfinx.fem.assemble_scalar(L2_errorp)
+	den_local = dolfinx.fem.assemble_scalar(L2_normp)
 
-    num = mesh.comm.allreduce(num_local, op=mpi4py.MPI.SUM)
-    den = mesh.comm.allreduce(den_local, op=mpi4py.MPI.SUM)
-    return numpy.sqrt(num / den)
+	num = mesh.comm.allreduce(num_local, op=mpi4py.MPI.SUM)
+	den = mesh.comm.allreduce(den_local, op=mpi4py.MPI.SUM)
+	return numpy.sqrt(num / den)
 # 
 def evaluate_point(mesh, function, contributing_cells, point, output_list, index):
 	"""
