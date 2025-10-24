@@ -47,7 +47,7 @@ for _ in numpy.arange(2):
 	sorted_facets_refine = numpy.argsort(refine_indices)
 	refine_tag = dolfinx.mesh.meshtags(mesh, fdim, refine_indices[sorted_facets_refine], refine_markers[sorted_facets_refine])
 	mesh.topology.create_entities(fdim)
-	mesh = dolfinx.mesh.refine(mesh, refine_indices[sorted_facets_refine])
+	mesh, _, _ = dolfinx.mesh.refine(mesh, refine_indices[sorted_facets_refine])
 #
 # 
 #----------------------------------------------------------------------
