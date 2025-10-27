@@ -4,6 +4,8 @@ This repository contains all materials, scripts, and documentation for a Finite 
 
 The primary goal is to guide users through advanced finite element methods using **FEniCSx** and robust, complex mesh generation with **GMSH**.
 
+Please give a look here <https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/README.html>
+
 ---
 
 ## 1. Repository Structure Overview
@@ -266,4 +268,5 @@ If you are unable to find the documentation for a specific object, you can use t
 On **Ubuntu jammy**, a known conflict with FEniCSx v0.8.0 may require the removal of the `python3-numba` package using the following command:
 ```sh
 sudo apt remove python3-numba
+
 ```
