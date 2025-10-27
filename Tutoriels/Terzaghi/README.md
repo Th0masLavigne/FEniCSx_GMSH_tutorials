@@ -16,13 +16,21 @@ alt="Geometry">
 
 For such problem, the analytical Terzaghi solution is defined by:
 
-$$\text{p(z,t)}=\frac{4p_0}{\pi}\sum_{k=1}^{+\infty}\frac{(-1)^{k-1}}{2k-1}\cos[(2k-1)\frac{\pi}{2}\frac{z}{h}]\exp[-(2k-1)^2\frac{\pi^2}{4}\frac{c_vt}{h^2}]$$
+```{math}
+\text{p(z,t)}=\frac{4p_0}{\pi}\sum_{k=1}^{+\infty}\frac{(-1)^{k-1}}{2k-1}\cos[(2k-1)\frac{\pi}{2}\frac{z}{h}]\exp[-(2k-1)^2\frac{\pi^2}{4}\frac{c_vt}{h^2}]
+```
 
-$$ c_v = \frac{k^\varepsilon}{\mu^l(S+\frac{\beta^2}{M})}$$
+```{math} 
+c_v = \frac{k^\varepsilon}{\mu^l(S+\frac{\beta^2}{M})}
+```
 
-$$ M = \frac{3K^s(1-\nu)}{(1+\nu)}$$
+```{math} 
+M = \frac{3K^s(1-\nu)}{(1+\nu)}
+```
 
-$$ S = \frac{\beta-\varepsilon^l_0}{K^s} + \frac{\varepsilon^l_0}{K^l}$$
+```{math} 
+S = \frac{\beta-\varepsilon^l_0}{K^s} + \frac{\varepsilon^l_0}{K^l}
+```
 
 [^1]: T. Lavigne, S. Urcun, P-Y. Rohan, G. Sciumè, D. Baroli, S.P.A. Bordas, Single and bi-compartment poro-elastic model of perfused biological soft tissues: FEniCSx implementation and tutorial: implementation in FEniCSx, https://doi.org/10.48550/arXiv.2301.11256](https://doi.org/10.1016/j.jmbbm.2023.105902
 
@@ -45,9 +53,15 @@ from dolfinx.nls.petsc import NewtonSolver
 ```
 
 We can then define the useful functions for the rest of the computation:
-- Elasticity Law : $$2\mu\mathbf{\epsilon}(\mathbf{u}^s)+\lambda \text{tr}(\mathbf{\epsilon}(\mathbf{u}^s))\mathbf{I_d}$$,
+- Elasticity Law : 
+```{math}
+2\mu\mathbf{\epsilon}(\mathbf{u}^s)+\lambda \text{tr}(\mathbf{\epsilon}(\mathbf{u}^s))\mathbf{I_d},
+```
 - Terzaghi analytical solution in space,
-- L2 error function in pressure : $`E({p^l})~=~\frac{\sqrt{\int_\Omega (p^l-p^{ex})^2\mathrm{d} x}}{\sqrt{\int_\Omega (p^{ex})^2\mathrm{d} x}}`$,
+- L2 error function in pressure : 
+```{math}
+E({p^l})~=~\frac{\sqrt{\int_\Omega (p^l-p^{ex})^2\mathrm{d} x}}{\sqrt{\int_\Omega (p^{ex})^2\mathrm{d} x}},
+```
 - Evaluation of a function for a physical point,
 - Terzaghi solution in time for the top points.
 
@@ -290,14 +304,18 @@ Xn.x.scatter_forward()
 
 The problem is extensively described in *[Lavigne et al., 2023](https://doi.org/10.1016/j.jmbbm.2023.105902)*. The variationnal form is the following:
 
-$$     \begin{split}  
+```{math}
+     \begin{split}  
     \frac{S}{dt}\int_{\Omega} (p^l-p^l_n)q\text{d}\Omega+\frac{1}{dt}\int_{\Omega} \mathbf{\nabla}\cdot(\mathbf{u}^s-\mathbf{u}^s_n)q\text{d}\Omega \\
     + \frac{k^\varepsilon}{\mu^l} \int_{\Omega} \mathbf{\nabla}p^l\mathbf{\nabla}q\text{d}\Omega = 0, \forall~ q\in~\text{L}_0^2(\Omega)
-    \end{split} $$
+    \end{split} 
+```
 
-$$     \begin{split}  
+```{math}
+     \begin{split}  
         \int_{\Omega} \mathbf{t}^\text{eff}:\mathbf{\nabla}\mathbf{v}\text{d}\Omega-\int_{\Omega}\beta p^l\mathbf{\nabla}\cdot\mathbf{v}\text{d}\Omega - \int_{\Gamma_s} \mathbf{t}^\text{imposed} \cdot  \mathbf{n} \cdot \mathbf{v} \text{d}\Gamma_s=0,\\ \forall~\mathbf{v}\in~[\text{H}^1(\Omega)]^2
-    \end{split} $$
+    \end{split} 
+```
 
 ```python
 F       = (1/dt)*ufl.nabla_div(u-u_n)*q*dx + (permeability/viscosity)*ufl.dot(ufl.grad(p),ufl.grad(q))*dx  + ( S/dt )*(p-p_n)*q*dx

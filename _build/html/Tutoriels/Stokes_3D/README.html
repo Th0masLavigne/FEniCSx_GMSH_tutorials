@@ -208,6 +208,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../Thermique_stationnaire/README.html">Thermique stationnaire</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Thermique_transitoire/README.html">Thermique transitoire</a></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ressources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../Ressources_links.html">Comprehensive Resource Links</a></li>
+</ul>
 
     </div>
 </nav></div>
@@ -827,9 +831,9 @@ document.write(`
 <p>Three different type of dirichlet boundary conditions are introduced:</p>
 <ul class="simple">
 <li><p>no-slip conditions for the velocity on the top left / top right and top middle boundaries,</p></li>
-<li><p>inflow of <span class="math notranslate nohighlight">\(`v_x=1`\)</span> on the left boundary,</p></li>
-<li><p>Symmetry condition <span class="math notranslate nohighlight">\(`v_y=0`\)</span> on the bottom boundary,</p></li>
-<li><p>Symmetry condition <span class="math notranslate nohighlight">\(`v_z=0`\)</span> on the front boundary.</p></li>
+<li><p>inflow of v_x=1 on the left boundary,</p></li>
+<li><p>Symmetry condition v_y=0 on the bottom boundary,</p></li>
+<li><p>Symmetry condition v_z=0 on the front boundary.</p></li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bcs</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">fdim</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">dim</span> <span class="o">-</span> <span class="mi">1</span>
@@ -868,9 +872,8 @@ document.write(`
 <section id="variational-form">
 <h3>Variational form<a class="headerlink" href="#variational-form" title="Link to this heading">#</a></h3>
 <p>The objective is to find (u,p), such that we have the following variationnal form:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\int_\Omega \nabla(u):\nabla(w) r\mathrm{d}\Omega + \int_\Omega \nabla\cdot(w)\,p\,r\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,r\mathrm{d}\Omega-\int_\Omega f\cdot w r \mathrm{d}\Omega = 0
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[\int_\Omega \nabla(u):\nabla(w) r\mathrm{d}\Omega + \int_\Omega \nabla\cdot(w)\,p\,r\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,r\mathrm{d}\Omega-\int_\Omega f\cdot w r \mathrm{d}\Omega = 0\]</div>
 <p>This can be introduced as:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">dolfinx</span><span class="o">.</span><span class="n">fem</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">mesh</span><span class="p">,(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
 <span class="n">F</span> <span class="o">=</span> <span class="n">ufl</span><span class="o">.</span><span class="n">inner</span><span class="p">(</span><span class="n">ufl</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">u</span><span class="p">),</span> <span class="n">ufl</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">w</span><span class="p">))</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="n">ufl</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="n">q</span><span class="o">*</span><span class="n">ufl</span><span class="o">.</span><span class="n">div</span><span class="p">(</span><span class="n">u</span><span class="p">)</span><span class="o">*</span><span class="n">dx</span> <span class="o">-</span> <span class="n">ufl</span><span class="o">.</span><span class="n">inner</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span><span class="o">*</span><span class="n">dx</span>

@@ -411,9 +411,9 @@ ds    = ufl.Measure("ds", domain=mesh, subdomain_data=facet_tag)
 
 Three different type of dirichlet boundary conditions are introduced:
 - no-slip conditions for the velocity on the top left / top right and top middle boundaries,
-- inflow of $`v_x=1`$ on the left boundary,
-- Symmetry condition $`v_y=0`$ on the bottom boundary,
-- Symmetry condition $`v_z=0`$ on the front boundary.
+- inflow of v_x=1 on the left boundary,
+- Symmetry condition v_y=0 on the bottom boundary,
+- Symmetry condition v_z=0 on the front boundary.
 
 ```python
 bcs = []
@@ -452,7 +452,7 @@ add_dirichlet_BC(CHS.sub(1).sub(2),fdim,facet_tag.find(7), petsc4py.PETSc.Scalar
 ### Variational form
 
 The objective is to find (u,p), such that we have the following variationnal form:
-```math
+```{math}
 \int_\Omega \nabla(u):\nabla(w) r\mathrm{d}\Omega + \int_\Omega \nabla\cdot(w)\,p\,r\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,r\mathrm{d}\Omega-\int_\Omega f\cdot w r \mathrm{d}\Omega = 0
 ```
 This can be introduced as:

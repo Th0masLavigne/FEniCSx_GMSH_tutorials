@@ -423,8 +423,8 @@ ds    = ufl.Measure("ds", domain=mesh, subdomain_data=facet_tag)
 
 Three different type of dirichlet boundary conditions are introduced:
 - no-slip conditions for the velocity on the top left / top right and top middle boundaries,
-- inflow of $`v_x=1`$ on the left boundary,
-- Symmetry condition $`v_y=0`$ on the bottom boundary.
+- inflow of v_x=1 on the left boundary,
+- Symmetry condition v_y=0 on the bottom boundary.
 
 ```python
 bcs = []
@@ -471,20 +471,20 @@ def div_cyl(u):
 
 The objective is to find (u,p), such that:
 
-```math
+```{math}
 a((u,p),(w,q))=L((w,q))
 ```
 where a((u,p),(w,q)) is known as the bilinear form, L((w,q)) as a linear form, and (w,q) are the test functions.
 
 In our case, we have the variationnal form:
-```math
+```{math}
 \int_\Omega \nabla(u):\nabla(w) r\mathrm{d}\Omega + \int_\Omega \nabla\cdot(w)\,p\,r\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,r\mathrm{d}\Omega-\int_\Omega f\cdot w r \mathrm{d}\Omega = 0
 ```
 We can identify a and L such that:
-```math
+```{math}
 a((u,p),(w,q)) = \int_\Omega \nabla(u):\nabla(w) r\mathrm{d}\Omega + \int_\Omega \nabla\cdot(w)\,p\,r\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,r\mathrm{d}\Omega
 ```
-```math
+```{math}
 L((w,q))=\int_\Omega f\cdot w r \mathrm{d}\Omega
 ```
 

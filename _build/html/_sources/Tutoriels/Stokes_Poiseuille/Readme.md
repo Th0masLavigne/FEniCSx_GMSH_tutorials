@@ -114,8 +114,8 @@ ds    = ufl.Measure("ds", domain=mesh, subdomain_data=facet_tag)
 ## Boundary conditions
 Three different type of dirichlet boundary conditions are introduced:
 - no-slip conditions for the velocity on the top / bottom boundaries,
-- inflow of $`v_x=1`$ on the left boundary,
-- $`v_y=0`$ on the right boundary.
+- inflow of v_x=1 on the left boundary,
+- v_y=0 on the right boundary.
 
 ```python
 bcs = []
@@ -146,19 +146,27 @@ add_dirichlet_BC(CHS.sub(1).sub(1),fdim,facet_tag.find(2), petsc4py.PETSc.Scalar
 
 The objective is to find (u,p), such that:
 
-$$a((u,p),(w,q))=L((w,q))$$
+```{math}
+a((u,p),(w,q))=L((w,q))
+```
 
 where a((u,p),(w,q)) is known as the bilinear form, L((w,q)) as a linear form, and (w,q) are the test functions.
 
 In our case, we have the variationnal form:
 
-$$ \int_\Omega [-p\mathbf{I_d} + 2 \mu \varepsilon(\mathbf{u})]:\nabla(\mathbf{w}) \mathrm{d}\Omega + \int_{\Gamma_t} p_0 \mathbf{n} \cdot \mathbf{w} \mathrm{d}\Gamma -\int_\Omega \mathbf{b}\cdot \mathbf{w}  \mathrm{d}\Omega + \int_\Omega (\nabla \cdot \mathbf{u}) q \mathrm{d}\Omega= 0 $$
+```{math} 
+\int_\Omega [-p\mathbf{I_d} + 2 \mu \varepsilon(\mathbf{u})]:\nabla(\mathbf{w}) \mathrm{d}\Omega + \int_{\Gamma_t} p_0 \mathbf{n} \cdot \mathbf{w} \mathrm{d}\Gamma -\int_\Omega \mathbf{b}\cdot \mathbf{w}  \mathrm{d}\Omega + \int_\Omega (\nabla \cdot \mathbf{u}) q \mathrm{d}\Omega= 0 
+```
 
 We can identify a and L such that:
 
-$$a((u,p),(w,q)) = \int_\Omega [-p\mathbf{I_d} + 2 \mu \varepsilon(\mathbf{u})]:\nabla(\mathbf{w}) \mathrm{d}\Omega + \mathrm{d}\Omega + \int_\Omega (\nabla \cdot \mathbf{u}) q \mathrm{d}\Omega$$
+```{math}
+a((u,p),(w,q)) = \int_\Omega [-p\mathbf{I_d} + 2 \mu \varepsilon(\mathbf{u})]:\nabla(\mathbf{w}) \mathrm{d}\Omega + \mathrm{d}\Omega + \int_\Omega (\nabla \cdot \mathbf{u}) q \mathrm{d}\Omega
+```
 
-$$L((w,q))=\int_\Omega b\cdot w \mathrm{d}\Omega - \int_{\Gamma_t} p_0 \mathbf{n} \cdot \mathbf{w} \mathrm{d}\Gamma$$
+```{math}
+L((w,q))=\int_\Omega b\cdot w \mathrm{d}\Omega - \int_{\Gamma_t} p_0 \mathbf{n} \cdot \mathbf{w} \mathrm{d}\Gamma
+```
 
 This can be introduced as:
 

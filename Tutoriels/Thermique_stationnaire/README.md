@@ -5,7 +5,7 @@
 This example aims in providing an example of a plate with a thermal source at its bottom center.
 
 <p align="center">
-  <img width=40% src="./Thermic.jpg">
+  <img width=40% src="https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/blob/main/Tutoriels/Thermique_stationnaire/Thermic.jpg">
 </p>
 
 The objective is to find the resulting thermal field. 
@@ -237,20 +237,20 @@ add_dirichlet_BC(V,fdim,facet_tag.find(5), petsc4py.PETSc.ScalarType(T_i))
 
 The objective is to find the temperature u, such that:
 
-```math
+```{math}
 a(u,v)=L(v)
 ```
 where a(u,v) is known as the bilinear form, L(v) as a linear form, and v is the test functions.
 
 In our case, we have the variationnal form:
-```math
+```{math}
 \int_\Omega k_c \nabla(u):\nabla(v) \mathrm{d}\Omega + \int_{\partial\Omega_T} h_c u \cdot v\,\mathrm{d}S - \int_\Omega f\,v\,\mathrm{d}\Omega -\int_{\partial\Omega_T} h_c T_e \cdot v\,\mathrm{d}S =0
 ```
 We can identify a and L such that:
-```math
+```{math}
 a(u,v) = \int_\Omega k_c \nabla(u):\nabla(v) \mathrm{d}\Omega + \int_{\partial\Omega_T} h_c u \cdot v\,\mathrm{d}S
 ```
-```math
+```{math}
 L(v) = \int_\Omega f\,v\,\mathrm{d}\Omega + \int_{\partial\Omega_T} h_c T_e \cdot v\,\mathrm{d}S
 ```
 

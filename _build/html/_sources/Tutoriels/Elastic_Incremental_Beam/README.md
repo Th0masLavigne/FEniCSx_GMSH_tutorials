@@ -2,7 +2,7 @@
 
 ## Description of the problem
 
-This example aims in providing an example of a 3D beam of dimensions $`40\times1\times1`$.
+This example aims in providing an example of a 3D beam of dimensions 40 x 1 x 1.
 
 ![Geometry](./Elastic_beam.jpg)
 
@@ -100,7 +100,9 @@ lmbda_m        = E*nu.value/((1+nu.value)*(1-2*nu.value))
 mu_m           = E/(2*(1+nu.value)) 
 ```
 
-The solid is assumed to follow the Hookean constitutive law such that $` \mathbf{\sigma}(\mathbf{u}) = 2 \mu \mathbf{\varepsilon}(\mathbf{u}) + \lambda \mathrm{tr}(\mathbf{\varepsilon}(\mathbf{u}))\mathbf{I_d}:`$
+The solid is assumed to follow the Hookean constitutive law such that 
+```{math} \mathbf{\sigma}(\mathbf{u}) = 2 \mu \mathbf{\varepsilon}(\mathbf{u}) + \lambda \mathrm{tr}(\mathbf{\varepsilon}(\mathbf{u}))\mathbf{I_d}
+```
 ```python
 # Constitutive Law
 def Hookean(mu,lmbda,u):
@@ -165,11 +167,17 @@ Nx                = dolfinx.fem.Constant(domain, numpy.asarray((1.0,0.0,0.0)))
 Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nx))*ds(2))
 ```
 is equivalent to:
-```math
+```{math}
 \frac{1}{{\partial\Omega_t}}\int_{\partial\Omega_t} u\cdot N_t \mathrm{d}S,~\text{with } \overrightarrow{T}=T~N_t
 ```
 
-For a volume, we would have had $`\frac{1}{V}\int f \mathrm{d}\Omega`$ computed with:
+For a volume, we would have had 
+```{math} 
+\frac{1}{V}\int f \mathrm{d}\Omega
+```
+computed with:
+
+
 ```python
 volume_eval = dolfinx.fem.form(f*dx)
 ```
@@ -190,7 +198,7 @@ bcs       = [dolfinx.fem.dirichletbc(u_bc, left_dofs, V)]
 
 For an elastic problem, the variationnal form to be solved is:
 
-```math
+```{math}
 \int_\Omega\sigma(u):\varepsilon(v)\mathrm{d}\Omega - \int_\Omega B\cdot v \mathrm{d}\Omega -  \int_{\partial\Omega_t}T\cdot v \mathrm{d}S = 0
 ```
 where B stands for the body forces, T the traction forces, u is the unknown and v the test function. 

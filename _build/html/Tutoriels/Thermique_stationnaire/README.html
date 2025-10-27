@@ -57,6 +57,8 @@
     <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'Tutoriels/Thermique_stationnaire/README';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -205,6 +207,10 @@
 
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Thermique stationnaire</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Thermique_transitoire/README.html">Thermique transitoire</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ressources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../Ressources_links.html">Comprehensive Resource Links</a></li>
 </ul>
 
     </div>
@@ -440,7 +446,7 @@ document.write(`
 <h2>Description of the problem<a class="headerlink" href="#description-of-the-problem" title="Link to this heading">#</a></h2>
 <p>This example aims in providing an example of a plate with a thermal source at its bottom center.</p>
 <p align="center">
-  <img width=40% src="./Thermic.jpg">
+  <img width=40% src="https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/blob/main/Tutoriels/Thermique_stationnaire/Thermic.jpg">
 </p>
 <p>The objective is to find the resulting thermal field.</p>
 </section>
@@ -664,21 +670,17 @@ document.write(`
 <section id="variationnal-form">
 <h4>Variationnal form<a class="headerlink" href="#variationnal-form" title="Link to this heading">#</a></h4>
 <p>The objective is to find the temperature u, such that:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>a(u,v)=L(v)
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[a(u,v)=L(v)\]</div>
 <p>where a(u,v) is known as the bilinear form, L(v) as a linear form, and v is the test functions.</p>
 <p>In our case, we have the variationnal form:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\int_\Omega k_c \nabla(u):\nabla(v) \mathrm{d}\Omega + \int_{\partial\Omega_T} h_c u \cdot v\,\mathrm{d}S - \int_\Omega f\,v\,\mathrm{d}\Omega -\int_{\partial\Omega_T} h_c T_e \cdot v\,\mathrm{d}S =0
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[\int_\Omega k_c \nabla(u):\nabla(v) \mathrm{d}\Omega + \int_{\partial\Omega_T} h_c u \cdot v\,\mathrm{d}S - \int_\Omega f\,v\,\mathrm{d}\Omega -\int_{\partial\Omega_T} h_c T_e \cdot v\,\mathrm{d}S =0\]</div>
 <p>We can identify a and L such that:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>a(u,v) = \int_\Omega k_c \nabla(u):\nabla(v) \mathrm{d}\Omega + \int_{\partial\Omega_T} h_c u \cdot v\,\mathrm{d}S
-</pre></div>
-</div>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>L(v) = \int_\Omega f\,v\,\mathrm{d}\Omega + \int_{\partial\Omega_T} h_c T_e \cdot v\,\mathrm{d}S
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[a(u,v) = \int_\Omega k_c \nabla(u):\nabla(v) \mathrm{d}\Omega + \int_{\partial\Omega_T} h_c u \cdot v\,\mathrm{d}S\]</div>
+<div class="math notranslate nohighlight">
+\[L(v) = \int_\Omega f\,v\,\mathrm{d}\Omega + \int_{\partial\Omega_T} h_c T_e \cdot v\,\mathrm{d}S\]</div>
 <p>This is traduced in FEniCSx with:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">kc</span><span class="o">*</span><span class="n">ufl</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ufl</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">u</span><span class="p">),</span> <span class="n">ufl</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">v</span><span class="p">))</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="n">hc</span><span class="o">*</span><span class="n">u</span><span class="o">*</span><span class="n">v</span><span class="o">*</span><span class="n">ds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">L</span> <span class="o">=</span> <span class="n">f</span><span class="o">*</span><span class="n">v</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="n">hc</span><span class="o">*</span><span class="n">T_e</span><span class="o">*</span><span class="n">v</span><span class="o">*</span><span class="n">ds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>

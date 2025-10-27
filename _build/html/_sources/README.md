@@ -180,7 +180,7 @@ The author extends thanks to:
 
 -----
 
-## 7\. Comprehensive Resource Links 🔗
+## 7\. Comprehensive Resource Links
 
 | Category | Resource Title | Description / Context | Link |
 | :--- | :--- | :--- | :--- |

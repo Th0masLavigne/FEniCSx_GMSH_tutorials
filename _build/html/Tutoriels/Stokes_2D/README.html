@@ -208,6 +208,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../Thermique_stationnaire/README.html">Thermique stationnaire</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Thermique_transitoire/README.html">Thermique transitoire</a></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ressources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../Ressources_links.html">Comprehensive Resource Links</a></li>
+</ul>
 
     </div>
 </nav></div>
@@ -838,8 +842,8 @@ document.write(`
 <p>Three different type of dirichlet boundary conditions are introduced:</p>
 <ul class="simple">
 <li><p>no-slip conditions for the velocity on the top left / top right and top middle boundaries,</p></li>
-<li><p>inflow of <span class="math notranslate nohighlight">\(`v_x=1`\)</span> on the left boundary,</p></li>
-<li><p>Symmetry condition <span class="math notranslate nohighlight">\(`v_y=0`\)</span> on the bottom boundary.</p></li>
+<li><p>inflow of v_x=1 on the left boundary,</p></li>
+<li><p>Symmetry condition v_y=0 on the bottom boundary.</p></li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bcs</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">fdim</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">topology</span><span class="o">.</span><span class="n">dim</span> <span class="o">-</span> <span class="mi">1</span>
@@ -883,21 +887,17 @@ document.write(`
 </pre></div>
 </div>
 <p>The objective is to find (u,p), such that:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>a((u,p),(w,q))=L((w,q))
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[a((u,p),(w,q))=L((w,q))\]</div>
 <p>where a((u,p),(w,q)) is known as the bilinear form, L((w,q)) as a linear form, and (w,q) are the test functions.</p>
 <p>In our case, we have the variationnal form:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\int_\Omega \nabla(u):\nabla(w) r\mathrm{d}\Omega + \int_\Omega \nabla\cdot(w)\,p\,r\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,r\mathrm{d}\Omega-\int_\Omega f\cdot w r \mathrm{d}\Omega = 0
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[\int_\Omega \nabla(u):\nabla(w) r\mathrm{d}\Omega + \int_\Omega \nabla\cdot(w)\,p\,r\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,r\mathrm{d}\Omega-\int_\Omega f\cdot w r \mathrm{d}\Omega = 0\]</div>
 <p>We can identify a and L such that:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>a((u,p),(w,q)) = \int_\Omega \nabla(u):\nabla(w) r\mathrm{d}\Omega + \int_\Omega \nabla\cdot(w)\,p\,r\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,r\mathrm{d}\Omega
-</pre></div>
-</div>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>L((w,q))=\int_\Omega f\cdot w r \mathrm{d}\Omega
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[a((u,p),(w,q)) = \int_\Omega \nabla(u):\nabla(w) r\mathrm{d}\Omega + \int_\Omega \nabla\cdot(w)\,p\,r\mathrm{d}\Omega + \int_\Omega q\,\nabla\cdot(u)\,r\mathrm{d}\Omega\]</div>
+<div class="math notranslate nohighlight">
+\[L((w,q))=\int_\Omega f\cdot w r \mathrm{d}\Omega\]</div>
 <p>This can be introduced as:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Alternative form (from the tutorial to compare with the iterative solution)</span>
 <span class="n">A1</span> <span class="o">=</span> <span class="n">ufl</span><span class="o">.</span><span class="n">inner</span><span class="p">(</span><span class="n">grad_cyl</span><span class="p">(</span><span class="n">u</span><span class="p">),</span> <span class="n">grad_cyl</span><span class="p">(</span><span class="n">w</span><span class="p">))</span><span class="o">*</span><span class="n">r</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="n">div_cyl</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="o">*</span><span class="n">p</span><span class="o">*</span><span class="n">r</span><span class="o">*</span><span class="n">dx</span> 

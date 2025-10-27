@@ -208,6 +208,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../Thermique_stationnaire/README.html">Thermique stationnaire</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Thermique_transitoire/README.html">Thermique transitoire</a></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ressources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../Ressources_links.html">Comprehensive Resource Links</a></li>
+</ul>
 
     </div>
 </nav></div>
@@ -429,7 +433,7 @@ document.write(`
 <h1>Hyper-elastic Beam with Penalty Contact<a class="headerlink" href="#hyper-elastic-beam-with-penalty-contact" title="Link to this heading">#</a></h1>
 <section id="description-of-the-problem">
 <h2>Description of the problem<a class="headerlink" href="#description-of-the-problem" title="Link to this heading">#</a></h2>
-<p>This example aims in providing an example of a 3D hyper-elastic beam of dimensions <span class="math notranslate nohighlight">\(`40\times1\times1`\)</span> introducing penalty contact with a plane of equation <span class="math notranslate nohighlight">\(`z=-4`\)</span>.</p>
+<p>This example aims in providing an example of a 3D hyper-elastic beam of dimensions 40 x 1 x 1 introducing penalty contact with a plane of equation z=-4.</p>
 <p><img alt="Geometry" src="../../_images/Penalty.jpg" /></p>
 <p>The beam is clamped on its left face (Dirichlet boundary condition) and is submitted to a body force field B.</p>
 <p>The objective is to find the resulting displacement.</p>
@@ -516,7 +520,9 @@ document.write(`
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Penalty</span> <span class="o">=</span> <span class="n">dolfinx</span><span class="o">.</span><span class="n">fem</span><span class="o">.</span><span class="n">Constant</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">dolfinx</span><span class="o">.</span><span class="n">default_scalar_type</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>The solid is assumed to follow the Hookean constitutive law such that <span class="math notranslate nohighlight">\(` \mathbf{\sigma}(\mathbf{u}) = \frac{\mathrm{d}\psi}{\mathrm{d}F}, \text{ with } \psi = \frac{\mu}{2} (\mathrm{tr}(F^T F)-3)-\mu\ln(\mathrm{det}F)+\frac{\lambda}{2} (\ln(\mathrm{det}F))^2:`\)</span></p>
+<p>The solid is assumed to follow the Hookean constitutive law such that</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{\sigma}(\mathbf{u}) = \frac{\mathrm{d}\psi}{\mathrm{d}F}, \text{ with } \psi = \frac{\mu}{2} (\mathrm{tr}(F^T F)-3)-\mu\ln(\mathrm{det}F)+\frac{\lambda}{2} (\ln(\mathrm{det}F))^2\]</div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Constitutive Law</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">Neo_Hoolean</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="n">lmbda</span><span class="p">):</span>
     <span class="c1"># Spatial dimension</span>
@@ -581,10 +587,12 @@ document.write(`
 </pre></div>
 </div>
 <p>is equivalent to:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\frac{1}{{\partial\Omega_t}}\int_{\partial\Omega_t} u\cdot N_t \mathrm{d}S,~\text{with } \overrightarrow{T}=T~N_t
-</pre></div>
-</div>
-<p>For a volume, we would have had <span class="math notranslate nohighlight">\(`\frac{1}{V}\int f \mathrm{d}\Omega`\)</span> computed with:</p>
+<div class="math notranslate nohighlight">
+\[\frac{1}{{\partial\Omega_t}}\int_{\partial\Omega_t} u\cdot N_t \mathrm{d}S,~\text{with } \overrightarrow{T}=T~N_t\]</div>
+<p>For a volume, we would have had</p>
+<div class="math notranslate nohighlight">
+\[\frac{1}{V}\int f \mathrm{d}\Omega\]</div>
+<p>computed with:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">volume_eval</span> <span class="o">=</span> <span class="n">dolfinx</span><span class="o">.</span><span class="n">fem</span><span class="o">.</span><span class="n">form</span><span class="p">(</span><span class="n">f</span><span class="o">*</span><span class="n">dx</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -603,9 +611,8 @@ document.write(`
 <section id="variationnal-form">
 <h3>Variationnal form<a class="headerlink" href="#variationnal-form" title="Link to this heading">#</a></h3>
 <p>For an elastic problem, the variationnal form to be solved is:</p>
-<div class="highlight-math notranslate"><div class="highlight"><pre><span></span>\int_\Omega\sigma(u):\varepsilon(v)\mathrm{d}\Omega - \int_\Omega B\cdot v \mathrm{d}\Omega -  \int_{\partial\Omega_t}T\cdot v \mathrm{d}S + Penalty \int_{\partial\Omega_c} (v.N_c) \cdot Min(gap\cdot N_c,0)= 0
-</pre></div>
-</div>
+<div class="math notranslate nohighlight">
+\[\int_\Omega\sigma(u):\varepsilon(v)\mathrm{d}\Omega - \int_\Omega B\cdot v \mathrm{d}\Omega -  \int_{\partial\Omega_t}T\cdot v \mathrm{d}S + Penalty \int_{\partial\Omega_c} (v.N_c) \cdot Min(gap\cdot N_c,0)= 0\]</div>
 <p>where B stands for the body forces, T the traction forces, u is the unknown and v the test function.</p>
 <p>This is traduced in FEniCSx with:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Form</span> <span class="o">=</span> <span class="n">ufl</span><span class="o">.</span><span class="n">inner</span><span class="p">(</span><span class="n">ufl</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">Neo_Hoolean</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="n">lmbda</span><span class="p">))</span> <span class="o">*</span> <span class="n">dx</span> <span class="o">-</span> <span class="n">ufl</span><span class="o">.</span><span class="n">inner</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span> <span class="o">*</span> <span class="n">dx</span> <span class="o">-</span> <span class="n">ufl</span><span class="o">.</span><span class="n">inner</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">ds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>

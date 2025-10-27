@@ -208,6 +208,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../Thermique_stationnaire/README.html">Thermique stationnaire</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Thermique_transitoire/README.html">Thermique transitoire</a></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ressources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../Ressources_links.html">Comprehensive Resource Links</a></li>
+</ul>
 
     </div>
 </nav></div>
@@ -444,11 +448,11 @@ alt="Geometry">
 <div class="math notranslate nohighlight">
 \[\text{p(z,t)}=\frac{4p_0}{\pi}\sum_{k=1}^{+\infty}\frac{(-1)^{k-1}}{2k-1}\cos[(2k-1)\frac{\pi}{2}\frac{z}{h}]\exp[-(2k-1)^2\frac{\pi^2}{4}\frac{c_vt}{h^2}]\]</div>
 <div class="math notranslate nohighlight">
-\[ c_v = \frac{k^\varepsilon}{\mu^l(S+\frac{\beta^2}{M})}\]</div>
+\[c_v = \frac{k^\varepsilon}{\mu^l(S+\frac{\beta^2}{M})}\]</div>
 <div class="math notranslate nohighlight">
-\[ M = \frac{3K^s(1-\nu)}{(1+\nu)}\]</div>
+\[M = \frac{3K^s(1-\nu)}{(1+\nu)}\]</div>
 <div class="math notranslate nohighlight">
-\[ S = \frac{\beta-\varepsilon^l_0}{K^s} + \frac{\varepsilon^l_0}{K^l}\]</div>
+\[S = \frac{\beta-\varepsilon^l_0}{K^s} + \frac{\varepsilon^l_0}{K^l}\]</div>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="implementation">
 <h1>Implementation<a class="headerlink" href="#implementation" title="Link to this heading">#</a></h1>
@@ -469,9 +473,17 @@ alt="Geometry">
 </div>
 <p>We can then define the useful functions for the rest of the computation:</p>
 <ul class="simple">
-<li><p>Elasticity Law : $<span class="math notranslate nohighlight">\(2\mu\mathbf{\epsilon}(\mathbf{u}^s)+\lambda \text{tr}(\mathbf{\epsilon}(\mathbf{u}^s))\mathbf{I_d}\)</span>$,</p></li>
+<li><p>Elasticity Law :</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[2\mu\mathbf{\epsilon}(\mathbf{u}^s)+\lambda \text{tr}(\mathbf{\epsilon}(\mathbf{u}^s))\mathbf{I_d},\]</div>
+<ul class="simple">
 <li><p>Terzaghi analytical solution in space,</p></li>
-<li><p>L2 error function in pressure : <span class="math notranslate nohighlight">\(`E({p^l})~=~\frac{\sqrt{\int_\Omega (p^l-p^{ex})^2\mathrm{d} x}}{\sqrt{\int_\Omega (p^{ex})^2\mathrm{d} x}}`\)</span>,</p></li>
+<li><p>L2 error function in pressure :</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[E({p^l})~=~\frac{\sqrt{\int_\Omega (p^l-p^{ex})^2\mathrm{d} x}}{\sqrt{\int_\Omega (p^{ex})^2\mathrm{d} x}},\]</div>
+<ul class="simple">
 <li><p>Evaluation of a function for a physical point,</p></li>
 <li><p>Terzaghi solution in time for the top points.</p></li>
 </ul>

@@ -2,9 +2,9 @@
 
 ## Description of the problem
 
-This example aims in providing an example of a 3D beam of dimensions $`40\times1\times1`$ composed of two materials.
+This example aims in providing an example of a 3D beam of dimensions 40 x 1 x 1 composed of two materials.
 
-The beam is subdivided into two subdomains of dimensions $`20\times1\times1`$ with different material constitutive laws and material properties. The left side of the beam is stiff and elastic whereas its right side is soft and hyper-elastic.
+The beam is subdivided into two subdomains of dimensions 20 x 1 x 1 with different material constitutive laws and material properties. The left side of the beam is stiff and elastic whereas its right side is soft and hyper-elastic.
 
 ![Geometry](./Elastic_multimaterial_beam.jpg)
 
@@ -221,14 +221,22 @@ lmbda_m_right  = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(E_righ
 mu_m_right     = dolfinx.fem.Constant(domain, dolfinx.default_scalar_type(E_right.value/(2*(1+nu.value)))) 
 ```
 
-The left subdomain is assumed to follow the Hookean constitutive law such that $` \mathbf{\sigma}(\mathbf{u}) = 2 \mu \mathbf{\varepsilon}(\mathbf{u}) + \lambda \mathrm{tr}(\mathbf{\varepsilon}(\mathbf{u}))\mathbf{I_d}:`$
+The left subdomain is assumed to follow the Hookean constitutive law such that 
+```{math}
+ \mathbf{\sigma}(\mathbf{u}) = 2 \mu \mathbf{\varepsilon}(\mathbf{u}) + \lambda \mathrm{tr}(\mathbf{\varepsilon}(\mathbf{u}))\mathbf{I_d}
+```
+
 ```python
 # Constitutive Law
 def Hookean(mu,lmbda):
     return 2.0 * mu * ufl.sym(ufl.grad(u)) + lmbda * ufl.tr(ufl.sym(ufl.grad(u))) * ufl.variable(ufl.Identity(len(u)))
 ```
 
-The right subdomain is assumed to follow the Hookean constitutive law such that $` \mathbf{\sigma}(\mathbf{u}) = \frac{1}{J}\frac{\mathrm{d}\psi}{\mathrm{d}F}F^T, \text{ with } \psi = \frac{\mu}{2} (\mathrm{tr}(F^T F)-3)-\mu\ln(\mathrm{det}F)+\frac{\lambda}{2} (\ln(\mathrm{det}F))^2:`$
+The right subdomain is assumed to follow the Hookean constitutive law such that 
+```{math}
+\mathbf{\sigma}(\mathbf{u}) = \frac{1}{J}\frac{\mathrm{d}\psi}{\mathrm{d}F}F^T, \text{ with } \psi = \frac{\mu}{2} (\mathrm{tr}(F^T F)-3)-\mu\ln(\mathrm{det}F)+\frac{\lambda}{2} (\ln(\mathrm{det}F))^2
+```
+
 ```python
 def Cauchy_from_Neo_Hookean(mesh,u,mu,lambda_m):
     """
@@ -302,11 +310,15 @@ Nz                = dolfinx.fem.Constant(domain, numpy.asarray((0.0,0.0,1.0)))
 Displacement_expr = dolfinx.fem.form((ufl.dot(u,Nz))*ds(3))
 ```
 is equivalent to:
-```math
+```{math}
 \frac{1}{{\partial\Omega_t}}\int_{\partial\Omega_t} u\cdot N_t \mathrm{d}S,~\text{with } \overrightarrow{T}=T~N_t
 ```
 
-For a volume, we would have had $`\frac{1}{V}\int f \mathrm{d}\Omega`$ computed with:
+For a volume, we would have had 
+```{math}
+\frac{1}{V}\int f \mathrm{d}\Omega 
+```
+computed with:
 ```python
 volume_eval = dolfinx.fem.form(f*dx)
 ```
@@ -327,7 +339,7 @@ bcs       = [dolfinx.fem.dirichletbc(u_bc, left_dofs, V)]
 
 For an elastic problem, the variationnal form to be solved is:
 
-```math
+```{math}
 \int_{\Omega_{left}} Hookean(u):\varepsilon(v)\mathrm{d}\Omega + \int_{\Omega_{right}} NeoHookean(u):\varepsilon(v)\mathrm{d}\Omega - \int_\Omega B\cdot v \mathrm{d}\Omega -  \int_{\partial\Omega_t}T\cdot v \mathrm{d}S = 0
 ```
 where B stands for the body forces, T the traction forces, u is the unknown and v the test function. 

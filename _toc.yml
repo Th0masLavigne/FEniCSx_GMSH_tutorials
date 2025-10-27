@@ -54,3 +54,6 @@ parts:
     title: Thermique stationnaire
   - file: Tutoriels/Thermique_transitoire/README
     title: Thermique transitoire
+- caption: Ressources
+  chapters:
+  - file: Ressources_links
