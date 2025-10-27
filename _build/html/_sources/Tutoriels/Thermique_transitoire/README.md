@@ -4,9 +4,7 @@
 
 This example aims in providing an example of a plate with a thermal source at its bottom center.
 
-<p align="center">
-  <img width=40% src="./Thermic.jpg">
-</p>
+![Geometry2](./Thermic.jpg)
 
 The objective is to find the resulting thermal field. 
 

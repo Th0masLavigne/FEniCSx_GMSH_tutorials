@@ -4,9 +4,10 @@ The following directory contains the application of a 3D Stokes Problem.
 
 The geometry is created using GMSH. Two different pipelines are proposed. It consists in two quarter of cylinders of different heights with an inflow imposed on the left side and a no slip condition for the upper sides.
 
-<p align="center">
-  <img width=40% src="./Stokes3D.jpg"><img width=46.5% src="./Stokes3D2.png">
-</p>
+
+![Geometry](./Stokes3D.jpg)
+
+![Geometry2](./Stokes3D2.png)
 
 The objective is to find the resulting velocity and pressure.
 

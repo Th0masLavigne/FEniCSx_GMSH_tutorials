@@ -1,16 +1,9 @@
 # Poiseuille-Stokes Problem
 
 This examples focus on a pipe section for a Poiseuille-Stokes Problem. The boundary conditions are recalled here-after: 
-<p align="center">
-<img 
-    style="display: block; 
-           margin-left: auto;
-           margin-right: auto;
-           width: 60%;"
-src=./Stokes-poiseuille.jpg
-alt="Geometry">
-</img>
-</p>
+
+
+![Geometry2](./Stokes-poiseuille.jpg)
 
 # Implementation
 
