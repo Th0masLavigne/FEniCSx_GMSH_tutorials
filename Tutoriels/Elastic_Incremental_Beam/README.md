@@ -249,7 +249,7 @@ if log_solve:
 #----------------------------------------------------------------------
 ```
 
-For stability concerns, we increment the load to reach the solution and the mesh is updated (updated lagrangian) between two load steps:
+For stability concerns, we increment the load to reach the solution and the mesh is updated between two load steps:
 
 ```python
 # Load increment
