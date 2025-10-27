@@ -1,0 +1,637 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>FEniCSx Local Environment Setup with WSL2 &#8212; FEniCSx and GMSH Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Install/WSL_Local_installer/README';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="FEniCSx Environment Setup with Docker Desktop (Windows Direct)" href="../Windows_docker_installer/README.html" />
+    <link rel="prev" title="🐳 FEniCSx Environment Setup with Docker and WSL2" href="../WSL_Docker_installer/README.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../README.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">FEniCSx and GMSH Tutorials</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../README.html">
+                    FEniCSx & GMSH Tutorial Repository (v0.9.0)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Install_processes.html">Installation Guide for FEniCSx v0.9.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../docker_and_aliases.html">Docker workspace and aliases</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../Spack_Install_FEniCSx/README.html">Spack Installation</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../WSL_Docker_installer/README.html">WSL Docker Installer</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">WSL Local Installer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Windows_docker_installer/README.html">Windows Docker Installer</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../Tutoriels/Elastic_Incremental_Beam/README.html">Incremental Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutoriels/Elastic_Multi_material_Beam/README.html">Material parameters depending on space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutoriels/Hyper-Elastic_and_Elastic_Beam/README.html">Hyper-elastic and elastic beam</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutoriels/Hyper-elastic_beam/README.html">Hyper-elastic beam</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutoriels/Local_Refinement/README.html">Local refinement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutoriels/Other_GMSH_Examples/README.html">Other GMSH Examples</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../../Tutoriels/Penalty_contact_Beam/README.html">Penalty contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutoriels/Stokes_2D/README.html">Stokes Problem (2D)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../Tutoriels/Stokes_3D/README.html">Stokes Problem (3D)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../Tutoriels/Stokes_Poiseuille/Readme.html">Poiseuille-Stokes Problem</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../Tutoriels/Terzaghi/README.html">Terzaghi Porous Media Mechanics Problem</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../Tutoriels/Thermique_stationnaire/README.html">Thermique stationnaire</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Tutoriels/Thermique_transitoire/README.html">Thermique transitoire</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ressources</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../Ressources_links.html">Comprehensive Resource Links</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/issues/new?title=Issue%20on%20page%20%2FInstall/WSL_Local_installer/README.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/Install/WSL_Local_installer/README.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>FEniCSx Local Environment Setup with WSL2</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#directory-structure">Directory Structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-features">Key Features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage">Usage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#launching-the-fenicsx-environment">1. Launching the FEniCSx Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-scripts">2. Running Scripts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uninstallation">Uninstallation</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="fenicsx-local-environment-setup-with-wsl2">
+<h1>FEniCSx Local Environment Setup with WSL2<a class="headerlink" href="#fenicsx-local-environment-setup-with-wsl2" title="Link to this heading">#</a></h1>
+<p>This repository provides a simplified, automated setup for a <strong>native FEniCSx</strong> installation using a <strong>Python Virtual Environment (<code class="docutils literal notranslate"><span class="pre">venv</span></code>)</strong> directly within a dedicated <strong>Windows Subsystem for Linux 2 (WSL2)</strong> distribution. This approach offers a clean, isolated, and locally controlled environment for simulation development.</p>
+<section id="directory-structure">
+<h2>Directory Structure<a class="headerlink" href="#directory-structure" title="Link to this heading">#</a></h2>
+<p>The following tree represents the required structure of the installer folder. All files shown here are necessary for the installation process.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>WSL_Local_installer/
+├── install_local_fenicsx.bat
+├── uninstall_local_fenicsx.bat
+├── apt-installed-list.txt
+└── pip-installed-list.txt
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="key-features">
+<h2>Key Features<a class="headerlink" href="#key-features" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>Native WSL2 Installation:</strong> Installs FEniCSx directly onto the Linux filesystem within a dedicated Ubuntu 24.04 distribution (<code class="docutils literal notranslate"><span class="pre">FEniCSxenv</span></code>), providing near-native Linux performance.</p></li>
+<li><p><strong>Isolated Virtual Environment:</strong> Uses a <strong>Python Virtual Environment (<code class="docutils literal notranslate"><span class="pre">venv</span></code>)</strong> named <code class="docutils literal notranslate"><span class="pre">fenicsx-env</span></code> to manage FEniCSx and its dependencies, ensuring system-wide Python installations remain clean.</p></li>
+<li><p><strong>Pre-defined Dependencies:</strong> System (via <code class="docutils literal notranslate"><span class="pre">apt</span></code>) and Python (via <code class="docutils literal notranslate"><span class="pre">pip</span></code>) packages are automatically installed based on the content of the provided <code class="docutils literal notranslate"><span class="pre">.txt</span></code> list files, ensuring a consistent and reproducible setup.</p></li>
+<li><p><strong>Automatic Activation:</strong> The virtual environment is automatically sourced upon launching the WSL distribution, meaning you can start running FEniCSx commands immediately without manual activation.</p></li>
+<li><p><strong>Windows-Native Launchers:</strong> The installation and uninstallation processes are entirely driven by Windows <code class="docutils literal notranslate"><span class="pre">.bat</span></code> files.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<ol class="arabic">
+<li><p><strong>Preparation:</strong> Ensure <strong>WSL2</strong> is enabled and configured on your Windows machine.</p></li>
+<li><p><strong>Execution:</strong> From the dedicated Windows folder containing all installer files, run the main installer script:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>install_local_fenicsx.bat
+</pre></div>
+</div>
+</li>
+<li><p><strong>Prompts:</strong> The script will first install the Ubuntu 24.04 distribution (<code class="docutils literal notranslate"><span class="pre">FEniCSxenv</span></code>). You will be prompted to:</p>
+<ul class="simple">
+<li><p>Set a WSL <strong>username and password</strong> in the new Ubuntu window.</p></li>
+<li><p>After the Ubuntu setup is complete, you must re-enter the <strong>WSL username</strong> in the installer’s command prompt to allow the script to proceed with the FEniCSx installation, virtual environment setup, and auto-activation.</p></li>
+</ul>
+</li>
+<li><p><strong>Completion:</strong> The script will automatically verify the installation by checking the dolfinx version. A success or failure message will be displayed upon completion.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">#</a></h2>
+<p>Since the environment is configured for <strong>automatic activation</strong>, usage is simple:</p>
+<section id="launching-the-fenicsx-environment">
+<h3>1. Launching the FEniCSx Environment<a class="headerlink" href="#launching-the-fenicsx-environment" title="Link to this heading">#</a></h3>
+<p>Open your WSL distribution directly from the Windows search bar or by running this command in Windows Command Prompt/PowerShell:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wsl<span class="w"> </span>-d<span class="w"> </span>FEniCSxenv
+</pre></div>
+</div>
+<p>You will be logged in, and the <code class="docutils literal notranslate"><span class="pre">fenicsx-env</span></code> virtual environment will be automatically activated. You are now ready to run your FEniCSx Python scripts (e.g., <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">myscript.py</span></code> or using <code class="docutils literal notranslate"><span class="pre">mpirun</span></code>).</p>
+</section>
+<section id="running-scripts">
+<h3>2. Running Scripts<a class="headerlink" href="#running-scripts" title="Link to this heading">#</a></h3>
+<p>You can execute your FEniCSx scripts directly from the WSL command line:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run a single Python script</span>
+python3<span class="w"> </span>filename.py
+
+<span class="c1"># Run a parallel simulation using mpirun</span>
+mpirun<span class="w"> </span>-np<span class="w"> </span><span class="m">4</span><span class="w"> </span>python3<span class="w"> </span>parallel_script.py
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="uninstallation">
+<h2>Uninstallation<a class="headerlink" href="#uninstallation" title="Link to this heading">#</a></h2>
+<p>To completely remove the installed FEniCSx environment:</p>
+<ol class="arabic">
+<li><p><strong>Run Uninstaller:</strong> Execute the uninstallation batch file from Windows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uninstall_local_fenicsx.bat
+</pre></div>
+</div>
+</li>
+<li><p><strong>Warning:</strong> This uses the <code class="docutils literal notranslate"><span class="pre">wsl</span> <span class="pre">--unregister</span></code> command, which is an <strong>irreversible</strong> action. It will delete the entire <code class="docutils literal notranslate"><span class="pre">FEniCSxenv</span></code> WSL distribution, including all data, the Python virtual environment, and any user files stored inside it.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Install/WSL_Local_installer"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../WSL_Docker_installer/README.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">🐳 FEniCSx Environment Setup with Docker and WSL2</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Windows_docker_installer/README.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">FEniCSx Environment Setup with Docker Desktop (Windows Direct)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#directory-structure">Directory Structure</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#key-features">Key Features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage">Usage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#launching-the-fenicsx-environment">1. Launching the FEniCSx Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-scripts">2. Running Scripts</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#uninstallation">Uninstallation</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Th0masLavigne
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
