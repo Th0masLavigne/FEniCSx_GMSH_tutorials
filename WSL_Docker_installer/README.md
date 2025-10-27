@@ -1,69 +1,123 @@
-# 🐳 FEniCSx Docker Environment Installer for WSL2
+-----
 
-This repository contains the scripts necessary to automate the installation of a **FEniCSx** simulation environment running inside a **Docker container** on **Windows Subsystem for Linux 2 (WSL2)**.
+>**IMPORTANT NOTE FOR INSTALLATION:** **The `install_wsl2_fenicsx_docker.bat` file, along with its dependency folder (`src_install/`) and all other files from the root of this repository (the entire WSL\_Docker\_installer folder), must be run from a dedicated Windows folder containing ONLY the necessary installation files. This is crucial because the entire contents of this folder will be copied to your Linux home directory within WSL2 (`~/Softwares/WSL2_Docker_FEniCSx`) as the installation source. After a successful installation, you can safely delete this original Windows folder, as a safe version is stored within the WSL distribution. The other launcher batch files (`FEniCSx_interactive.bat`, `FEniCSx_command.bat`, `uninstall_wsl2_fenicsx_docker.bat`) can be placed anywhere else on your Windows system for convenience.**
 
-This setup prioritizes a clean, isolated, and easily reproducible environment, avoiding the complexities and potential instability of native Python virtual environments or Docker Desktop's direct Windows integration for FEniCSx installations.
+-----
 
-## 🚀 Key Features
+# 🐳 FEniCSx Environment Setup with Docker and WSL2
 
-* **Isolated Environment:** FEniCSx and its dependencies run in a secure Docker container, ensuring a consistent environment regardless of your host system's state.
-* **WSL2 Integration:** Leverages the performance and Linux compatibility of WSL2.
-* **Idempotent Installation:** The installer can be run multiple times; it checks for existing installations and offers a full reinstall option to clean up and start fresh.
-* **Self-Contained:** All installation files are copied into the WSL distribution (`~/Softwares/WSL2_Docker_FEniCSx`), allowing the original Windows folder to be deleted after a successful install.
-* **Custom Packages:** The setup automatically checks for a `pyproject.toml` file in `src_install/custom_packages` and integrates it into the Docker image build.
-* **Simplified Usage:** Custom bash aliases (`fenicsx` and `fenicsx-run`) are automatically created for quick access to the container's shell and for running non-interactive scripts.
+This repository provides an automated, professional, and highly efficient setup for running **FEniCSx** simulations. It utilizes a **Docker container** orchestrated within the **Windows Subsystem for Linux 2 (WSL2)**, delivering a consistent, isolated, and high-performance simulation environment on Windows systems.
 
-## 📦 Prerequisites
+## Performance and Efficiency Statement
 
-Before running the installer, ensure you have:
+For local development and execution, the use of **Docker within WSL2 (Windows 11)** is often sufficient and demonstrably efficient. This methodology has specifically proven to be more performant than running Docker directly on Windows (via Docker Desktop's native integration) or managing a local installation with a Python 3 virtual environment (`venv`) of FEniCSx. This efficiency is achieved through WSL2's optimized I/O performance and direct integration with the Linux kernel.
 
-1.  **Windows 10/11** (with WSL2 support enabled).
-2.  **Administrator privileges** for installing/enabling WSL components and Docker.
+-----
 
-The installer will handle the installation of WSL features and the required Ubuntu distribution if they are missing.
+## Directory Structure
 
-## 📋 Installation Guide
+The following tree represents the complete structure of the installation folder (`WSL2_Docker_FEniCSx`) that is copied into the WSL distribution's home directory during the installation process:
 
-1.  **Download/Clone:** Download or clone this repository to a local folder (e.g., `C:\Users\YourUser\WSL2_Docker_FEniCSx`).
-2.  **Add Custom Packages (Optional):** If you have custom Python packages, place your build configuration (e.g., `pyproject.toml`) inside the `src_install/custom_packages/` folder. The installer will automatically detect and integrate it.
-3.  **Run Installer:** Execute the main installation batch file:
+```
+WSL2_Docker_FEniCSx/
+├── FEniCSx_command.bat
+├── FEniCSx_interactive.bat
+├── README.md
+├── install_wsl2_fenicsx_docker.bat
+├── report.log
+├── report_uninstall.log
+├── src_install
+│   ├── apt_environment_aliases
+│   │   ├── fenicsx_aliases.sh
+│   │   └── verification.sh
+│   ├── custom_packages
+│   │   ├── package.txt
+│   │   ├── pyproject.toml
+│   │   └── src
+│   │       └── MLacour_fenicsx
+│   │           ├── Mesh_Bio.py
+│   │           ├── Operators.py
+│   │           ├── Retrieve_and_plot.py
+│   │           └── __init__.py
+│   └── docker
+│       ├── docker_fenicsx_env.sh
+│       └── docker_install_check.sh
+├── test_codes
+│   └── Test.py
+└── uninstall_wsl2_fenicsx_docker.bat
+```
+
+-----
+
+## Key Features
+
+  * **Isolated and Consistent:** FEniCSx runs inside a secure Docker container, ensuring environmental stability and reproducibility.
+  * **Optimized Performance:** Leverages the performance benefits and native Linux compatibility of **WSL2**.
+  * **Simple Image Update:** The Docker image can be updated or rebuilt (e.g., after custom modifications) by simply **re-running `install_wsl2_fenicsx_docker.bat`** (respecting the insitial Note about file dependencies). The installer will update the image without requiring a full reinstallation of the WSL distribution or re-engaging the interactive user prompts.
+  * **Extensible Environment:** Other Python `pip` packages can be added to the Docker image by modifying the Docker build logic within the **`src_install/docker/docker_fenicsx_env.sh`** file and placing any necessary configuration (like `pyproject.toml`) inside the **`src_install/custom_packages`** directory.
+  * **Windows-Native Launchers:** All **`.bat` files must be run from Windows** (Command Prompt or PowerShell) to interact with and launch the environment inside WSL2.
+
+-----
+
+## Installation
+
+1.  **Execution:** Run the main installer script from the dedicated Windows folder by double clicking on it:
     ```bash
     install_wsl2_fenicsx_docker.bat
     ```
-4.  **Follow Prompts:**
-    * The script will guide you through enabling WSL features (may require a reboot).
-    * It will install the **Ubuntu 24.04** distribution as `FEniCSxenv` and prompt you to create a **username and password**.
-    * **Crucially:** You will be prompted to enter your **WSL password** in a secure, hidden window to allow non-interactive `sudo` commands for the rest of the installation (e.g., Docker installation).
-    * If the environment already exists, you will be asked if you wish to proceed with a **full reinstall**.
-5.  **Completion:** Upon successful completion, a `report.log` file will contain the installation details. The original Windows folder can be deleted.
+2.  **Process:** The script will guide you through:
+      * Naming your WSL distribution.
+      * Creating a WSL **username and password**. You will need to type `exit` to pursue the installation once this step is complete.
+      * The necessary steps to install Docker and build the FEniCSx image.
+3.  **Completion:** Upon success, a `report.log` file is generated, and the FEniCSx environment is ready for use.
 
-## 🛠 Usage
+-----
 
-1.  **Launch WSL Environment:**
-    Open a command prompt or PowerShell and launch the specific WSL distribution:
-    ```bash
-    wsl -d FEniCSxenv
-    ```
+## Usage
 
-2.  **Interactive Shell (`fenicsx`):**
-    To start an interactive bash shell inside the FEniCSx Docker container (mounting your current directory as `/home/fenicsx/shared`):
+### 1\. Launching from Windows (Using .bat files)
+
+All launcher batch files (`.bat`) are designed to be run directly from **Windows**.
+
+  * **Interactive Shell:** Use `FEniCSx_interactive.bat` to open a command line session **inside the FEniCSx Docker container**. You will be prompted for the project folder path to mount.
+  * **Run Script/Command:** Use `FEniCSx_command.bat` to execute a single Python script or command **non-interactively** within the container. (You must edit the batch file to specify the target script path).
+
+### 2\. Direct Use in WSL2 Command Line (Using Aliases)
+
+Once your WSL distribution is running, you can open a shell directly and utilize the custom bash aliases created during installation.
+
+1.  **Access WSL:** Open the WSL distribution command line (e.g., by typing `wsl` in Windows search or opening Windows Terminal).
+
+2.  **Navigate:** Change directory to the folder containing your FEniCSx code (e.g., `cd ./Documents/MyProject`).
+
+3.  **Run Interactive Session:** To open an interactive shell inside the FEniCSx Docker environment:
+
     ```bash
     fenicsx
     ```
 
-3.  **Run Script/Command (`fenicsx-run`):**
-    To execute a command or a Python script non-interactively within the container:
+    *This command mounts your current WSL directory into the container at `/home/fenicsx/shared`.*
+
+4.  **Run Non-Interactive Script:** To execute a script using Python or MPI without entering the interactive shell:
+
     ```bash
-    # Example: Run a Python script named Main.py in the current directory
-    fenicsx-run "python3 Main.py"
+    # Run a simple Python script
+    fenicsx-run "python3 filename.py"
+
+    # Run a script using mpirun for parallel execution
+    fenicsx-run "mpirun -np 4 python3 filename.py"
     ```
 
-## 🧹 Uninstallation
+    *The `fenicsx-run` alias passes the entire quoted string to a non-interactive bash session within the container.*
 
-To completely remove the installed FEniCSx environment and its files:
+-----
 
-1.  **Run Uninstaller:** Execute the uninstallation batch file:
+## Uninstallation
+
+To completely remove the installed FEniCSx environment and all associated files:
+
+1.  **Run Uninstaller:** Execute the uninstallation batch file from Windows:
     ```bash
     uninstall_wsl2_fenicsx_docker.bat
     ```
-    This script unregisters the `FEniCSxenv` WSL distribution, deleting all its contents.
+2.  **Warning:** This is an **irreversible** action and will delete the entire `FEniCSxenv` WSL distribution, including all user files and the copied installation source code.
