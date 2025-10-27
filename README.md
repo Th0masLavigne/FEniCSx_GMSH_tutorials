@@ -118,7 +118,9 @@ The computational portion of the workshop covers a range of physics and solution
         * Evaluation of a quantity (e.g., reaction force).
 * **Numerical Methods:**
     * **Linear and Non-Linear resolutions**.
-    * **Updated mesh resolution** (mesh update).
+    * **Updated mesh resolution** (mesh update). 
+
+>**For updated lagrangian please contact Carla Cornillon**
 
 ---
 
