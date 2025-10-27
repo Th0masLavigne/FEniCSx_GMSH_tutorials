@@ -1,0 +1,773 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Installation Guide for FEniCSx v0.9.0 &#8212; FEniCSx and GMSH Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Install/Install_processes';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Docker workspace and aliases" href="docker_and_aliases.html" />
+    <link rel="prev" title="FEniCSx &amp; GMSH Tutorial Repository (v0.9.0)" href="../README.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../README.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">FEniCSx and GMSH Tutorials</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../README.html">
+                    FEniCSx & GMSH Tutorial Repository (v0.9.0)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Installation Guide for FEniCSx v0.9.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="docker_and_aliases.html">Docker workspace and aliases</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Spack_Install_FEniCSx/README.html">Spack Installation</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="WSL_Docker_installer/README.html">WSL Docker Installer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="WSL_Local_installer/README.html">WSL Local Installer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Windows_docker_installer/README.html">Windows Docker Installer</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Tutoriels/Elastic_Incremental_Beam/README.html">Incremental Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutoriels/Elastic_Multi_material_Beam/README.html">Material parameters depending on space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutoriels/Hyper-Elastic_and_Elastic_Beam/README.html">Hyper-elastic and elastic beam</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutoriels/Hyper-elastic_beam/README.html">Hyper-elastic beam</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutoriels/Local_Refinement/README.html">Local refinement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutoriels/Other_GMSH_Examples/README.html">Other GMSH Examples</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../Tutoriels/Penalty_contact_Beam/README.html">Penalty contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutoriels/Stokes_2D/README.html">Stokes Problem (2D)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../Tutoriels/Stokes_3D/README.html">Stokes Problem (3D)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../Tutoriels/Stokes_Poiseuille/Readme.html">Poiseuille-Stokes Problem</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../Tutoriels/Terzaghi/README.html">Terzaghi Porous Media Mechanics Problem</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../Tutoriels/Thermique_stationnaire/README.html">Thermique stationnaire</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Tutoriels/Thermique_transitoire/README.html">Thermique transitoire</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/issues/new?title=Issue%20on%20page%20%2FInstall/Install_processes.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Install/Install_processes.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Installation Guide for FEniCSx v0.9.0</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linux-installation-native-or-wsl2-terminal">1. Linux Installation (Native or WSL2 Terminal)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-installation-of-fenicsx-v0-9-0-apt-method">1.1. Local Installation of FEniCSx v0.9.0 (APT Method)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-add-the-fenicsx-repository">Step 1 — Add the FEniCSx Repository</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-install-fenicsx-and-dependencies">Step 2 — Install FEniCSx and Dependencies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#windows-installation-automated-batch-scripts">2. Windows Installation (Automated Batch Scripts)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-a-wsl2-docker-installer-recommended-for-consistency">2.1. Option A: WSL2 Docker Installer (Recommended for Consistency)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-b-wsl2-local-installer-native-venv-in-wsl">2.2. Option B: WSL2 Local Installer (Native <code class="docutils literal notranslate"><span class="pre">venv</span></code> in WSL)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-c-windows-direct-docker">2.3. Option C: Windows Direct Docker</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hpc-advanced-installation-spack-package-manager">3. HPC / Advanced Installation (Spack Package Manager)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spack-installation-procedure-detailed">Spack Installation Procedure (Detailed)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-get-and-configure-spack">Step 1 — Get and Configure Spack</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-configure-compilers-and-environment">Step 2 — Configure Compilers and Environment</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-create-and-install-fenicsx-environment">Step 3 — Create and Install FEniCSx Environment</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-usage-and-activation">Step 4 — Usage and Activation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="installation-guide-for-fenicsx-v0-9-0">
+<h1>Installation Guide for FEniCSx v0.9.0<a class="headerlink" href="#installation-guide-for-fenicsx-v0-9-0" title="Link to this heading">#</a></h1>
+<p>This guide provides detailed, copy-paste ready instructions to install <strong>FEniCSx v0.9.0</strong> and its dependencies across various operating systems, including dedicated automated workflows for <strong>Windows (via WSL 2)</strong> and <strong>HPC environments (via Spack)</strong>.</p>
+<hr class="docutils" />
+<section id="linux-installation-native-or-wsl2-terminal">
+<h2>1. Linux Installation (Native or WSL2 Terminal)<a class="headerlink" href="#linux-installation-native-or-wsl2-terminal" title="Link to this heading">#</a></h2>
+<p>For native Linux systems or when working directly inside a WSL2 distribution’s terminal, you have two primary options: the APT repository for standard users or Spack for advanced/HPC users.</p>
+<section id="local-installation-of-fenicsx-v0-9-0-apt-method">
+<h3>1.1. Local Installation of FEniCSx v0.9.0 (APT Method)<a class="headerlink" href="#local-installation-of-fenicsx-v0-9-0-apt-method" title="Link to this heading">#</a></h3>
+<blockquote>
+<div><p><strong>Note:</strong> These instructions are tested for <strong>Ubuntu 24.04 LTS</strong>. This method installs FEniCSx directly into your system’s packages.</p>
+</div></blockquote>
+<section id="step-1-add-the-fenicsx-repository">
+<h4>Step 1 — Add the FEniCSx Repository<a class="headerlink" href="#step-1-add-the-fenicsx-repository" title="Link to this heading">#</a></h4>
+<p>Access the package and update your shell environment:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>add-apt-repository<span class="w"> </span>ppa:fenics-packages/fenics
+sudo<span class="w"> </span>apt<span class="w"> </span>update
+</pre></div>
+</div>
+</section>
+<section id="step-2-install-fenicsx-and-dependencies">
+<h4>Step 2 — Install FEniCSx and Dependencies<a class="headerlink" href="#step-2-install-fenicsx-and-dependencies" title="Link to this heading">#</a></h4>
+<p>Install FEniCSx at the specific version (<code class="docutils literal notranslate"><span class="pre">0.9.0.1</span></code>) and all necessary packages for meshing, plotting, and environment management.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install FEniCSx v0.9.0</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="s1">&#39;fenicsx=2:0.9.0.1*&#39;</span>
+
+<span class="c1"># Install Python tools, Pandas, Gmsh, and rendering libraries for GUI/plotting</span>
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>python3-pip<span class="w"> </span>python3-venv<span class="w"> </span>python3-pandas<span class="w"> </span>-y
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>gmsh<span class="w"> </span>xvfb<span class="w"> </span>libgl1-mesa-dri<span class="w"> </span>libglx-mesa0<span class="w"> </span>libglu1-mesa<span class="w"> </span>mesa-utils<span class="w"> </span>-y
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="windows-installation-automated-batch-scripts">
+<h2>2. Windows Installation (Automated Batch Scripts)<a class="headerlink" href="#windows-installation-automated-batch-scripts" title="Link to this heading">#</a></h2>
+<p>For Windows users, using the provided batch scripts is the most reliable way to set up an isolated environment with FEniCSx. <strong>Ensure Docker Desktop is installed and running for all Docker methods.</strong></p>
+<section id="option-a-wsl2-docker-installer-recommended-for-consistency">
+<h3>2.1. Option A: WSL2 Docker Installer (Recommended for Consistency)<a class="headerlink" href="#option-a-wsl2-docker-installer-recommended-for-consistency" title="Link to this heading">#</a></h3>
+<p>This approach uses <strong>Docker within a dedicated WSL2 distribution</strong> (<code class="docutils literal notranslate"><span class="pre">FEniCSxenv</span></code>), offering high performance and consistency.</p>
+<ol class="arabic">
+<li><p><strong>Files:</strong> Use the files from the <strong><code class="docutils literal notranslate"><span class="pre">WSL2_Docker_installer</span></code></strong> folder (containing <code class="docutils literal notranslate"><span class="pre">install_wsl2_fenicsx_docker.bat</span></code> and others).</p></li>
+<li><p><strong>Installation:</strong> Run the installer from Windows (Command Prompt/PowerShell):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>install_wsl2_fenicsx_docker.bat
+</pre></div>
+</div>
+</li>
+<li><p><strong>Usage:</strong> After installation, launch your environment directly from Windows using the provided launchers:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Interactive shell (will prompt for a directory to mount)</span>
+FEniCSx_interactive.bat
+
+<span class="c1"># Run a command/script (edit the .bat file first to set script path)</span>
+FEniCSx_command.bat
+</pre></div>
+</div>
+<p><em>Alternatively, open your WSL terminal (<code class="docutils literal notranslate"><span class="pre">wsl</span> <span class="pre">-d</span> <span class="pre">FEniCSxenv</span></code>) and use the custom aliases:</em></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>fenicsx<span class="w">                       </span><span class="c1"># Start interactive container shell</span>
+fenicsx-run<span class="w"> </span><span class="s2">&quot;python3 script.py&quot;</span><span class="w"> </span><span class="c1"># Run non-interactive command</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="option-b-wsl2-local-installer-native-venv-in-wsl">
+<h3>2.2. Option B: WSL2 Local Installer (Native <code class="docutils literal notranslate"><span class="pre">venv</span></code> in WSL)<a class="headerlink" href="#option-b-wsl2-local-installer-native-venv-in-wsl" title="Link to this heading">#</a></h3>
+<p>This sets up a dedicated WSL distribution (<code class="docutils literal notranslate"><span class="pre">FEniCSxenv</span></code>) with a FEniCSx Python Virtual Environment (<code class="docutils literal notranslate"><span class="pre">venv</span></code>) that auto-activates upon login.</p>
+<ol class="arabic">
+<li><p><strong>Files:</strong> Use the files from the <strong><code class="docutils literal notranslate"><span class="pre">WSL_Local_installer</span></code></strong> folder (containing <code class="docutils literal notranslate"><span class="pre">install_local_fenicsx.bat</span></code>, <code class="docutils literal notranslate"><span class="pre">apt-installed-list.txt</span></code>, etc.).</p></li>
+<li><p><strong>Installation:</strong> Run the installer from Windows (Command Prompt/PowerShell):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>install_local_fenicsx.bat
+</pre></div>
+</div>
+<p><em>You will be prompted to enter the WSL username you created during the initial Ubuntu setup.</em></p>
+</li>
+<li><p><strong>Usage:</strong> Launch the dedicated environment from Windows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wsl<span class="w"> </span>-d<span class="w"> </span>FEniCSxenv
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">fenicsx-env</span></code> will be automatically active. Run scripts with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>filename.py
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="option-c-windows-direct-docker">
+<h3>2.3. Option C: Windows Direct Docker<a class="headerlink" href="#option-c-windows-direct-docker" title="Link to this heading">#</a></h3>
+<p>This method runs Docker commands directly from Windows, relying on Docker Desktop’s native file mapping.</p>
+<ol class="arabic">
+<li><p><strong>Prerequisites:</strong> Ensure <strong>Docker Desktop</strong> is running.</p></li>
+<li><p><strong>Files:</strong> Use the files from the <strong><code class="docutils literal notranslate"><span class="pre">Windows_docker_installer</span></code></strong> folder (containing <code class="docutils literal notranslate"><span class="pre">FEniCSx_docker_0-9-0.bat</span></code>, etc.).</p></li>
+<li><p><strong>Image Build:</strong> Execute the build script. This will also integrate any custom packages found in the <code class="docutils literal notranslate"><span class="pre">src</span></code> folder.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>FEniCSx_docker_0-9-0.bat
+</pre></div>
+</div>
+</li>
+<li><p><strong>Usage:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Interactive shell</span>
+Interactive_FEniCSx_0-9-0.bat
+
+<span class="c1"># Non-interactive script run (e.g., Test.py or Main.py)</span>
+FEniCSx_AGGREGATE.bat
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="hpc-advanced-installation-spack-package-manager">
+<h2>3. HPC / Advanced Installation (Spack Package Manager)<a class="headerlink" href="#hpc-advanced-installation-spack-package-manager" title="Link to this heading">#</a></h2>
+<p>Spack is the recommended tool for managing complex dependencies on High-Performance Computing (HPC) clusters, allowing for precise control over compilers, MPI, and linear algebra libraries like PETSc.</p>
+<section id="spack-installation-procedure-detailed">
+<h3>Spack Installation Procedure (Detailed)<a class="headerlink" href="#spack-installation-procedure-detailed" title="Link to this heading">#</a></h3>
+<p>This procedure was tested on <strong>Red Hat Enterprise Linux 8.10</strong>.</p>
+<section id="step-1-get-and-configure-spack">
+<h4>Step 1 — Get and Configure Spack<a class="headerlink" href="#step-1-get-and-configure-spack" title="Link to this heading">#</a></h4>
+<p>Download and set up the Spack environment.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Get Spack v0.23.0</span>
+wget<span class="w"> </span><span class="o">[</span>https://github.com/spack/spack/releases/download/v0.23.0/spack-0.23.0.tar.gz<span class="o">](</span>https://github.com/spack/spack/releases/download/v0.23.0/spack-0.23.0.tar.gz<span class="o">)</span>
+
+<span class="c1"># 2. Untar the archive</span>
+tar<span class="w"> </span>-xf<span class="w"> </span>spack-0.23.0.tar.gz
+
+<span class="c1"># 3. Optional: Disable local config (recommended for multi-user/HPC setups)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SPACK_DISABLE_LOCAL_CONFIG</span><span class="o">=</span><span class="nb">true</span>
+
+<span class="c1"># 4. Activate Spack</span>
+<span class="nb">cd</span><span class="w"> </span>spack-0.23.0
+<span class="nb">source</span><span class="w"> </span>./share/spack/setup-env.sh
+</pre></div>
+</div>
+</section>
+<section id="step-2-configure-compilers-and-environment">
+<h4>Step 2 — Configure Compilers and Environment<a class="headerlink" href="#step-2-configure-compilers-and-environment" title="Link to this heading">#</a></h4>
+<p>Add your system compiler to Spack, and optionally install a newer GCC version if needed.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Add system compiler (must be pre-installed on the OS)</span>
+spack<span class="w"> </span>compiler<span class="w"> </span>find<span class="w"> </span>
+
+<span class="c1"># 2. Optional: Install a modern compiler (e.g., GCC 12)</span>
+spack<span class="w"> </span>install<span class="w"> </span>gcc@12
+spack<span class="w"> </span>compiler<span class="w"> </span>find<span class="w"> </span><span class="k">$(</span>spack<span class="w"> </span>location<span class="w"> </span>-i<span class="w"> </span>gcc@12<span class="k">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-create-and-install-fenicsx-environment">
+<h4>Step 3 — Create and Install FEniCSx Environment<a class="headerlink" href="#step-3-create-and-install-fenicsx-environment" title="Link to this heading">#</a></h4>
+<p>Create a dedicated Spack environment, add the required packages, and initiate the installation.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Create a Spack environment</span>
+spack<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>MyFenicsxEnv
+
+<span class="c1"># 2. Activate the environment</span>
+spack<span class="w"> </span>env<span class="w"> </span>activate<span class="w"> </span>MyFenicsxEnv
+
+<span class="c1"># 3. Add Core FEniCSx dependencies and solvers (specify exact versions for reproducibility)</span>
+<span class="c1"># PETSc config: Disable Trilinos, enable Fortran, Mumps, and SuperLU-Dist</span>
+spack<span class="w"> </span>add<span class="w"> </span>petsc@3.22.1<span class="w"> </span>~trilinos<span class="w"> </span>+fortran<span class="w"> </span>+mumps<span class="w"> </span>+superlu-dist
+spack<span class="w"> </span>add<span class="w"> </span>python@3.11.9
+spack<span class="w"> </span>add<span class="w"> </span>py-fenics-dolfinx@0.9.0
+spack<span class="w"> </span>add<span class="w"> </span>py-mpi4py@4.0.1
+spack<span class="w"> </span>add<span class="w"> </span>py-numpy@2.1.2
+spack<span class="w"> </span>add<span class="w"> </span>py-matplotlib
+spack<span class="w"> </span>add<span class="w"> </span>py-pandas
+spack<span class="w"> </span>add<span class="w"> </span>py-gmsh
+
+<span class="c1"># 4. Install all packages in the environment</span>
+spack<span class="w"> </span>install
+</pre></div>
+</div>
+<p><strong>Success!</strong> You have installed FEniCSx v0.9.0 and its parallel dependencies.</p>
+</section>
+<section id="step-4-usage-and-activation">
+<h4>Step 4 — Usage and Activation<a class="headerlink" href="#step-4-usage-and-activation" title="Link to this heading">#</a></h4>
+<p>To use the environment in any new terminal session or submission script:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Activate Spack environment (add this to your .bashrc or .bash_profile)</span>
+<span class="nb">source</span><span class="w"> </span>/path/to/spack-0.23.0/share/spack/setup-env.sh
+
+<span class="c1"># 2. Activate your custom environment</span>
+spack<span class="w"> </span>env<span class="w"> </span>activate<span class="w"> </span>MyFenicsxEnv
+
+<span class="c1"># 3. Run a simulation using MPI</span>
+mpirun<span class="w"> </span>-np<span class="w"> </span><span class="m">4</span><span class="w"> </span>python3<span class="w"> </span>my_fenicsx_script.py
+</pre></div>
+</div>
+<blockquote>
+<div><p><strong>HPC Batch Scripts (Slurm):</strong> You can reference the file <strong><code class="docutils literal notranslate"><span class="pre">Slurm_spack_fenicsx_0_9_0.sh</span></code></strong> for an example of how to correctly source and activate the Spack environment within a Slurm job submission script.</p>
+</div></blockquote>
+</section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Install"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../README.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">FEniCSx &amp; GMSH Tutorial Repository (v0.9.0)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="docker_and_aliases.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Docker workspace and aliases</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#linux-installation-native-or-wsl2-terminal">1. Linux Installation (Native or WSL2 Terminal)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-installation-of-fenicsx-v0-9-0-apt-method">1.1. Local Installation of FEniCSx v0.9.0 (APT Method)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-add-the-fenicsx-repository">Step 1 — Add the FEniCSx Repository</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-install-fenicsx-and-dependencies">Step 2 — Install FEniCSx and Dependencies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#windows-installation-automated-batch-scripts">2. Windows Installation (Automated Batch Scripts)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-a-wsl2-docker-installer-recommended-for-consistency">2.1. Option A: WSL2 Docker Installer (Recommended for Consistency)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-b-wsl2-local-installer-native-venv-in-wsl">2.2. Option B: WSL2 Local Installer (Native <code class="docutils literal notranslate"><span class="pre">venv</span></code> in WSL)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#option-c-windows-direct-docker">2.3. Option C: Windows Direct Docker</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hpc-advanced-installation-spack-package-manager">3. HPC / Advanced Installation (Spack Package Manager)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spack-installation-procedure-detailed">Spack Installation Procedure (Detailed)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-get-and-configure-spack">Step 1 — Get and Configure Spack</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-configure-compilers-and-environment">Step 2 — Configure Compilers and Environment</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-create-and-install-fenicsx-environment">Step 3 — Create and Install FEniCSx Environment</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-usage-and-activation">Step 4 — Usage and Activation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Th0masLavigne
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

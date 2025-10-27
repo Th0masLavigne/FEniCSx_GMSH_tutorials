@@ -1,0 +1,46 @@
+# --- Start of _config.yml ---
+title: FEniCSx and GMSH Tutorials
+author: Th0masLavigne
+copyright: "2024" # Update year as needed
+logo: "" # Set a path to a logo file if desired
+
+# Add this section to your _config.yml
+repository:
+  url: https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials  # <-- REPLACE with your actual repository URL
+  branch: main  # Or 'master', depending on your default branch
+  path_to_docs: "" # Keep this blank if _config.yml is in the root
+
+# HTML output settings (for a clean documentation look)
+html:
+  use_repository_button: true
+  use_issues_button: true
+  theme: 'sphinx_book_theme'
+  # Custom header/footer can be added here if needed
+# In _config.yml (add this if it doesn't exist)
+sphinx:
+  config:
+    # Ignores files in the virtual environment's site-packages folder
+    exclude_patterns: 
+      - '*site-packages*'
+      - 'venv-book/**'         # Exclude the entire virtual environment
+      - '_build/**'            # Exclude the build cache and output directories
+      - '*/_build/**'          # Catch any nested _build directories
+    # Optional: Suppress a common warning about documents without a title
+    suppress_warnings: ["toc.excluded"]  
+# Execution settings - Set to 'off' for fast building, 'auto' to run all code blocks
+execute:
+  execute_notebooks: 'off' 
+  timeout: 600
+
+# Parse settings for MyST Markdown (.md files)
+parse:
+  myst_enable_extensions:
+    - amsmath
+    - colon_fence
+    - dollarmath
+    - linkify
+    - substitution
+    - tasklist
+# --- End of _config.yml ---
+
+

@@ -1,0 +1,56 @@
+format: jb-book
+root: README
+
+parts:
+# ==============================================================================
+# INSTALLATION PART
+# ==============================================================================
+- caption: Installation
+  chapters:
+  - file: Install/Install_processes
+  - file: Install/docker_and_aliases
+  - file: Install/Spack_Install_FEniCSx/README
+    title: Spack Installation (Overview)
+    sections:
+    - file: Install/Spack_Install_FEniCSx/Spack_INSTALL
+    - file: Install/Spack_Install_FEniCSx/VERSIONS
+  - file: Install/WSL_Docker_installer/README
+    title: WSL Docker Installer
+  - file: Install/WSL_Local_installer/README
+    title: WSL Local Installer
+  - file: Install/Windows_docker_installer/README
+    title: Windows Docker Installer
+
+# ==============================================================================
+# TUTORIALS PART
+# ==============================================================================
+- caption: Tutorials
+  chapters:
+  # The 'Tutoriels/General_introduction' entry has been removed.
+  # The list of files now starts with the sub-tutorials.
+  - file: Tutoriels/Elastic_Incremental_Beam/README
+    title: Incremental Mesh
+  - file: Tutoriels/Elastic_Multi_material_Beam/README
+    title: Material parameters depending on space
+  - file: Tutoriels/Hyper-Elastic_and_Elastic_Beam/README
+    title: Hyper-elastic and elastic beam
+  - file: Tutoriels/Hyper-elastic_beam/README
+    title: Hyper-elastic beam
+  - file: Tutoriels/Local_Refinement/README
+    title: Local refinement
+  - file: Tutoriels/Other_GMSH_Examples/README
+    title: GMSH examples
+  - file: Tutoriels/Penalty_contact_Beam/README
+    title: Penalty contact
+  - file: Tutoriels/Stokes_2D/README
+    title: Stokes 2D
+  - file: Tutoriels/Stokes_3D/README
+    title: Stokes 3D
+  - file: Tutoriels/Stokes_Poiseuille/Readme
+    title: Stokes Poiseuille
+  - file: Tutoriels/Terzaghi/README
+    title: Terzaghi
+  - file: Tutoriels/Thermique_stationnaire/README
+    title: Thermique stationnaire
+  - file: Tutoriels/Thermique_transitoire/README
+    title: Thermique transitoire
