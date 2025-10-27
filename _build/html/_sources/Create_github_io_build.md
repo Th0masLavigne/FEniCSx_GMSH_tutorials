@@ -33,3 +33,5 @@ Finally deactivate the environment:
 ```bash
 deactivate
 ```
+
+Add the `index.html` file to ensure starting in the good readme.
