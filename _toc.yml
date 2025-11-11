@@ -20,11 +20,8 @@ parts:
     title: WSL Local Installer
   - file: Install/Windows_docker_installer/README
     title: Windows Docker Installer
-  - file: Spack_Install_MCIA/HPC_FEniCSx_0_9_0_install-gcc_13_2_0.md
+  - file: Install/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_install-gcc_13_2_0
     title: Spack Installation (MCIA)
-    sections:
-    - file: Spack_Install_MCIA/hpc_run_fenicsx_test.sh
-    - file: Spack_Install_MCIA/spack_find-c.md
 
 # ==============================================================================
 # TUTORIALS PART
