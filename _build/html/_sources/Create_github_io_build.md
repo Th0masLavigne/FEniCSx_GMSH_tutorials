@@ -12,9 +12,7 @@ python3 -m venv venv-book
 source venv-book/bin/activate
 ```
 
-```bash
-source venv-book/bin/activate
-```
+
 ```bash
 pip install jupyter-book ghp-import
 ```
@@ -33,5 +31,6 @@ Finally deactivate the environment:
 ```bash
 deactivate
 ```
+
 
 Add the `index.html` file to ensure starting in the good readme.
