@@ -18,6 +18,10 @@ alias hpc_connect='ssh <username>@curta.mcia.fr'
 
 >*Note:* Remember to replace <username> with your actual cluster username.
 
+### 📁 Access files onlide (upload/download)
+The [https://curta3.mcia.fr/](https://curta3.mcia.fr/) web service allows users to access Curta from a web browser using the Open OnDemand software.
+
+
 ### 📁 Optional: Local File System Mount (Requires sshfs)
 These aliases use sshfs (SSH Filesystem) to mount your remote directories directly to a local folder (e.g., `$HOME/curta`), allowing you to browse and manage files as if they were local.
 
