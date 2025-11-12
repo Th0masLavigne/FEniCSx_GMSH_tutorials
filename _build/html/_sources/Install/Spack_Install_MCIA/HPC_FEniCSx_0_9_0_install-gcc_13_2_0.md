@@ -148,7 +148,7 @@ This approach is required before the module file is deployed system-wide.
 
 ---
 
-## 1. Prerequisites and Interactive Session Setup
+## Installation procedure followed for the MCIA cluster
 
 It is **highly recommended** to perform this installation within a long-running, stable interactive session.
 
@@ -175,7 +175,7 @@ module purge
 
 -----
 
-## 2\. Step 1: Define Environment Variables and Logging 📝
+### Step 1: Define Environment Variables and Logging 📝
 
 We define all key installation paths and set up logging to capture almost all terminal output.
 
@@ -217,7 +217,7 @@ echo "All variables set." 2>&1 | tee -a ${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FIL
 
 -----
 
-## 3\. Step 2: Configure External Modules (GCC and CMake)
+### Step 2: Configure External Modules (GCC and CMake)
 
 We need to identify the exact install paths for our external modules to correctly define them in `packages.yaml`.
 
@@ -227,7 +227,7 @@ In our case, we consider only gcc@13.2.0 and cmake@3.27.6. You can either automa
 
 > *Note:* For Openmpi, we use psm2 communication here, with pmix.
 
-### Automated Path Detection 🔗
+#### Automated Path Detection 🔗
 We use a helper function to reliably identify and export the paths for the external `gcc@13.2.0` and `cmake@3.27.6` modules. Execute the following block to find the exact prefix paths for the external modules:
 
 ```bash
@@ -251,7 +251,7 @@ echo "GCC prefix identified: ${PREFIX_GCC}" 2>&1 | tee -a ${REPORT_LOG_DIRECTORY
 module purge
 ```
 
-### Forcing CMake Path 
+#### Forcing CMake Path 
 (Crucial Fix, see: [Spack Installation Issue for FEniCSx 0.9.0 (py-fenics-basix): CMake Version Mismatch - installation - FEniCS Project](https://fenicsproject.discourse.group/t/spack-installation-issue-for-fenicsx-0-9-0-py-fenics-basix-cmake-version-mismatch/18330))
 
 This step resolves a common Spack/Python build issue where a system-wide CMake is chosen instead of the correct module version.
@@ -272,9 +272,9 @@ echo export PATH="${PATH}" 2>&1 | tee -a ${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FI
 
 -----
 
-## 4\. Step 3: Initialize and Configure Spack ⚙️
+### Step 3: Initialize and Configure Spack ⚙️
 
-### Spack Setup and Initialization
+#### Spack Setup and Initialization
 
 Clone Spack and source the environment setup script.
 
@@ -304,7 +304,7 @@ echo "Spack initialized (version: $(spack --version))" 2>&1 | tee -a ${REPORT_LO
 spack debug report 2>&1 | tee -a ${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FILENAME}
 ```
 
-### Create `packages.yaml` for Externals
+#### Create `packages.yaml` for Externals
 
 We define the externally provided compiler (`gcc`), build system (`cmake`), and job scheduler (`slurm`). Note the explicit paths for the compiler executables (`c`, `cxx`, `fortran`) and the mandatory `languages='c,c++,fortran'` for the compiler.
 
@@ -349,11 +349,11 @@ cat ${SPACK_PACKAGES_YAML} 2>&1 | tee -a ${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FI
 
 -----
 
-## 5\. Step 4: Define the FEniCSx Spack Environment (`spack.yaml`) 🌿
+### Step 4: Define the FEniCSx Spack Environment (`spack.yaml`) 🌿
 
 This defines the full dependency graph for the complete FEniCSx stack, including visualization and extra physics libraries required by our team.
 
-### Complete `spack.yaml` Configuration
+#### Complete `spack.yaml` Configuration
 
 This is the complete environment set for MCIA, including specific librairies required by some PhDs of the team:
 
@@ -443,7 +443,7 @@ cat ${SPACK_ENV_DIR}/spack.yaml 2>&1 | tee -a ${REPORT_LOG_DIRECTORY}/${REPORT_L
 
 -----
 
-## 6\. Step 5: Install the environment
+### Step 5: Install the environment
 
 We activate the environment, resolve dependencies (concretize), and start the installation.
 
@@ -501,12 +501,12 @@ spack install -j${NCORES} %gcc@13.2.0 gsl@2.8 neper@4.10.1 py-adios4dolfinx@0.9.
 
 -----
 
-## 7\. Step 6: Testing and Validation ✅
+### Step 6: Testing and Validation ✅
 
 Once installed, confirm the environment is functional, paying close attention to MPI/PSM2 configuration.
 
 
-### Basic MPI Test
+#### Basic MPI Test
 
 Ensure you are using the right psm2 communication:
 ```bash
@@ -528,7 +528,7 @@ fi
 mpirun -n $SLURM_NTASKS python -c "from mpi4py import MPI; import dolfinx; comm = MPI.COMM_WORLD; rank = comm.Get_rank(); size = comm.Get_size(); print(f'Hello from rank {rank} out of {size} processes, dolfinx v {dolfinx.__version__}')" 2>&1 | tee -a ${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FILENAME}
 ```
 
-### Debugging PMIX/PSM2 Errors
+#### Debugging PMIX/PSM2 Errors
 
 If the PMIX transport error persists, test with a fallback MCA configuration:
 
@@ -536,7 +536,7 @@ If the PMIX transport error persists, test with a fallback MCA configuration:
 mpirun -n 4 --mca pml ob1 --mca btl self,vader --mca orte_precondition_transports false python -c "from mpi4py import MPI; import dolfinx; comm = MPI.COMM_WORLD; rank = comm.Get_rank(); size = comm.Get_size(); print(f'Hello from rank {rank} out of {size} processes, dolfinx v {dolfinx.__version__}')"  2>&1 | tee -a ${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FILENAME}
 ```
 
-### Missing Python bindings:
+#### Missing Python bindings:
 
 If a python binding is missing like for nlopt, if you use spack directly (and not module load that handles it already), add:
 ```bash
@@ -545,7 +545,7 @@ export PYTHONPATH=/gpfs/softs/contrib/apps/fenicsx/spack-src-28.10.2025/opt/spac
 
 -----
 
-## 8\. Step 7: Module Deployment (Propagating to Tcl on MCIA)
+### Step 7: Module Deployment (Propagating to Tcl on MCIA)
 
 This step generates the final Tcl modulefile for system-wide access. This file must be placed in a directory sourced by the cluster's module system. Notably it sets the missing variables automatically and loads the view (i.e. the whole spack environment) under a single flag: `fenicsx/0.9.0`.
 
@@ -638,7 +638,7 @@ EOF
 
 -----
 
-## 9\. Cleanup and Reinstallation (For Maintenance) 🗑️
+### Cleanup and Reinstallation (For Maintenance) 🗑️
 
 These commands are for maintenance purposes if a complete fresh start is required. **Run these manually outside of the installation log script.**
 
