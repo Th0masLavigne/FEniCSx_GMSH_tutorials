@@ -416,35 +416,35 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-spack-environment-directly">Using Spack Environment Directly</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites-and-interactive-session-setup">1. Prerequisites and Interactive Session Setup</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-procedure-followed-for-the-mcia-cluster">Installation procedure followed for the MCIA cluster</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-an-interactive-session">Starting an Interactive Session</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cleaning-the-environment">Cleaning the Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-define-environment-variables-and-logging">Step 1: Define Environment Variables and Logging 📝</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-configure-external-modules-gcc-and-cmake">Step 2: Configure External Modules (GCC and CMake)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#automated-path-detection">Automated Path Detection 🔗</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#forcing-cmake-path">Forcing CMake Path</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-define-environment-variables-and-logging">2. Step 1: Define Environment Variables and Logging 📝</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-configure-external-modules-gcc-and-cmake">3. Step 2: Configure External Modules (GCC and CMake)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automated-path-detection">Automated Path Detection 🔗</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forcing-cmake-path">Forcing CMake Path</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-initialize-and-configure-spack">Step 3: Initialize and Configure Spack ⚙️</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spack-setup-and-initialization">Spack Setup and Initialization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#create-packages-yaml-for-externals">Create <code class="docutils literal notranslate"><span class="pre">packages.yaml</span></code> for Externals</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-initialize-and-configure-spack">4. Step 3: Initialize and Configure Spack ⚙️</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spack-setup-and-initialization">Spack Setup and Initialization</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-packages-yaml-for-externals">Create <code class="docutils literal notranslate"><span class="pre">packages.yaml</span></code> for Externals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-define-the-fenicsx-spack-environment-spack-yaml">Step 4: Define the FEniCSx Spack Environment (<code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code>) 🌿</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-spack-yaml-configuration">Complete <code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code> Configuration</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-define-the-fenicsx-spack-environment-spack-yaml">5. Step 4: Define the FEniCSx Spack Environment (<code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code>) 🌿</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-spack-yaml-configuration">Complete <code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code> Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-install-the-environment">Step 5: Install the environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-testing-and-validation">Step 6: Testing and Validation ✅</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-mpi-test">Basic MPI Test</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-pmix-psm2-errors">Debugging PMIX/PSM2 Errors</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-python-bindings">Missing Python bindings:</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-install-the-environment">6. Step 5: Install the environment</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-testing-and-validation">7. Step 6: Testing and Validation ✅</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-mpi-test">Basic MPI Test</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-pmix-psm2-errors">Debugging PMIX/PSM2 Errors</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-python-bindings">Missing Python bindings:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-module-deployment-propagating-to-tcl-on-mcia">Step 7: Module Deployment (Propagating to Tcl on MCIA)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cleanup-and-reinstallation-for-maintenance">Cleanup and Reinstallation (For Maintenance) 🗑️</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-module-deployment-propagating-to-tcl-on-mcia">8. Step 7: Module Deployment (Propagating to Tcl on MCIA)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cleanup-and-reinstallation-for-maintenance">9. Cleanup and Reinstallation (For Maintenance) 🗑️</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-minimal-configuration-file">Appendix: (Minimal) Configuration file</a></li>
 </ul>
@@ -623,8 +623,8 @@ mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_
 </section>
 </section>
 <hr class="docutils" />
-<section id="prerequisites-and-interactive-session-setup">
-<h2>1. Prerequisites and Interactive Session Setup<a class="headerlink" href="#prerequisites-and-interactive-session-setup" title="Link to this heading">#</a></h2>
+<section id="installation-procedure-followed-for-the-mcia-cluster">
+<h2>Installation procedure followed for the MCIA cluster<a class="headerlink" href="#installation-procedure-followed-for-the-mcia-cluster" title="Link to this heading">#</a></h2>
 <p>It is <strong>highly recommended</strong> to perform this installation within a long-running, stable interactive session.</p>
 <section id="starting-an-interactive-session">
 <h3>Starting an Interactive Session<a class="headerlink" href="#starting-an-interactive-session" title="Link to this heading">#</a></h3>
@@ -645,10 +645,9 @@ Find your <code class="docutils literal notranslate"><span class="pre">&lt;jobid
 </pre></div>
 </div>
 </section>
-</section>
 <hr class="docutils" />
 <section id="step-1-define-environment-variables-and-logging">
-<h2>2. Step 1: Define Environment Variables and Logging 📝<a class="headerlink" href="#step-1-define-environment-variables-and-logging" title="Link to this heading">#</a></h2>
+<h3>Step 1: Define Environment Variables and Logging 📝<a class="headerlink" href="#step-1-define-environment-variables-and-logging" title="Link to this heading">#</a></h3>
 <p>We define all key installation paths and set up logging to capture almost all terminal output.</p>
 <blockquote>
 <div><p><strong>Note:</strong> The use of <code class="docutils literal notranslate"><span class="pre">2&gt;&amp;1</span> <span class="pre">|</span> <span class="pre">tee</span> <span class="pre">-a</span> <span class="pre">${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FILENAME}</span></code> is appended to most commands below to ensure most output (stdout and stderr) are well captured in the log file, while also displaying it in the console. However, <code class="docutils literal notranslate"><span class="pre">export</span></code> and <code class="docutils literal notranslate"><span class="pre">source</span></code> does not work well if it is added.</p>
@@ -689,7 +688,7 @@ Find your <code class="docutils literal notranslate"><span class="pre">&lt;jobid
 </section>
 <hr class="docutils" />
 <section id="step-2-configure-external-modules-gcc-and-cmake">
-<h2>3. Step 2: Configure External Modules (GCC and CMake)<a class="headerlink" href="#step-2-configure-external-modules-gcc-and-cmake" title="Link to this heading">#</a></h2>
+<h3>Step 2: Configure External Modules (GCC and CMake)<a class="headerlink" href="#step-2-configure-external-modules-gcc-and-cmake" title="Link to this heading">#</a></h3>
 <p>We need to identify the exact install paths for our external modules to correctly define them in <code class="docutils literal notranslate"><span class="pre">packages.yaml</span></code>.</p>
 <p>On the cluster you can check the available modules using <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">avail</span></code>. Based on this exhaustive list you can identify the external packages you want to work with but be careful of potential conflicts if different compilers were used, or about consistency between verions.</p>
 <p>In our case, we consider only gcc&#64;13.2.0 and cmake&#64;3.27.6. You can either automate the path identification to limit user error or copy paste them directly in tour packages.yaml by checking <code class="docutils literal notranslate"><span class="pre">module</span> <span class="pre">show</span> <span class="pre">&lt;name_of_the_module&gt;</span></code>.</p>
@@ -697,7 +696,7 @@ Find your <code class="docutils literal notranslate"><span class="pre">&lt;jobid
 <div><p><em>Note:</em> For Openmpi, we use psm2 communication here, with pmix.</p>
 </div></blockquote>
 <section id="automated-path-detection">
-<h3>Automated Path Detection 🔗<a class="headerlink" href="#automated-path-detection" title="Link to this heading">#</a></h3>
+<h4>Automated Path Detection 🔗<a class="headerlink" href="#automated-path-detection" title="Link to this heading">#</a></h4>
 <p>We use a helper function to reliably identify and export the paths for the external <code class="docutils literal notranslate"><span class="pre">gcc&#64;13.2.0</span></code> and <code class="docutils literal notranslate"><span class="pre">cmake&#64;3.27.6</span></code> modules. Execute the following block to find the exact prefix paths for the external modules:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>get_module_path<span class="o">()</span><span class="w"> </span><span class="o">{</span>
 <span class="w">    </span>module<span class="w"> </span>show<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
@@ -721,7 +720,7 @@ module<span class="w"> </span>purge
 </div>
 </section>
 <section id="forcing-cmake-path">
-<h3>Forcing CMake Path<a class="headerlink" href="#forcing-cmake-path" title="Link to this heading">#</a></h3>
+<h4>Forcing CMake Path<a class="headerlink" href="#forcing-cmake-path" title="Link to this heading">#</a></h4>
 <p>(Crucial Fix, see: <a class="reference external" href="https://fenicsproject.discourse.group/t/spack-installation-issue-for-fenicsx-0-9-0-py-fenics-basix-cmake-version-mismatch/18330">Spack Installation Issue for FEniCSx 0.9.0 (py-fenics-basix): CMake Version Mismatch - installation - FEniCS Project</a>)</p>
 <p>This step resolves a common Spack/Python build issue where a system-wide CMake is chosen instead of the correct module version.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ensure force SKBUILD_CMAKE_EXECUTABLE for Python packages</span>
@@ -741,9 +740,9 @@ module<span class="w"> </span>purge
 </section>
 <hr class="docutils" />
 <section id="step-3-initialize-and-configure-spack">
-<h2>4. Step 3: Initialize and Configure Spack ⚙️<a class="headerlink" href="#step-3-initialize-and-configure-spack" title="Link to this heading">#</a></h2>
+<h3>Step 3: Initialize and Configure Spack ⚙️<a class="headerlink" href="#step-3-initialize-and-configure-spack" title="Link to this heading">#</a></h3>
 <section id="spack-setup-and-initialization">
-<h3>Spack Setup and Initialization<a class="headerlink" href="#spack-setup-and-initialization" title="Link to this heading">#</a></h3>
+<h4>Spack Setup and Initialization<a class="headerlink" href="#spack-setup-and-initialization" title="Link to this heading">#</a></h4>
 <p>Clone Spack and source the environment setup script.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create necessary directories</span>
 mkdir<span class="w"> </span>-p<span class="w"> </span><span class="si">${</span><span class="nv">FENICSX_SPACK_ROOT</span><span class="si">}</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span><span class="si">${</span><span class="nv">REPORT_LOG_DIRECTORY</span><span class="si">}</span>/<span class="si">${</span><span class="nv">REPORT_LOG_FILENAME</span><span class="si">}</span>
@@ -772,7 +771,7 @@ spack<span class="w"> </span>debug<span class="w"> </span>report<span class="w">
 </div>
 </section>
 <section id="create-packages-yaml-for-externals">
-<h3>Create <code class="docutils literal notranslate"><span class="pre">packages.yaml</span></code> for Externals<a class="headerlink" href="#create-packages-yaml-for-externals" title="Link to this heading">#</a></h3>
+<h4>Create <code class="docutils literal notranslate"><span class="pre">packages.yaml</span></code> for Externals<a class="headerlink" href="#create-packages-yaml-for-externals" title="Link to this heading">#</a></h4>
 <p>We define the externally provided compiler (<code class="docutils literal notranslate"><span class="pre">gcc</span></code>), build system (<code class="docutils literal notranslate"><span class="pre">cmake</span></code>), and job scheduler (<code class="docutils literal notranslate"><span class="pre">slurm</span></code>). Note the explicit paths for the compiler executables (<code class="docutils literal notranslate"><span class="pre">c</span></code>, <code class="docutils literal notranslate"><span class="pre">cxx</span></code>, <code class="docutils literal notranslate"><span class="pre">fortran</span></code>) and the mandatory <code class="docutils literal notranslate"><span class="pre">languages='c,c++,fortran'</span></code> for the compiler.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Creating packages.yaml at </span><span class="si">${</span><span class="nv">SPACK_PACKAGES_YAML</span><span class="si">}</span><span class="s2">...&quot;</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span><span class="si">${</span><span class="nv">REPORT_LOG_DIRECTORY</span><span class="si">}</span>/<span class="si">${</span><span class="nv">REPORT_LOG_FILENAME</span><span class="si">}</span>
 
@@ -816,10 +815,10 @@ cat<span class="w"> </span><span class="si">${</span><span class="nv">SPACK_PACK
 </section>
 <hr class="docutils" />
 <section id="step-4-define-the-fenicsx-spack-environment-spack-yaml">
-<h2>5. Step 4: Define the FEniCSx Spack Environment (<code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code>) 🌿<a class="headerlink" href="#step-4-define-the-fenicsx-spack-environment-spack-yaml" title="Link to this heading">#</a></h2>
+<h3>Step 4: Define the FEniCSx Spack Environment (<code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code>) 🌿<a class="headerlink" href="#step-4-define-the-fenicsx-spack-environment-spack-yaml" title="Link to this heading">#</a></h3>
 <p>This defines the full dependency graph for the complete FEniCSx stack, including visualization and extra physics libraries required by our team.</p>
 <section id="complete-spack-yaml-configuration">
-<h3>Complete <code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code> Configuration<a class="headerlink" href="#complete-spack-yaml-configuration" title="Link to this heading">#</a></h3>
+<h4>Complete <code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code> Configuration<a class="headerlink" href="#complete-spack-yaml-configuration" title="Link to this heading">#</a></h4>
 <p>This is the complete environment set for MCIA, including specific librairies required by some PhDs of the team:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Creating complete spack.yaml at </span><span class="si">${</span><span class="nv">SPACK_ENV_DIR</span><span class="si">}</span><span class="s2">/spack.yaml...&quot;</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span><span class="si">${</span><span class="nv">REPORT_LOG_DIRECTORY</span><span class="si">}</span>/<span class="si">${</span><span class="nv">REPORT_LOG_FILENAME</span><span class="si">}</span>
 
@@ -909,7 +908,7 @@ spack<span class="w"> </span>concretize
 </section>
 <hr class="docutils" />
 <section id="step-5-install-the-environment">
-<h2>6. Step 5: Install the environment<a class="headerlink" href="#step-5-install-the-environment" title="Link to this heading">#</a></h2>
+<h3>Step 5: Install the environment<a class="headerlink" href="#step-5-install-the-environment" title="Link to this heading">#</a></h3>
 <p>We activate the environment, resolve dependencies (concretize), and start the installation.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Activate the environment. Use -p for persistent activation (recommended for interactive shells).</span>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;spack env activate -p --dir </span><span class="si">${</span><span class="nv">SPACK_ENV_DIR</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span><span class="si">${</span><span class="nv">REPORT_LOG_DIRECTORY</span><span class="si">}</span>/<span class="si">${</span><span class="nv">REPORT_LOG_FILENAME</span><span class="si">}</span>
@@ -961,10 +960,10 @@ spack<span class="w"> </span>install<span class="w"> </span>-j<span class="si">$
 </section>
 <hr class="docutils" />
 <section id="step-6-testing-and-validation">
-<h2>7. Step 6: Testing and Validation ✅<a class="headerlink" href="#step-6-testing-and-validation" title="Link to this heading">#</a></h2>
+<h3>Step 6: Testing and Validation ✅<a class="headerlink" href="#step-6-testing-and-validation" title="Link to this heading">#</a></h3>
 <p>Once installed, confirm the environment is functional, paying close attention to MPI/PSM2 configuration.</p>
 <section id="basic-mpi-test">
-<h3>Basic MPI Test<a class="headerlink" href="#basic-mpi-test" title="Link to this heading">#</a></h3>
+<h4>Basic MPI Test<a class="headerlink" href="#basic-mpi-test" title="Link to this heading">#</a></h4>
 <p>Ensure you are using the right psm2 communication:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ompi_info<span class="w"> </span>--param<span class="w"> </span>mtl<span class="w"> </span>psm2<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span><span class="si">${</span><span class="nv">REPORT_LOG_DIRECTORY</span><span class="si">}</span>/<span class="si">${</span><span class="nv">REPORT_LOG_FILENAME</span><span class="si">}</span>
 <span class="c1"># expect MCA mtl: psm2 (MCA v2.1.0, API v2.0.0, Component v5.0.8)</span>
@@ -985,14 +984,14 @@ mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_
 </div>
 </section>
 <section id="debugging-pmix-psm2-errors">
-<h3>Debugging PMIX/PSM2 Errors<a class="headerlink" href="#debugging-pmix-psm2-errors" title="Link to this heading">#</a></h3>
+<h4>Debugging PMIX/PSM2 Errors<a class="headerlink" href="#debugging-pmix-psm2-errors" title="Link to this heading">#</a></h4>
 <p>If the PMIX transport error persists, test with a fallback MCA configuration:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mpirun<span class="w"> </span>-n<span class="w"> </span><span class="m">4</span><span class="w"> </span>--mca<span class="w"> </span>pml<span class="w"> </span>ob1<span class="w"> </span>--mca<span class="w"> </span>btl<span class="w"> </span>self,vader<span class="w"> </span>--mca<span class="w"> </span>orte_precondition_transports<span class="w"> </span><span class="nb">false</span><span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from mpi4py import MPI; import dolfinx; comm = MPI.COMM_WORLD; rank = comm.Get_rank(); size = comm.Get_size(); print(f&#39;Hello from rank {rank} out of {size} processes, dolfinx v {dolfinx.__version__}&#39;)&quot;</span><span class="w">  </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span><span class="si">${</span><span class="nv">REPORT_LOG_DIRECTORY</span><span class="si">}</span>/<span class="si">${</span><span class="nv">REPORT_LOG_FILENAME</span><span class="si">}</span>
 </pre></div>
 </div>
 </section>
 <section id="missing-python-bindings">
-<h3>Missing Python bindings:<a class="headerlink" href="#missing-python-bindings" title="Link to this heading">#</a></h3>
+<h4>Missing Python bindings:<a class="headerlink" href="#missing-python-bindings" title="Link to this heading">#</a></h4>
 <p>If a python binding is missing like for nlopt, if you use spack directly (and not module load that handles it already), add:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span>/gpfs/softs/contrib/apps/fenicsx/spack-src-28.10.2025/opt/spack/linux-skylake_avx512/nlopt-2.9.1-joq7eb4qexm46mtfyhukmc6zxabfcrve/lib64/python3.11/site-packages:<span class="nv">$PYTHONPATH</span>
 </pre></div>
@@ -1001,7 +1000,7 @@ mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_
 </section>
 <hr class="docutils" />
 <section id="step-7-module-deployment-propagating-to-tcl-on-mcia">
-<h2>8. Step 7: Module Deployment (Propagating to Tcl on MCIA)<a class="headerlink" href="#step-7-module-deployment-propagating-to-tcl-on-mcia" title="Link to this heading">#</a></h2>
+<h3>Step 7: Module Deployment (Propagating to Tcl on MCIA)<a class="headerlink" href="#step-7-module-deployment-propagating-to-tcl-on-mcia" title="Link to this heading">#</a></h3>
 <p>This step generates the final Tcl modulefile for system-wide access. This file must be placed in a directory sourced by the cluster’s module system. Notably it sets the missing variables automatically and loads the view (i.e. the whole spack environment) under a single flag: <code class="docutils literal notranslate"><span class="pre">fenicsx/0.9.0</span></code>.</p>
 <p>Create the target directory for the modulefile:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">MODULEFILE_PREFIX</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -1091,7 +1090,7 @@ mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_
 </section>
 <hr class="docutils" />
 <section id="cleanup-and-reinstallation-for-maintenance">
-<h2>9. Cleanup and Reinstallation (For Maintenance) 🗑️<a class="headerlink" href="#cleanup-and-reinstallation-for-maintenance" title="Link to this heading">#</a></h2>
+<h3>Cleanup and Reinstallation (For Maintenance) 🗑️<a class="headerlink" href="#cleanup-and-reinstallation-for-maintenance" title="Link to this heading">#</a></h3>
 <p>These commands are for maintenance purposes if a complete fresh start is required. <strong>Run these manually outside of the installation log script.</strong></p>
 <p>The spack got broken because of a single package (let’s say pip install XXX). Reinstall only python and bindings:</p>
 <blockquote>
@@ -1124,6 +1123,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><
 rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><span class="nv">MODULEFILE_PREFIX</span><span class="si">}</span>/<span class="si">${</span><span class="nv">FENICSX_VERSION</span><span class="si">}</span>
 </pre></div>
 </div>
+</section>
 </section>
 <hr class="docutils" />
 <section id="resources">
@@ -1248,35 +1248,35 @@ rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-spack-environment-directly">Using Spack Environment Directly</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#prerequisites-and-interactive-session-setup">1. Prerequisites and Interactive Session Setup</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-procedure-followed-for-the-mcia-cluster">Installation procedure followed for the MCIA cluster</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-an-interactive-session">Starting an Interactive Session</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cleaning-the-environment">Cleaning the Environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-define-environment-variables-and-logging">Step 1: Define Environment Variables and Logging 📝</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-configure-external-modules-gcc-and-cmake">Step 2: Configure External Modules (GCC and CMake)</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#automated-path-detection">Automated Path Detection 🔗</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#forcing-cmake-path">Forcing CMake Path</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-define-environment-variables-and-logging">2. Step 1: Define Environment Variables and Logging 📝</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-configure-external-modules-gcc-and-cmake">3. Step 2: Configure External Modules (GCC and CMake)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automated-path-detection">Automated Path Detection 🔗</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forcing-cmake-path">Forcing CMake Path</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-initialize-and-configure-spack">Step 3: Initialize and Configure Spack ⚙️</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#spack-setup-and-initialization">Spack Setup and Initialization</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#create-packages-yaml-for-externals">Create <code class="docutils literal notranslate"><span class="pre">packages.yaml</span></code> for Externals</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-initialize-and-configure-spack">4. Step 3: Initialize and Configure Spack ⚙️</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spack-setup-and-initialization">Spack Setup and Initialization</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-packages-yaml-for-externals">Create <code class="docutils literal notranslate"><span class="pre">packages.yaml</span></code> for Externals</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-define-the-fenicsx-spack-environment-spack-yaml">Step 4: Define the FEniCSx Spack Environment (<code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code>) 🌿</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-spack-yaml-configuration">Complete <code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code> Configuration</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-define-the-fenicsx-spack-environment-spack-yaml">5. Step 4: Define the FEniCSx Spack Environment (<code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code>) 🌿</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-spack-yaml-configuration">Complete <code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code> Configuration</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-install-the-environment">Step 5: Install the environment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-testing-and-validation">Step 6: Testing and Validation ✅</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-mpi-test">Basic MPI Test</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-pmix-psm2-errors">Debugging PMIX/PSM2 Errors</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-python-bindings">Missing Python bindings:</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-install-the-environment">6. Step 5: Install the environment</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-testing-and-validation">7. Step 6: Testing and Validation ✅</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-mpi-test">Basic MPI Test</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-pmix-psm2-errors">Debugging PMIX/PSM2 Errors</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-python-bindings">Missing Python bindings:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-module-deployment-propagating-to-tcl-on-mcia">Step 7: Module Deployment (Propagating to Tcl on MCIA)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cleanup-and-reinstallation-for-maintenance">Cleanup and Reinstallation (For Maintenance) 🗑️</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-7-module-deployment-propagating-to-tcl-on-mcia">8. Step 7: Module Deployment (Propagating to Tcl on MCIA)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cleanup-and-reinstallation-for-maintenance">9. Cleanup and Reinstallation (For Maintenance) 🗑️</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-minimal-configuration-file">Appendix: (Minimal) Configuration file</a></li>
 </ul>
