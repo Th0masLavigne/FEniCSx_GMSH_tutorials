@@ -18,7 +18,7 @@ alias hpc_connect='ssh <username>@curta.mcia.fr'
 
 >*Note:* Remember to replace <username> with your actual cluster username.
 
-### 📁 Access files onlide (upload/download)
+### 📁 Access files online (upload/download)
 The [https://curta3.mcia.fr/](https://curta3.mcia.fr/) web service allows users to access Curta from a web browser using the Open OnDemand software.
 
 
