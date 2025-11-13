@@ -50,11 +50,11 @@ This template demonstrates how to properly configure a Slurm batch script to loa
 # ==============================================================================
 #SBATCH --job-name=fenicsx_test_two_nodes
 #SBATCH --constraint=compute
-#SBATCH --nodes=2
+#SBATCH --nodes=1
 #SBATCH --ntasks=4                      # Total number of MPI processes (4 total)
-#SBATCH --tasks-per-node=2              # Processes per node (2 per node on 2 nodes = 4 total)
-#SBATCH --time=0-00:35:00               # Short runtime
-#SBATCH --mem=8GB                       # Total memory reserved for the job
+##SBATCH --tasks-per-node=2              # Processes per node (2 per node on 2 nodes = 4 total)
+#SBATCH --time=0-01:00:00               # Short runtime
+#SBATCH --mem=16GB                       # Total memory reserved for the job
 ##SBATCH --mem-per-cpu=8g              # Alternative: Request memory per core
 #SBATCH --output=slurm_test_%j.out
 #SBATCH --error=slurm_test_%j.err
@@ -112,6 +112,11 @@ mpirun -n $SLURM_NTASKS python <filename>.py
 # 4. POST-PROCESSING (OPTIONAL)
 # ==============================================================================
 echo "Job finished at $(date)"
+
+echo "After a job finishes you can see the real use of CPUs and memory"
+echo "1. module load slurm/wrappers"
+echo "2. seff <job-id>"
+echo "3. module purge"
 ```
 
 ### Using the Generated Module (Recommended)
