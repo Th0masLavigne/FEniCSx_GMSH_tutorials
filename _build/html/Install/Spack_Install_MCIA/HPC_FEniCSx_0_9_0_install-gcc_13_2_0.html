@@ -515,6 +515,8 @@ document.write(`
 <span class="c1"># ==============================================================================</span>
 <span class="c1">#SBATCH --job-name=fenicsx_test_two_nodes</span>
 <span class="c1">#SBATCH --constraint=compute</span>
+<span class="c1">##SBATCH -p i2m,i2m-resources</span>
+<span class="c1">#SBATCH --partition=i2m,i2m-resources</span>
 <span class="c1">#SBATCH --nodes=1</span>
 <span class="c1">#SBATCH --ntasks=4                      # Total number of MPI processes (4 total)</span>
 <span class="c1">##SBATCH --tasks-per-node=2              # Processes per node (2 per node on 2 nodes = 4 total)</span>
