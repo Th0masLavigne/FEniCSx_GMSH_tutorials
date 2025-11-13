@@ -5,6 +5,8 @@
 # ==============================================================================
 #SBATCH --job-name=fenicsx_test_two_nodes
 #SBATCH --constraint=compute
+##SBATCH -p i2m,i2m-resources
+#SBATCH --partition=i2m,i2m-resources
 #SBATCH --nodes=1
 #SBATCH --ntasks=4                      # Total number of MPI processes (4 total)
 ##SBATCH --tasks-per-node=2              # Processes per node (2 per node on 2 nodes = 4 total)
