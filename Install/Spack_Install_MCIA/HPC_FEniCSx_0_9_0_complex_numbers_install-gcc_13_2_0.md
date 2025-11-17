@@ -394,12 +394,7 @@ echo "Starting FEniCSx installation (using ${NCORES} cores for -j)..." 2>&1 | te
 spack install -j${NCORES} %gcc@13.2.0 --fail-fast 2>&1 | tee -a ${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FILENAME}
 
 echo "FEniCSx installation complete. $(date +'%Y-%m-%d_%H-%M-%S'). View installed packages at: ${FENICSX_SPACK_CONFIG_ROOT}/envs/fenicsx/0.9.0/shared/.spack-env/view" 2>&1 | tee -a ${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FILENAME}
-
-
 ```
-
-> *Note:* For VTK or LLVM for example, the installation times are quite long (up to 12 hours each). 
-
 
 If you need more info about where is the package installed to check for example if multiply installed, run:
 ```bash

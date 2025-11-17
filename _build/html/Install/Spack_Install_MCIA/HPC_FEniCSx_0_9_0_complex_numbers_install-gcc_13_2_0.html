@@ -60,7 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'Install/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_complex_numbers_install-gcc_13_2_0';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Spack Installation" href="../Spack_Install_FEniCSx/README.html" />
+    <link rel="next" title="Spack Installation (CASSIOPEE)" href="../Spack_Install_FEniCSx/README.html" />
     <link rel="prev" title="📖 FEniCSx v0.9.0 Installation on HPC (MCIA)" href="HPC_FEniCSx_0_9_0_install-gcc_13_2_0.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -180,7 +180,7 @@
 
 <li class="toctree-l1"><a class="reference internal" href="HPC_FEniCSx_0_9_0_install-gcc_13_2_0.html">Spack Installation (MCIA)</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Complex Support - Spack Installation (MCIA)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Spack_Install_FEniCSx/README.html">Spack Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spack_Install_FEniCSx/README.html">Spack Installation (CASSIOPEE)</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="../WSL_Docker_installer/README.html">WSL Docker Installer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../WSL_Local_installer/README.html">WSL Local Installer</a></li>
@@ -833,9 +833,6 @@ spack<span class="w"> </span>install<span class="w"> </span>-j<span class="si">$
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;FEniCSx installation complete. </span><span class="k">$(</span>date<span class="w"> </span>+<span class="s1">&#39;%Y-%m-%d_%H-%M-%S&#39;</span><span class="k">)</span><span class="s2">. View installed packages at: </span><span class="si">${</span><span class="nv">FENICSX_SPACK_CONFIG_ROOT</span><span class="si">}</span><span class="s2">/envs/fenicsx/0.9.0/shared/.spack-env/view&quot;</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span><span class="si">${</span><span class="nv">REPORT_LOG_DIRECTORY</span><span class="si">}</span>/<span class="si">${</span><span class="nv">REPORT_LOG_FILENAME</span><span class="si">}</span>
 </pre></div>
 </div>
-<blockquote>
-<div><p><em>Note:</em> For VTK or LLVM for example, the installation times are quite long (up to 12 hours each).</p>
-</div></blockquote>
 <p>If you need more info about where is the package installed to check for example if multiply installed, run:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spack<span class="w"> </span>location<span class="w"> </span>-i<span class="w"> </span>openmpi
 spack<span class="w"> </span>find<span class="w"> </span>-p<span class="w"> </span>openmpi
@@ -846,7 +843,7 @@ spack<span class="w"> </span>find<span class="w"> </span>-p<span class="w"> </sp
 <code class="docutils literal notranslate"><span class="pre">spack</span> <span class="pre">install</span> <span class="pre">--overwrite</span> <span class="pre">-j${NCORES}</span> <span class="pre">fenics-basix</span> <span class="pre">py-fenics-basix</span> <span class="pre">py-fenics-ffcx</span> <span class="pre">fenics-ufcx</span> <span class="pre">py-fenics-ufl</span> <span class="pre">fenics-dolfinx</span> <span class="pre">py-fenics-dolfinx</span></code></p>
 </div></blockquote>
 <p>Some packages might fail to install probably due to fetching step. For these missing packages identified with <code class="docutils literal notranslate"><span class="pre">spack</span> <span class="pre">find</span> <span class="pre">-c</span></code>, you can reinstall immediatly them using (and now everything should be installed). For example:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spack<span class="w"> </span>install<span class="w"> </span>-j<span class="si">${</span><span class="nv">NCORES</span><span class="si">}</span><span class="w"> </span>%gcc@13.2.0<span class="w"> </span>gsl@2.8<span class="w"> </span>neper@4.10.1<span class="w"> </span>py-adios4dolfinx@0.9.4<span class="w"> </span>py-certifi@2025.7.14<span class="w"> </span>py-charset-normalizer@3.4.4<span class="w"> </span>py-gmsh@4.13.1<span class="w"> </span>py-h5py@3.13.0<span class="w"> </span>py-idna@3.10<span class="w"> </span>py-imageio@2.37.0<span class="w"> </span>py-mako@1.3.10<span class="w"> </span>py-meshio@5.0.1<span class="w"> </span>py-pkgconfig@1.5.5<span class="w"> </span>py-platformdirs@4.4.0<span class="w"> </span>py-poetry-core@2.2.0<span class="w"> </span>py-pooch@1.8.2<span class="w"> </span>py-pyaml@21.8.3<span class="w"> </span>py-pygmsh@7.1.17<span class="w"> </span>py-python-pptx@0.6.23<span class="w"> </span>py-pyvista@0.46.3<span class="w"> </span>py-pyyaml@6.0.3<span class="w"> </span>py-requests@2.32.5<span class="w"> </span>py-rtree@1.4.1<span class="w"> </span>py-scikit-optimize@0.9.0<span class="w"> </span>py-scooby@0.10.0<span class="w"> </span>py-seaborn@0.13.2<span class="w"> </span>py-trimesh@3.17.1<span class="w"> </span>py-typing-extensions@4.14.1<span class="w"> </span>py-urllib3@2.5.0<span class="w"> </span>py-xlsxwriter@3.1.7<span class="w"> </span>xcb-proto@1.17.0
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spack<span class="w"> </span>install<span class="w"> </span>-j<span class="si">${</span><span class="nv">NCORES</span><span class="si">}</span><span class="w"> </span>%gcc@13.2.0<span class="w"> </span>gsl@2.8<span class="w"> </span>py-gmsh@4.13.1<span class="w"> </span>py-h5py@3.13.0<span class="w"> </span>
 </pre></div>
 </div>
 <blockquote>
@@ -977,32 +974,32 @@ mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_
 <span class="s">setenv FENICSX_HOME &quot;$env(FENICSX_VIEW)&quot;</span>
 <span class="s">setenv FENICSX_SPACK_ENV &quot;$env(FENICSX_ENV_ROOT)&quot;</span>
 
-<span class="s">puts &quot;# ============================================================&quot;</span>
+<span class="s">puts &quot;# &#39;============================================================&#39;&quot;</span>
 <span class="s">puts &quot;# Loaded FEniCSx 0.9.0 complex number support (shared Spack environment)&quot;</span>
-<span class="s">puts &quot;# ============================================================&quot;</span>
+<span class="s">puts &quot;# &#39;============================================================&#39;&quot;</span>
 <span class="s">puts &quot;Using view: $env(FENICSX_VIEW)&quot;</span>
 <span class="s">puts &quot;Using OMPI_MCA_orte_precondition_transports: $key&quot;</span>
 <span class="s">puts &quot;# FEniCSx Core Components&quot;</span>
-<span class="s">puts  &quot;- fenics-dolfinx@${FENICSX_VERSION}+adios2+petsc&quot;</span>
-<span class="s">puts  &quot;- py-fenics-dolfinx@${FENICSX_VERSION}+petsc4py+slepc4py&quot;</span>
-<span class="s">puts  &quot;- py-fenics-ffcx@${FENICSX_VERSION}&quot;</span>
-<span class="s">puts  &quot;- fenics-ufcx&quot;</span>
-<span class="s">puts  &quot;- py-fenics-ufl@2024.2.0&quot;</span>
-<span class="s">puts  &quot;- py-fenics-basix@${FENICSX_VERSION}&quot;</span>
-<span class="s">puts  &quot;- fenics-basix@${FENICSX_VERSION}&quot;</span>
-<span class="s">puts  &quot;# To respect omnipath, add fabrics psm2 and slurm management and PMI&quot;</span>
-<span class="s">puts  &quot;- openmpi@5.0.8 fabrics=psm2 schedulers=slurm &quot;</span>
-<span class="s">puts  &quot;# Other Dependencies&quot;</span>
-<span class="s">puts  &quot;# Complex PETSc&quot;</span>
-<span class="s">puts  &quot;- petsc+mumps+fortran+superlu-dist~trilinos+complex&quot;</span>
-<span class="s">puts  &quot;- adios2~sst+python&quot;</span>
-<span class="s">puts  &quot;- hdf5+hl+shared+mpi #by default, hdf5 was without hl causing crash&quot;</span>
-<span class="s">puts  &quot;# Common Python Libraries&quot;</span>
-<span class="s">puts  &quot;- python&quot;</span>
-<span class="s">puts  &quot;- py-pip&quot;</span>
-<span class="s">puts  &quot;- py-setuptools&quot;</span>
-<span class="s">puts  &quot;- py-wheel&quot;</span>
-<span class="s">puts  &quot;- python-venv&quot;</span>
+<span class="s">puts  &quot;&#39;- fenics-dolfinx@0.9.0+adios2+petsc&#39;&quot;</span>
+<span class="s">puts  &quot;&#39;- py-fenics-dolfinx@0.9.0+petsc4py+slepc4py&#39;&quot;</span>
+<span class="s">puts  &quot;&#39;- py-fenics-ffcx@0.9.0&#39;&quot;</span>
+<span class="s">puts  &quot;&#39;- fenics-ufcx&#39;&quot;</span>
+<span class="s">puts  &quot;&#39;- py-fenics-ufl@2024.2.0&#39;&quot;</span>
+<span class="s">puts  &quot;&#39;- py-fenics-basix@0.9.0&#39;&quot;</span>
+<span class="s">puts  &quot;&#39;- fenics-basix@0.9.0&#39;&quot;</span>
+<span class="s">puts  &quot; echo  To respect omnipath, add fabrics psm2 and slurm management and PMI&quot;</span>
+<span class="s">puts  &quot;&#39;- openmpi@5.0.8 fabrics=psm2 schedulers=slurm &#39;&quot;</span>
+<span class="s">puts  &quot; echo  Other Dependencies&quot;</span>
+<span class="s">puts  &quot; echo  Complex PETSc&quot;</span>
+<span class="s">puts  &quot;&#39;- petsc+mumps+fortran+superlu-dist~trilinos+complex&#39;&quot;</span>
+<span class="s">puts  &quot;&#39;- adios2~sst+python&#39;&quot;</span>
+<span class="s">puts  &quot;&#39;- hdf5+hl+shared+mpi&#39;&quot;</span>
+<span class="s">puts  &quot; echo  Common Python Libraries&quot;</span>
+<span class="s">puts  &quot;&#39;- python&#39;&quot;</span>
+<span class="s">puts  &quot;&#39;- py-pip&#39;&quot;</span>
+<span class="s">puts  &quot;&#39;- py-setuptools&#39;&quot;</span>
+<span class="s">puts  &quot;&#39;- py-wheel&#39;&quot;</span>
+<span class="s">puts  &quot;&#39;- python-venv&#39;&quot;</span>
 <span class="s">puts &quot;# ============================================================&quot;</span>
 <span class="s">puts &quot;# ============================================================&quot;</span>
 
@@ -1108,7 +1105,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Spack Installation</p>
+        <p class="prev-next-title">Spack Installation (CASSIOPEE)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
