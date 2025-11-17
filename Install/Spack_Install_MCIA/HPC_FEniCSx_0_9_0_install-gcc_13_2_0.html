@@ -182,7 +182,7 @@
 
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Spack Installation (MCIA)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="HPC_FEniCSx_0_9_0_complex_numbers_install-gcc_13_2_0.html">Complex Support - Spack Installation (MCIA)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../Spack_Install_FEniCSx/README.html">Spack Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Spack_Install_FEniCSx/README.html">Spack Installation (CASSIOPEE)</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="../WSL_Docker_installer/README.html">WSL Docker Installer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../WSL_Local_installer/README.html">WSL Local Installer</a></li>
@@ -1089,59 +1089,59 @@ mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_
 <span class="s">setenv FENICSX_HOME &quot;$env(FENICSX_VIEW)&quot;</span>
 <span class="s">setenv FENICSX_SPACK_ENV &quot;$env(FENICSX_ENV_ROOT)&quot;</span>
 
-<span class="s">puts &quot;# ============================================================&quot;</span>
-<span class="s">puts &quot;# Loaded FEniCSx 0.9.0 (shared Spack environment)&quot;</span>
-<span class="s">puts &quot;# ============================================================&quot;</span>
+<span class="s">puts &quot;echo &#39;============================================================&#39; &quot;</span>
+<span class="s">puts &quot;echo &#39;Loaded FEniCSx 0.9.0 (shared Spack environment)&#39;&quot;</span>
+<span class="s">puts &quot;echo &#39;============================================================&#39;&quot;</span>
 <span class="s"># puts stderr &quot;&gt;&gt; Loaded FEniCSx 0.9.0 (shared Spack environment)&quot;</span>
 <span class="s"># puts stderr &quot;&gt;&gt; Using view: $env(FENICSX_VIEW)&quot;</span>
 <span class="s"># puts stderr &quot;&gt;&gt; Using OMPI_MCA_orte_precondition_transports: $key&quot;</span>
-<span class="s">puts &quot;Using view: $env(FENICSX_VIEW)&quot;</span>
-<span class="s">puts &quot;Using OMPI_MCA_orte_precondition_transports: $key&quot;</span>
-<span class="s">puts &quot;# FEniCSx Core Components&quot;</span>
-<span class="s">puts  &quot;- fenics-dolfinx@${FENICSX_VERSION}+adios2+petsc&quot;</span>
-<span class="s">puts  &quot;- py-fenics-dolfinx@${FENICSX_VERSION}+petsc4py+slepc4py&quot;</span>
-<span class="s">puts  &quot;- py-fenics-ffcx@${FENICSX_VERSION}&quot;</span>
-<span class="s">puts  &quot;- fenics-ufcx&quot;</span>
-<span class="s">puts  &quot;- py-fenics-ufl@2024.2.0&quot;</span>
-<span class="s">puts  &quot;- py-fenics-basix@${FENICSX_VERSION}&quot;</span>
-<span class="s">puts  &quot;- fenics-basix@${FENICSX_VERSION}&quot;</span>
-<span class="s">puts  &quot;# To respect omnipath, add fabrics psm2 and slurm management and PMI&quot;</span>
-<span class="s">puts  &quot;- openmpi@5.0.8 fabrics=psm2 schedulers=slurm &quot;</span>
-<span class="s">puts  &quot;# Other Dependencies&quot;</span>
-<span class="s">puts  &quot;- petsc+mumps+fortran+superlu-dist~trilinos&quot;</span>
-<span class="s">puts  &quot;- adios2~sst+python&quot;</span>
-<span class="s">puts  &quot;- gmsh+opencascade&quot;</span>
-<span class="s">puts  &quot;- vtk@9.5.1+mpi+python+shared&quot;</span>
-<span class="s">puts  &quot;- hdf5+hl+shared+mpi #by default, hdf5 was without hl causing crash&quot;</span>
-<span class="s">puts  &quot;# Common Python Libraries&quot;</span>
-<span class="s">puts  &quot;- python&quot;</span>
-<span class="s">puts  &quot;- py-pip&quot;</span>
-<span class="s">puts  &quot;- py-setuptools&quot;</span>
-<span class="s">puts  &quot;- py-wheel&quot;</span>
-<span class="s">puts  &quot;- python-venv&quot;</span>
-<span class="s">puts  &quot;- py-gmsh&quot;</span>
-<span class="s">puts  &quot;- py-pygmsh&quot;</span>
-<span class="s">puts  &quot;- py-numba&quot;</span>
-<span class="s">puts  &quot;- py-scipy&quot;</span>
-<span class="s">puts  &quot;- py-statsmodels&quot;</span>
-<span class="s">puts  &quot;- py-matplotlib&quot;</span>
-<span class="s">puts  &quot;- py-imageio&quot;</span>
-<span class="s">puts  &quot;- py-adios4dolfinx&quot;</span>
-<span class="s">puts  &quot;- py-trimesh&quot;</span>
-<span class="s">puts  &quot;- py-rtree&quot;</span>
-<span class="s">puts  &quot;- py-numpy&quot;</span>
-<span class="s">puts  &quot;- py-pandas&quot;</span>
-<span class="s">puts  &quot;- py-pyvista&quot;</span>
-<span class="s">puts  &quot;- py-h5py&quot;</span>
-<span class="s">puts  &quot;# Other Libraries&quot;</span>
-<span class="s">puts  &quot;- nlopt+python&quot;</span>
-<span class="s">puts  &quot;- neper&quot;</span>
-<span class="s">puts  &quot;- py-pytz&quot;</span>
-<span class="s">puts  &quot;- py-scikit-optimize&quot;</span>
-<span class="s">puts  &quot;- py-seaborn&quot;</span>
-<span class="s">puts  &quot;- py-python-pptx&quot;</span>
-<span class="s">puts &quot;# ============================================================&quot;</span>
-<span class="s">puts &quot;# ============================================================&quot;</span>
+<span class="s">puts &quot;echo Using view: $env(FENICSX_VIEW)&quot;</span>
+<span class="s">puts &quot;echo Using OMPI_MCA_orte_precondition_transports: $key&quot;</span>
+<span class="s">puts &quot;echo &#39;# FEniCSx Core Components&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- fenics-dolfinx@0.9.0+adios2+petsc&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-fenics-dolfinx@0.9.0+petsc4py+slepc4py&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-fenics-ffcx@0.9.0&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- fenics-ufcx&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-fenics-ufl@2024.2.0&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-fenics-basix@0.9.0&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- fenics-basix@0.9.0&#39;&quot;</span>
+<span class="s">puts  &quot; echo  To respect omnipath, add fabrics psm2 and slurm management and PMI&quot;</span>
+<span class="s">puts  &quot; echo &#39;- openmpi@5.0.8 fabrics=psm2 schedulers=slurm &#39;&quot;</span>
+<span class="s">puts  &quot; echo  Other Dependencies&quot;</span>
+<span class="s">puts  &quot; echo &#39;- petsc+mumps+fortran+superlu-dist~trilinos&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- adios2~sst+python&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- gmsh+opencascade&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- vtk@9.5.1+mpi+python+shared&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- hdf5+hl+shared+mpi&#39; &quot;</span>
+<span class="s">puts  &quot; echo  Common Python Libraries&quot;</span>
+<span class="s">puts  &quot; echo &#39;- python&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-pip&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-setuptools&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-wheel&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- python-venv&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-gmsh&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-pygmsh&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-numba&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-scipy&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-statsmodels&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-matplotlib&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-imageio&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-adios4dolfinx&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-trimesh&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-rtree&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-numpy&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-pandas&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-pyvista&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-h5py&#39;&quot;</span>
+<span class="s">puts  &quot; echo  Other Libraries&quot;</span>
+<span class="s">puts  &quot; echo &#39;- nlopt+python&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- neper&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-pytz&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-scikit-optimize&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-seaborn&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;- py-python-pptx&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;============================================================&#39;&quot;</span>
+<span class="s">puts  &quot; echo &#39;============================================================&#39;&quot;</span>
 
 <span class="s">EOF</span>
 </pre></div>

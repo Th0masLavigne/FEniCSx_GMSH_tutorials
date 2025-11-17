@@ -396,9 +396,6 @@ spack install -j${NCORES} %gcc@13.2.0 --fail-fast 2>&1 | tee -a ${REPORT_LOG_DIR
 echo "FEniCSx installation complete. $(date +'%Y-%m-%d_%H-%M-%S'). View installed packages at: ${FENICSX_SPACK_CONFIG_ROOT}/envs/fenicsx/0.9.0/shared/.spack-env/view" 2>&1 | tee -a ${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FILENAME}
 ```
 
-> *Note:* For VTK or LLVM for example, the installation times are quite long (up to 12 hours each). 
-
-
 If you need more info about where is the package installed to check for example if multiply installed, run:
 ```bash
 spack location -i openmpi
@@ -411,7 +408,7 @@ spack find -p openmpi
 
 Some packages might fail to install probably due to fetching step. For these missing packages identified with `spack find -c`, you can reinstall immediatly them using (and now everything should be installed). For example: 
 ```bash
-spack install -j${NCORES} %gcc@13.2.0 gsl@2.8 neper@4.10.1 py-adios4dolfinx@0.9.4 py-certifi@2025.7.14 py-charset-normalizer@3.4.4 py-gmsh@4.13.1 py-h5py@3.13.0 py-idna@3.10 py-imageio@2.37.0 py-mako@1.3.10 py-meshio@5.0.1 py-pkgconfig@1.5.5 py-platformdirs@4.4.0 py-poetry-core@2.2.0 py-pooch@1.8.2 py-pyaml@21.8.3 py-pygmsh@7.1.17 py-python-pptx@0.6.23 py-pyvista@0.46.3 py-pyyaml@6.0.3 py-requests@2.32.5 py-rtree@1.4.1 py-scikit-optimize@0.9.0 py-scooby@0.10.0 py-seaborn@0.13.2 py-trimesh@3.17.1 py-typing-extensions@4.14.1 py-urllib3@2.5.0 py-xlsxwriter@3.1.7 xcb-proto@1.17.0
+spack install -j${NCORES} %gcc@13.2.0 gsl@2.8 py-gmsh@4.13.1 py-h5py@3.13.0 
 ```
 
 > **Handling Installation Failures:** If packages fail (often due to timeouts/network issues), re-force installation for the specific failed packages.
@@ -552,32 +549,32 @@ if {[info exists env(SLURM_JOB_ID)]} {
 setenv FENICSX_HOME "$env(FENICSX_VIEW)"
 setenv FENICSX_SPACK_ENV "$env(FENICSX_ENV_ROOT)"
 
-puts "# ============================================================"
+puts "# '============================================================'"
 puts "# Loaded FEniCSx 0.9.0 complex number support (shared Spack environment)"
-puts "# ============================================================"
+puts "# '============================================================'"
 puts "Using view: $env(FENICSX_VIEW)"
 puts "Using OMPI_MCA_orte_precondition_transports: $key"
 puts "# FEniCSx Core Components"
-puts  "- fenics-dolfinx@${FENICSX_VERSION}+adios2+petsc"
-puts  "- py-fenics-dolfinx@${FENICSX_VERSION}+petsc4py+slepc4py"
-puts  "- py-fenics-ffcx@${FENICSX_VERSION}"
-puts  "- fenics-ufcx"
-puts  "- py-fenics-ufl@2024.2.0"
-puts  "- py-fenics-basix@${FENICSX_VERSION}"
-puts  "- fenics-basix@${FENICSX_VERSION}"
-puts  "# To respect omnipath, add fabrics psm2 and slurm management and PMI"
-puts  "- openmpi@5.0.8 fabrics=psm2 schedulers=slurm "
-puts  "# Other Dependencies"
-puts  "# Complex PETSc"
-puts  "- petsc+mumps+fortran+superlu-dist~trilinos+complex"
-puts  "- adios2~sst+python"
-puts  "- hdf5+hl+shared+mpi #by default, hdf5 was without hl causing crash"
-puts  "# Common Python Libraries"
-puts  "- python"
-puts  "- py-pip"
-puts  "- py-setuptools"
-puts  "- py-wheel"
-puts  "- python-venv"
+puts  "'- fenics-dolfinx@0.9.0+adios2+petsc'"
+puts  "'- py-fenics-dolfinx@0.9.0+petsc4py+slepc4py'"
+puts  "'- py-fenics-ffcx@0.9.0'"
+puts  "'- fenics-ufcx'"
+puts  "'- py-fenics-ufl@2024.2.0'"
+puts  "'- py-fenics-basix@0.9.0'"
+puts  "'- fenics-basix@0.9.0'"
+puts  " echo  To respect omnipath, add fabrics psm2 and slurm management and PMI"
+puts  "'- openmpi@5.0.8 fabrics=psm2 schedulers=slurm '"
+puts  " echo  Other Dependencies"
+puts  " echo  Complex PETSc"
+puts  "'- petsc+mumps+fortran+superlu-dist~trilinos+complex'"
+puts  "'- adios2~sst+python'"
+puts  "'- hdf5+hl+shared+mpi'"
+puts  " echo  Common Python Libraries"
+puts  "'- python'"
+puts  "'- py-pip'"
+puts  "'- py-setuptools'"
+puts  "'- py-wheel'"
+puts  "'- python-venv'"
 puts "# ============================================================"
 puts "# ============================================================"
 
