@@ -101,7 +101,7 @@ echo "Number of nodes requested: $SLURM_NNODES"
 echo "Total MPI tasks: $SLURM_NTASKS"
 
 echo "Elementary test..."
-mpirun -n $SLURM_NTASKS python -c "from mpi4py import MPI; import dolfinx; comm = MPI.COMM_WORLD; rank = comm.Get_rank(); size = comm.Get_size(); print(f'Hello from rank {rank} out of {size} processes, dolfinx v {dolfinx.__version__}')"
+mpirun -n $SLURM_NTASKS python -c "from mpi4py import MPI; import dolfinx; comm = MPI.COMM_WORLD; rank = comm.Get_rank(); size = comm.Get_size(); print(f'Hello from rank {rank} out of {size} processes, dolfinx v {dolfinx.__version__}');from petsc4py import PETSc; from dolfinx.fem.petsc import assemble_vector; print(PETSc.ScalarType);"
 
 # Execute the parallel Python script using mpirun
 # mpirun uses the OpenMPI instance loaded by the FEniCSx module
@@ -381,6 +381,9 @@ spack:
   
   - py-fenics-basix@${FENICSX_VERSION}
   - fenics-basix@${FENICSX_VERSION}
+  
+  # see: https://jsdokken.com/dolfinx_mpc/README.html
+  # - py-dolfinx-mpc
 
   # To respect omnipath, add fabrics psm2 and slurm management and PMI
   - openmpi@5.0.8 fabrics=psm2 schedulers=slurm 
@@ -611,7 +614,8 @@ prepend-path PYTHONPATH "/gpfs/softs/contrib/apps/fenicsx/spack-src-28.10.2025/o
 # setenv UCX_NET_DEVICES "all"
 
 # ============================================================
-# Optional: ensure unique PSM2 key under Slurm because Error obtaining unique transport key from PMIX (OMPI_MCA_orte_precondition_transports not present in the environment). when loading fenicsx========================
+# Optional: ensure unique PSM2 key under Slurm because Error obtaining unique transport key from PMIX (OMPI_MCA_orte_precondition_transports not present in the environment). when loading fenicsx
+# ============================================================
 
 if {[info exists env(SLURM_JOB_ID)]} {
     # Default to step ID 0, which is correct for the main sbatch script shell
@@ -634,9 +638,59 @@ if {[info exists env(SLURM_JOB_ID)]} {
 setenv FENICSX_HOME "$env(FENICSX_VIEW)"
 setenv FENICSX_SPACK_ENV "$env(FENICSX_ENV_ROOT)"
 
-puts stderr ">> Loaded FEniCSx 0.9.0 (shared Spack environment)"
-puts stderr ">> Using view: $env(FENICSX_VIEW)"
-puts stderr ">> Using OMPI_MCA_orte_precondition_transports: $key"
+puts "echo '============================================================' "
+puts "echo 'Loaded FEniCSx 0.9.0 (shared Spack environment)'"
+puts "echo '============================================================'"
+# puts stderr ">> Loaded FEniCSx 0.9.0 (shared Spack environment)"
+# puts stderr ">> Using view: $env(FENICSX_VIEW)"
+# puts stderr ">> Using OMPI_MCA_orte_precondition_transports: $key"
+puts "echo Using view: $env(FENICSX_VIEW)"
+puts "echo Using OMPI_MCA_orte_precondition_transports: $key"
+puts "echo '# FEniCSx Core Components'"
+puts  " echo '- fenics-dolfinx@0.9.0+adios2+petsc'"
+puts  " echo '- py-fenics-dolfinx@0.9.0+petsc4py+slepc4py'"
+puts  " echo '- py-fenics-ffcx@0.9.0'"
+puts  " echo '- fenics-ufcx'"
+puts  " echo '- py-fenics-ufl@2024.2.0'"
+puts  " echo '- py-fenics-basix@0.9.0'"
+puts  " echo '- fenics-basix@0.9.0'"
+puts  " echo  To respect omnipath, add fabrics psm2 and slurm management and PMI"
+puts  " echo '- openmpi@5.0.8 fabrics=psm2 schedulers=slurm '"
+puts  " echo  Other Dependencies"
+puts  " echo '- petsc+mumps+fortran+superlu-dist~trilinos'"
+puts  " echo '- adios2~sst+python'"
+puts  " echo '- gmsh+opencascade'"
+puts  " echo '- vtk@9.5.1+mpi+python+shared'"
+puts  " echo '- hdf5+hl+shared+mpi' "
+puts  " echo  Common Python Libraries"
+puts  " echo '- python'"
+puts  " echo '- py-pip'"
+puts  " echo '- py-setuptools'"
+puts  " echo '- py-wheel'"
+puts  " echo '- python-venv'"
+puts  " echo '- py-gmsh'"
+puts  " echo '- py-pygmsh'"
+puts  " echo '- py-numba'"
+puts  " echo '- py-scipy'"
+puts  " echo '- py-statsmodels'"
+puts  " echo '- py-matplotlib'"
+puts  " echo '- py-imageio'"
+puts  " echo '- py-adios4dolfinx'"
+puts  " echo '- py-trimesh'"
+puts  " echo '- py-rtree'"
+puts  " echo '- py-numpy'"
+puts  " echo '- py-pandas'"
+puts  " echo '- py-pyvista'"
+puts  " echo '- py-h5py'"
+puts  " echo  Other Libraries"
+puts  " echo '- nlopt+python'"
+puts  " echo '- neper'"
+puts  " echo '- py-pytz'"
+puts  " echo '- py-scikit-optimize'"
+puts  " echo '- py-seaborn'"
+puts  " echo '- py-python-pptx'"
+puts  " echo '============================================================'"
+puts  " echo '============================================================'"
 
 EOF
 ```
@@ -696,6 +750,9 @@ rm -rf ${MODULEFILE_PREFIX}/${FENICSX_VERSION}
   * Spack Packages: [packages.spack.io](https://packages.spack.io/)
 
   * Set variable for openmpi: [openmpi/pmix issue](https://github.com/open-mpi/ompi/issues/13397)
+
+  * J. Dokken MPC-constraint: [Spack MPC-constraint](https://jsdokken.com/dolfinx_mpc/README.html)
+
 
 
 

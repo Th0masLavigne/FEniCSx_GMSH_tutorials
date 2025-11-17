@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>📖 FEniCSx v0.9.0 Installation on HPC (MCIA) &#8212; FEniCSx and GMSH Tutorials</title>
+    <title>📖 [Complex number] FEniCSx v0.9.0 Installation on HPC (MCIA) &#8212; FEniCSx and GMSH Tutorials</title>
   
   
   
@@ -57,13 +57,11 @@
     <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Install/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_install-gcc_13_2_0';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Install/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_complex_numbers_install-gcc_13_2_0';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="📖 [Complex number] FEniCSx v0.9.0 Installation on HPC (MCIA)" href="HPC_FEniCSx_0_9_0_complex_numbers_install-gcc_13_2_0.html" />
-    <link rel="prev" title="Docker workspace and aliases" href="../docker_and_aliases.html" />
+    <link rel="next" title="Spack Installation" href="../Spack_Install_FEniCSx/README.html" />
+    <link rel="prev" title="📖 FEniCSx v0.9.0 Installation on HPC (MCIA)" href="HPC_FEniCSx_0_9_0_install-gcc_13_2_0.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -180,8 +178,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../Install_processes.html">Installation Guide for FEniCSx v0.9.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../docker_and_aliases.html">Docker workspace and aliases</a></li>
 
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Spack Installation (MCIA)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="HPC_FEniCSx_0_9_0_complex_numbers_install-gcc_13_2_0.html">Complex Support - Spack Installation (MCIA)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="HPC_FEniCSx_0_9_0_install-gcc_13_2_0.html">Spack Installation (MCIA)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Complex Support - Spack Installation (MCIA)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../Spack_Install_FEniCSx/README.html">Spack Installation</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="../WSL_Docker_installer/README.html">WSL Docker Installer</a></li>
@@ -284,7 +282,7 @@
       
       
       
-      <li><a href="https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/issues/new?title=Issue%20on%20page%20%2FInstall/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_install-gcc_13_2_0.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/issues/new?title=Issue%20on%20page%20%2FInstall/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_complex_numbers_install-gcc_13_2_0.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -314,7 +312,7 @@
       
       
       
-      <li><a href="../../_sources/Install/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_install-gcc_13_2_0.md" target="_blank"
+      <li><a href="../../_sources/Install/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_complex_numbers_install-gcc_13_2_0.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -398,7 +396,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>📖 FEniCSx v0.9.0 Installation on HPC (MCIA)</h1>
+    <h1>📖 [Complex number] FEniCSx v0.9.0 Installation on HPC (MCIA)</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -409,12 +407,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-use-guide-after-successful-installation">⚡ Quick Use Guide (After Successful Installation)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-to-the-hpc">🌐 Connect to the HPC</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#access-files-online-upload-download">📁 Access files online (upload/download)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-local-file-system-mount-requires-sshfs">📁 Optional: Local File System Mount (Requires sshfs)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-a-job-sbatch-file-template">💻 Running a Job: Sbatch File Template</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-generated-module-recommended">Using the Generated Module (Recommended)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-spack-environment-directly">Using Spack Environment Directly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sbatch-file-template">💻 Sbatch File Template</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-procedure-followed-for-the-mcia-cluster">Installation procedure followed for the MCIA cluster</a><ul class="nav section-nav flex-column">
@@ -432,7 +425,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-define-the-fenicsx-spack-environment-spack-yaml">Step 4: Define the FEniCSx Spack Environment (<code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code>) 🌿</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-spack-yaml-configuration">Complete <code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code> Configuration</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-spack-yaml-configuration">Minimal <code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code> Configuration</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-install-the-environment">Step 5: Install the environment</a></li>
@@ -446,10 +439,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cleanup-and-reinstallation-for-maintenance">Cleanup and Reinstallation (For Maintenance) 🗑️</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-minimal-configuration-file">Appendix: (Minimal) Configuration file</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a></li>
 </ul>
             </nav>
         </div>
@@ -461,53 +451,19 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="fenicsx-v0-9-0-installation-on-hpc-mcia">
-<h1>📖 FEniCSx v0.9.0 Installation on HPC (MCIA)<a class="headerlink" href="#fenicsx-v0-9-0-installation-on-hpc-mcia" title="Link to this heading">#</a></h1>
-<p>This document provides a comprehensive, step-by-step guide for installing <strong>FEniCSx v0.9.0</strong> using Spack on an HPC cluster, specifically referencing the <strong>MCIA</strong> environment.</p>
-<p>This procedure utilizes external system modules for the compiler (<code class="docutils literal notranslate"><span class="pre">gcc&#64;13.2.0</span></code>) and build tools (<code class="docutils literal notranslate"><span class="pre">cmake&#64;3.27.6</span></code>), which is common practice on shared clusters.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="complex-number-fenicsx-v0-9-0-installation-on-hpc-mcia">
+<h1>📖 [Complex number] FEniCSx v0.9.0 Installation on HPC (MCIA)<a class="headerlink" href="#complex-number-fenicsx-v0-9-0-installation-on-hpc-mcia" title="Link to this heading">#</a></h1>
+<p>This document provides a comprehensive, step-by-step guide for installing <strong>FEniCSx v0.9.0</strong> with <strong>complex</strong> number supports, using Spack on an HPC cluster, specifically referencing the <strong>MCIA</strong> environment. Conversely to the set-up provided for the real number support, this installation consider minimal FEniCSx environment (no nlopt, no gmsh, etc.).</p>
+<p>As explained in <a class="reference external" href="https://jsdokken.com/dolfinx-tutorial/chapter1/complex_mode.html">J. Dokken Complex Poisson Problem</a>, the difference relies in the linear algebra that now needs to support complex numbers.</p>
 <blockquote>
-<div><p><strong>⚠️ Resource Warning:</strong> Installing the complete environment (including <code class="docutils literal notranslate"><span class="pre">gmsh</span></code> and <code class="docutils literal notranslate"><span class="pre">opencascade</span></code>) may require significant resources (e.g., <strong><span class="math notranslate nohighlight">\(\ge\)</span> 16 GB RAM</strong>) and can last for <strong>more than 8 hours</strong>, particularly if dependencies like LLVM need to be recompiled. A minimal <code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code> is also provided for quick test.</p>
+<div><p><strong>⚠️ Note:</strong> Load fenicsx/0.9.0 or fenicsx_complex/0.9.0 depending on your need but the two environment do not coexist.</p>
 </div></blockquote>
+<p>This procedure utilizes external system modules for the compiler (<code class="docutils literal notranslate"><span class="pre">gcc&#64;13.2.0</span></code>) and build tools (<code class="docutils literal notranslate"><span class="pre">cmake&#64;3.27.6</span></code>), which is common practice on shared clusters.</p>
 <section id="quick-use-guide-after-successful-installation">
 <h2>⚡ Quick Use Guide (After Successful Installation)<a class="headerlink" href="#quick-use-guide-after-successful-installation" title="Link to this heading">#</a></h2>
-<p>This section details how to load and use the FEniCSx environment, plus handy connection aliases for the cluster.</p>
-<section id="connect-to-the-hpc">
-<h3>🌐 Connect to the HPC<a class="headerlink" href="#connect-to-the-hpc" title="Link to this heading">#</a></h3>
-<p>You can create an alias to place in your local machine’s ~/.bash_aliases (or equivalent) to simplify connection to the cluster.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Connect to the HPC cluster</span>
-<span class="nb">alias</span><span class="w"> </span><span class="nv">hpc_connect</span><span class="o">=</span><span class="s1">&#39;ssh &lt;username&gt;@curta.mcia.fr&#39;</span>
-</pre></div>
-</div>
-<blockquote>
-<div><p><em>Note:</em> Remember to replace <username> with your actual cluster username.</p>
-</div></blockquote>
-</section>
-<section id="access-files-online-upload-download">
-<h3>📁 Access files online (upload/download)<a class="headerlink" href="#access-files-online-upload-download" title="Link to this heading">#</a></h3>
-<p>The <a class="reference external" href="https://curta3.mcia.fr/">https://curta3.mcia.fr/</a> web service allows users to access Curta from a web browser using the Open OnDemand software.</p>
-</section>
-<section id="optional-local-file-system-mount-requires-sshfs">
-<h3>📁 Optional: Local File System Mount (Requires sshfs)<a class="headerlink" href="#optional-local-file-system-mount-requires-sshfs" title="Link to this heading">#</a></h3>
-<p>These aliases use sshfs (SSH Filesystem) to mount your remote directories directly to a local folder (e.g., <code class="docutils literal notranslate"><span class="pre">$HOME/curta</span></code>), allowing you to browse and manage files as if they were local.</p>
-<blockquote>
-<div><p><em>Prerequisite:</em> You must have the sshfs tool installed on your local computer.</p>
-</div></blockquote>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mount the remote HOME directory to $HOME/curta</span>
-<span class="nb">alias</span><span class="w"> </span><span class="nv">hpc_home_mount</span><span class="o">=</span><span class="s1">&#39;sshfs &lt;username&gt;@curta.mcia.fr:/gpfs/home/&lt;username&gt; $HOME/curta&#39;</span>
-
-<span class="c1"># Mount the remote SCRATCH directory to $HOME/curta</span>
-<span class="nb">alias</span><span class="w"> </span><span class="nv">hpc_scratch_mount</span><span class="o">=</span><span class="s1">&#39;sshfs &lt;username&gt;@curta.mcia.fr:/scratch/&lt;username&gt; $HOME/curta&#39;</span>
-
-<span class="c1"># Unmount the local folder</span>
-<span class="nb">alias</span><span class="w"> </span><span class="nv">hpc_unmount</span><span class="o">=</span><span class="s1">&#39;fusermount -u $HOME/curta&#39;</span>
-</pre></div>
-</div>
-<blockquote>
-<div><p><em>Tip:</em> Before running a mount alias, ensure the local directory (<code class="docutils literal notranslate"><span class="pre">$HOME/curta</span></code>) exists: <code class="docutils literal notranslate"><span class="pre">mkdir</span> <span class="pre">-p</span> <span class="pre">$HOME/curta</span></code>.</p>
-</div></blockquote>
-</section>
-<section id="running-a-job-sbatch-file-template">
-<h3>💻 Running a Job: Sbatch File Template<a class="headerlink" href="#running-a-job-sbatch-file-template" title="Link to this heading">#</a></h3>
+<p>Please refer to <a class="reference external" href="https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/Install/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_install-gcc_13_2_0.html">MCIA Installation FEnicsx 0.9.0 - Real numbers support</a>.</p>
+<section id="sbatch-file-template">
+<h3>💻 Sbatch File Template<a class="headerlink" href="#sbatch-file-template" title="Link to this heading">#</a></h3>
 <p>This template demonstrates how to properly configure a Slurm batch script to load the installed FEniCSx module and execute a parallel simulation.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
@@ -555,7 +511,7 @@ module<span class="w"> </span>purge
 
 <span class="c1"># Load the installed FEniCSx environment module</span>
 <span class="c1"># This command automatically sets all PATHs, LD_LIBRARY_PATHs, and Python paths.</span>
-module<span class="w"> </span>load<span class="w"> </span>fenicsx/0.9.0
+module<span class="w"> </span>load<span class="w"> </span>fenicsx_complex/0.9.0
 
 <span class="c1"># ==============================================================================</span>
 <span class="c1"># 3. EXECUTION </span>
@@ -587,47 +543,6 @@ mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;3. module purge&quot;</span>
 </pre></div>
 </div>
-</section>
-<section id="using-the-generated-module-recommended">
-<h3>Using the Generated Module (Recommended)<a class="headerlink" href="#using-the-generated-module-recommended" title="Link to this heading">#</a></h3>
-<ol class="arabic">
-<li><p><strong>Load the FEniCSx module</strong> (after module propagation):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>load<span class="w"> </span>fenicsx/0.9.0
-</pre></div>
-</div>
-</li>
-<li><p><strong>Execute Parallel Job:</strong> Use <code class="docutils literal notranslate"><span class="pre">mpirun</span></code> or <code class="docutils literal notranslate"><span class="pre">srun</span></code> within your Slurm script.</p></li>
-</ol>
-<blockquote>
-<div><p><em>Tip:</em> Some test files are available at <a class="reference external" href="https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials">Tutorials for test</a>.</p>
-</div></blockquote>
-</section>
-<section id="using-spack-environment-directly">
-<h3>Using Spack Environment Directly<a class="headerlink" href="#using-spack-environment-directly" title="Link to this heading">#</a></h3>
-<p>This approach is required before the module file is deployed system-wide.</p>
-<ol class="arabic">
-<li><p><strong>Source the Spack setup:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span>/gpfs/softs/contrib/apps/fenicsx/spack-src-28.10.2025/share/spack/setup-env.sh
-</pre></div>
-</div>
-</li>
-<li><p><strong>Activate the environment:</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spack<span class="w"> </span>env<span class="w"> </span>activate<span class="w"> </span>--dir<span class="w"> </span>/gpfs/softs/contrib/apps/fenicsx/spack-config-28.10.2025/envs/fenicsx/0.9.0/shared
-</pre></div>
-</div>
-</li>
-<li><p><strong>Export for OpenMPI/PSM2 (Crucial on MCIA):</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">OMPI_MCA_orte_precondition_transports</span><span class="o">=</span><span class="k">$(</span><span class="nb">printf</span><span class="w"> </span><span class="s1">&#39;%08x%08x-%08x%08x&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="si">${</span><span class="nv">SLURM_JOB_ID</span><span class="k">:-</span><span class="nv">0</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">SLURM_STEP_ID</span><span class="k">:-</span><span class="nv">0</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">SLURM_JOB_ID</span><span class="k">:-</span><span class="nv">0</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">SLURM_STEP_ID</span><span class="k">:-</span><span class="nv">0</span><span class="si">}</span><span class="k">)</span>
-</pre></div>
-</div>
-</li>
-<li><p><strong>Export for NLOPT Python Bindings (If installed):</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span>/gpfs/softs/contrib/apps/fenicsx/spack-src-28.10.2025/opt/spack/linux-skylake_avx512/nlopt-2.9.1-joq7eb4qexm46mtfyhukmc6zxabfcrve/lib64/python3.11/site-packages:<span class="nv">$PYTHONPATH</span>
-</pre></div>
-</div>
-</li>
-</ol>
 </section>
 </section>
 <hr class="docutils" />
@@ -665,7 +580,7 @@ Find your <code class="docutils literal notranslate"><span class="pre">&lt;jobid
 <span class="c1"># ==================================================</span>
 
 <span class="c1"># Specify the name of your log file.</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">REPORT_LOG_FILENAME</span><span class="o">=</span><span class="s2">&quot;report_install_fenicsx_</span><span class="k">$(</span>date<span class="w"> </span>+<span class="s1">&#39;%Y-%m-%d_%H-%M-%S&#39;</span><span class="k">)</span><span class="s2">_job-id_</span><span class="si">${</span><span class="nv">SLURM_JOBID</span><span class="si">}</span><span class="s2">.md&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">REPORT_LOG_FILENAME</span><span class="o">=</span><span class="s2">&quot;report_install_fenicsx_complex_</span><span class="k">$(</span>date<span class="w"> </span>+<span class="s1">&#39;%Y-%m-%d_%H-%M-%S&#39;</span><span class="k">)</span><span class="s2">_job-id_</span><span class="si">${</span><span class="nv">SLURM_JOBID</span><span class="si">}</span><span class="s2">.md&quot;</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">REPORT_LOG_DIRECTORY</span><span class="o">=</span><span class="s2">&quot;/gpfs/home/tlavigne002&quot;</span>
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Starting log file creation at: </span><span class="si">${</span><span class="nv">REPORT_LOG_DIRECTORY</span><span class="si">}</span><span class="s2">/</span><span class="si">${</span><span class="nv">REPORT_LOG_FILENAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span><span class="si">${</span><span class="nv">REPORT_LOG_DIRECTORY</span><span class="si">}</span>/<span class="si">${</span><span class="nv">REPORT_LOG_FILENAME</span><span class="si">}</span>
 
@@ -673,19 +588,19 @@ Find your <code class="docutils literal notranslate"><span class="pre">&lt;jobid
 <span class="nb">export</span><span class="w"> </span><span class="nv">FENICSX_VERSION</span><span class="o">=</span><span class="s2">&quot;0.9.0&quot;</span>
 
 <span class="c1"># Path for cloning the Spack repository (including packages.yaml)</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">FENICSX_SPACK_ROOT</span><span class="o">=</span><span class="s2">&quot;/gpfs/softs/contrib/apps/fenicsx/spack-src-28.10.2025&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">FENICSX_SPACK_ROOT</span><span class="o">=</span><span class="s2">&quot;/gpfs/softs/contrib/apps/fenicsx_complex/spack-src-17.11.2025&quot;</span>
 
 <span class="c1"># Path to packages.yaml defining externals</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">SPACK_PACKAGES_YAML</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FENICSX_SPACK_ROOT</span><span class="si">}</span><span class="s2">/etc/spack/packages.yaml&quot;</span>
 
 <span class="c1"># Root path for the Spack environment configuration</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">FENICSX_SPACK_CONFIG_ROOT</span><span class="o">=</span><span class="s2">&quot;/gpfs/softs/contrib/apps/fenicsx/spack-config-28.10.2025&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">FENICSX_SPACK_CONFIG_ROOT</span><span class="o">=</span><span class="s2">&quot;/gpfs/softs/contrib/apps/fenicsx_complex/spack-config-17.11.2025&quot;</span>
 
 <span class="c1"># Directory where the Spack environment will be created (contains spack.yaml)</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">SPACK_ENV_DIR</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FENICSX_SPACK_CONFIG_ROOT</span><span class="si">}</span><span class="s2">/envs/fenicsx/</span><span class="si">${</span><span class="nv">FENICSX_VERSION</span><span class="si">}</span><span class="s2">/shared&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SPACK_ENV_DIR</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">FENICSX_SPACK_CONFIG_ROOT</span><span class="si">}</span><span class="s2">/envs/fenicsx_complex/</span><span class="si">${</span><span class="nv">FENICSX_VERSION</span><span class="si">}</span><span class="s2">/shared&quot;</span>
 
 <span class="c1"># Prefix for where the Tcl/Lmod modulefiles will be deployed</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">MODULEFILE_PREFIX</span><span class="o">=</span><span class="s2">&quot;/gpfs/softs/contrib/modulefiles/fenicsx&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MODULEFILE_PREFIX</span><span class="o">=</span><span class="s2">&quot;/gpfs/softs/contrib/modulefiles/fenicsx_complex&quot;</span>
 
 <span class="c1"># Use the number of cores allocated by slurm for parallel compilation</span>
 <span class="nb">export</span><span class="w"> </span><span class="nv">NCORES</span><span class="o">=</span><span class="nv">$SLURM_NTASKS</span>
@@ -825,8 +740,8 @@ cat<span class="w"> </span><span class="si">${</span><span class="nv">SPACK_PACK
 <section id="step-4-define-the-fenicsx-spack-environment-spack-yaml">
 <h3>Step 4: Define the FEniCSx Spack Environment (<code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code>) 🌿<a class="headerlink" href="#step-4-define-the-fenicsx-spack-environment-spack-yaml" title="Link to this heading">#</a></h3>
 <p>This defines the full dependency graph for the complete FEniCSx stack, including visualization and extra physics libraries required by our team.</p>
-<section id="complete-spack-yaml-configuration">
-<h4>Complete <code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code> Configuration<a class="headerlink" href="#complete-spack-yaml-configuration" title="Link to this heading">#</a></h4>
+<section id="minimal-spack-yaml-configuration">
+<h4>Minimal <code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code> Configuration<a class="headerlink" href="#minimal-spack-yaml-configuration" title="Link to this heading">#</a></h4>
 <p>This is the complete environment set for MCIA, including specific librairies required by some PhDs of the team:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Creating complete spack.yaml at </span><span class="si">${</span><span class="nv">SPACK_ENV_DIR</span><span class="si">}</span><span class="s2">/spack.yaml...&quot;</span><span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span><span class="si">${</span><span class="nv">REPORT_LOG_DIRECTORY</span><span class="si">}</span>/<span class="si">${</span><span class="nv">REPORT_LOG_FILENAME</span><span class="si">}</span>
 
@@ -844,18 +759,13 @@ cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; ${SPACK_ENV_DIR}/sp
 <span class="s">  </span>
 <span class="s">  - py-fenics-basix@${FENICSX_VERSION}</span>
 <span class="s">  - fenics-basix@${FENICSX_VERSION}</span>
-<span class="s">  </span>
-<span class="s">  # see: https://jsdokken.com/dolfinx_mpc/README.html</span>
-<span class="s">  # - py-dolfinx-mpc</span>
 
 <span class="s">  # To respect omnipath, add fabrics psm2 and slurm management and PMI</span>
 <span class="s">  - openmpi@5.0.8 fabrics=psm2 schedulers=slurm </span>
 <span class="s">  </span>
 <span class="s">  # Other Dependencies</span>
-<span class="s">  - petsc+mumps+fortran+superlu-dist~trilinos</span>
+<span class="s">  - petsc+mumps+fortran+superlu-dist~trilinos+complex</span>
 <span class="s">  - adios2~sst+python</span>
-<span class="s">  - gmsh+opencascade</span>
-<span class="s">  - vtk@9.5.1+mpi+python+shared</span>
 <span class="s">  - hdf5+hl+shared+mpi #by default, hdf5 was without hl causing crash</span>
 <span class="s">  </span>
 <span class="s">  # Common Python Libraries</span>
@@ -864,28 +774,6 @@ cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; ${SPACK_ENV_DIR}/sp
 <span class="s">  - py-setuptools</span>
 <span class="s">  - py-wheel</span>
 <span class="s">  - python-venv</span>
-<span class="s">  - py-gmsh</span>
-<span class="s">  - py-pygmsh</span>
-<span class="s">  - py-numba</span>
-<span class="s">  - py-scipy</span>
-<span class="s">  - py-statsmodels</span>
-<span class="s">  - py-matplotlib</span>
-<span class="s">  - py-imageio</span>
-<span class="s">  - py-adios4dolfinx</span>
-<span class="s">  - py-trimesh</span>
-<span class="s">  - py-rtree</span>
-<span class="s">  - py-numpy</span>
-<span class="s">  - py-pandas</span>
-<span class="s">  - py-pyvista</span>
-<span class="s">  - py-h5py</span>
-
-<span class="s">  # Other Libraries</span>
-<span class="s">  - nlopt+python</span>
-<span class="s">  - neper</span>
-<span class="s">  - py-pytz</span>
-<span class="s">  - py-scikit-optimize</span>
-<span class="s">  - py-seaborn</span>
-<span class="s">  - py-python-pptx</span>
 
 <span class="s">  config:</span>
 <span class="s">    concretizer:</span>
@@ -1012,7 +900,7 @@ mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_
 <hr class="docutils" />
 <section id="step-7-module-deployment-propagating-to-tcl-on-mcia">
 <h3>Step 7: Module Deployment (Propagating to Tcl on MCIA)<a class="headerlink" href="#step-7-module-deployment-propagating-to-tcl-on-mcia" title="Link to this heading">#</a></h3>
-<p>This step generates the final Tcl modulefile for system-wide access. This file must be placed in a directory sourced by the cluster’s module system. Notably it sets the missing variables automatically and loads the view (i.e. the whole spack environment) under a single flag: <code class="docutils literal notranslate"><span class="pre">fenicsx/0.9.0</span></code>.</p>
+<p>This step generates the final Tcl modulefile for system-wide access. This file must be placed in a directory sourced by the cluster’s module system. Notably it sets the missing variables automatically and loads the view (i.e. the whole spack environment) under a single flag: <code class="docutils literal notranslate"><span class="pre">fenicsx_complex/0.9.0</span></code>.</p>
 <p>Create the target directory for the modulefile:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">MODULEFILE_PREFIX</span><span class="si">}</span><span class="s2">&quot;</span>
 </pre></div>
@@ -1021,20 +909,20 @@ mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39; &gt; ${MODULEFILE_PREFIX}/${FENICSX_VERSION}</span>
 <span class="s">#%Module1.0#####################################################################</span>
 <span class="s">##</span>
-<span class="s">## FEniCSx 0.9.0 — modulefile (HPC shared Spack environment)</span>
+<span class="s">## FEniCSx 0.9.0 complex number support— modulefile (HPC shared Spack environment)</span>
 <span class="s">##</span>
 
 <span class="s">proc ModulesHelp { } {</span>
-<span class="s">    puts stderr &quot;Loads FEniCSx ${FENICSX_VERSION} environment built with Spack&quot;</span>
+<span class="s">    puts stderr &quot;Loads FEniCSx ${FENICSX_VERSION} complex number support environment built with Spack&quot;</span>
 <span class="s">    puts stderr &quot;Includes Dolfinx, Basix, UFL, ADIOS2, PETSc, etc.&quot;</span>
 <span class="s">}</span>
-<span class="s">module-whatis &quot;FEniCSx 0.9.0 — Shared HPC Spack environment (Dolfinx stack)&quot;</span>
+<span class="s">module-whatis &quot;FEniCSx 0.9.0 complex number support — Shared HPC Spack environment (Dolfinx stack)&quot;</span>
 
 <span class="s"># ============================================================</span>
 <span class="s"># Core environment variables</span>
 <span class="s"># ============================================================</span>
 <span class="s">setenv FENICSX_VERSION &quot;0.9.0&quot;</span>
-<span class="s">setenv FENICSX_ENV_ROOT &quot;/gpfs/softs/contrib/apps/fenicsx/spack-config-28.10.2025/envs/fenicsx/0.9.0/shared&quot;</span>
+<span class="s">setenv FENICSX_ENV_ROOT &quot;/gpfs/softs/contrib/apps/fenicsx_complex/spack-config-17.11.2025/envs/fenicsx_complex/0.9.0/shared&quot;</span>
 <span class="s">setenv FENICSX_VIEW     &quot;$env(FENICSX_ENV_ROOT)/.spack-env/view&quot;</span>
 
 <span class="s"># ============================================================</span>
@@ -1054,7 +942,7 @@ mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_
 <span class="s">prepend-path PYTHONPATH &quot;$env(FENICSX_VIEW)/lib/python3.11/site-packages&quot;</span>
 <span class="s">#</span>
 <span class="s"># NLOpt Python bindings (manual install outside view)</span>
-<span class="s">prepend-path PYTHONPATH &quot;/gpfs/softs/contrib/apps/fenicsx/spack-src-28.10.2025/opt/spack/linux-skylake_avx512/nlopt-2.9.1-joq7eb4qexm46mtfyhukmc6zxabfcrve/lib64/python3.11/site-packages&quot;</span>
+<span class="s"># prepend-path PYTHONPATH &quot;/gpfs/softs/contrib/apps/fenicsx/spack-src-28.10.2025/opt/spack/linux-skylake_avx512/nlopt-2.9.1-joq7eb4qexm46mtfyhukmc6zxabfcrve/lib64/python3.11/site-packages&quot;</span>
 
 <span class="s"># ============================================================</span>
 <span class="s"># UCX / PSM2 runtime tuning</span>
@@ -1065,7 +953,7 @@ mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_
 <span class="s"># setenv UCX_NET_DEVICES &quot;all&quot;</span>
 
 <span class="s"># ============================================================</span>
-<span class="s"># Optional: ensure unique PSM2 key under Slurm because Error obtaining unique transport key from PMIX (OMPI_MCA_orte_precondition_transports not present in the environment). when loading fenicsx</span>
+<span class="s"># Optional: ensure unique PSM2 key under Slurm because Error obtaining unique transport key from PMIX (OMPI_MCA_orte_precondition_transports not present in the environment). when loading fenicsx_complex</span>
 <span class="s"># ============================================================</span>
 
 <span class="s">if {[info exists env(SLURM_JOB_ID)]} {</span>
@@ -1090,11 +978,8 @@ mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_
 <span class="s">setenv FENICSX_SPACK_ENV &quot;$env(FENICSX_ENV_ROOT)&quot;</span>
 
 <span class="s">puts &quot;# ============================================================&quot;</span>
-<span class="s">puts &quot;# Loaded FEniCSx 0.9.0 (shared Spack environment)&quot;</span>
+<span class="s">puts &quot;# Loaded FEniCSx 0.9.0 complex number support (shared Spack environment)&quot;</span>
 <span class="s">puts &quot;# ============================================================&quot;</span>
-<span class="s"># puts stderr &quot;&gt;&gt; Loaded FEniCSx 0.9.0 (shared Spack environment)&quot;</span>
-<span class="s"># puts stderr &quot;&gt;&gt; Using view: $env(FENICSX_VIEW)&quot;</span>
-<span class="s"># puts stderr &quot;&gt;&gt; Using OMPI_MCA_orte_precondition_transports: $key&quot;</span>
 <span class="s">puts &quot;Using view: $env(FENICSX_VIEW)&quot;</span>
 <span class="s">puts &quot;Using OMPI_MCA_orte_precondition_transports: $key&quot;</span>
 <span class="s">puts &quot;# FEniCSx Core Components&quot;</span>
@@ -1108,10 +993,9 @@ mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_
 <span class="s">puts  &quot;# To respect omnipath, add fabrics psm2 and slurm management and PMI&quot;</span>
 <span class="s">puts  &quot;- openmpi@5.0.8 fabrics=psm2 schedulers=slurm &quot;</span>
 <span class="s">puts  &quot;# Other Dependencies&quot;</span>
-<span class="s">puts  &quot;- petsc+mumps+fortran+superlu-dist~trilinos&quot;</span>
+<span class="s">puts  &quot;# Complex PETSc&quot;</span>
+<span class="s">puts  &quot;- petsc+mumps+fortran+superlu-dist~trilinos+complex&quot;</span>
 <span class="s">puts  &quot;- adios2~sst+python&quot;</span>
-<span class="s">puts  &quot;- gmsh+opencascade&quot;</span>
-<span class="s">puts  &quot;- vtk@9.5.1+mpi+python+shared&quot;</span>
 <span class="s">puts  &quot;- hdf5+hl+shared+mpi #by default, hdf5 was without hl causing crash&quot;</span>
 <span class="s">puts  &quot;# Common Python Libraries&quot;</span>
 <span class="s">puts  &quot;- python&quot;</span>
@@ -1119,27 +1003,6 @@ mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_
 <span class="s">puts  &quot;- py-setuptools&quot;</span>
 <span class="s">puts  &quot;- py-wheel&quot;</span>
 <span class="s">puts  &quot;- python-venv&quot;</span>
-<span class="s">puts  &quot;- py-gmsh&quot;</span>
-<span class="s">puts  &quot;- py-pygmsh&quot;</span>
-<span class="s">puts  &quot;- py-numba&quot;</span>
-<span class="s">puts  &quot;- py-scipy&quot;</span>
-<span class="s">puts  &quot;- py-statsmodels&quot;</span>
-<span class="s">puts  &quot;- py-matplotlib&quot;</span>
-<span class="s">puts  &quot;- py-imageio&quot;</span>
-<span class="s">puts  &quot;- py-adios4dolfinx&quot;</span>
-<span class="s">puts  &quot;- py-trimesh&quot;</span>
-<span class="s">puts  &quot;- py-rtree&quot;</span>
-<span class="s">puts  &quot;- py-numpy&quot;</span>
-<span class="s">puts  &quot;- py-pandas&quot;</span>
-<span class="s">puts  &quot;- py-pyvista&quot;</span>
-<span class="s">puts  &quot;- py-h5py&quot;</span>
-<span class="s">puts  &quot;# Other Libraries&quot;</span>
-<span class="s">puts  &quot;- nlopt+python&quot;</span>
-<span class="s">puts  &quot;- neper&quot;</span>
-<span class="s">puts  &quot;- py-pytz&quot;</span>
-<span class="s">puts  &quot;- py-scikit-optimize&quot;</span>
-<span class="s">puts  &quot;- py-seaborn&quot;</span>
-<span class="s">puts  &quot;- py-python-pptx&quot;</span>
 <span class="s">puts &quot;# ============================================================&quot;</span>
 <span class="s">puts &quot;# ============================================================&quot;</span>
 
@@ -1197,44 +1060,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><
 <li><p>FEniCSx Discourse (CMake issue discussion): <a class="reference external" href="https://www.google.com/search?q=https://fenicsproject.discourse.group/t/spack-installation-issue-for-fenicsx-0-9-0-py-fenics-basix-cmake-version-mismatch/18330/2">fenicsproject.discourse.group</a></p></li>
 <li><p>Spack Packages: <a class="reference external" href="https://packages.spack.io/">packages.spack.io</a></p></li>
 <li><p>Set variable for openmpi: <a class="reference external" href="https://github.com/open-mpi/ompi/issues/13397">openmpi/pmix issue</a></p></li>
-<li><p>J. Dokken MPC-constraint: <a class="reference external" href="https://jsdokken.com/dolfinx_mpc/README.html">Spack MPC-constraint</a></p></li>
 </ul>
-<hr class="docutils" />
-<section id="appendix-minimal-configuration-file">
-<h3>Appendix: (Minimal) Configuration file<a class="headerlink" href="#appendix-minimal-configuration-file" title="Link to this heading">#</a></h3>
-<p>If you wish to only test the core FEniCSx installation without <code class="docutils literal notranslate"><span class="pre">gmsh</span></code> or other optional libraries, you can use a minimal configuration that excludes <code class="docutils literal notranslate"><span class="pre">gmsh+opencascade</span></code>, <code class="docutils literal notranslate"><span class="pre">py-gmsh</span></code>, <code class="docutils literal notranslate"><span class="pre">py-numba</span></code>, etc.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; ${SPACK_ENV_DIR}/spack_minimal.yaml 2&gt;&amp;1 | tee -a ${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FILENAME}</span>
-<span class="s"># spack_minimal.yaml for fenicsx/${FENICSX_VERSION}/shared</span>
-<span class="s">spack:</span>
-<span class="s">  specs:</span>
-<span class="s">  - python</span>
-<span class="s">  - py-pip</span>
-<span class="s">  - py-setuptools</span>
-<span class="s">  - py-wheel</span>
-<span class="s">  - python-venv</span>
-<span class="s">  - fenics-dolfinx@${FENICSX_VERSION}+adios2+petsc</span>
-<span class="s">  - py-fenics-dolfinx@${FENICSX_VERSION}+petsc4py+slepc4py</span>
-<span class="s">  - py-fenics-basix@${FENICSX_VERSION}</span>
-<span class="s">  - fenics-basix@${FENICSX_VERSION}</span>
-<span class="s">  - py-fenics-ufl@2024.2.0</span>
-<span class="s">  - py-fenics-ffcx@${FENICSX_VERSION}</span>
-<span class="s">  - petsc+mumps+fortran+superlu-dist~trilinos</span>
-<span class="s">  - adios2~sst+python</span>
-<span class="s">  # To respect omnipath, add fabrics psm2</span>
-<span class="s">  - openmpi@5.0.8 fabrics=psm2 schedulers=slurm</span>
-
-<span class="s">  config:</span>
-<span class="s">    concretizer:</span>
-<span class="s">      unify: true</span>
-<span class="s">    env_vars:</span>
-<span class="s">      set:</span>
-<span class="s">        SKBUILD_CMAKE_EXECUTABLE: ${PREFIX_CMAKE}/bin/cmake</span>
-<span class="s">        CMAKE_EXECUTABLE: ${PREFIX_CMAKE}/bin/cmake</span>
-<span class="s">        PATH: ${PREFIX_CMAKE}/bin:$PATH</span>
-<span class="s">EOF</span>
-</pre></div>
-</div>
-</section>
 </section>
 </section>
 
@@ -1269,20 +1095,20 @@ rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../docker_and_aliases.html"
+       href="HPC_FEniCSx_0_9_0_install-gcc_13_2_0.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Docker workspace and aliases</p>
+        <p class="prev-next-title">📖 FEniCSx v0.9.0 Installation on HPC (MCIA)</p>
       </div>
     </a>
     <a class="right-next"
-       href="HPC_FEniCSx_0_9_0_complex_numbers_install-gcc_13_2_0.html"
+       href="../Spack_Install_FEniCSx/README.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">📖 [Complex number] FEniCSx v0.9.0 Installation on HPC (MCIA)</p>
+        <p class="prev-next-title">Spack Installation</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1303,12 +1129,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-use-guide-after-successful-installation">⚡ Quick Use Guide (After Successful Installation)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-to-the-hpc">🌐 Connect to the HPC</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#access-files-online-upload-download">📁 Access files online (upload/download)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-local-file-system-mount-requires-sshfs">📁 Optional: Local File System Mount (Requires sshfs)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-a-job-sbatch-file-template">💻 Running a Job: Sbatch File Template</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-generated-module-recommended">Using the Generated Module (Recommended)</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-spack-environment-directly">Using Spack Environment Directly</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sbatch-file-template">💻 Sbatch File Template</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-procedure-followed-for-the-mcia-cluster">Installation procedure followed for the MCIA cluster</a><ul class="nav section-nav flex-column">
@@ -1326,7 +1147,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-define-the-fenicsx-spack-environment-spack-yaml">Step 4: Define the FEniCSx Spack Environment (<code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code>) 🌿</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-spack-yaml-configuration">Complete <code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code> Configuration</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-spack-yaml-configuration">Minimal <code class="docutils literal notranslate"><span class="pre">spack.yaml</span></code> Configuration</a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-install-the-environment">Step 5: Install the environment</a></li>
@@ -1340,10 +1161,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cleanup-and-reinstallation-for-maintenance">Cleanup and Reinstallation (For Maintenance) 🗑️</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-minimal-configuration-file">Appendix: (Minimal) Configuration file</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a></li>
 </ul>
   </nav></div>
 
