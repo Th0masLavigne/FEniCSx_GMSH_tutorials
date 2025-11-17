@@ -1,45 +1,17 @@
-# 📖 FEniCSx v0.9.0 Installation on HPC (MCIA)
+# 📖 \[Complex number\] FEniCSx v0.9.0 Installation on HPC (MCIA)
 
-This document provides a comprehensive, step-by-step guide for installing **FEniCSx v0.9.0** using Spack on an HPC cluster, specifically referencing the **MCIA** environment.
+This document provides a comprehensive, step-by-step guide for installing **FEniCSx v0.9.0** with **complex** number supports, using Spack on an HPC cluster, specifically referencing the **MCIA** environment. Conversely to the set-up provided for the real number support, this installation consider minimal FEniCSx environment (no nlopt, no gmsh, etc.).
+
+As explained in [J. Dokken Complex Poisson Problem](https://jsdokken.com/dolfinx-tutorial/chapter1/complex_mode.html), the difference relies in the linear algebra that now needs to support complex numbers.
+
+> **⚠️ Note:** Load fenicsx/0.9.0 or fenicsx_complex/0.9.0 depending on your need but the two environment do not coexist.
 
 This procedure utilizes external system modules for the compiler (`gcc@13.2.0`) and build tools (`cmake@3.27.6`), which is common practice on shared clusters.
 
-> **⚠️ Resource Warning:** Installing the complete environment (including `gmsh` and `opencascade`) may require significant resources (e.g., **$\ge$ 16 GB RAM**) and can last for **more than 8 hours**, particularly if dependencies like LLVM need to be recompiled. A minimal `spack.yaml` is also provided for quick test.
-
 ## ⚡ Quick Use Guide (After Successful Installation)
-This section details how to load and use the FEniCSx environment, plus handy connection aliases for the cluster.
+Please refer to [MCIA Installation FEnicsx 0.9.0 - Real numbers support](https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/Install/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_install-gcc_13_2_0.html).
 
-### 🌐 Connect to the HPC 
-You can create an alias to place in your local machine's ~/.bash_aliases (or equivalent) to simplify connection to the cluster.
-```bash
-# Connect to the HPC cluster
-alias hpc_connect='ssh <username>@curta.mcia.fr'
-```
-
->*Note:* Remember to replace <username> with your actual cluster username.
-
-### 📁 Access files online (upload/download)
-The [https://curta3.mcia.fr/](https://curta3.mcia.fr/) web service allows users to access Curta from a web browser using the Open OnDemand software.
-
-
-### 📁 Optional: Local File System Mount (Requires sshfs)
-These aliases use sshfs (SSH Filesystem) to mount your remote directories directly to a local folder (e.g., `$HOME/curta`), allowing you to browse and manage files as if they were local.
-
->*Prerequisite:* You must have the sshfs tool installed on your local computer.
-```bash
-# Mount the remote HOME directory to $HOME/curta
-alias hpc_home_mount='sshfs <username>@curta.mcia.fr:/gpfs/home/<username> $HOME/curta'
-
-# Mount the remote SCRATCH directory to $HOME/curta
-alias hpc_scratch_mount='sshfs <username>@curta.mcia.fr:/scratch/<username> $HOME/curta'
-
-# Unmount the local folder
-alias hpc_unmount='fusermount -u $HOME/curta'
-```
-
->*Tip:* Before running a mount alias, ensure the local directory (`$HOME/curta`) exists: `mkdir -p $HOME/curta`.
-
-### 💻 Running a Job: Sbatch File Template
+### 💻 Sbatch File Template
 
 This template demonstrates how to properly configure a Slurm batch script to load the installed FEniCSx module and execute a parallel simulation.
 ```bash
@@ -89,7 +61,7 @@ module purge
 
 # Load the installed FEniCSx environment module
 # This command automatically sets all PATHs, LD_LIBRARY_PATHs, and Python paths.
-module load fenicsx/0.9.0
+module load fenicsx_complex/0.9.0
 
 # ==============================================================================
 # 3. EXECUTION 
@@ -120,38 +92,6 @@ echo "1. module load slurm/wrappers"
 echo "2. seff <job-id>"
 echo "3. module purge"
 ```
-
-### Using the Generated Module (Recommended)
-
-1.  **Load the FEniCSx module** (after module propagation):
-    ```bash
-    module load fenicsx/0.9.0
-    ```
-2.  **Execute Parallel Job:** Use `mpirun` or `srun` within your Slurm script.
-
->*Tip:* Some test files are available at [Tutorials for test](https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials).
-
-### Using Spack Environment Directly
-
-This approach is required before the module file is deployed system-wide.
-
-1.  **Source the Spack setup:**
-    ```bash
-    source /gpfs/softs/contrib/apps/fenicsx/spack-src-28.10.2025/share/spack/setup-env.sh
-    ```
-2.  **Activate the environment:**
-    ```bash
-    spack env activate --dir /gpfs/softs/contrib/apps/fenicsx/spack-config-28.10.2025/envs/fenicsx/0.9.0/shared
-    ```
-3.  **Export for OpenMPI/PSM2 (Crucial on MCIA):**
-    ```bash
-    export OMPI_MCA_orte_precondition_transports=$(printf '%08x%08x-%08x%08x' \
-        ${SLURM_JOB_ID:-0} ${SLURM_STEP_ID:-0} ${SLURM_JOB_ID:-0} ${SLURM_STEP_ID:-0})
-    ```
-4.  **Export for NLOPT Python Bindings (If installed):**
-    ```bash
-    export PYTHONPATH=/gpfs/softs/contrib/apps/fenicsx/spack-src-28.10.2025/opt/spack/linux-skylake_avx512/nlopt-2.9.1-joq7eb4qexm46mtfyhukmc6zxabfcrve/lib64/python3.11/site-packages:$PYTHONPATH
-    ```
 
 ---
 
@@ -194,7 +134,7 @@ We define all key installation paths and set up logging to capture almost all te
 # ==================================================
 
 # Specify the name of your log file.
-export REPORT_LOG_FILENAME="report_install_fenicsx_$(date +'%Y-%m-%d_%H-%M-%S')_job-id_${SLURM_JOBID}.md"
+export REPORT_LOG_FILENAME="report_install_fenicsx_complex_$(date +'%Y-%m-%d_%H-%M-%S')_job-id_${SLURM_JOBID}.md"
 export REPORT_LOG_DIRECTORY="/gpfs/home/tlavigne002"
 echo "Starting log file creation at: ${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FILENAME}" | tee ${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FILENAME}
 
@@ -202,19 +142,19 @@ echo "Starting log file creation at: ${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FILENA
 export FENICSX_VERSION="0.9.0"
 
 # Path for cloning the Spack repository (including packages.yaml)
-export FENICSX_SPACK_ROOT="/gpfs/softs/contrib/apps/fenicsx/spack-src-28.10.2025"
+export FENICSX_SPACK_ROOT="/gpfs/softs/contrib/apps/fenicsx_complex/spack-src-17.11.2025"
 
 # Path to packages.yaml defining externals
 export SPACK_PACKAGES_YAML="${FENICSX_SPACK_ROOT}/etc/spack/packages.yaml"
 
 # Root path for the Spack environment configuration
-export FENICSX_SPACK_CONFIG_ROOT="/gpfs/softs/contrib/apps/fenicsx/spack-config-28.10.2025"
+export FENICSX_SPACK_CONFIG_ROOT="/gpfs/softs/contrib/apps/fenicsx_complex/spack-config-17.11.2025"
 
 # Directory where the Spack environment will be created (contains spack.yaml)
-export SPACK_ENV_DIR="${FENICSX_SPACK_CONFIG_ROOT}/envs/fenicsx/${FENICSX_VERSION}/shared"
+export SPACK_ENV_DIR="${FENICSX_SPACK_CONFIG_ROOT}/envs/fenicsx_complex/${FENICSX_VERSION}/shared"
 
 # Prefix for where the Tcl/Lmod modulefiles will be deployed
-export MODULEFILE_PREFIX="/gpfs/softs/contrib/modulefiles/fenicsx"
+export MODULEFILE_PREFIX="/gpfs/softs/contrib/modulefiles/fenicsx_complex"
 
 # Use the number of cores allocated by slurm for parallel compilation
 export NCORES=$SLURM_NTASKS
@@ -360,7 +300,8 @@ cat ${SPACK_PACKAGES_YAML} 2>&1 | tee -a ${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FI
 
 This defines the full dependency graph for the complete FEniCSx stack, including visualization and extra physics libraries required by our team.
 
-#### Complete `spack.yaml` Configuration
+
+#### Minimal `spack.yaml` Configuration
 
 This is the complete environment set for MCIA, including specific librairies required by some PhDs of the team:
 
@@ -381,18 +322,13 @@ spack:
   
   - py-fenics-basix@${FENICSX_VERSION}
   - fenics-basix@${FENICSX_VERSION}
-  
-  # see: https://jsdokken.com/dolfinx_mpc/README.html
-  # - py-dolfinx-mpc
 
   # To respect omnipath, add fabrics psm2 and slurm management and PMI
   - openmpi@5.0.8 fabrics=psm2 schedulers=slurm 
   
   # Other Dependencies
-  - petsc+mumps+fortran+superlu-dist~trilinos
+  - petsc+mumps+fortran+superlu-dist~trilinos+complex
   - adios2~sst+python
-  - gmsh+opencascade
-  - vtk@9.5.1+mpi+python+shared
   - hdf5+hl+shared+mpi #by default, hdf5 was without hl causing crash
   
   # Common Python Libraries
@@ -401,28 +337,6 @@ spack:
   - py-setuptools
   - py-wheel
   - python-venv
-  - py-gmsh
-  - py-pygmsh
-  - py-numba
-  - py-scipy
-  - py-statsmodels
-  - py-matplotlib
-  - py-imageio
-  - py-adios4dolfinx
-  - py-trimesh
-  - py-rtree
-  - py-numpy
-  - py-pandas
-  - py-pyvista
-  - py-h5py
-
-  # Other Libraries
-  - nlopt+python
-  - neper
-  - py-pytz
-  - py-scikit-optimize
-  - py-seaborn
-  - py-python-pptx
 
   config:
     concretizer:
@@ -557,7 +471,7 @@ export PYTHONPATH=/gpfs/softs/contrib/apps/fenicsx/spack-src-28.10.2025/opt/spac
 
 ### Step 7: Module Deployment (Propagating to Tcl on MCIA)
 
-This step generates the final Tcl modulefile for system-wide access. This file must be placed in a directory sourced by the cluster's module system. Notably it sets the missing variables automatically and loads the view (i.e. the whole spack environment) under a single flag: `fenicsx/0.9.0`.
+This step generates the final Tcl modulefile for system-wide access. This file must be placed in a directory sourced by the cluster's module system. Notably it sets the missing variables automatically and loads the view (i.e. the whole spack environment) under a single flag: `fenicsx_complex/0.9.0`.
 
 
 Create the target directory for the modulefile:
@@ -570,20 +484,20 @@ Create the TCL module file. The use of 'EOF' ensures that variables like ${FENIC
 cat << 'EOF' > ${MODULEFILE_PREFIX}/${FENICSX_VERSION}
 #%Module1.0#####################################################################
 ##
-## FEniCSx 0.9.0 — modulefile (HPC shared Spack environment)
+## FEniCSx 0.9.0 complex number support— modulefile (HPC shared Spack environment)
 ##
 
 proc ModulesHelp { } {
-    puts stderr "Loads FEniCSx ${FENICSX_VERSION} environment built with Spack"
+    puts stderr "Loads FEniCSx ${FENICSX_VERSION} complex number support environment built with Spack"
     puts stderr "Includes Dolfinx, Basix, UFL, ADIOS2, PETSc, etc."
 }
-module-whatis "FEniCSx 0.9.0 — Shared HPC Spack environment (Dolfinx stack)"
+module-whatis "FEniCSx 0.9.0 complex number support — Shared HPC Spack environment (Dolfinx stack)"
 
 # ============================================================
 # Core environment variables
 # ============================================================
 setenv FENICSX_VERSION "0.9.0"
-setenv FENICSX_ENV_ROOT "/gpfs/softs/contrib/apps/fenicsx/spack-config-28.10.2025/envs/fenicsx/0.9.0/shared"
+setenv FENICSX_ENV_ROOT "/gpfs/softs/contrib/apps/fenicsx_complex/spack-config-17.11.2025/envs/fenicsx_complex/0.9.0/shared"
 setenv FENICSX_VIEW     "$env(FENICSX_ENV_ROOT)/.spack-env/view"
 
 # ============================================================
@@ -603,7 +517,7 @@ prepend-path MANPATH           "$env(FENICSX_VIEW)/share/man"
 prepend-path PYTHONPATH "$env(FENICSX_VIEW)/lib/python3.11/site-packages"
 #
 # NLOpt Python bindings (manual install outside view)
-prepend-path PYTHONPATH "/gpfs/softs/contrib/apps/fenicsx/spack-src-28.10.2025/opt/spack/linux-skylake_avx512/nlopt-2.9.1-joq7eb4qexm46mtfyhukmc6zxabfcrve/lib64/python3.11/site-packages"
+# prepend-path PYTHONPATH "/gpfs/softs/contrib/apps/fenicsx/spack-src-28.10.2025/opt/spack/linux-skylake_avx512/nlopt-2.9.1-joq7eb4qexm46mtfyhukmc6zxabfcrve/lib64/python3.11/site-packages"
 
 # ============================================================
 # UCX / PSM2 runtime tuning
@@ -614,7 +528,7 @@ prepend-path PYTHONPATH "/gpfs/softs/contrib/apps/fenicsx/spack-src-28.10.2025/o
 # setenv UCX_NET_DEVICES "all"
 
 # ============================================================
-# Optional: ensure unique PSM2 key under Slurm because Error obtaining unique transport key from PMIX (OMPI_MCA_orte_precondition_transports not present in the environment). when loading fenicsx
+# Optional: ensure unique PSM2 key under Slurm because Error obtaining unique transport key from PMIX (OMPI_MCA_orte_precondition_transports not present in the environment). when loading fenicsx_complex
 # ============================================================
 
 if {[info exists env(SLURM_JOB_ID)]} {
@@ -639,11 +553,8 @@ setenv FENICSX_HOME "$env(FENICSX_VIEW)"
 setenv FENICSX_SPACK_ENV "$env(FENICSX_ENV_ROOT)"
 
 puts "# ============================================================"
-puts "# Loaded FEniCSx 0.9.0 (shared Spack environment)"
+puts "# Loaded FEniCSx 0.9.0 complex number support (shared Spack environment)"
 puts "# ============================================================"
-# puts stderr ">> Loaded FEniCSx 0.9.0 (shared Spack environment)"
-# puts stderr ">> Using view: $env(FENICSX_VIEW)"
-# puts stderr ">> Using OMPI_MCA_orte_precondition_transports: $key"
 puts "Using view: $env(FENICSX_VIEW)"
 puts "Using OMPI_MCA_orte_precondition_transports: $key"
 puts "# FEniCSx Core Components"
@@ -657,10 +568,9 @@ puts  "- fenics-basix@${FENICSX_VERSION}"
 puts  "# To respect omnipath, add fabrics psm2 and slurm management and PMI"
 puts  "- openmpi@5.0.8 fabrics=psm2 schedulers=slurm "
 puts  "# Other Dependencies"
-puts  "- petsc+mumps+fortran+superlu-dist~trilinos"
+puts  "# Complex PETSc"
+puts  "- petsc+mumps+fortran+superlu-dist~trilinos+complex"
 puts  "- adios2~sst+python"
-puts  "- gmsh+opencascade"
-puts  "- vtk@9.5.1+mpi+python+shared"
 puts  "- hdf5+hl+shared+mpi #by default, hdf5 was without hl causing crash"
 puts  "# Common Python Libraries"
 puts  "- python"
@@ -668,27 +578,6 @@ puts  "- py-pip"
 puts  "- py-setuptools"
 puts  "- py-wheel"
 puts  "- python-venv"
-puts  "- py-gmsh"
-puts  "- py-pygmsh"
-puts  "- py-numba"
-puts  "- py-scipy"
-puts  "- py-statsmodels"
-puts  "- py-matplotlib"
-puts  "- py-imageio"
-puts  "- py-adios4dolfinx"
-puts  "- py-trimesh"
-puts  "- py-rtree"
-puts  "- py-numpy"
-puts  "- py-pandas"
-puts  "- py-pyvista"
-puts  "- py-h5py"
-puts  "# Other Libraries"
-puts  "- nlopt+python"
-puts  "- neper"
-puts  "- py-pytz"
-puts  "- py-scikit-optimize"
-puts  "- py-seaborn"
-puts  "- py-python-pptx"
 puts "# ============================================================"
 puts "# ============================================================"
 
@@ -750,44 +639,3 @@ rm -rf ${MODULEFILE_PREFIX}/${FENICSX_VERSION}
   * Spack Packages: [packages.spack.io](https://packages.spack.io/)
 
   * Set variable for openmpi: [openmpi/pmix issue](https://github.com/open-mpi/ompi/issues/13397)
-
-  * J. Dokken MPC-constraint: [Spack MPC-constraint](https://jsdokken.com/dolfinx_mpc/README.html)
-
-
-
-
------
-
-#### Appendix: (Minimal) Configuration file
-If you wish to only test the core FEniCSx installation without `gmsh` or other optional libraries, you can use a minimal configuration that excludes `gmsh+opencascade`, `py-gmsh`, `py-numba`, etc.
-```bash
-cat << EOF > ${SPACK_ENV_DIR}/spack_minimal.yaml 2>&1 | tee -a ${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FILENAME}
-# spack_minimal.yaml for fenicsx/${FENICSX_VERSION}/shared
-spack:
-  specs:
-  - python
-  - py-pip
-  - py-setuptools
-  - py-wheel
-  - python-venv
-  - fenics-dolfinx@${FENICSX_VERSION}+adios2+petsc
-  - py-fenics-dolfinx@${FENICSX_VERSION}+petsc4py+slepc4py
-  - py-fenics-basix@${FENICSX_VERSION}
-  - fenics-basix@${FENICSX_VERSION}
-  - py-fenics-ufl@2024.2.0
-  - py-fenics-ffcx@${FENICSX_VERSION}
-  - petsc+mumps+fortran+superlu-dist~trilinos
-  - adios2~sst+python
-  # To respect omnipath, add fabrics psm2
-  - openmpi@5.0.8 fabrics=psm2 schedulers=slurm
-
-  config:
-    concretizer:
-      unify: true
-    env_vars:
-      set:
-        SKBUILD_CMAKE_EXECUTABLE: ${PREFIX_CMAKE}/bin/cmake
-        CMAKE_EXECUTABLE: ${PREFIX_CMAKE}/bin/cmake
-        PATH: ${PREFIX_CMAKE}/bin:$PATH
-EOF
-```

@@ -1,4 +1,4 @@
-# Spack Installation
+# Spack Installation (CASSIOPEE)
 
 This procedure was used to install FEniCSx on the HPC Cassiopee (RED HAT Enterprise Linux 8.10).
 
