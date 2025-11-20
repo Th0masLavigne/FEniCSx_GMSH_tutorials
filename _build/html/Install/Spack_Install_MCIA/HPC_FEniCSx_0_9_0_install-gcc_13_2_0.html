@@ -1242,6 +1242,13 @@ rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><
 </section>
 <section id="array-with-slurm">
 <h2>Array with Slurm<a class="headerlink" href="#array-with-slurm" title="Link to this heading">#</a></h2>
+<p>This script is now configured to:</p>
+<ul class="simple">
+<li><p>Use the 0-3 array tasks to calculate a NOK_VALUE from 1 to 4.</p></li>
+<li><p>In the final mpirun command, it uses mpirun -n ${NOK_VALUE} to run the simulation with a dynamically increasing number of processes (1, 2, 3, or 4) for each task.</p></li>
+<li><p>It passes this dynamic number as the first command-line argument to your Python script.</p></li>
+</ul>
+<p>This setup is perfect for generating data to plot parallel efficiency or convergence over different core counts! Let me know if you’d like a reminder of how to read that NOK_VALUE inside your Python script.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># ==============================================================================</span>
@@ -1255,7 +1262,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><
 <span class="c1">#</span>
 <span class="c1">#SBATCH --nodes=1</span>
 <span class="c1">#SBATCH --ntasks=4                      # Total number of MPI processes (4 total)</span>
-<span class="c1">#SBATCH --ntasks-per-node=1              # One master process per node (mpirun)</span>
+<span class="c1">##SBATCH --ntasks-per-node=1              # One master process per node (mpirun)</span>
 <span class="c1">##SBATCH --tasks-per-node=2              # Processes per node (2 per node on 2 nodes = 4 total)</span>
 <span class="c1">#SBATCH --time=0-01:00:00               # Short runtime</span>
 <span class="c1">#SBATCH --mem=16GB                       # Total memory reserved for the job</span>

@@ -797,6 +797,16 @@ EOF
 
 ## Array with Slurm
 
+This script is now configured to:
+
+* Use the 0-3 array tasks to calculate a NOK_VALUE from 1 to 4.
+
+* In the final mpirun command, it uses mpirun -n ${NOK_VALUE} to run the simulation with a dynamically increasing number of processes (1, 2, 3, or 4) for each task.
+
+* It passes this dynamic number as the first command-line argument to your Python script.
+
+This setup is perfect for generating data to plot parallel efficiency or convergence over different core counts! Let me know if you'd like a reminder of how to read that NOK_VALUE inside your Python script.
+
 ```bash
 #!/bin/bash
 
@@ -811,7 +821,7 @@ EOF
 #
 #SBATCH --nodes=1
 #SBATCH --ntasks=4                      # Total number of MPI processes (4 total)
-#SBATCH --ntasks-per-node=1              # One master process per node (mpirun)
+##SBATCH --ntasks-per-node=1              # One master process per node (mpirun)
 ##SBATCH --tasks-per-node=2              # Processes per node (2 per node on 2 nodes = 4 total)
 #SBATCH --time=0-01:00:00               # Short runtime
 #SBATCH --mem=16GB                       # Total memory reserved for the job
