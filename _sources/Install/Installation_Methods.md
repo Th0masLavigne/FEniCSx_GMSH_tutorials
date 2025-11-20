@@ -16,14 +16,14 @@ These guides are tailored for installing the FEniCSx stack using **Spack**, prim
 
 These guides are specifically for the MCIA HPC cluster at I2M Bordeaux.
 
-* **Standard Installation:** [Spack Installation (MCIA)](HPC_FEniCSx_0_9_0_install-gcc_13_2_0.md)
-* **Complex Support Installation:** [Complex Support - Spack Installation (MCIA)](HPC_FEniCSx_0_9_0_complex_numbers_install-gcc_13_2_0.md)
+* **Standard Installation:** [Spack Installation (MCIA)](./Spack_Install_MCIA/HPC_FEniCSx_0_9_0_install-gcc_13_2_0.md)
+* **Complex Support Installation:** [Complex Support - Spack Installation (MCIA)](./Spack_Install_MCIA/HPC_FEniCSx_0_9_0_complex_numbers_install-gcc_13_2_0.md)
 
 ### Spack Installation (CASSIOPEE)
 
 This section covers the Spack installation process on the CASSIOPEE cluster.
 
-* **Setup and Install:** [Spack Installation (CASSIOPEE) Overview](../Spack_Install_FEniCSx/README.md)
+* **Setup and Install:** [Spack Installation (CASSIOPEE) Overview](./Spack_Install_FEniCSx/README.md)
     * *Detailed Spack install steps and versioning information are available within the dedicated section.*
 
 ---
@@ -34,12 +34,12 @@ These guides are for setting up the environment on personal workstations running
 
 ### WSL & Local Docker
 
-* **WSL Docker Installer:** [WSL Docker Installer Guide](../../WSL_Docker_installer/README.md)
-* **WSL Local Installer:** [WSL Local Installer Guide](../../WSL_Local_installer/README.md)
+* **WSL Docker Installer:** [WSL Docker Installer Guide](./WSL_Docker_installer/README.md)
+* **WSL Local Installer:** [WSL Local Installer Guide](./WSL_Local_installer/README.md)
 
 ### Windows Docker
 
-* **Windows Docker Installer:** [Windows Docker Installer Guide](../../Windows_docker_installer/README.md)
+* **Windows Docker Installer:** [Windows Docker Installer Guide](./Windows_docker_installer/README.md)
 
 ---
 
@@ -47,5 +47,5 @@ These guides are for setting up the environment on personal workstations running
 
 You can find general installation information and setup files here:
 
-* [General Installation Processes](../../Install_processes.md)
-* [Docker Setup and Aliases](../../docker_and_aliases.md)
+* [General Installation Processes](./Install_processes.md)
+* [Docker Setup and Aliases](./docker_and_aliases.md)
