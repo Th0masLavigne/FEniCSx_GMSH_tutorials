@@ -6,21 +6,21 @@
 #SBATCH --job-name=fenicsx_convergence
 #SBATCH --constraint=compute
 #SBATCH --partition=i2m,i2m-resources
-# --- JOB ARRAY PARAMETERS (800 tasks from 0 to 799) ---
+# --- JOB ARRAY PARAMETERS (4 tasks from 0 to 3) ---
 #SBATCH --array=0-3 # for convergence analysis (i.e. use in mpirun) make it match --ntasks
 #
-#SBATCH --nodes=1
+#SBATCH --nodes=1 
 #SBATCH --ntasks=4                      # Total number of MPI processes (4 total)
-#SBATCH --ntasks-per-node=1              # One master process per node (mpirun)
+##SBATCH --ntasks-per-node=1              # One master process per node (mpirun)
 ##SBATCH --tasks-per-node=2              # Processes per node (2 per node on 2 nodes = 4 total)
 #SBATCH --time=0-01:00:00               # Short runtime
 #SBATCH --mem=16GB                       # Total memory reserved for the job
 ##SBATCH --mem-per-cpu=8g              # Alternative: Request memory per core
-#SBATCH --output=slurm_test_%j.out
-#SBATCH --error=slurm_test_%j.err
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=<mail>@<domain>.fr # Replace with your email address
-#SBATCH --chdir=/gpfs/home/<USERNAME>/your_working_dir # Set the working directory
+#SBATCH --output=/gpfs/home/tlavigne002/test_fenics/array/slurm_test_%j.out
+#SBATCH --error=/gpfs/home/tlavigne002/test_fenics/array/slurm_test_%j.err
+##SBATCH --mail-type=ALL
+##SBATCH --mail-user=<mail>@<domain>.fr # Replace with your email address
+#SBATCH --chdir=/gpfs/home/tlavigne002/test_fenics/array
 
 # Exit immediately if a command exits with a non-zero status
 set -e
@@ -64,19 +64,20 @@ module load fenicsx/0.9.0
 # Print job parameters for verification
 echo "Starting execution on $(hostname) at $(date)"
 echo "Number of nodes requested: $SLURM_NNODES"
-echo "Total MPI tasks: $SLURM_NTASKS"
+echo "Available MPI tasks: $SLURM_NTASKS"
+echo "Total MPI tasks: $NOK_VALUE"
 
 echo "Elementary test..."
-mpirun -n $SLURM_NTASKS python -c "from mpi4py import MPI; import dolfinx; comm = MPI.COMM_WORLD; rank = comm.Get_rank(); size = comm.Get_size(); print(f'Hello from rank {rank} out of {size} processes, dolfinx v {dolfinx.__version__}');from petsc4py import PETSc; from dolfinx.fem.petsc import assemble_vector; print(PETSc.ScalarType);"
+mpirun -n ${NOK_VALUE} python -c "from mpi4py import MPI; import dolfinx; comm = MPI.COMM_WORLD; rank = comm.Get_rank(); size = comm.Get_size(); print(f'Hello from rank {rank} out of {size} processes, dolfinx v {dolfinx.__version__}');from petsc4py import PETSc; from dolfinx.fem.petsc import assemble_vector; print(PETSc.ScalarType);"
 
 
 echo "--- STARTING FENICSX SIMULATION #${NOK_VALUE} ---"
 # Execute the parallel Python script using mpirun
 # mpirun uses the OpenMPI instance loaded by the FEniCSx module
-echo "Running: mpirun -n $SLURM_NTASKS python <filename>.py "
+echo "Running: mpirun -n $NOK_VALUE python Hyper_elastic_contact_conditionnel_body_force.py "
 
 # IMPORTANT: Ensure <filename>.py is in the directory specified by --chdir, add the nok_value for your export names for instance
-mpirun -n ${NOK_VALUE} python <filename>.py ${NOK_VALUE}
+mpirun -n ${NOK_VALUE} python Hyper_elastic_contact_conditionnel_body_force.py ${NOK_VALUE}
 
 # ==============================================================================
 # 4. POST-PROCESSING (OPTIONAL)
