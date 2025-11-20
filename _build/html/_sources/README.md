@@ -1,6 +1,6 @@
 # FEniCSx & GMSH Tutorial Repository (v0.9.0)
 
-This repository contains all materials, scripts, and documentation for a Finite Element Modeling workshop, focusing on **FEniCSx v0.9.0** and **GMSH v4.11+**. The project is directly related to Thomas Lavigne's AFR-FNR research, a collaborative effort involving the University of Luxembourg, Bordeaux University (I2M), and ENSAM Paris (IBHGC); and to the workshop conducted at I2M Bordeaux of the 9th-11th September 2024.
+This repository contains all materials, scripts, and documentation for a Finite Element Modeling workshop, focusing on **FEniCSx v0.9.0** and **GMSH v4.11+**. The project is directly related to [Thomas Lavigne](https://th0maslavigne.github.io)'s AFR-FNR research, a collaborative effort involving the University of Luxembourg, Bordeaux University (I2M), and ENSAM Paris (IBHGC); and to the workshop conducted at I2M Bordeaux of the 9th-11th September 2024.
 
 The primary goal is to guide users through advanced finite element methods using **FEniCSx** and robust, complex mesh generation with **GMSH**.
 
