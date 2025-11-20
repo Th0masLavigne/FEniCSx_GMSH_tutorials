@@ -14,6 +14,9 @@ Please refer to [MCIA Installation FEnicsx 0.9.0 - Real numbers support](https:/
 ### 💻 Sbatch File Template
 
 This template demonstrates how to properly configure a Slurm batch script to load the installed FEniCSx module and execute a parallel simulation.
+
+>To run multiple simulations with a variable value like for the mpirun or a parameter of your code, see at the really bottom of the page.
+
 ```bash
 #!/bin/bash
 
@@ -337,6 +340,9 @@ spack:
   - py-setuptools
   - py-wheel
   - python-venv
+  - py-scipy
+  - py-matplotlib
+  - py-numpy
 
   config:
     concretizer:
@@ -615,3 +621,178 @@ rm -rf ${MODULEFILE_PREFIX}/${FENICSX_VERSION}
   * Spack Packages: [packages.spack.io](https://packages.spack.io/)
 
   * Set variable for openmpi: [openmpi/pmix issue](https://github.com/open-mpi/ompi/issues/13397)
+
+
+## Array in slurm
+
+This SLURM script uses the **Job Array** feature to efficiently run **800 independent, identical simulations** in parallel. Each simulation is an **MPI** (Message Passing Interface) task utilizing **16 CPU cores**. The job array automatically manages the submission and tracking of these 800 tasks (indexed **0 to 799**), making it ideal for high-throughput parametric studies (like FEniCSx simulations with varying parameters).
+
+-----
+
+### ⚙️ SLURM Array Configuration Explained
+
+The core of the array configuration is defined by the following directives in section 1:
+
+  * **`#SBATCH --job-name=FEniCSx_Array_Sims`**: Sets a collective name for the entire batch of 800 tasks.
+  * **`#SBATCH --array=0-799`**: This is the crucial directive that creates the **Job Array**. It tells SLURM to generate 800 separate jobs (tasks), indexed from 0 up to and including 799.
+  * **Resource Allocation (Per Task):**
+      * `#SBATCH --nodes=1` and `#SBATCH --ntasks-per-node=1`: Each task runs as a single process (`mpirun`) on one node.
+      * `#SBATCH --cpus-per-task=16`: Each of the 800 tasks is allocated **16 CPU cores** for its parallel execution (`mpirun`).
+      * `#SBATCH --mem=64GB`: Each task is allocated **64GB of memory**.
+  * **Output Management:**
+      * `#SBATCH --output=./FEniCSx_3D_simulation_output/result_%A_%a.log`
+      * `#SBATCH --error=./FEniCSx_3D_simulation_output/error_%A_%a.err`
+      * The format specifiers `%A` (Job Array ID) and `%a` (Task ID, 0-799) ensure that each of the 800 tasks gets its own unique, non-overwriting output and error log file.
+
+-----
+
+### 🧮 Script Logic and Execution
+
+1.  **Task Index Mapping:**
+
+    ```bash
+    NOK_VALUE=$SLURM_ARRAY_TASK_ID
+    ```
+
+    This line is key. The SLURM environment variable **`$SLURM_ARRAY_TASK_ID`** automatically contains the unique index of the current task (from 0 to 799). This index is stored in `NOK_VALUE` and is used to **differentiate the input** for each simulation (e.g., loading a specific parameter set for that index).
+
+2.  **Environment Setup:**
+
+    ```bash
+    module purge
+    module load fenicsx_complex/0.9.0
+    ```
+
+    The script ensures a clean environment and then loads the necessary **FEniCSx** module, which includes the required MPI implementation (likely Intel MPI in this case).
+
+3.  **Parallel Execution:**
+
+    ```bash
+    mpirun -n $SLURM_CPUS_PER_TASK python ./<python_script.py> ${NOK_VALUE}
+    ```
+
+      * `mpirun -n $SLURM_CPUS_PER_TASK`: Initiates a parallel run using **16 processes** (the value of `$SLURM_CPUS_PER_TASK`).
+      * `python ./<python_script.py>`: Executes the FEniCSx Python script.
+      * `${NOK_VALUE}`: Passes the unique task index (0-799) as a **command-line argument** to the Python script. The Python script must be designed to read this argument and use it to select the correct parameter or input data for its specific run.
+
+-----
+
+### ➡️ Next Steps: Submitting the Job
+
+To run all 800 simulations, you would submit this script using the standard SLURM command:
+
+```bash
+sbatch <script_name>.sh
+```
+
+SLURM will immediately create and queue 800 separate jobs based on the array definition.
+
+#### Post-Analysis Dependency
+
+The final section provides a powerful tip for workflow management:
+
+```bash
+sbatch --dependency=afterok:<Job_Array_ID> analyse_globale.sh
+```
+
+After submitting the array, you get a single **Job Array ID** (e.g., 123456). You can submit a separate global analysis script (`analyse_globale.sh`) and set a **dependency** on the array. This ensures the analysis script will **only start** after all 800 tasks in the array have completed successfully (`afterok`).
+
+Would you like me to suggest how the Python script might use the `${NOK_VALUE}` argument?
+
+### Sbatch file
+
+
+```bash
+#!/bin/bash
+
+# ==============================================================================
+# 1. SLURM DIRECTIVES (MODIFIED FOR JOB ARRAY 0-799)
+# ==============================================================================
+#SBATCH --job-name=FEniCSx_Array_Sims  # Main Job Array Name
+#SBATCH --constraint=compute
+#SBATCH --partition=i2m,i2m-resources
+#
+# --- JOB ARRAY PARAMETERS (800 tasks from 0 to 799) ---
+#SBATCH --array=0-799
+#
+# --- RESOURCE PARAMETERS FOR EACH MPI TASK (Based on your successful test) ---
+# Each task is an independent MPI run using 16 cores.
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1             # One master process per node (mpirun)
+#SBATCH --cpus-per-task=16              # The mpirun process will use 16 cores for MPI
+#
+# Time and Memory: Adjusted for 16 cores and 64GB (based on your test)
+#SBATCH --time=0-01:00:00               # Time allocated PER TASK (adjust if necessary)
+#SBATCH --mem=64GB                      # Memory allocated PER TASK (your test used ~46GB)
+#
+# Output Files: Slurm handles output redirection for you.
+# %A = Job Array ID, %a = Task ID (0 to 799)
+# The logs replace your previous './FEniCSx_3D_simulation_output/result${nok}.log' structure.
+#SBATCH --output=./FEniCSx_3D_simulation_output/result_%A_%a.log
+#SBATCH --error=./FEniCSx_3D_simulation_output/error_%A_%a.err
+#
+# --- OTHER PARAMETERS ---
+#SBATCH --mail-type=END
+#SBATCH --mail-user=<mail>@<domain>.fr # Replace with your email address
+#SBATCH --chdir=/gpfs/home/<USERNAME>/your_working_dir # Set the working directory
+
+# Exit immediately if a command exits with a non-zero status
+set -e
+
+# Slurm environment variable for the task index
+NOK_VALUE=$SLURM_ARRAY_TASK_ID
+
+# ==============================================================================
+# 2. INFORMATION AND MODULE LOADING
+# ==============================================================================
+echo "==============================================================================" 
+echo "User:" $USER
+echo "Date:" `date`
+echo "Host:" `hostname`
+echo "Directory:" `pwd`
+echo "SLURM_JOBID (Array ID):" $SLURM_ARRAY_JOB_ID
+echo "SLURM_ARRAY_TASK_ID (NOK):" $NOK_VALUE
+echo "Total processes (cores) requested:" $SLURM_CPUS_PER_TASK
+echo "==============================================================================" 
+
+echo "--- STARTING FENICSX SIMULATION #${NOK_VALUE} ---"
+
+echo "Loading FEniCSx module (includes Python and Intel MPI)..."
+# Ensure a clean environment before loading the FEniCSx module
+module purge
+
+# Load the installed FEniCSx environment module
+module load fenicsx_complex/0.9.0
+
+# ==============================================================================
+# 3. EXECUTION 
+# ==============================================================================
+
+# Print job parameters for verification
+echo "Starting execution on $(hostname) at $(date)"
+echo "Number of cores requested: $SLURM_CPUS_PER_TASK"
+
+# Execute the parallel FEniCSx script
+# $SLURM_CPUS_PER_TASK is set to 16.
+# The value $NOK_VALUE (from 0 to 799) is passed as an argument to the Python script.
+echo "Running: mpirun -n $SLURM_CPUS_PER_TASK python ./<python_script.py> ${NOK_VALUE}"
+
+mpirun -n $SLURM_CPUS_PER_TASK python ./<python_script.py> ${NOK_VALUE}
+
+# ==============================================================================
+# 4. POST-PROCESSING (OPTIONAL)
+# ==============================================================================
+echo "Job finished at $(date)"
+
+echo "After a job finishes you can see the real use of CPUs and memory:"
+echo "1. module load slurm/wrappers"
+echo "2. seff <job-id>"
+echo "3. module purge"
+
+# ------------------------------------------------------------------------------
+echo "To launch the global analysis job after all 800 simulations are complete:"
+echo "Note the Job Array ID (e.g., 123456) after submitting this script with 'sbatch'."
+echo "Submit a separate analysis script with a dependency:"
+echo "sbatch --dependency=afterok:<Job_Array_ID> analyse_globale.sh"
+# ------------------------------------------------------------------------------
+```

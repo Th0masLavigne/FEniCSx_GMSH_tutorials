@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -448,10 +448,9 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cleanup-and-reinstallation-for-maintenance">Cleanup and Reinstallation (For Maintenance) 🗑️</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-minimal-configuration-file">Appendix: (Minimal) Configuration file</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-minimal-configuration-file">Appendix: (Minimal) Configuration file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#array-with-slurm">Array with Slurm</a></li>
 </ul>
             </nav>
         </div>
@@ -511,6 +510,9 @@ document.write(`
 <section id="running-a-job-sbatch-file-template">
 <h3>💻 Running a Job: Sbatch File Template<a class="headerlink" href="#running-a-job-sbatch-file-template" title="Link to this heading">#</a></h3>
 <p>This template demonstrates how to properly configure a Slurm batch script to load the installed FEniCSx module and execute a parallel simulation.</p>
+<blockquote>
+<div><p>For multiple same execution with a parameter change (here mpirun tasks) refer to the really bottom (for convergence study). This could otherwise be used for python parameter.</p>
+</div></blockquote>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># ==============================================================================</span>
@@ -1201,9 +1203,10 @@ rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><
 <li><p>Set variable for openmpi: <a class="reference external" href="https://github.com/open-mpi/ompi/issues/13397">openmpi/pmix issue</a></p></li>
 <li><p>J. Dokken MPC-constraint: <a class="reference external" href="https://jsdokken.com/dolfinx_mpc/README.html">Spack MPC-constraint</a></p></li>
 </ul>
+</section>
 <hr class="docutils" />
 <section id="appendix-minimal-configuration-file">
-<h3>Appendix: (Minimal) Configuration file<a class="headerlink" href="#appendix-minimal-configuration-file" title="Link to this heading">#</a></h3>
+<h2>Appendix: (Minimal) Configuration file<a class="headerlink" href="#appendix-minimal-configuration-file" title="Link to this heading">#</a></h2>
 <p>If you wish to only test the core FEniCSx installation without <code class="docutils literal notranslate"><span class="pre">gmsh</span></code> or other optional libraries, you can use a minimal configuration that excludes <code class="docutils literal notranslate"><span class="pre">gmsh+opencascade</span></code>, <code class="docutils literal notranslate"><span class="pre">py-gmsh</span></code>, <code class="docutils literal notranslate"><span class="pre">py-numba</span></code>, etc.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; ${SPACK_ENV_DIR}/spack_minimal.yaml 2&gt;&amp;1 | tee -a ${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FILENAME}</span>
 <span class="s"># spack_minimal.yaml for fenicsx/${FENICSX_VERSION}/shared</span>
@@ -1237,6 +1240,99 @@ rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><
 </pre></div>
 </div>
 </section>
+<section id="array-with-slurm">
+<h2>Array with Slurm<a class="headerlink" href="#array-with-slurm" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># ==============================================================================</span>
+<span class="c1"># 1. SLURM DIRECTIVES (MODIFY THESE FOR YOUR JOB)</span>
+<span class="c1"># ==============================================================================</span>
+<span class="c1">#SBATCH --job-name=fenicsx_convergence</span>
+<span class="c1">#SBATCH --constraint=compute</span>
+<span class="c1">#SBATCH --partition=i2m,i2m-resources</span>
+<span class="c1"># --- JOB ARRAY PARAMETERS (800 tasks from 0 to 799) ---</span>
+<span class="c1">#SBATCH --array=0-3 # for convergence analysis (i.e. use in mpirun) make it match --ntasks</span>
+<span class="c1">#</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --ntasks=4                      # Total number of MPI processes (4 total)</span>
+<span class="c1">#SBATCH --ntasks-per-node=1              # One master process per node (mpirun)</span>
+<span class="c1">##SBATCH --tasks-per-node=2              # Processes per node (2 per node on 2 nodes = 4 total)</span>
+<span class="c1">#SBATCH --time=0-01:00:00               # Short runtime</span>
+<span class="c1">#SBATCH --mem=16GB                       # Total memory reserved for the job</span>
+<span class="c1">##SBATCH --mem-per-cpu=8g              # Alternative: Request memory per core</span>
+<span class="c1">#SBATCH --output=slurm_test_%j.out</span>
+<span class="c1">#SBATCH --error=slurm_test_%j.err</span>
+<span class="c1">#SBATCH --mail-type=ALL</span>
+<span class="c1">#SBATCH --mail-user=&lt;mail&gt;@&lt;domain&gt;.fr # Replace with your email address</span>
+<span class="c1">#SBATCH --chdir=/gpfs/home/&lt;USERNAME&gt;/your_working_dir # Set the working directory</span>
+
+<span class="c1"># Exit immediately if a command exits with a non-zero status</span>
+<span class="nb">set</span><span class="w"> </span>-e
+
+<span class="c1"># Slurm environment variable for the task index (0-799)</span>
+<span class="nv">SLURM_INDEX</span><span class="o">=</span><span class="nv">$SLURM_ARRAY_TASK_ID</span>
+
+<span class="c1"># Calculate the 1-based index (1-800)</span>
+<span class="c1"># This is the value that will be passed to the Python script</span>
+<span class="nv">NOK_VALUE</span><span class="o">=</span><span class="k">$((</span><span class="nv">SLURM_INDEX</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span><span class="k">))</span>
+
+<span class="c1"># useful informations to print</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;==============================================================================&quot;</span><span class="w"> </span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;User:&quot;</span><span class="w"> </span><span class="nv">$USER</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Date:&quot;</span><span class="w"> </span><span class="sb">`</span>date<span class="sb">`</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Host:&quot;</span><span class="w"> </span><span class="sb">`</span>hostname<span class="sb">`</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Directory:&quot;</span><span class="w"> </span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;SLURM_JOBID (Array ID):&quot;</span><span class="w"> </span><span class="nv">$SLURM_ARRAY_JOB_ID</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;SLURM_ARRAY_TASK_ID (0-799):&quot;</span><span class="w"> </span><span class="nv">$SLURM_INDEX</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Calculated NOK Value (1-800):&quot;</span><span class="w"> </span><span class="nv">$NOK_VALUE</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Total processes (cores) requested:&quot;</span><span class="w"> </span><span class="nv">$SLURM_CPUS_PER_TASK</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;==============================================================================&quot;</span><span class="w"> </span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;--- STARTING FENICSX MODULE TEST #</span><span class="si">${</span><span class="nv">NOK_VALUE</span><span class="si">}</span><span class="s2"> ---&quot;</span>
+
+<span class="c1"># ==============================================================================</span>
+<span class="c1"># 2. MODULE LOADING</span>
+<span class="c1"># ==============================================================================</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Loading FEniCSx module (includes Python and Intel MPI)...&quot;</span>
+<span class="c1"># Ensure a clean environment before loading the FEniCSx module</span>
+module<span class="w"> </span>purge
+
+<span class="c1"># Load the installed FEniCSx environment module</span>
+<span class="c1"># This command automatically sets all PATHs, LD_LIBRARY_PATHs, and Python paths.</span>
+module<span class="w"> </span>load<span class="w"> </span>fenicsx/0.9.0
+
+<span class="c1"># ==============================================================================</span>
+<span class="c1"># 3. EXECUTION </span>
+<span class="c1"># ==============================================================================</span>
+
+<span class="c1"># Print job parameters for verification</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Starting execution on </span><span class="k">$(</span>hostname<span class="k">)</span><span class="s2"> at </span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Number of nodes requested: </span><span class="nv">$SLURM_NNODES</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Total MPI tasks: </span><span class="nv">$SLURM_NTASKS</span><span class="s2">&quot;</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Elementary test...&quot;</span>
+mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_NTASKS</span><span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;from mpi4py import MPI; import dolfinx; comm = MPI.COMM_WORLD; rank = comm.Get_rank(); size = comm.Get_size(); print(f&#39;Hello from rank {rank} out of {size} processes, dolfinx v {dolfinx.__version__}&#39;);from petsc4py import PETSc; from dolfinx.fem.petsc import assemble_vector; print(PETSc.ScalarType);&quot;</span>
+
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;--- STARTING FENICSX SIMULATION #</span><span class="si">${</span><span class="nv">NOK_VALUE</span><span class="si">}</span><span class="s2"> ---&quot;</span>
+<span class="c1"># Execute the parallel Python script using mpirun</span>
+<span class="c1"># mpirun uses the OpenMPI instance loaded by the FEniCSx module</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Running: mpirun -n </span><span class="nv">$SLURM_NTASKS</span><span class="s2"> python &lt;filename&gt;.py &quot;</span>
+
+<span class="c1"># IMPORTANT: Ensure &lt;filename&gt;.py is in the directory specified by --chdir, add the nok_value for your export names for instance</span>
+mpirun<span class="w"> </span>-n<span class="w"> </span><span class="si">${</span><span class="nv">NOK_VALUE</span><span class="si">}</span><span class="w"> </span>python<span class="w"> </span>&lt;filename&gt;.py<span class="w"> </span><span class="si">${</span><span class="nv">NOK_VALUE</span><span class="si">}</span>
+
+<span class="c1"># ==============================================================================</span>
+<span class="c1"># 4. POST-PROCESSING (OPTIONAL)</span>
+<span class="c1"># ==============================================================================</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Job finished at </span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&quot;</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;After a job finishes you can see the real use of CPUs and memory&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;1. module load slurm/wrappers&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;2. seff &lt;job-id&gt;&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;3. module purge&quot;</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -1342,10 +1438,9 @@ rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cleanup-and-reinstallation-for-maintenance">Cleanup and Reinstallation (For Maintenance) 🗑️</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-minimal-configuration-file">Appendix: (Minimal) Configuration file</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appendix-minimal-configuration-file">Appendix: (Minimal) Configuration file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#array-with-slurm">Array with Slurm</a></li>
 </ul>
   </nav></div>
 
