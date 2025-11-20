@@ -717,7 +717,6 @@ Would you like me to suggest how the Python script might use the `${NOK_VALUE}` 
 #
 # --- RESOURCE PARAMETERS FOR EACH MPI TASK (Based on your successful test) ---
 # Each task is an independent MPI run using 16 cores.
-#SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1             # One master process per node (mpirun)
 #SBATCH --cpus-per-task=16              # The mpirun process will use 16 cores for MPI
 #
