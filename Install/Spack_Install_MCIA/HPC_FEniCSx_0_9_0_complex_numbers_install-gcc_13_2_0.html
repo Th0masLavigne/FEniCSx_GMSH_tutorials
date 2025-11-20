@@ -974,34 +974,13 @@ mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_
 <span class="s">setenv FENICSX_HOME &quot;$env(FENICSX_VIEW)&quot;</span>
 <span class="s">setenv FENICSX_SPACK_ENV &quot;$env(FENICSX_ENV_ROOT)&quot;</span>
 
-<span class="s">puts &quot;# &#39;============================================================&#39;&quot;</span>
-<span class="s">puts &quot;# Loaded FEniCSx 0.9.0 complex number support (shared Spack environment)&quot;</span>
-<span class="s">puts &quot;# &#39;============================================================&#39;&quot;</span>
-<span class="s">puts &quot;Using view: $env(FENICSX_VIEW)&quot;</span>
-<span class="s">puts &quot;Using OMPI_MCA_orte_precondition_transports: $key&quot;</span>
-<span class="s">puts &quot;# FEniCSx Core Components&quot;</span>
-<span class="s">puts  &quot;&#39;- fenics-dolfinx@0.9.0+adios2+petsc&#39;&quot;</span>
-<span class="s">puts  &quot;&#39;- py-fenics-dolfinx@0.9.0+petsc4py+slepc4py&#39;&quot;</span>
-<span class="s">puts  &quot;&#39;- py-fenics-ffcx@0.9.0&#39;&quot;</span>
-<span class="s">puts  &quot;&#39;- fenics-ufcx&#39;&quot;</span>
-<span class="s">puts  &quot;&#39;- py-fenics-ufl@2024.2.0&#39;&quot;</span>
-<span class="s">puts  &quot;&#39;- py-fenics-basix@0.9.0&#39;&quot;</span>
-<span class="s">puts  &quot;&#39;- fenics-basix@0.9.0&#39;&quot;</span>
-<span class="s">puts  &quot; echo  To respect omnipath, add fabrics psm2 and slurm management and PMI&quot;</span>
-<span class="s">puts  &quot;&#39;- openmpi@5.0.8 fabrics=psm2 schedulers=slurm &#39;&quot;</span>
-<span class="s">puts  &quot; echo  Other Dependencies&quot;</span>
-<span class="s">puts  &quot; echo  Complex PETSc&quot;</span>
-<span class="s">puts  &quot;&#39;- petsc+mumps+fortran+superlu-dist~trilinos+complex&#39;&quot;</span>
-<span class="s">puts  &quot;&#39;- adios2~sst+python&#39;&quot;</span>
-<span class="s">puts  &quot;&#39;- hdf5+hl+shared+mpi&#39;&quot;</span>
-<span class="s">puts  &quot; echo  Common Python Libraries&quot;</span>
-<span class="s">puts  &quot;&#39;- python&#39;&quot;</span>
-<span class="s">puts  &quot;&#39;- py-pip&#39;&quot;</span>
-<span class="s">puts  &quot;&#39;- py-setuptools&#39;&quot;</span>
-<span class="s">puts  &quot;&#39;- py-wheel&#39;&quot;</span>
-<span class="s">puts  &quot;&#39;- python-venv&#39;&quot;</span>
-<span class="s">puts &quot;# ============================================================&quot;</span>
-<span class="s">puts &quot;# ============================================================&quot;</span>
+<span class="s">puts &quot;echo &#39;============================================================&#39;&quot;</span>
+<span class="s">puts &quot;echo &#39;Loaded FEniCSx 0.9.0 complex number support&#39;&quot;</span>
+<span class="s">puts &quot;echo &#39;============================================================&#39;&quot;</span>
+<span class="s">puts &quot;echo &#39;Using view: $env(FENICSX_VIEW)&#39;&quot;</span>
+<span class="s">puts &quot;echo &#39;Using OMPI_MCA_orte_precondition_transports: $key&#39;&quot;</span>
+<span class="s">puts &quot;echo  &#39;============================================================&#39;&quot;</span>
+<span class="s">puts &quot;echo  &#39;============================================================&#39;&quot;</span>
 
 <span class="s">EOF</span>
 </pre></div>
