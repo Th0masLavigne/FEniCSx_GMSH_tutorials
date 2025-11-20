@@ -1,12 +1,10 @@
------
-
-**IMPORTANT NOTE:** **The `install_local_fenicsx.bat` file must be executed from a dedicated Windows folder as well as `uninstall_local_fenicsx.bat`).**
-
------
-
 # FEniCSx Local Environment Setup with WSL2
 
 This repository provides a simplified, automated setup for a **native FEniCSx** installation using a **Python Virtual Environment (`venv`)** directly within a dedicated **Windows Subsystem for Linux 2 (WSL2)** distribution. This approach offers a clean, isolated, and locally controlled environment for simulation development.
+
+>**IMPORTANT NOTE:** **The `install_local_fenicsx.bat` file must be executed from a dedicated Windows folder as well as `uninstall_local_fenicsx.bat`).**
+
+
 
 ## Directory Structure
 

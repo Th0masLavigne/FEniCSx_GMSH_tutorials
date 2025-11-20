@@ -1,12 +1,12 @@
------
-
->**IMPORTANT NOTE FOR INSTALLATION:** **The `install_wsl2_fenicsx_docker.bat` file, along with its dependency folder (`src_install/`) and all other files from the root of this repository (the entire WSL\_Docker\_installer folder), must be run from a dedicated Windows folder containing ONLY the necessary installation files. This is crucial because the entire contents of this folder will be copied to your Linux home directory within WSL2 (`~/Softwares/WSL2_Docker_FEniCSx`) as the installation source. After a successful installation, you can safely delete this original Windows folder, as a safe version is stored within the WSL distribution. The other launcher batch files (`FEniCSx_interactive.bat`, `FEniCSx_command.bat`, `uninstall_wsl2_fenicsx_docker.bat`) can be placed anywhere else on your Windows system for convenience.**
-
------
-
 # 🐳 FEniCSx Environment Setup with Docker and WSL2
 
 This repository provides an automated, professional, and highly efficient setup for running **FEniCSx** simulations. It utilizes a **Docker container** orchestrated within the **Windows Subsystem for Linux 2 (WSL2)**, delivering a consistent, isolated, and high-performance simulation environment on Windows systems.
+
+
+
+>**IMPORTANT NOTE FOR INSTALLATION:** **The `install_wsl2_fenicsx_docker.bat` file, along with its dependency folder (`src_install/`) and all other files from the root of this repository (the entire WSL\_Docker\_installer folder), must be run from a dedicated Windows folder containing ONLY the necessary installation files. This is crucial because the entire contents of this folder will be copied to your Linux home directory within WSL2 (`~/Softwares/WSL2_Docker_FEniCSx`) as the installation source. After a successful installation, you can safely delete this original Windows folder, as a safe version is stored within the WSL distribution. The other launcher batch files (`FEniCSx_interactive.bat`, `FEniCSx_command.bat`, `uninstall_wsl2_fenicsx_docker.bat`) can be placed anywhere else on your Windows system for convenience.**
+
+
 
 ## Performance and Efficiency Statement
 

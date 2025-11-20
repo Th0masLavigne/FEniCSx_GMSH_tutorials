@@ -177,7 +177,6 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="Install_processes.html">Installation Guide for FEniCSx v0.9.0</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Docker workspace and aliases</a></li>
-
 <li class="toctree-l1 has-children"><a class="reference internal" href="Installation_Methods.html">Installation Methods</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="Spack_Install_MCIA/HPC_FEniCSx_0_9_0_install-gcc_13_2_0.html">Spack Installation (MCIA)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Spack_Install_MCIA/HPC_FEniCSx_0_9_0_complex_numbers_install-gcc_13_2_0.html">Complex Support - Spack Installation (MCIA)</a></li>
@@ -409,14 +408,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Docker workspace and aliases</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#if-docker-as-a-non-root-user-is-configured">If Docker as a non-root user is configured:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#else-docker-as-a-non-root-user-is-not-configured">Else, Docker as a non-root user is not configured:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-an-alias">Create an Alias</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#create-an-alias">Create an Alias</a></li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -427,7 +422,7 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="docker-workspace-and-aliases">
+  <section class="tex2jax_ignore mathjax_ignore" id="docker-workspace-and-aliases">
 <h1>Docker workspace and aliases<a class="headerlink" href="#docker-workspace-and-aliases" title="Link to this heading">#</a></h1>
 <section id="if-docker-as-a-non-root-user-is-configured">
 <h2>If Docker as a non-root user is configured:<a class="headerlink" href="#if-docker-as-a-non-root-user-is-configured" title="Link to this heading">#</a></h2>
@@ -510,9 +505,8 @@ RUN<span class="w"> </span>pip3<span class="w"> </span>install<span class="w"> <
 </div>
 <p>And so on. <strong>Remark</strong>: if Docker as a non-root user is not configured, it is required to put sudo as part of the commands for the aliases defined here-after too.</p>
 </section>
-</section>
 <section id="create-an-alias">
-<h1>Create an Alias<a class="headerlink" href="#create-an-alias" title="Link to this heading">#</a></h1>
+<h2>Create an Alias<a class="headerlink" href="#create-an-alias" title="Link to this heading">#</a></h2>
 <p>The repeated use of a command can be reduced by the use of aliases (see <em><a class="reference external" href="https://www.malekal.com/comment-creer-un-alias-linux/">create an alias fot linux</a></em>).
 The idea of the alias is to execute commands from a meaningful name by introducing them in a <code class="docutils literal notranslate"><span class="pre">sh</span> <span class="pre">~/.bash_aliases</span></code>.</p>
 <p>To access this file, run:</p>
@@ -559,6 +553,7 @@ Run once:</p>
 <span class="nb">alias</span><span class="w"> </span><span class="nv">pymesh</span><span class="o">=</span><span class="s1">&#39;docker run -ti -v $(pwd):/home/pymesh/shared -w /home/pymesh/shared pymesh/pymesh bash&#39;</span>
 </pre></div>
 </div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -625,14 +620,10 @@ Run once:</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Docker workspace and aliases</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#if-docker-as-a-non-root-user-is-configured">If Docker as a non-root user is configured:</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#else-docker-as-a-non-root-user-is-not-configured">Else, Docker as a non-root user is not configured:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-an-alias">Create an Alias</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#create-an-alias">Create an Alias</a></li>
-</ul>
-
   </nav></div>
 
 </div></div>

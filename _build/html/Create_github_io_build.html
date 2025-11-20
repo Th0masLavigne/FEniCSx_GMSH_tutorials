@@ -177,7 +177,6 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="Install/Install_processes.html">Installation Guide for FEniCSx v0.9.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Install/docker_and_aliases.html">Docker workspace and aliases</a></li>
-
 <li class="toctree-l1 has-children"><a class="reference internal" href="Install/Installation_Methods.html">Installation Methods</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="Install/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_install-gcc_13_2_0.html">Spack Installation (MCIA)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Install/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_complex_numbers_install-gcc_13_2_0.html">Complex Support - Spack Installation (MCIA)</a></li>
@@ -413,7 +412,7 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="how-to-create-the-html-for-the-github-pages">
 <h1>How to create the html for the github pages<a class="headerlink" href="#how-to-create-the-html-for-the-github-pages" title="Link to this heading">#</a></h1>
-<p>Create the files <code class="docutils literal notranslate"><span class="pre">_config.yml</span></code> and <code class="docutils literal notranslate"><span class="pre">_toc.yml</span></code>. Then in the cmd realise:</p>
+<p>Create the files <code class="docutils literal notranslate"><span class="pre">_config.yml</span></code> and <code class="docutils literal notranslate"><span class="pre">_toc.yml</span></code>. Start by cleaning jupyter env to account for all changes <code class="docutils literal notranslate"><span class="pre">jupyter-book</span> <span class="pre">clean</span> </code>. Then in the cmd realise:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>venv-book
 </pre></div>
 </div>

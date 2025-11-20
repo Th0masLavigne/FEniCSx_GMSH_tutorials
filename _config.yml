@@ -15,6 +15,14 @@ html:
   use_repository_button: true
   use_issues_button: true
   theme: 'sphinx_book_theme'
+  theme_options:
+    # Set this to false to stop the sidebar from automatically collapsing 
+    # unrelated top-level sections when you navigate deep into a chapter.
+    collapse_navigation: false
+    
+    # Set this to a high number (e.g., 4) to ensure nested sections are 
+    # fully visible in the sidebar on all pages.
+    show_toc_level: 4
   # Custom header/footer can be added here if needed
 # In _config.yml (add this if it doesn't exist)
 sphinx:

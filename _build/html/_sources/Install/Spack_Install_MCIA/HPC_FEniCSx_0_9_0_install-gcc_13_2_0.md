@@ -758,7 +758,7 @@ rm -rf ${MODULEFILE_PREFIX}/${FENICSX_VERSION}
 
 -----
 
-#### Appendix: (Minimal) Configuration file
+### Appendix: (Minimal) Configuration file
 If you wish to only test the core FEniCSx installation without `gmsh` or other optional libraries, you can use a minimal configuration that excludes `gmsh+opencascade`, `py-gmsh`, `py-numba`, etc.
 ```bash
 cat << EOF > ${SPACK_ENV_DIR}/spack_minimal.yaml 2>&1 | tee -a ${REPORT_LOG_DIRECTORY}/${REPORT_LOG_FILENAME}

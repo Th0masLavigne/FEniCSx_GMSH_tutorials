@@ -1,12 +1,9 @@
------
-
-**IMPORTANT NOTE:** **All `.bat` files in this repository are designed to be run exclusively from the Windows Command Prompt or PowerShell. This setup relies on a correctly installed and running instance of Docker Desktop (using either the Windows native backend or WSL2 integration) to function.**
-
------
-
 # FEniCSx Environment Setup with Docker Desktop (Windows Direct)
 
 This repository offers a robust and portable solution for running **FEniCSx** simulations directly on Windows using a **Docker container**. This approach ensures a clean, isolated, and consistent environment, eliminating dependency conflicts with the host operating system.
+
+>**IMPORTANT NOTE:** **All `.bat` files in this repository are designed to be run exclusively from the Windows Command Prompt or PowerShell. This setup relies on a correctly installed and running instance of Docker Desktop (using either the Windows native backend or WSL2 integration) to function.**
+
 
 ## Performance and Isolation
 
