@@ -15,6 +15,7 @@ from dolfinx.fem.petsc import NonlinearProblem
 from dolfinx.nls.petsc import NewtonSolver
 import petsc4py
 import time 
+import sys
 
 if len(sys.argv) > 1:
     # Get the value, which is initially a string
