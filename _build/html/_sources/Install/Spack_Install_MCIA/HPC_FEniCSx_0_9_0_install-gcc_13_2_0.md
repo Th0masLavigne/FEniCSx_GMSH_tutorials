@@ -821,7 +821,7 @@ This setup is perfect for generating data to plot parallel efficiency or converg
 #
 #SBATCH --nodes=1
 #SBATCH --ntasks=4                      # Total number of MPI processes (4 total)
-#SBATCH --ntasks-per-node=1              # One master process per node (mpirun)
+##SBATCH --ntasks-per-node=1              # One master process per node (mpirun)
 ##SBATCH --tasks-per-node=2              # Processes per node (2 per node on 2 nodes = 4 total)
 #SBATCH --time=0-01:00:00               # Short runtime
 #SBATCH --mem=16GB                       # Total memory reserved for the job
