@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -442,6 +442,16 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#array-in-slurm">Array in slurm</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slurm-array-configuration-explained">⚙️ SLURM Array Configuration Explained</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#script-logic-and-execution">🧮 Script Logic and Execution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps-submitting-the-job">➡️ Next Steps: Submitting the Job</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#post-analysis-dependency">Post-Analysis Dependency</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sbatch-file">Sbatch file</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -467,6 +477,9 @@ document.write(`
 <section id="sbatch-file-template">
 <h3>💻 Sbatch File Template<a class="headerlink" href="#sbatch-file-template" title="Link to this heading">#</a></h3>
 <p>This template demonstrates how to properly configure a Slurm batch script to load the installed FEniCSx module and execute a parallel simulation.</p>
+<blockquote>
+<div><p>To run multiple simulations with a variable value like for the mpirun or a parameter of your code, see at the really bottom of the page.</p>
+</div></blockquote>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 
 <span class="c1"># ==============================================================================</span>
@@ -776,6 +789,9 @@ cat<span class="w"> </span><span class="s">&lt;&lt; EOF &gt; ${SPACK_ENV_DIR}/sp
 <span class="s">  - py-setuptools</span>
 <span class="s">  - py-wheel</span>
 <span class="s">  - python-venv</span>
+<span class="s">  - py-scipy</span>
+<span class="s">  - py-matplotlib</span>
+<span class="s">  - py-numpy</span>
 
 <span class="s">  config:</span>
 <span class="s">    concretizer:</span>
@@ -1040,6 +1056,177 @@ rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><
 <li><p>Set variable for openmpi: <a class="reference external" href="https://github.com/open-mpi/ompi/issues/13397">openmpi/pmix issue</a></p></li>
 </ul>
 </section>
+<section id="array-in-slurm">
+<h2>Array in slurm<a class="headerlink" href="#array-in-slurm" title="Link to this heading">#</a></h2>
+<p>This SLURM script uses the <strong>Job Array</strong> feature to efficiently run <strong>800 independent, identical simulations</strong> in parallel. Each simulation is an <strong>MPI</strong> (Message Passing Interface) task utilizing <strong>16 CPU cores</strong>. The job array automatically manages the submission and tracking of these 800 tasks (indexed <strong>0 to 799</strong>), making it ideal for high-throughput parametric studies (like FEniCSx simulations with varying parameters).</p>
+<hr class="docutils" />
+<section id="slurm-array-configuration-explained">
+<h3>⚙️ SLURM Array Configuration Explained<a class="headerlink" href="#slurm-array-configuration-explained" title="Link to this heading">#</a></h3>
+<p>The core of the array configuration is defined by the following directives in section 1:</p>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--job-name=FEniCSx_Array_Sims</span></code></strong>: Sets a collective name for the entire batch of 800 tasks.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--array=0-799</span></code></strong>: This is the crucial directive that creates the <strong>Job Array</strong>. It tells SLURM to generate 800 separate jobs (tasks), indexed from 0 up to and including 799.</p></li>
+<li><p><strong>Resource Allocation (Per Task):</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--nodes=1</span></code> and <code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--ntasks-per-node=1</span></code>: Each task runs as a single process (<code class="docutils literal notranslate"><span class="pre">mpirun</span></code>) on one node.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--cpus-per-task=16</span></code>: Each of the 800 tasks is allocated <strong>16 CPU cores</strong> for its parallel execution (<code class="docutils literal notranslate"><span class="pre">mpirun</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--mem=64GB</span></code>: Each task is allocated <strong>64GB of memory</strong>.</p></li>
+</ul>
+</li>
+<li><p><strong>Output Management:</strong></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--output=./FEniCSx_3D_simulation_output/result_%A_%a.log</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">#SBATCH</span> <span class="pre">--error=./FEniCSx_3D_simulation_output/error_%A_%a.err</span></code></p></li>
+<li><p>The format specifiers <code class="docutils literal notranslate"><span class="pre">%A</span></code> (Job Array ID) and <code class="docutils literal notranslate"><span class="pre">%a</span></code> (Task ID, 0-799) ensure that each of the 800 tasks gets its own unique, non-overwriting output and error log file.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="script-logic-and-execution">
+<h3>🧮 Script Logic and Execution<a class="headerlink" href="#script-logic-and-execution" title="Link to this heading">#</a></h3>
+<ol class="arabic">
+<li><p><strong>Task Index Mapping:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">NOK_VALUE</span><span class="o">=</span><span class="nv">$SLURM_ARRAY_TASK_ID</span>
+</pre></div>
+</div>
+<p>This line is key. The SLURM environment variable <strong><code class="docutils literal notranslate"><span class="pre">$SLURM_ARRAY_TASK_ID</span></code></strong> automatically contains the unique index of the current task (from 0 to 799). This index is stored in <code class="docutils literal notranslate"><span class="pre">NOK_VALUE</span></code> and is used to <strong>differentiate the input</strong> for each simulation (e.g., loading a specific parameter set for that index).</p>
+</li>
+<li><p><strong>Environment Setup:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>module<span class="w"> </span>purge
+module<span class="w"> </span>load<span class="w"> </span>fenicsx_complex/0.9.0
+</pre></div>
+</div>
+<p>The script ensures a clean environment and then loads the necessary <strong>FEniCSx</strong> module, which includes the required MPI implementation (likely Intel MPI in this case).</p>
+</li>
+<li><p><strong>Parallel Execution:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_CPUS_PER_TASK</span><span class="w"> </span>python<span class="w"> </span>./&lt;python_script.py&gt;<span class="w"> </span><span class="si">${</span><span class="nv">NOK_VALUE</span><span class="si">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">mpirun</span> <span class="pre">-n</span> <span class="pre">$SLURM_CPUS_PER_TASK</span></code>: Initiates a parallel run using <strong>16 processes</strong> (the value of <code class="docutils literal notranslate"><span class="pre">$SLURM_CPUS_PER_TASK</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">./&lt;python_script.py&gt;</span></code>: Executes the FEniCSx Python script.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">${NOK_VALUE}</span></code>: Passes the unique task index (0-799) as a <strong>command-line argument</strong> to the Python script. The Python script must be designed to read this argument and use it to select the correct parameter or input data for its specific run.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="next-steps-submitting-the-job">
+<h3>➡️ Next Steps: Submitting the Job<a class="headerlink" href="#next-steps-submitting-the-job" title="Link to this heading">#</a></h3>
+<p>To run all 800 simulations, you would submit this script using the standard SLURM command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbatch<span class="w"> </span>&lt;script_name&gt;.sh
+</pre></div>
+</div>
+<p>SLURM will immediately create and queue 800 separate jobs based on the array definition.</p>
+<section id="post-analysis-dependency">
+<h4>Post-Analysis Dependency<a class="headerlink" href="#post-analysis-dependency" title="Link to this heading">#</a></h4>
+<p>The final section provides a powerful tip for workflow management:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sbatch<span class="w"> </span>--dependency<span class="o">=</span>afterok:&lt;Job_Array_ID&gt;<span class="w"> </span>analyse_globale.sh
+</pre></div>
+</div>
+<p>After submitting the array, you get a single <strong>Job Array ID</strong> (e.g., 123456). You can submit a separate global analysis script (<code class="docutils literal notranslate"><span class="pre">analyse_globale.sh</span></code>) and set a <strong>dependency</strong> on the array. This ensures the analysis script will <strong>only start</strong> after all 800 tasks in the array have completed successfully (<code class="docutils literal notranslate"><span class="pre">afterok</span></code>).</p>
+<p>Would you like me to suggest how the Python script might use the <code class="docutils literal notranslate"><span class="pre">${NOK_VALUE}</span></code> argument?</p>
+</section>
+</section>
+<section id="sbatch-file">
+<h3>Sbatch file<a class="headerlink" href="#sbatch-file" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+
+<span class="c1"># ==============================================================================</span>
+<span class="c1"># 1. SLURM DIRECTIVES (MODIFIED FOR JOB ARRAY 0-799)</span>
+<span class="c1"># ==============================================================================</span>
+<span class="c1">#SBATCH --job-name=FEniCSx_Array_Sims  # Main Job Array Name</span>
+<span class="c1">#SBATCH --constraint=compute</span>
+<span class="c1">#SBATCH --partition=i2m,i2m-resources</span>
+<span class="c1">#</span>
+<span class="c1"># --- JOB ARRAY PARAMETERS (800 tasks from 0 to 799) ---</span>
+<span class="c1">#SBATCH --array=0-799</span>
+<span class="c1">#</span>
+<span class="c1"># --- RESOURCE PARAMETERS FOR EACH MPI TASK (Based on your successful test) ---</span>
+<span class="c1"># Each task is an independent MPI run using 16 cores.</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --ntasks-per-node=1             # One master process per node (mpirun)</span>
+<span class="c1">#SBATCH --cpus-per-task=16              # The mpirun process will use 16 cores for MPI</span>
+<span class="c1">#</span>
+<span class="c1"># Time and Memory: Adjusted for 16 cores and 64GB (based on your test)</span>
+<span class="c1">#SBATCH --time=0-01:00:00               # Time allocated PER TASK (adjust if necessary)</span>
+<span class="c1">#SBATCH --mem=64GB                      # Memory allocated PER TASK (your test used ~46GB)</span>
+<span class="c1">#</span>
+<span class="c1"># Output Files: Slurm handles output redirection for you.</span>
+<span class="c1"># %A = Job Array ID, %a = Task ID (0 to 799)</span>
+<span class="c1"># The logs replace your previous &#39;./FEniCSx_3D_simulation_output/result${nok}.log&#39; structure.</span>
+<span class="c1">#SBATCH --output=./FEniCSx_3D_simulation_output/result_%A_%a.log</span>
+<span class="c1">#SBATCH --error=./FEniCSx_3D_simulation_output/error_%A_%a.err</span>
+<span class="c1">#</span>
+<span class="c1"># --- OTHER PARAMETERS ---</span>
+<span class="c1">#SBATCH --mail-type=END</span>
+<span class="c1">#SBATCH --mail-user=&lt;mail&gt;@&lt;domain&gt;.fr # Replace with your email address</span>
+<span class="c1">#SBATCH --chdir=/gpfs/home/&lt;USERNAME&gt;/your_working_dir # Set the working directory</span>
+
+<span class="c1"># Exit immediately if a command exits with a non-zero status</span>
+<span class="nb">set</span><span class="w"> </span>-e
+
+<span class="c1"># Slurm environment variable for the task index</span>
+<span class="nv">NOK_VALUE</span><span class="o">=</span><span class="nv">$SLURM_ARRAY_TASK_ID</span>
+
+<span class="c1"># ==============================================================================</span>
+<span class="c1"># 2. INFORMATION AND MODULE LOADING</span>
+<span class="c1"># ==============================================================================</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;==============================================================================&quot;</span><span class="w"> </span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;User:&quot;</span><span class="w"> </span><span class="nv">$USER</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Date:&quot;</span><span class="w"> </span><span class="sb">`</span>date<span class="sb">`</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Host:&quot;</span><span class="w"> </span><span class="sb">`</span>hostname<span class="sb">`</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Directory:&quot;</span><span class="w"> </span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;SLURM_JOBID (Array ID):&quot;</span><span class="w"> </span><span class="nv">$SLURM_ARRAY_JOB_ID</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;SLURM_ARRAY_TASK_ID (NOK):&quot;</span><span class="w"> </span><span class="nv">$NOK_VALUE</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Total processes (cores) requested:&quot;</span><span class="w"> </span><span class="nv">$SLURM_CPUS_PER_TASK</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;==============================================================================&quot;</span><span class="w"> </span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;--- STARTING FENICSX SIMULATION #</span><span class="si">${</span><span class="nv">NOK_VALUE</span><span class="si">}</span><span class="s2"> ---&quot;</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Loading FEniCSx module (includes Python and Intel MPI)...&quot;</span>
+<span class="c1"># Ensure a clean environment before loading the FEniCSx module</span>
+module<span class="w"> </span>purge
+
+<span class="c1"># Load the installed FEniCSx environment module</span>
+module<span class="w"> </span>load<span class="w"> </span>fenicsx_complex/0.9.0
+
+<span class="c1"># ==============================================================================</span>
+<span class="c1"># 3. EXECUTION </span>
+<span class="c1"># ==============================================================================</span>
+
+<span class="c1"># Print job parameters for verification</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Starting execution on </span><span class="k">$(</span>hostname<span class="k">)</span><span class="s2"> at </span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Number of cores requested: </span><span class="nv">$SLURM_CPUS_PER_TASK</span><span class="s2">&quot;</span>
+
+<span class="c1"># Execute the parallel FEniCSx script</span>
+<span class="c1"># $SLURM_CPUS_PER_TASK is set to 16.</span>
+<span class="c1"># The value $NOK_VALUE (from 0 to 799) is passed as an argument to the Python script.</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Running: mpirun -n </span><span class="nv">$SLURM_CPUS_PER_TASK</span><span class="s2"> python ./&lt;python_script.py&gt; </span><span class="si">${</span><span class="nv">NOK_VALUE</span><span class="si">}</span><span class="s2">&quot;</span>
+
+mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_CPUS_PER_TASK</span><span class="w"> </span>python<span class="w"> </span>./&lt;python_script.py&gt;<span class="w"> </span><span class="si">${</span><span class="nv">NOK_VALUE</span><span class="si">}</span>
+
+<span class="c1"># ==============================================================================</span>
+<span class="c1"># 4. POST-PROCESSING (OPTIONAL)</span>
+<span class="c1"># ==============================================================================</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Job finished at </span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&quot;</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;After a job finishes you can see the real use of CPUs and memory:&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;1. module load slurm/wrappers&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;2. seff &lt;job-id&gt;&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;3. module purge&quot;</span>
+
+<span class="c1"># ------------------------------------------------------------------------------</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;To launch the global analysis job after all 800 simulations are complete:&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Note the Job Array ID (e.g., 123456) after submitting this script with &#39;sbatch&#39;.&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Submit a separate analysis script with a dependency:&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;sbatch --dependency=afterok:&lt;Job_Array_ID&gt; analyse_globale.sh&quot;</span>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+</pre></div>
+</div>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1140,6 +1327,16 @@ rm<span class="w"> </span>-rf<span class="w"> </span><span class="si">${</span><
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resources">Resources</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#array-in-slurm">Array in slurm</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slurm-array-configuration-explained">⚙️ SLURM Array Configuration Explained</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#script-logic-and-execution">🧮 Script Logic and Execution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#next-steps-submitting-the-job">➡️ Next Steps: Submitting the Job</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#post-analysis-dependency">Post-Analysis Dependency</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sbatch-file">Sbatch file</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
