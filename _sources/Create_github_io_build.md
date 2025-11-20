@@ -1,7 +1,7 @@
 # How to create the html for the github pages
 
 
-Create the files `_config.yml` and `_toc.yml`. Then in the cmd realise:
+Create the files `_config.yml` and `_toc.yml`. Start by cleaning jupyter env to account for all changes `jupyter-book clean `. Then in the cmd realise:
 
 
 ```bash
