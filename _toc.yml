@@ -7,23 +7,31 @@ parts:
 # ==============================================================================
 - caption: Installation
   chapters:
-  - file: Install/Install_processes
-  - file: Install/docker_and_aliases
-  - file: Install/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_install-gcc_13_2_0
-    title: Spack Installation (MCIA)
-  - file : Install/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_complex_numbers_install-gcc_13_2_0
-    title: Complex Support - Spack Installation (MCIA)
-  - file: Install/Spack_Install_FEniCSx/README
-    title: Spack Installation (CASSIOPEE)
+  - file: Install/Install_processes  # Keep this as a separate step/guide
+  - file: Install/docker_and_aliases # Keep this as a separate step/guide
+  - file: Install/Installation_Methods # <--- A new, single file to house all methods
+    title: Installation Methods
     sections:
-    - file: Install/Spack_Install_FEniCSx/Spack_INSTALL
-    - file: Install/Spack_Install_FEniCSx/VERSIONS
-  - file: Install/WSL_Docker_installer/README
-    title: WSL Docker Installer
-  - file: Install/WSL_Local_installer/README
-    title: WSL Local Installer
-  - file: Install/Windows_docker_installer/README
-    title: Windows Docker Installer
+    # 1. MCIA Spack Installs (now sub-sections)
+    - file: Install/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_install-gcc_13_2_0
+      title: Spack Installation (MCIA)
+    - file: Install/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_complex_numbers_install-gcc_13_2_0
+      title: Complex Support - Spack Installation (MCIA)
+
+    # 2. CASSIOPEE Spack Installs (nested sub-sections)
+    - file: Install/Spack_Install_FEniCSx/README
+      title: Spack Installation (CASSIOPEE)
+      sections:
+      - file: Install/Spack_Install_FEniCSx/Spack_INSTALL
+      - file: Install/Spack_Install_FEniCSx/VERSIONS
+
+    # 3. Docker/WSL Installs (now sub-sections)
+    - file: Install/WSL_Docker_installer/README
+      title: WSL Docker Installer
+    - file: Install/WSL_Local_installer/README
+      title: WSL Local Installer
+    - file: Install/Windows_docker_installer/README
+      title: Windows Docker Installer
 
 # ==============================================================================
 # TUTORIALS PART
