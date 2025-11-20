@@ -177,7 +177,6 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../Install_processes.html">Installation Guide for FEniCSx v0.9.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../docker_and_aliases.html">Docker workspace and aliases</a></li>
-
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../Installation_Methods.html">Installation Methods</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../Spack_Install_MCIA/HPC_FEniCSx_0_9_0_install-gcc_13_2_0.html">Spack Installation (MCIA)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../Spack_Install_MCIA/HPC_FEniCSx_0_9_0_complex_numbers_install-gcc_13_2_0.html">Complex Support - Spack Installation (MCIA)</a></li>
@@ -434,6 +433,9 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="fenicsx-environment-setup-with-docker-desktop-windows-direct">
 <h1>FEniCSx Environment Setup with Docker Desktop (Windows Direct)<a class="headerlink" href="#fenicsx-environment-setup-with-docker-desktop-windows-direct" title="Link to this heading">#</a></h1>
 <p>This repository offers a robust and portable solution for running <strong>FEniCSx</strong> simulations directly on Windows using a <strong>Docker container</strong>. This approach ensures a clean, isolated, and consistent environment, eliminating dependency conflicts with the host operating system.</p>
+<blockquote>
+<div><p><strong>IMPORTANT NOTE:</strong> <strong>All <code class="docutils literal notranslate"><span class="pre">.bat</span></code> files in this repository are designed to be run exclusively from the Windows Command Prompt or PowerShell. This setup relies on a correctly installed and running instance of Docker Desktop (using either the Windows native backend or WSL2 integration) to function.</strong></p>
+</div></blockquote>
 <section id="performance-and-isolation">
 <h2>Performance and Isolation<a class="headerlink" href="#performance-and-isolation" title="Link to this heading">#</a></h2>
 <p>This configuration focuses on providing a <strong>reproducible and isolated execution environment</strong>. By leveraging Docker, FEniCSx and all its dependencies are contained within the image, guaranteeing that simulations run consistently regardless of local system changes.</p>

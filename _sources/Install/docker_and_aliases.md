@@ -1,6 +1,6 @@
-## Docker workspace and aliases
+# Docker workspace and aliases
 
-### If Docker as a non-root user is configured:
+## If Docker as a non-root user is configured:
 To set an interactive working directory (in an ubuntu environment), respectively using Docker and FEniCSx, the following commands can be used:
 ```sh
 docker run -ti -v $(pwd):/home/fenics/shared -w /home/fenics/shared th0maslavigne/dolfinx:v0.9.0
@@ -71,7 +71,7 @@ docker save -o name.tar ImageTag
 
 Further commands are described in the cheat sheets available in the resources section.
 
-### Else, Docker as a non-root user is not configured:
+## Else, Docker as a non-root user is not configured:
 All the above commands are working but one need to put `sudo` before.
 
 To set an interactive working directory (in an ubuntu environment), respectively using Docker and FEniCSx, the following commands can be used:
