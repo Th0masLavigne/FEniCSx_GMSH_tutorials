@@ -49,9 +49,9 @@ sphinx:
       - '*/_build/**'
     suppress_warnings: ["toc.excluded"]
   extra_conf_files: [conf.py]
-  extra_extensions:
-    - "sphinx_last_updated_by_git" 
-    - "sphinx_sitemap"
+  # extra_extensions:
+  #   - "sphinx_last_updated_by_git" 
+  #   - "sphinx_sitemap"
 
 # MyST Markdown Parsing Settings
 parse:
