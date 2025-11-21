@@ -28,6 +28,7 @@ execute:
 
 # HTML output settings (for a clean documentation look)
 html:
+  favicon: fenics_logo.png
   use_repository_button: true
   use_issues_button: true
   theme: 'sphinx_book_theme'
