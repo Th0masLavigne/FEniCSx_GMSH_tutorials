@@ -1,4 +1,5 @@
-name: Jupyter Book Publish
+# --- Start of publish.yml - gh-pages Branch Version ---
+name: Jupyter Book Publish (to gh-pages branch)
 
 on:
   # Allows you to run this workflow manually from the Actions tab
@@ -9,13 +10,12 @@ on:
 
 # Sets permissions required for the deployment action
 permissions:
-  contents: write
+  contents: write # Needs write permission to push to the gh-pages branch
 
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
     env:
-      # Optional: Define your Python version here
       PYTHON_VERSION: "3.10"
 
     steps:
@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
         # Fetch all history for all tags and branches (needed by deployment step)
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # Crucial for gh-pages action to work correctly
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -31,18 +31,17 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Install dependencies (Jupyter Book)
-        # We use pip to install jupyter-book and other necessary packages.
         run: |
           python -m pip install --upgrade pip
-          pip install jupyter-book sphinx-sitemap # sphinx-sitemap is highly recommended for SEO!
+          pip install jupyter-book sphinx-sitemap
 
       - name: Build Jupyter Book
-        # Runs the build command. The output goes into the default _build/html directory.
+        # Output goes into the default _build/html directory
         run: |
           jupyter-book build .
 
-      - name: Deploy to GitHub Pages
-        # This uses the standard action for deploying content to the gh-pages branch.
+      - name: Deploy to GitHub Pages (gh-pages branch)
+        # This action deploys content to the gh-pages branch.
         uses: peaceiris/actions-gh-pages@v4
         with:
           # The token is automatically supplied by GitHub Actions
@@ -51,3 +50,6 @@ jobs:
           publish_dir: _build/html
           # Optional: Customize the commit message
           commit_message: "Automatic CI Build: ${{ github.event.head_commit.message }}"
+          # Optional: The default branch for deployment is 'gh-pages', but you can specify it explicitly:
+          # publish_branch: gh-pages
+# --- End of publish.yml - gh-pages Branch Version ---
