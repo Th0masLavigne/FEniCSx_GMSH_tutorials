@@ -1,26 +1,30 @@
-# --- Start of _config.yml --- adapted from jdokken
+# --- Start of _config.yml - Corrected Version ---
+
+# Book Title and Metadata
 title: FEniCSx and GMSH Tutorials
-# _config.yml
 description: A comprehensive repository of tutorials for the FEniCSx finite element solver and the GMSH meshing tool, covering installation, basic usage, and advanced PDE applications.
 author: Thomas Lavigne, PhD
-copyright: 2024 # Update year as needed
-logo: fenics_logo.png # Set a path to a logo file if desired
-url: https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/ # 
+copyright: 2024
+logo: fenics_logo.png
+url: https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/
 
-# Add this section to your _config.yml
+# Repository Settings (for 'Edit on GitHub' and 'Source' buttons)
 repository:
-  url: https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials  # <-- REPLACE with your actual repository URL
-  branch: main  # Or 'master', depending on your default branch
-  path_to_docs: . # Keep this blank if _config.yml is in the root
+  url: https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials
+  branch: main
+  path_to_docs: .
   path_to_book: .
 
-# # Add a bibtex file so that we can create citations
-# bibtex_bibfiles:
-# - references.bib
+# Execution settings
+execute:
+  # Set to 'false' for fast building (notebooks are not re-run)
+  execute_notebooks: 'false'
+  timeout: 600
 
-launch_buttons:
-  notebook_interface: "jupyterlab"
-  binderhub_url: "https://mybinder.org"
+# Launch Buttons (for mybinder.org, etc.)
+# launch_buttons:
+#   notebook_interface: "jupyterlab"
+#   binderhub_url: "https://mybinder.org"
 
 # HTML output settings (for a clean documentation look)
 html:
@@ -28,77 +32,30 @@ html:
   use_issues_button: true
   theme: 'sphinx_book_theme'
   theme_options:
-    # Set this to false to stop the sidebar from automatically collapsing 
-    # unrelated top-level sections when you navigate deep into a chapter.
     collapse_navigation: false
-    
-    # Set this to a high number (e.g., 4) to ensure nested sections are 
-    # fully visible in the sidebar on all pages.
     show_toc_level: 4
-  # Custom header/footer can be added here if needed
-# In _config.yml (add this if it doesn't exist)
+
+# Sphinx Configuration (Advanced Settings)
 sphinx:
   config:
     html_meta:
-      # Keywords tag - separate terms with a comma
       keywords: 'FEniCSx, GMSH, Finite Element Method, FEM, PDE, Tutorial, Python, Scientific Computing'
-      # Open Graph metadata (for social media sharing)
       'og:title': 'FEniCSx & GMSH Tutorial Repository'
       'og:description': 'Comprehensive FEniCSx and GMSH FEM tutorials.'
       'og:type': 'book'
-    # Ignores files in the virtual environment's site-packages folder
-    exclude_patterns: 
+    exclude_patterns:
       - '*site-packages*'
-      - 'venv-book/**'         # Exclude the entire virtual environment
-      - '_build/**'            # Exclude the build cache and output directories
-      - '*/_build/**'          # Catch any nested _build directories
-    # Optional: Suppress a common warning about documents without a title
-    suppress_warnings: ["toc.excluded"]  
-        # To avoid warning about default changing due to
-    # https://github.com/pydata/pydata-sphinx-theme/issues/1492
-    # html_theme_options:
-    #   navigation_with_keys: false
-    codeautolink_concat_default: True
-    intersphinx_mapping:
-      basix: ["https://docs.fenicsproject.org/basix/main/python/", null]
-      ffcx: ["https://docs.fenicsproject.org/ffcx/main/", null]
-      ufl: ["https://docs.fenicsproject.org/ufl/main/", null]
-      dolfinx: ["https://docs.fenicsproject.org/dolfinx/main/python", null]
-      petsc4py: ["https://petsc.org/release/petsc4py", null]
-      mpi4py: ["https://mpi4py.readthedocs.io/en/stable", null]
-      numpy: ["https://numpy.org/doc/stable/", null]
-      pyvista: ["https://docs.pyvista.org/", null]
-      packaging: ["https://packaging.pypa.io/en/stable/", null]
-      matplotlib: ["https://matplotlib.org/stable/", null]
+      - 'venv-book/**'
+      - '_build/**'
+      - '*/_build/**'
+    suppress_warnings: ["toc.excluded"]
 
   extra_extensions:
     - "sphinx.ext.autodoc"
     - "sphinx.ext.intersphinx"
     - "sphinx_codeautolink"
 
-parse:
-  myst_enable_extensions:
-    - "amsmath"
-    - "colon_fence"
-    - "deflist"
-    - "dollarmath"
-    - "html_admonition"
-    - "html_image"
-    - "linkify"
-    - "replacements"
-    - "smartquotes"
-    - "substitution"
-
-
-
-
-
-# Execution settings - Set to 'off' for fast building, 'auto' to run all code blocks
-execute:
-  execute_notebooks: false 
-  timeout: 600
-
-# Parse settings for MyST Markdown (.md files)
+# MyST Markdown Parsing Settings
 parse:
   myst_enable_extensions:
     - amsmath
@@ -107,15 +64,22 @@ parse:
     - linkify
     - substitution
     - tasklist
-# --- End of _config.yml ---
+    - deflist
+    - html_admonition
+    - html_image
+    - smartquotes
 
-  extra_footer: |
-    <div>
-        This webpage is an adaptation of <a href=https://www.springer.com/gp/book/9783319524610>The FEniCS tutorial</a> and
-        is distributed under the terms of the      <a href=http://creativecommons.org/licenses/by/4.0/>Creative Commons Attribution 4.0 International License  </a>
-        which permits use, duplication, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source,
-        provide a link to the Creative Commons license and indicate if changes were made.
-    </div>
-
+# Exclude Files from Build and Only Build Files in _toc.yml
 exclude_patterns: [Create_github_io_build.md]
 only_build_toc_files: true
+
+# Extra Footer HTML (This should be at the very bottom, outside of any main configuration block)
+extra_footer: |
+  <div>
+      This webpage is an adaptation of <a href=https://www.springer.com/gp/book/9783319524610>The FEniCS tutorial</a> and
+      is distributed under the terms of the      <a href=http://creativecommons.org/licenses/by/4.0/>Creative Commons Attribution 4.0 International License  </a>
+      which permits use, duplication, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source,
+      provide a link to the Creative Commons license and indicate if changes were made.
+  </div>
+
+# --- End of _config.yml - Corrected Version ---
