@@ -1,17 +1,26 @@
-# --- Start of _config.yml ---
-title: 'FEniCSx and GMSH Tutorials'
+# --- Start of _config.yml --- adapted from jdokken
+title: FEniCSx and GMSH Tutorials
 # _config.yml
-description: 'A comprehensive repository of tutorials for the FEniCSx finite element solver and the GMSH meshing tool, covering installation, basic usage, and advanced PDE applications.'
-author: 'Thomas Lavigne, PhD'
-copyright: "2024" # Update year as needed
-logo: "fenics_logo.png" # Set a path to a logo file if desired
+description: A comprehensive repository of tutorials for the FEniCSx finite element solver and the GMSH meshing tool, covering installation, basic usage, and advanced PDE applications.
+author: Thomas Lavigne, PhD
+copyright: 2024 # Update year as needed
+logo: fenics_logo.png # Set a path to a logo file if desired
 url: https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/ # 
 
 # Add this section to your _config.yml
 repository:
   url: https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials  # <-- REPLACE with your actual repository URL
   branch: main  # Or 'master', depending on your default branch
-  path_to_docs: "" # Keep this blank if _config.yml is in the root
+  path_to_docs: . # Keep this blank if _config.yml is in the root
+  path_to_book: .
+
+# # Add a bibtex file so that we can create citations
+# bibtex_bibfiles:
+# - references.bib
+
+launch_buttons:
+  notebook_interface: "jupyterlab"
+  binderhub_url: "https://mybinder.org"
 
 # HTML output settings (for a clean documentation look)
 html:
@@ -45,9 +54,48 @@ sphinx:
       - '*/_build/**'          # Catch any nested _build directories
     # Optional: Suppress a common warning about documents without a title
     suppress_warnings: ["toc.excluded"]  
+        # To avoid warning about default changing due to
+    # https://github.com/pydata/pydata-sphinx-theme/issues/1492
+    # html_theme_options:
+    #   navigation_with_keys: false
+    codeautolink_concat_default: True
+    intersphinx_mapping:
+      basix: ["https://docs.fenicsproject.org/basix/main/python/", null]
+      ffcx: ["https://docs.fenicsproject.org/ffcx/main/", null]
+      ufl: ["https://docs.fenicsproject.org/ufl/main/", null]
+      dolfinx: ["https://docs.fenicsproject.org/dolfinx/main/python", null]
+      petsc4py: ["https://petsc.org/release/petsc4py", null]
+      mpi4py: ["https://mpi4py.readthedocs.io/en/stable", null]
+      numpy: ["https://numpy.org/doc/stable/", null]
+      pyvista: ["https://docs.pyvista.org/", null]
+      packaging: ["https://packaging.pypa.io/en/stable/", null]
+      matplotlib: ["https://matplotlib.org/stable/", null]
+
+  extra_extensions:
+    - "sphinx.ext.autodoc"
+    - "sphinx.ext.intersphinx"
+    - "sphinx_codeautolink"
+
+parse:
+  myst_enable_extensions:
+    - "amsmath"
+    - "colon_fence"
+    - "deflist"
+    - "dollarmath"
+    - "html_admonition"
+    - "html_image"
+    - "linkify"
+    - "replacements"
+    - "smartquotes"
+    - "substitution"
+
+
+
+
+
 # Execution settings - Set to 'off' for fast building, 'auto' to run all code blocks
 execute:
-  execute_notebooks: 'off' 
+  execute_notebooks: cache 
   timeout: 600
 
 # Parse settings for MyST Markdown (.md files)
@@ -61,4 +109,13 @@ parse:
     - tasklist
 # --- End of _config.yml ---
 
+  extra_footer: |
+    <div>
+        This webpage is an adaptation of <a href=https://www.springer.com/gp/book/9783319524610>The FEniCS tutorial</a> and
+        is distributed under the terms of the      <a href=http://creativecommons.org/licenses/by/4.0/>Creative Commons Attribution 4.0 International License  </a>
+        which permits use, duplication, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source,
+        provide a link to the Creative Commons license and indicate if changes were made.
+    </div>
 
+exclude_patterns: [Create_github_io_build.md]
+only_build_toc_files: true

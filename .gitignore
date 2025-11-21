@@ -7,3 +7,5 @@
 *.mp4
 *.mov
 *.geo_unrolled
+_build/*
+venv-book/*
