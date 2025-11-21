@@ -95,7 +95,7 @@ parse:
 
 # Execution settings - Set to 'off' for fast building, 'auto' to run all code blocks
 execute:
-  execute_notebooks: cache 
+  execute_notebooks: false 
   timeout: 600
 
 # Parse settings for MyST Markdown (.md files)
