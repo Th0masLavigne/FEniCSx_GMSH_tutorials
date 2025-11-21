@@ -40,7 +40,7 @@ jobs:
       - name: Build Jupyter Book
         # Runs the build command. The output goes into the default _build/html directory.
         run: |
-          jupyter-book build .
+          jupyter-book build . --verbose
 
       - name: Deploy to GitHub Pages (gh-pages branch)
         # This uses the action that replicates the ghp-import functionality
