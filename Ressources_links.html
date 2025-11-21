@@ -1,0 +1,874 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Comprehensive Resource Links &#8212; FEniCSx and GMSH Tutorials</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Ressources_links';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Transient thermal problem" href="Tutoriels/Thermique_transitoire/README.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="README.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/fenics_logo.png" class="logo__image only-light" alt="FEniCSx and GMSH Tutorials - Home"/>
+    <script>document.write(`<img src="_static/fenics_logo.png" class="logo__image only-dark" alt="FEniCSx and GMSH Tutorials - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="README.html">
+                    FEniCSx & GMSH Tutorial Repository (v0.9.0)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Installation</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Install/Install_processes.html">Installation Guide for FEniCSx v0.9.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Install/docker_and_aliases.html">Docker workspace and aliases</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="Install/Installation_Methods.html">Installation Methods</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="Install/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_install-gcc_13_2_0.html">Spack Installation (MCIA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Install/Spack_Install_MCIA/HPC_FEniCSx_0_9_0_complex_numbers_install-gcc_13_2_0.html">Complex Support - Spack Installation (MCIA)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Install/Spack_Install_FEniCSx/README.html">Spack Installation (CASSIOPEE)</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="Install/WSL_Docker_installer/README.html">WSL Docker Installer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Install/WSL_Local_installer/README.html">WSL Local Installer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Install/Windows_docker_installer/README.html">Windows Docker Installer</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Tutoriels/Elastic_Incremental_Beam/README.html">Incremental Mesh</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tutoriels/Elastic_Multi_material_Beam/README.html">Material parameters depending on space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tutoriels/Hyper-Elastic_and_Elastic_Beam/README.html">Hyper-elastic and elastic beam</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tutoriels/Hyper-elastic_beam/README.html">Hyper-elastic beam</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tutoriels/Local_Refinement/README.html">Local refinement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tutoriels/Other_GMSH_Examples/README.html">Other GMSH Examples</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="Tutoriels/Penalty_contact_Beam/README.html">Penalty contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tutoriels/Stokes_2D/README.html">Stokes Problem (2D)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Tutoriels/Stokes_3D/README.html">Stokes Problem (3D)</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Tutoriels/Stokes_Poiseuille/Readme.html">Poiseuille-Stokes Problem</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Tutoriels/Terzaghi/README.html">Terzaghi Porous Media Mechanics Problem</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Tutoriels/Thermique_stationnaire/README.html">Thermique stationnaire</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Tutoriels/Thermique_transitoire/README.html">Thermique transitoire</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Ressources</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Comprehensive Resource Links</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials/issues/new?title=Issue%20on%20page%20%2FRessources_links.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Ressources_links.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Comprehensive Resource Links</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="comprehensive-resource-links">
+<h1>Comprehensive Resource Links<a class="headerlink" href="#comprehensive-resource-links" title="Link to this heading">#</a></h1>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Category</p></th>
+<th class="head text-left"><p>Resource Title</p></th>
+<th class="head text-left"><p>Description / Context</p></th>
+<th class="head text-left"><p>Link</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><strong>FEniCSx</strong></p></td>
+<td class="text-left"><p>FEniCS Project Website</p></td>
+<td class="text-left"><p>Official project homepage and documentation portal.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://fenicsproject.org/">https://fenicsproject.org/</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>FEniCSx</strong></p></td>
+<td class="text-left"><p>FEniCSx Tutorial</p></td>
+<td class="text-left"><p>Comprehensive tutorial by Jørgen S. Dokken.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://jsdokken.com/dolfinx-tutorial/">https://jsdokken.com/dolfinx-tutorial/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>FEniCSx</strong></p></td>
+<td class="text-left"><p>FEniCSx Workshop (Deep Dive)</p></td>
+<td class="text-left"><p>Workshop materials by Jørgen S. Dokken.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://jsdokken.com/FEniCS-workshop/src/deep_dive/expressions.html">https://jsdokken.com/FEniCS-workshop/src/deep_dive/expressions.html</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>FEniCSx</strong></p></td>
+<td class="text-left"><p>FEniCSx Discourse Forum</p></td>
+<td class="text-left"><p>Official community forum for questions and support.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://fenicsproject.discourse.group/">https://fenicsproject.discourse.group/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>FEniCSx</strong></p></td>
+<td class="text-left"><p>FEniCSx GitHub Repositories</p></td>
+<td class="text-left"><p>Main GitHub organization for the FEniCS project.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/orgs/FEniCS/repositories">orgs/FEniCS</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>FEniCSx</strong></p></td>
+<td class="text-left"><p>DOLFINx Documentation (v0.8.0)</p></td>
+<td class="text-left"><p>Core documentation for the Python interface.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://docs.fenicsproject.org/dolfinx/v0.8.0/python/">https://docs.fenicsproject.org/dolfinx/v0.8.0/python/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>FEniCSx</strong></p></td>
+<td class="text-left"><p>BASIX Documentation (v0.8.0)</p></td>
+<td class="text-left"><p>Documentation for the finite element basis function library.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://docs.fenicsproject.org/basix/v0.8.0/python/">https://docs.fenicsproject.org/basix/v0.8.0/python/</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>FEniCSx</strong></p></td>
+<td class="text-left"><p>UFL Documentation</p></td>
+<td class="text-left"><p>Unified Form Language documentation.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://fenics.readthedocs.io/projects/ufl/en/latest/">https://fenics.readthedocs.io/projects/ufl/en/latest/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>FEniCSx</strong></p></td>
+<td class="text-left"><p>FFCx Documentation</p></td>
+<td class="text-left"><p>FEniCS Form Compiler documentation.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://docs.fenicsproject.org/ffcx/main/">https://docs.fenicsproject.org/ffcx/main/</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>FEniCSx</strong></p></td>
+<td class="text-left"><p>Solver Options (PETSc)</p></td>
+<td class="text-left"><p>Manual for the PETSc library used for linear and nonlinear solvers.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://petsc.org/main/manual/ksp/">https://petsc.org/main/manual/ksp/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>FEniCSx</strong></p></td>
+<td class="text-left"><p>Changelog</p></td>
+<td class="text-left"><p>Release notes for DOLFINx on GitHub.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/FEniCS/dolfinx/releases">FEniCS/dolfinx</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>FEniCSx</strong></p></td>
+<td class="text-left"><p>FEniCS Legacy Documentation</p></td>
+<td class="text-left"><p>Documentation for older versions of FEniCS.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://fenicsproject.org/olddocs/">https://fenicsproject.org/olddocs/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>FEniCSx</strong></p></td>
+<td class="text-left"><p>FEniCS Book</p></td>
+<td class="text-left"><p>The classic FEniCS book (2011).</p></td>
+<td class="text-left"><p><a class="reference external" href="https://launchpadlibrarian.net/83776282/fenics-book-2011-10-27-final.pdf">https://launchpadlibrarian.net/83776282/fenics-book-2011-10-27-final.pdf</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>FEniCSx</strong></p></td>
+<td class="text-left"><p>Mesh Update Discussion</p></td>
+<td class="text-left"><p>Discourse thread on incrementally deformed mesh schemes/mesh geometry.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://fenicsproject.discourse.group/t/how-to-do-updated-lagrangian-when-the-displacement-lives-in-a-different-space-to-the-mesh-geometry/10760/2">https://fenicsproject.discourse.group/t/how-to-do-updated-lagrangian-when-the-displacement-lives-in-a-different-space-to-the-mesh-geometry/10760/2</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>FEniCSx</strong></p></td>
+<td class="text-left"><p>Parallel Run Discussion</p></td>
+<td class="text-left"><p>Discourse thread on discrepancies between serial and parallel runs.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://fenicsproject.discourse.group/t/different-results-in-serial-and-parallel-run-dolfinx/4370">https://fenicsproject.discourse.group/t/different-results-in-serial-and-parallel-run-dolfinx/4370</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>FEniCSx</strong></p></td>
+<td class="text-left"><p>Parallel Demo (PML)</p></td>
+<td class="text-left"><p>Example of a parallel run with Perfectly Matched Layers.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/FEniCS/dolfinx/blob/main/python/demo/demo_pml.py">FEniCS/dolfinx</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>FEniCSx</strong></p></td>
+<td class="text-left"><p>Parallel Demo (Axisymmetry)</p></td>
+<td class="text-left"><p>Example of a parallel run for an axisymmetric problem.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/FEniCS/dolfinx/blob/main/python/demo/demo_axis.py">FEniCS/dolfinx</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>GMSH</strong></p></td>
+<td class="text-left"><p>GMSH Download Page</p></td>
+<td class="text-left"><p>Official download page for GMSH software.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://www.google.com/search?q=https://gmsh.info/%23Download">https://gmsh.info/#Download</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>GMSH</strong></p></td>
+<td class="text-left"><p>GMSH Manual</p></td>
+<td class="text-left"><p>Detailed documentation and reference manual.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://gmsh.info/doc/texinfo/gmsh.html">https://gmsh.info/doc/texinfo/gmsh.html</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>GMSH</strong></p></td>
+<td class="text-left"><p>GMSH Introductory Presentation</p></td>
+<td class="text-left"><p>General overview course material (PDF).</p></td>
+<td class="text-left"><p><a class="reference external" href="https://gmsh.info/doc/course/general_overview.pdf">https://gmsh.info/doc/course/general_overview.pdf</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>GMSH</strong></p></td>
+<td class="text-left"><p>GMSH GitLab Repository</p></td>
+<td class="text-left"><p>Source code and issue tracker.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://gitlab.onelab.info/gmsh/gmsh">https://gitlab.onelab.info/gmsh/gmsh</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>GMSH</strong></p></td>
+<td class="text-left"><p>GMSH API Tutorials</p></td>
+<td class="text-left"><p>Tutorials on using the GMSH API.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://bthierry.pages.math.cnrs.fr/tutorial/gmsh/api/">https://bthierry.pages.math.cnrs.fr/tutorial/gmsh/api/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>GMSH</strong></p></td>
+<td class="text-left"><p>OpenCascade Commands</p></td>
+<td class="text-left"><p>Reference for OpenCascade commands within GMSH.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://koehlerson.github.io/gmsh.jl/dev/occ/occ/">https://koehlerson.github.io/gmsh.jl/dev/occ/occ/</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Post-processing</strong></p></td>
+<td class="text-left"><p>ParaView Download Page</p></td>
+<td class="text-left"><p>Official download page for the visualization tool.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://www.paraview.org/download/">https://www.paraview.org/download/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Docker</strong></p></td>
+<td class="text-left"><p>Docker Website</p></td>
+<td class="text-left"><p>Official website for Docker Desktop and Docker Engine.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://www.docker.com/products/docker-desktop/">https://www.docker.com/products/docker-desktop/</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Docker</strong></p></td>
+<td class="text-left"><p>Docker Desktop Installer (Win)</p></td>
+<td class="text-left"><p>Direct link to the Windows Docker Desktop installer.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://www.google.com/search?q=https://desktop.docker.com/win/main/amd64/165256/Docker%2520Desktop%2520Installer.exe">Docker Desktop Installer</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Docker</strong></p></td>
+<td class="text-left"><p>Docker Desktop Installer (Mac ARM64)</p></td>
+<td class="text-left"><p>Direct link for macOS with Apple Silicon.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://www.google.com/search?q=https://desktop.docker.com/mac/main/arm64/165256/Docker.dmg">Docker for Mac (ARM64)</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Docker</strong></p></td>
+<td class="text-left"><p>Docker Desktop Installer (Mac AMD64)</p></td>
+<td class="text-left"><p>Direct link for macOS with Intel chips.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://www.google.com/search?q=https://desktop.docker.com/mac/main/amd64/165256/Docker.dmg">Docker for Mac (AMD64)</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Docker</strong></p></td>
+<td class="text-left"><p>Docker Installation Resource</p></td>
+<td class="text-left"><p>Official guide for Windows installation.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://docs.docker.com/desktop/install/windows-install/">https://docs.docker.com/desktop/install/windows-install/</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Docker</strong></p></td>
+<td class="text-left"><p>Docker Hub</p></td>
+<td class="text-left"><p>Repository for Docker images.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://hub.docker.com/">https://hub.docker.com/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Docker</strong></p></td>
+<td class="text-left"><p>Docker Cheat Sheet (Official)</p></td>
+<td class="text-left"><p>Official quick reference guide.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://docs.docker.com/get-started/docker_cheatsheet.pdf">https://docs.docker.com/get-started/docker_cheatsheet.pdf</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Docker</strong></p></td>
+<td class="text-left"><p>Docker Cheat Sheet (Collabnix)</p></td>
+<td class="text-left"><p>Alternative detailed cheat sheet.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://dockerlabs.collabnix.com/docker/cheatsheet/">https://dockerlabs.collabnix.com/docker/cheatsheet/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Docker</strong></p></td>
+<td class="text-left"><p>Windows Docker Cheat Sheet</p></td>
+<td class="text-left"><p>Gist for Windows-specific Docker commands.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://gist.github.com/danijeljw/a7a2553bd06742648172363ce3983a9a">https://gist.github.com/danijeljw/a7a2553bd06742648172363ce3983a9a</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Containers</strong></p></td>
+<td class="text-left"><p>Singularity (Apptainer)</p></td>
+<td class="text-left"><p>Documentation for the HPC-focused container platform.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://docs.sylabs.io/guides/3.5/user-guide/introduction.html">https://docs.sylabs.io/guides/3.5/user-guide/introduction.html</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>HPC</strong></p></td>
+<td class="text-left"><p>Spack Package Manager</p></td>
+<td class="text-left"><p>Official GitHub repository for the Spack package manager.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/spack/spack/">spack/spack</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>HPC Containers</strong></p></td>
+<td class="text-left"><p>Spack Containers Intro</p></td>
+<td class="text-left"><p>Quick introduction to using Spack for creating container images (Docker/Singularity).</p></td>
+<td class="text-left"><p><a class="reference external" href="https://spack.readthedocs.io/en/latest/containers.html#a-quick-introduction">https://spack.readthedocs.io/en/latest/containers.html#a-quick-introduction</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>ULHPC Docs</strong></p></td>
+<td class="text-left"><p>ULHPC-Docs Software Config</p></td>
+<td class="text-left"><p>Reference to a pull request on the ULHPC documentation for software stack configuration.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/ULHPC/ulhpc-docs/pull/136/files#diff-b8c99d3043663cc8a810ccef8174e284919267300179122a03e0526ad2d30a8aR128">ULHPC/ulhpc-docs#files</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>ULHPC Spack Config</strong></p></td>
+<td class="text-left"><p>Spack vs. ULHPC Std Env</p></td>
+<td class="text-left"><p>GitHub Gist comparing Spack configuration against the standard software set on <a class="reference external" href="http://uni.lu">uni.lu</a> clusters.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://gist.github.com/jhale/23d4d7646e2dc05d0adc0395767d044a">https://gist.github.com/jhale/23d4d7646e2dc05d0adc0395767d044a</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>GIT</strong></p></td>
+<td class="text-left"><p>GIT Documentation</p></td>
+<td class="text-left"><p>Official documentation for version control.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://docs.github.com/en/get-started">https://docs.github.com/en/get-started</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>GIT</strong></p></td>
+<td class="text-left"><p>GIT Reference</p></td>
+<td class="text-left"><p>Comprehensive command line reference.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://git-scm.com/docs">https://git-scm.com/docs</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>GIT</strong></p></td>
+<td class="text-left"><p>GIT Interactive Tutorial</p></td>
+<td class="text-left"><p>Learn Git branching through an interactive web tool.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://learngitbranching.js.org/?locale=fr_FR">https://learngitbranching.js.org/?locale=fr_FR</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>FE Library</strong></p></td>
+<td class="text-left"><p>Deal.ii Website</p></td>
+<td class="text-left"><p>Official website for the Deal.ii finite element library.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://www.dealii.org/">https://www.dealii.org/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>FE Library</strong></p></td>
+<td class="text-left"><p>Deal.ii Tutorials</p></td>
+<td class="text-left"><p>Collection of official tutorials.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://www.dealii.org/current/doxygen/deal.II/Tutorial.html">https://www.dealii.org/current/doxygen/deal.II/Tutorial.html</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>FE Library</strong></p></td>
+<td class="text-left"><p>Deal.ii Documentation</p></td>
+<td class="text-left"><p>Main documentation page.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://www.dealii.org/current/index.html">https://www.dealii.org/current/index.html</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>FE Library</strong></p></td>
+<td class="text-left"><p>Deal.ii Library Reference</p></td>
+<td class="text-left"><p>Doxygen reference for the C++ library.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://www.dealii.org/current/doxygen/deal.II/index.html">https://www.dealii.org/current/doxygen/deal.II/index.html</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Meshing Tool</strong></p></td>
+<td class="text-left"><p>Pygmsh</p></td>
+<td class="text-left"><p>Python library for easy GMSH scripting.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://pypi.org/project/pygmsh/">https://pypi.org/project/pygmsh/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Meshing Tool</strong></p></td>
+<td class="text-left"><p>Pygmsh GitHub</p></td>
+<td class="text-left"><p>Source code repository.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/nschloe/pygmsh">nschloe/pygmsh</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Meshing Tool</strong></p></td>
+<td class="text-left"><p>Meshio</p></td>
+<td class="text-left"><p>Tool for reading and writing various mesh formats.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://pypi.org/project/meshio/">https://pypi.org/project/meshio/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Meshing Tool</strong></p></td>
+<td class="text-left"><p>Meshio GitHub</p></td>
+<td class="text-left"><p>Source code repository.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/nschloe/meshio">nschloe/meshio</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Meshing Tool</strong></p></td>
+<td class="text-left"><p>Pymesh</p></td>
+<td class="text-left"><p>Geometry processing library for Python.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://pymesh.readthedocs.io/en/latest/">https://pymesh.readthedocs.io/en/latest/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Meshing Tool</strong></p></td>
+<td class="text-left"><p>Pymesh GitHub</p></td>
+<td class="text-left"><p>Source code repository.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/PyMesh/PyMesh">PyMesh/PyMesh</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Meshing Tool</strong></p></td>
+<td class="text-left"><p>Netgen/NGSolve</p></td>
+<td class="text-left"><p>Finite element code and mesher.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://ngsolve.org/">https://ngsolve.org/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Meshing Tool</strong></p></td>
+<td class="text-left"><p>NGSolve Tutorials</p></td>
+<td class="text-left"><p>Tutorials by J. Schöberl.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://jschoeberl.github.io/iFEM/intro.html">https://jschoeberl.github.io/iFEM/intro.html</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Meshing Tool</strong></p></td>
+<td class="text-left"><p>Neper</p></td>
+<td class="text-left"><p>Tool for generating polycrystals/complex microstructures.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://neper.info/">https://neper.info/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Boolean Lib</strong></p></td>
+<td class="text-left"><p>CGAL</p></td>
+<td class="text-left"><p>Computational Geometry Algorithms Library.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/CGAL/cgal">CGAL/cgal</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Boolean Lib</strong></p></td>
+<td class="text-left"><p>VTK-based Booleans</p></td>
+<td class="text-left"><p>Improved boolean operations using VTK.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/zippy84/vtkbool">zippy84/vtkbool</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Boolean Lib</strong></p></td>
+<td class="text-left"><p>MeshLib</p></td>
+<td class="text-left"><p>Mesh processing library.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/MeshInspector/MeshLib">MeshInspector/MeshLib</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Boolean Lib</strong></p></td>
+<td class="text-left"><p>mcut</p></td>
+<td class="text-left"><p>Mesh cutting utility.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/cutdigital/mcut">cutdigital/mcut</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Boolean Lib</strong></p></td>
+<td class="text-left"><p>trimesh</p></td>
+<td class="text-left"><p>Python library for loading and using meshes.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/mikedh/trimesh">mikedh/trimesh</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Boolean Lib</strong></p></td>
+<td class="text-left"><p>vedo (Boolean Example)</p></td>
+<td class="text-left"><p>Python library for 3D visualization and analysis.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/marcomusy/vedo/blob/master/examples/basic/boolean.py">marcomusy/vedo</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Boolean Lib</strong></p></td>
+<td class="text-left"><p>PyMeshLab</p></td>
+<td class="text-left"><p>Python interface to the MeshLab meshing system.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/cnr-isti-vclab/PyMeshLab">cnr-isti-vclab/PyMeshLab</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Boolean Lib</strong></p></td>
+<td class="text-left"><p>Pycork (PyPI)</p></td>
+<td class="text-left"><p>Python bindings for the Cork boolean library.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://pypi.org/project/pycork/">https://pypi.org/project/pycork/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Boolean Lib</strong></p></td>
+<td class="text-left"><p>Cork (C Library)</p></td>
+<td class="text-left"><p>The underlying C library for Pycork.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/gilbo/cork">gilbo/cork</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Boolean Lib</strong></p></td>
+<td class="text-left"><p>Blender</p></td>
+<td class="text-left"><p>Open-source 3D creation suite (includes Python module).</p></td>
+<td class="text-left"><p><a class="reference external" href="https://www.blender.org/">https://www.blender.org/</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Tomography</strong></p></td>
+<td class="text-left"><p>Tomo2FE GitHub</p></td>
+<td class="text-left"><p>Workflow for converting tomography data to compliant multipart meshes.</p></td>
+<td class="text-left"><p><a class="github reference external" href="https://github.com/ANR-MultiFIRE/TomoToFE/blob/main/workflow2/Workflow2-Python.ipynb">ANR-MultiFIRE/TomoToFE</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Tomography</strong></p></td>
+<td class="text-left"><p>Tomo2FE Article</p></td>
+<td class="text-left"><p>Associated RILEM technical article.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://letters.rilem.net/index.php/rilem/article/view/184">https://letters.rilem.net/index.php/rilem/article/view/184</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Clean Code</strong></p></td>
+<td class="text-left"><p>Clean Code - Lesson 1</p></td>
+<td class="text-left"><p>Robert C. Martin’s “Uncle Bob” series on clean code principles.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://www.youtube.com/watch?v=7EmboKQH8lM">https://www.youtube.com/watch?v=7EmboKQH8lM</a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><strong>Clean Code</strong></p></td>
+<td class="text-left"><p>Clean Code - Conference Series</p></td>
+<td class="text-left"><p>Playlist of related Clean Code conference talks.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://www.youtube.com/watch?v=7EmboKQH8lM&amp;amp;list=PLmmYSbUCWJ4x1GO839azG_BBw8rkh-zOj&amp;amp;index=1">https://www.youtube.com/watch?v=7EmboKQH8lM&amp;list=PLmmYSbUCWJ4x1GO839azG_BBw8rkh-zOj&amp;index=1</a></p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><strong>Documentation</strong></p></td>
+<td class="text-left"><p>Doxygen</p></td>
+<td class="text-left"><p>Tool for generating documentation from source code.</p></td>
+<td class="text-left"><p><a class="reference external" href="https://www.doxygen.nl/index.html">https://www.doxygen.nl/index.html</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Tutoriels/Thermique_transitoire/README.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Transient thermal problem</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Thomas Lavigne, PhD
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Thomas Lavigne.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
