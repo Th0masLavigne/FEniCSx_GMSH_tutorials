@@ -1,8 +1,11 @@
 # --- Start of _config.yml ---
-title: FEniCSx and GMSH Tutorials
-author: Th0masLavigne
+title: 'FEniCSx and GMSH Tutorials'
+# _config.yml
+description: 'A comprehensive repository of tutorials for the FEniCSx finite element solver and the GMSH meshing tool, covering installation, basic usage, and advanced PDE applications.'
+author: 'Thomas Lavigne, PhD'
 copyright: "2024" # Update year as needed
-logo: "" # Set a path to a logo file if desired
+logo: "fenics_logo.png" # Set a path to a logo file if desired
+url: https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/ # 
 
 # Add this section to your _config.yml
 repository:
@@ -27,6 +30,13 @@ html:
 # In _config.yml (add this if it doesn't exist)
 sphinx:
   config:
+    html_meta:
+      # Keywords tag - separate terms with a comma
+      keywords: 'FEniCSx, GMSH, Finite Element Method, FEM, PDE, Tutorial, Python, Scientific Computing'
+      # Open Graph metadata (for social media sharing)
+      'og:title': 'FEniCSx & GMSH Tutorial Repository'
+      'og:description': 'Comprehensive FEniCSx and GMSH FEM tutorials.'
+      'og:type': 'book'
     # Ignores files in the virtual environment's site-packages folder
     exclude_patterns: 
       - '*site-packages*'
