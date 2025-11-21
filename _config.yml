@@ -38,6 +38,16 @@ html:
 # Sphinx Configuration (Advanced Settings)
 sphinx:
   config:
+    # 1. Add the sphinx-sitemap extension
+    extra_extensions:
+      - sphinx_sitemap
+    # 2. Set the base URL for your hosted book (MANDATORY)
+    html_baseurl: "https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/"
+    
+    # 3. (Optional) Customize the URL scheme to remove version/language prefixes
+    # This is recommended for simple, single-version books.
+    sitemap_url_scheme: "{link}"
+    
     html_meta:
       "description": "A comprehensive guide to FEniCSx and GMSH tutorials."
       "keywords": "fenicsx, gmsh, tutorial, finite element, simulation"
