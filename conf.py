@@ -8,5 +8,6 @@ sitemap_url_scheme = "{link}"
 # Note: You must include the standard extensions used by Jupyter Book/Sphinx Book Theme
 extensions = [
     'sphinx.ext.intersphinx',
+    'sphinx_last_updated_by_git',
     'sphinx_sitemap'  # <-- The required extension
 ]
