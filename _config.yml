@@ -4,7 +4,7 @@
 title: FEniCSx and GMSH Tutorials
 description: A comprehensive repository of tutorials for the FEniCSx finite element solver and the GMSH meshing tool, covering installation, basic usage, and advanced PDE applications.
 author: Thomas Lavigne, PhD
-copyright: 2024
+copyright: "2025, Thomas Lavigne"
 logo: fenics_logo.png
 url: https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/
 
@@ -18,7 +18,7 @@ repository:
 # Execution settings
 execute:
   # Set to 'false' for fast building (notebooks are not re-run)
-  execute_notebooks: 'false'
+  execute_notebooks: false
   timeout: 600
 
 # Launch Buttons (for mybinder.org, etc.)
@@ -39,21 +39,14 @@ html:
 sphinx:
   config:
     html_meta:
-      keywords: 'FEniCSx, GMSH, Finite Element Method, FEM, PDE, Tutorial, Python, Scientific Computing'
-      'og:title': 'FEniCSx & GMSH Tutorial Repository'
-      'og:description': 'Comprehensive FEniCSx and GMSH FEM tutorials.'
-      'og:type': 'book'
+      "description": "A comprehensive guide to FEniCSx and GMSH tutorials."
+      "keywords": "fenicsx, gmsh, tutorial, finite element, simulation"
     exclude_patterns:
       - '*site-packages*'
       - 'venv-book/**'
       - '_build/**'
       - '*/_build/**'
     suppress_warnings: ["toc.excluded"]
-
-  extra_extensions:
-    - "sphinx.ext.autodoc"
-    - "sphinx.ext.intersphinx"
-    - "sphinx_codeautolink"
 
 # MyST Markdown Parsing Settings
 parse:
@@ -71,7 +64,7 @@ parse:
 
 # Exclude Files from Build and Only Build Files in _toc.yml
 exclude_patterns: [Create_github_io_build.md]
-# only_build_toc_files: true
+only_build_toc_files: true
 
 # Extra Footer HTML (This should be at the very bottom, outside of any main configuration block)
 extra_footer: |
