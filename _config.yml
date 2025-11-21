@@ -8,11 +8,6 @@ copyright: "2025, Thomas Lavigne"
 logo: fenics_logo.png
 url: https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/
 
-
-# 1. Add the sphinx-sitemap extension
-extensions:
-  - sphinx_sitemap
-
 # Repository Settings (for 'Edit on GitHub' and 'Source' buttons)
 repository:
   url: https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials
@@ -54,6 +49,9 @@ sphinx:
       - '*/_build/**'
     suppress_warnings: ["toc.excluded"]
   extra_conf_files: [conf.py]
+  extra_extensions:
+    - "sphinx_last_updated_by_git" 
+    - "sphinx_sitemap"
 
 # MyST Markdown Parsing Settings
 parse:
