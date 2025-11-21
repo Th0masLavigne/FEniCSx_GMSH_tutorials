@@ -8,6 +8,11 @@ copyright: "2025, Thomas Lavigne"
 logo: fenics_logo.png
 url: https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/
 
+
+# 1. Add the sphinx-sitemap extension
+extensions:
+  - sphinx_sitemap
+
 # Repository Settings (for 'Edit on GitHub' and 'Source' buttons)
 repository:
   url: https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials
@@ -34,23 +39,14 @@ html:
   theme_options:
     collapse_navigation: false
     show_toc_level: 4
+  html_meta:
+    "description": "A comprehensive guide to FEniCSx and GMSH tutorials."
+    "keywords": "fenicsx, gmsh, tutorial, finite element, simulation"
+  html_baseurl: "https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/"
 
 # Sphinx Configuration (Advanced Settings)
 sphinx:
   config:
-    # 1. Add the sphinx-sitemap extension
-    extra_extensions:
-      - sphinx_sitemap
-    # 2. Set the base URL for your hosted book (MANDATORY)
-    html_baseurl: "https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/"
-    
-    # 3. (Optional) Customize the URL scheme to remove version/language prefixes
-    # This is recommended for simple, single-version books.
-    sitemap_url_scheme: "{link}"
-    
-    html_meta:
-      "description": "A comprehensive guide to FEniCSx and GMSH tutorials."
-      "keywords": "fenicsx, gmsh, tutorial, finite element, simulation"
     exclude_patterns:
       - '*site-packages*'
       - 'venv-book/**'
