@@ -1,30 +1,14 @@
-# --- Start of _config.yml - Corrected Version ---
-
-# Book Title and Metadata
+# --- Start of _config.yml ---
 title: FEniCSx and GMSH Tutorials
-description: A comprehensive repository of tutorials for the FEniCSx finite element solver and the GMSH meshing tool, covering installation, basic usage, and advanced PDE applications.
-author: Thomas Lavigne, PhD
-copyright: 2024
-logo: fenics_logo.png
-url: https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/
+author: Th0masLavigne
+copyright: "2024" # Update year as needed
+logo: "" # Set a path to a logo file if desired
 
-# Repository Settings (for 'Edit on GitHub' and 'Source' buttons)
+# Add this section to your _config.yml
 repository:
-  url: https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials
-  branch: main
-  path_to_docs: .
-  # path_to_book: .
-
-# Execution settings
-execute:
-  # Set to 'false' for fast building (notebooks are not re-run)
-  execute_notebooks: 'false'
-  timeout: 600
-
-# Launch Buttons (for mybinder.org, etc.)
-# launch_buttons:
-#   notebook_interface: "jupyterlab"
-#   binderhub_url: "https://mybinder.org"
+  url: https://github.com/Th0masLavigne/FEniCSx_GMSH_tutorials  # <-- REPLACE with your actual repository URL
+  branch: main  # Or 'master', depending on your default branch
+  path_to_docs: "" # Keep this blank if _config.yml is in the root
 
 # HTML output settings (for a clean documentation look)
 html:
@@ -32,30 +16,31 @@ html:
   use_issues_button: true
   theme: 'sphinx_book_theme'
   theme_options:
+    # Set this to false to stop the sidebar from automatically collapsing 
+    # unrelated top-level sections when you navigate deep into a chapter.
     collapse_navigation: false
+    
+    # Set this to a high number (e.g., 4) to ensure nested sections are 
+    # fully visible in the sidebar on all pages.
     show_toc_level: 4
-
-# Sphinx Configuration (Advanced Settings)
+  # Custom header/footer can be added here if needed
+# In _config.yml (add this if it doesn't exist)
 sphinx:
   config:
-    html_meta:
-      keywords: 'FEniCSx, GMSH, Finite Element Method, FEM, PDE, Tutorial, Python, Scientific Computing'
-      'og:title': 'FEniCSx & GMSH Tutorial Repository'
-      'og:description': 'Comprehensive FEniCSx and GMSH FEM tutorials.'
-      'og:type': 'book'
-    exclude_patterns:
+    # Ignores files in the virtual environment's site-packages folder
+    exclude_patterns: 
       - '*site-packages*'
-      - 'venv-book/**'
-      - '_build/**'
-      - '*/_build/**'
-    suppress_warnings: ["toc.excluded"]
+      - 'venv-book/**'         # Exclude the entire virtual environment
+      - '_build/**'            # Exclude the build cache and output directories
+      - '*/_build/**'          # Catch any nested _build directories
+    # Optional: Suppress a common warning about documents without a title
+    suppress_warnings: ["toc.excluded"]  
+# Execution settings - Set to 'off' for fast building, 'auto' to run all code blocks
+execute:
+  execute_notebooks: 'off' 
+  timeout: 600
 
-  extra_extensions:
-    - "sphinx.ext.autodoc"
-    - "sphinx.ext.intersphinx"
-    - "sphinx_codeautolink"
-
-# MyST Markdown Parsing Settings
+# Parse settings for MyST Markdown (.md files)
 parse:
   myst_enable_extensions:
     - amsmath
@@ -64,22 +49,4 @@ parse:
     - linkify
     - substitution
     - tasklist
-    - deflist
-    - html_admonition
-    - html_image
-    - smartquotes
-
-# Exclude Files from Build and Only Build Files in _toc.yml
-exclude_patterns: [Create_github_io_build.md]
-# only_build_toc_files: true
-
-# Extra Footer HTML (This should be at the very bottom, outside of any main configuration block)
-extra_footer: |
-  <div>
-      This webpage is an adaptation of <a href=https://jsdokken.com/dolfinx-tutorial/>The FEniCSx tutorial</a> which
-      is distributed under the terms of the      <a href=http://creativecommons.org/licenses/by/4.0/>Creative Commons Attribution 4.0 International License  </a>
-      which permits use, duplication, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source,
-      provide a link to the Creative Commons license and indicate if changes were made.
-  </div>
-
-# --- End of _config.yml - Corrected Version ---
+# --- End of _config.yml ---
