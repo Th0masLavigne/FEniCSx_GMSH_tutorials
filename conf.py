@@ -1,4 +1,2 @@
-# In conf.py
-
-# sitemap_url_scheme is a Sphinx-sitemap specific setting
+html_baseurl = 'https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/'
 sitemap_url_scheme = "{link}"
