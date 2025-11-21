@@ -42,6 +42,7 @@ html:
 # Sphinx Configuration (Advanced Settings)
 sphinx:
   config:
+    html_baseurl: "https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/"
     exclude_patterns:
       - '*site-packages*'
       - 'venv-book/**'
@@ -49,9 +50,9 @@ sphinx:
       - '*/_build/**'
     suppress_warnings: ["toc.excluded"]
   extra_conf_files: [conf.py]
-  # extra_extensions:
-  #   - "sphinx_last_updated_by_git" 
-  #   - "sphinx_sitemap"
+  extra_extensions:
+    - "sphinx_last_updated_by_git" 
+    - "sphinx_sitemap"
 
 # MyST Markdown Parsing Settings
 parse:
