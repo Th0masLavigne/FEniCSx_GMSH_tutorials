@@ -53,6 +53,7 @@ sphinx:
       - '_build/**'
       - '*/_build/**'
     suppress_warnings: ["toc.excluded"]
+  extra_conf_files: [conf.py]
 
 # MyST Markdown Parsing Settings
 parse:
