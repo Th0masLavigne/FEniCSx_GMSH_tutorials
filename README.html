@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <meta property="article:modified_time" content="2025-11-20T07:51:35+00:00" />
+    <meta property="article:modified_time" content="2025-11-21T14:50:27+00:00" />
     <title>FEniCSx &amp; GMSH Tutorial Repository (v0.9.0) &#8212; FEniCSx and GMSH Tutorials</title>
   
   
@@ -68,7 +68,7 @@
     <link rel="next" title="Installation Guide for FEniCSx v0.9.0" href="Install/Install_processes.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Nov 20, 2025"/>
+    <meta name="docbuild:last-update" content="Nov 21, 2025"/>
   </head>
   
   
@@ -472,7 +472,7 @@ document.write(`
 <hr class="docutils" />
 <section id="repository-structure-overview">
 <h2>1. Repository Structure Overview<a class="headerlink" href="#repository-structure-overview" title="Link to this heading">#</a></h2>
-<p>The repository is logically partitioned into <strong>Installation</strong> methodologies and practical <strong>Tutorials</strong>.</p>
+<p>The repository is logically divided into <strong>Installation</strong> methodologies and practical <strong>Tutorials</strong>.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head text-left"><p>Directory</p></th>
@@ -483,7 +483,7 @@ document.write(`
 <tr class="row-even"><td class="text-left"><p><strong><code class="docutils literal notranslate"><span class="pre">Install/</span></code></strong></p></td>
 <td class="text-left"><p>Scripts and comprehensive documentation for setting up the FEniCSx environment on various platforms: Windows (WSL2, Docker) and High-Performance Computing (HPC) systems (Spack).</p></td>
 </tr>
-<tr class="row-odd"><td class="text-left"><p><strong><code class="docutils literal notranslate"><span class="pre">Tutoriels/</span></code></strong></p></td>
+<tr class="row-odd"><td class="text-left"><p><strong><code class="docutils literal notranslate"><span class="pre">Tutorials/</span></code></strong></p></td>
 <td class="text-left"><p>Python scripts demonstrating a range of finite element simulations (Elasticity, Fluid Dynamics, Thermal Analysis) and advanced GMSH meshing techniques.</p></td>
 </tr>
 </tbody>
@@ -499,21 +499,21 @@ document.write(`
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Install/WSL_Docker_installer</span></code></p></td>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WSL_Docker_installer</span></code></p></td>
 <td class="text-left"><p>Windows (WSL2 + Docker)</p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">install_wsl2_fenicsx_docker.bat</span></code>, <code class="docutils literal notranslate"><span class="pre">FEniCSx_interactive.bat</span></code></p></td>
 </tr>
-<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Install/WSL_Local_installer</span></code></p></td>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">WSL_Local_installer</span></code></p></td>
 <td class="text-left"><p>Windows (WSL2 Native)</p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">install_local_fenicsx.bat</span></code>, <code class="docutils literal notranslate"><span class="pre">apt-installed-list.txt</span></code></p></td>
 </tr>
-<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Install/Windows_docker_installer</span></code></p></td>
+<tr class="row-even"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Windows_docker_installer</span></code></p></td>
 <td class="text-left"><p>Windows (Docker Desktop Direct)</p></td>
 <td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">FEniCSx_docker_0-9-0.bat</span></code>, <code class="docutils literal notranslate"><span class="pre">Interactive_FEniCSx_0-9-0.bat</span></code></p></td>
 </tr>
-<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Install/Spack_Install_FEniCSx</span></code></p></td>
+<tr class="row-odd"><td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Spack_Install_FEniCSx</span> <span class="pre">(MCIA</span> <span class="pre">or</span> <span class="pre">Cassiopee)</span></code></p></td>
 <td class="text-left"><p>Linux / HPC</p></td>
-<td class="text-left"><p><code class="docutils literal notranslate"><span class="pre">Spack_INSTALL.md</span></code>, <code class="docutils literal notranslate"><span class="pre">Slurm_spack_fenicsx_0_9_0.sh</span></code></p></td>
+<td class="text-left"><p>Install Procedures and batch files</p></td>
 </tr>
 </tbody>
 </table>
@@ -1213,7 +1213,7 @@ By Thomas Lavigne, PhD, adapted from <a href=https://jsdokken.com/dolfinx-tutori
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Nov 20, 2025.
+  Last updated on Nov 21, 2025.
   <br/>
 </p>
   </div>

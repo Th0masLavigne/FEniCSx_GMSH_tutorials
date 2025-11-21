@@ -10,21 +10,21 @@ Please give a look here <https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/
 
 ## 1. Repository Structure Overview
 
-The repository is logically partitioned into **Installation** methodologies and practical **Tutorials**.
+The repository is logically divided into **Installation** methodologies and practical **Tutorials**.
 
 | Directory | Content Summary |
 | :--- | :--- |
 | **`Install/`** | Scripts and comprehensive documentation for setting up the FEniCSx environment on various platforms: Windows (WSL2, Docker) and High-Performance Computing (HPC) systems (Spack). |
-| **`Tutoriels/`** | Python scripts demonstrating a range of finite element simulations (Elasticity, Fluid Dynamics, Thermal Analysis) and advanced GMSH meshing techniques. |
+| **`Tutorials/`** | Python scripts demonstrating a range of finite element simulations (Elasticity, Fluid Dynamics, Thermal Analysis) and advanced GMSH meshing techniques. |
 
 ### Core Installation Sub-Folders Breakdown
 
 | Sub-Folder | Target Platform | Primary Files |
 | :--- | :--- | :--- |
-| `Install/WSL_Docker_installer` | Windows (WSL2 + Docker) | `install_wsl2_fenicsx_docker.bat`, `FEniCSx_interactive.bat` |
-| `Install/WSL_Local_installer` | Windows (WSL2 Native) | `install_local_fenicsx.bat`, `apt-installed-list.txt` |
-| `Install/Windows_docker_installer`| Windows (Docker Desktop Direct) | `FEniCSx_docker_0-9-0.bat`, `Interactive_FEniCSx_0-9-0.bat` |
-| `Install/Spack_Install_FEniCSx` | Linux / HPC | `Spack_INSTALL.md`, `Slurm_spack_fenicsx_0_9_0.sh` |
+| `WSL_Docker_installer` | Windows (WSL2 + Docker) | `install_wsl2_fenicsx_docker.bat`, `FEniCSx_interactive.bat` |
+| `WSL_Local_installer` | Windows (WSL2 Native) | `install_local_fenicsx.bat`, `apt-installed-list.txt` |
+| `Windows_docker_installer`| Windows (Docker Desktop Direct) | `FEniCSx_docker_0-9-0.bat`, `Interactive_FEniCSx_0-9-0.bat` |
+| `Spack_Install_FEniCSx (MCIA or Cassiopee)` | Linux / HPC | Install Procedures and batch files |
 
 ---
 
