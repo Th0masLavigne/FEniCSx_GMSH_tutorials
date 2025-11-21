@@ -3,7 +3,7 @@
 # Book Title and Metadata
 title: FEniCSx and GMSH Tutorials
 description: A comprehensive repository of tutorials for the FEniCSx finite element solver and the GMSH meshing tool, covering installation, basic usage, and advanced PDE applications.
-author: Thomas Lavigne, PhD
+author: "Thomas Lavigne, PhD, adapted from <a href=https://jsdokken.com/dolfinx-tutorial/>The FEniCSx tutorial</a>"
 copyright: "2025, Thomas Lavigne"
 logo: fenics_logo.png
 url: https://th0maslavigne.github.io/FEniCSx_GMSH_tutorials/
