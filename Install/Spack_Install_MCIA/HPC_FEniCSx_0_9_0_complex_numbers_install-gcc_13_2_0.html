@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <meta property="article:modified_time" content="2025-11-20T13:26:27+00:00" />
+    <meta property="article:modified_time" content="2025-11-24T07:53:03+00:00" />
     <title>📖 [Complex number] FEniCSx v0.9.0 Installation on HPC (MCIA) &#8212; FEniCSx and GMSH Tutorials</title>
   
   
@@ -67,7 +67,7 @@
     <link rel="prev" title="📖 FEniCSx v0.9.0 Installation on HPC (MCIA)" href="HPC_FEniCSx_0_9_0_install-gcc_13_2_0.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Nov 20, 2025"/>
+    <meta name="docbuild:last-update" content="Nov 24, 2025"/>
   </head>
   
   
@@ -491,11 +491,10 @@ document.write(`
 <div><p>To run multiple simulations with a variable value like for the mpirun or a parameter of your code, see at the really bottom of the page.</p>
 </div></blockquote>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-
 <span class="c1"># ==============================================================================</span>
 <span class="c1"># 1. SLURM DIRECTIVES (MODIFY THESE FOR YOUR JOB)</span>
 <span class="c1"># ==============================================================================</span>
-<span class="c1">#SBATCH --job-name=fenicsx_test_two_nodes</span>
+<span class="c1">#SBATCH --job-name=FEniCSx</span>
 <span class="c1">#SBATCH --constraint=compute</span>
 <span class="c1">##SBATCH -p i2m,i2m-resources</span>
 <span class="c1">#SBATCH --partition=i2m,i2m-resources</span>
@@ -1142,37 +1141,45 @@ module<span class="w"> </span>load<span class="w"> </span>fenicsx_complex/0.9.0
 <section id="sbatch-file">
 <h3>Sbatch file<a class="headerlink" href="#sbatch-file" title="Link to this heading">#</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
-
+<span class="c1"># Fichier à lancer par : sbatch &lt;your_file_name&gt;.sh</span>
+<span class="c1"># Avancement du job : squeue | grep $USER</span>
+<span class="c1"># Arrêt d&#39;un job : scancel &lt;jobid&gt;</span>
+<span class="c1"># Analyse de plantage : sacct -j &lt;jobid&gt;</span>
+<span class="c1"># ==============================================================================</span>
+<span class="c1"># Author: Thomas Lavigne and Eric Ducasse</span>
 <span class="c1"># ==============================================================================</span>
 <span class="c1"># 1. SLURM DIRECTIVES (MODIFIED FOR JOB ARRAY 0-799)</span>
 <span class="c1"># ==============================================================================</span>
-<span class="c1">#SBATCH --job-name=FEniCSx_Array_Sims  # Main Job Array Name</span>
-<span class="c1">#SBATCH --constraint=compute</span>
-<span class="c1">#SBATCH --partition=i2m,i2m-resources</span>
+<span class="c1"># Your job name (displayed by the queue)</span>
+<span class="c1">#SBATCH --job-name=FEniCSx  # Main Job Array Name</span>
+<span class="c1"># ++++++SBATCH --constraint=compute </span>
+<span class="c1"># ++++++SBATCH --partition=i2m,i2m-resources </span>
 <span class="c1">#</span>
 <span class="c1"># --- JOB ARRAY PARAMETERS (800 tasks from 0 to 799) ---</span>
 <span class="c1">#SBATCH --array=0-799</span>
 <span class="c1">#</span>
-<span class="c1"># --- RESOURCE PARAMETERS FOR EACH MPI TASK (Based on your successful test) ---</span>
+<span class="c1">## --- RESOURCE PARAMETERS FOR EACH MPI TASK ---</span>
 <span class="c1"># Each task is an independent MPI run using 16 cores.</span>
-<span class="c1">#SBATCH --ntasks-per-node=1             # One master process per node (mpirun)</span>
-<span class="c1">#SBATCH --cpus-per-task=16              # The mpirun process will use 16 cores for MPI</span>
+<span class="c1">#SBATCH --nodes=1</span>
+<span class="c1">#SBATCH --tasks-per-node=16 # (modif. ED : ce qui marche pour un seul mpirun )</span>
+<span class="c1"># ++++++SBATCH --ntasks-per-node=1 (modif. ED) # One master process per node (mpirun)</span>
+<span class="c1"># ++++++SBATCH --cpus-per-task=16  (modif. ED) # The mpirun process will use 16 cores for MPI</span>
 <span class="c1">#</span>
 <span class="c1"># Time and Memory: Adjusted for 16 cores and 64GB (based on your test)</span>
-<span class="c1">#SBATCH --time=0-01:00:00               # Time allocated PER TASK (adjust if necessary)</span>
-<span class="c1">#SBATCH --mem=64GB                      # Memory allocated PER TASK (your test used ~46GB)</span>
+<span class="c1">#SBATCH --time=01:00:00  #    # Time allocated PER TASK (adjust if necessary)</span>
+<span class="c1"># ++++++SBATCH --mem=64GB     # Memory allocated PER TASK (your test used ~46GB)</span>
+<span class="c1">#SBATCH --mem-per-cpu=3g #</span>
 <span class="c1">#</span>
 <span class="c1"># Output Files: Slurm handles output redirection for you.</span>
 <span class="c1"># %A = Job Array ID, %a = Task ID (0 to 799)</span>
-<span class="c1"># The logs replace your previous &#39;./FEniCSx_3D_simulation_output/result${nok}.log&#39; structure.</span>
-<span class="c1">#SBATCH --output=./FEniCSx_3D_simulation_output/result_%A_%a.log</span>
-<span class="c1">#SBATCH --error=./FEniCSx_3D_simulation_output/error_%A_%a.err</span>
+<span class="c1">#SBATCH --output=./&lt;path_to_logs&gt;/result_%A_%a.log</span>
+<span class="c1">#SBATCH --error=./&lt;path_to_logs&gt;/error_%A_%a.err</span>
 <span class="c1">#</span>
 <span class="c1"># --- OTHER PARAMETERS ---</span>
 <span class="c1">#SBATCH --mail-type=END</span>
-<span class="c1">#SBATCH --mail-user=&lt;mail&gt;@&lt;domain&gt;.fr # Replace with your email address</span>
-<span class="c1">#SBATCH --chdir=/gpfs/home/&lt;USERNAME&gt;/your_working_dir # Set the working directory</span>
-
+<span class="c1">#SBATCH --mail-user=&lt;email&gt;@&lt;domain&gt;</span>
+<span class="c1">#SBATCH --chdir=&lt;working_dir&gt;</span>
+<span class="c1"># ==============================================================================</span>
 <span class="c1"># Exit immediately if a command exits with a non-zero status</span>
 <span class="nb">set</span><span class="w"> </span>-e
 
@@ -1379,7 +1386,7 @@ By Thomas Lavigne, PhD, adapted from <a href=https://jsdokken.com/dolfinx-tutori
   
   <div class="footer-item">
     <p class="last-updated">
-  Last updated on Nov 20, 2025.
+  Last updated on Nov 24, 2025.
   <br/>
 </p>
   </div>

@@ -19,11 +19,10 @@ This template demonstrates how to properly configure a Slurm batch script to loa
 
 ```bash
 #!/bin/bash
-
 # ==============================================================================
 # 1. SLURM DIRECTIVES (MODIFY THESE FOR YOUR JOB)
 # ==============================================================================
-#SBATCH --job-name=fenicsx_test_two_nodes
+#SBATCH --job-name=FEniCSx
 #SBATCH --constraint=compute
 ##SBATCH -p i2m,i2m-resources
 #SBATCH --partition=i2m,i2m-resources
@@ -704,37 +703,45 @@ Would you like me to suggest how the Python script might use the `${NOK_VALUE}` 
 
 ```bash
 #!/bin/bash
-
+# Fichier à lancer par : sbatch <your_file_name>.sh
+# Avancement du job : squeue | grep $USER
+# Arrêt d'un job : scancel <jobid>
+# Analyse de plantage : sacct -j <jobid>
+# ==============================================================================
+# Author: Thomas Lavigne and Eric Ducasse
 # ==============================================================================
 # 1. SLURM DIRECTIVES (MODIFIED FOR JOB ARRAY 0-799)
 # ==============================================================================
-#SBATCH --job-name=FEniCSx_Array_Sims  # Main Job Array Name
-#SBATCH --constraint=compute
-#SBATCH --partition=i2m,i2m-resources
+# Your job name (displayed by the queue)
+#SBATCH --job-name=FEniCSx  # Main Job Array Name
+# ++++++SBATCH --constraint=compute 
+# ++++++SBATCH --partition=i2m,i2m-resources 
 #
 # --- JOB ARRAY PARAMETERS (800 tasks from 0 to 799) ---
 #SBATCH --array=0-799
 #
-# --- RESOURCE PARAMETERS FOR EACH MPI TASK (Based on your successful test) ---
+## --- RESOURCE PARAMETERS FOR EACH MPI TASK ---
 # Each task is an independent MPI run using 16 cores.
-#SBATCH --ntasks-per-node=1             # One master process per node (mpirun)
-#SBATCH --cpus-per-task=16              # The mpirun process will use 16 cores for MPI
+#SBATCH --nodes=1
+#SBATCH --tasks-per-node=16 # (modif. ED : ce qui marche pour un seul mpirun )
+# ++++++SBATCH --ntasks-per-node=1 (modif. ED) # One master process per node (mpirun)
+# ++++++SBATCH --cpus-per-task=16  (modif. ED) # The mpirun process will use 16 cores for MPI
 #
 # Time and Memory: Adjusted for 16 cores and 64GB (based on your test)
-#SBATCH --time=0-01:00:00               # Time allocated PER TASK (adjust if necessary)
-#SBATCH --mem=64GB                      # Memory allocated PER TASK (your test used ~46GB)
+#SBATCH --time=01:00:00  #    # Time allocated PER TASK (adjust if necessary)
+# ++++++SBATCH --mem=64GB     # Memory allocated PER TASK (your test used ~46GB)
+#SBATCH --mem-per-cpu=3g #
 #
 # Output Files: Slurm handles output redirection for you.
 # %A = Job Array ID, %a = Task ID (0 to 799)
-# The logs replace your previous './FEniCSx_3D_simulation_output/result${nok}.log' structure.
-#SBATCH --output=./FEniCSx_3D_simulation_output/result_%A_%a.log
-#SBATCH --error=./FEniCSx_3D_simulation_output/error_%A_%a.err
+#SBATCH --output=./<path_to_logs>/result_%A_%a.log
+#SBATCH --error=./<path_to_logs>/error_%A_%a.err
 #
 # --- OTHER PARAMETERS ---
 #SBATCH --mail-type=END
-#SBATCH --mail-user=<mail>@<domain>.fr # Replace with your email address
-#SBATCH --chdir=/gpfs/home/<USERNAME>/your_working_dir # Set the working directory
-
+#SBATCH --mail-user=<email>@<domain>
+#SBATCH --chdir=<working_dir>
+# ==============================================================================
 # Exit immediately if a command exits with a non-zero status
 set -e
 
